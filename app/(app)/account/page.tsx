@@ -1,126 +1,91 @@
+'use client';
+
+import { useAuth } from '../../../contexts/AuthContext';
+import Link from 'next/link';
+
 export default function AccountPage() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Account Settings</h1>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Profile Information */}
-          <div className="lg:col-span-2">
-            <div className="bg-gray-800 rounded-lg p-6 mb-6">
-              <h2 className="text-2xl font-semibold mb-4">Profile Information</h2>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Full Name</label>
-                  <input
-                    type="text"
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-purple-500"
-                    placeholder="Your full name"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <input
-                    type="email"
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-purple-500"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium mb-2">Bio</label>
-                  <textarea
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-purple-500"
-                    rows={3}
-                    placeholder="Tell us about yourself..."
-                  />
-                </div>
-                
-                <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300">
-                  Update Profile
-                </button>
-              </div>
-            </div>
-            
-            {/* Usage Stats */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold mb-4">Usage Statistics</h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-gray-700 rounded-lg p-4">
-                  <h3 className="text-lg font-medium mb-2">Icons Created</h3>
-                  <p className="text-3xl font-bold text-purple-400">24</p>
-                </div>
-                
-                <div className="bg-gray-700 rounded-lg p-4">
-                  <h3 className="text-lg font-medium mb-2">Downloads</h3>
-                  <p className="text-3xl font-bold text-blue-400">18</p>
-                </div>
-                
-                <div className="bg-gray-700 rounded-lg p-4">
-                  <h3 className="text-lg font-medium mb-2">Credits Used</h3>
-                  <p className="text-3xl font-bold text-green-400">42</p>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="min-h-screen bg-dark-gradient">
+      <div className="container mx-auto px-4 py-20">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold text-white mb-6 text-center">
+            Account Settings
+          </h1>
           
-          {/* Subscription Info */}
-          <div>
-            <div className="bg-gray-800 rounded-lg p-6 mb-6">
-              <h2 className="text-2xl font-semibold mb-4">Subscription</h2>
-              
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Free Plan</h3>
-                <p className="text-gray-400 mb-4">Basic features included</p>
-              </div>
-              
-              <div className="space-y-2 mb-6">
-                <div className="flex justify-between">
-                  <span>Monthly Credits</span>
-                  <span className="text-purple-400">10/10</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Downloads</span>
-                  <span className="text-purple-400">5/5</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Storage</span>
-                  <span className="text-purple-400">100MB</span>
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Profile Information */}
+              <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 border border-midnight-800">
+                <h2 className="text-xl font-semibold text-white mb-4">Profile Information</h2>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                    <div className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white">
+                      {user?.email}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">User ID</label>
+                    <div className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white text-sm font-mono">
+                      {user?.id}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Account Created</label>
+                    <div className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white">
+                      {user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
+                    </div>
+                  </div>
                 </div>
               </div>
-              
-              <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300">
-                Upgrade to Pro
-              </button>
+
+              {/* Account Actions */}
+              <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 border border-midnight-800">
+                <h2 className="text-xl font-semibold text-white mb-4">Account Actions</h2>
+                <div className="space-y-4">
+                  <button className="w-full bg-sunset-gradient text-white px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300">
+                    Update Profile
+                  </button>
+                  <button className="w-full bg-coral-gradient text-white px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300">
+                    Change Password
+                  </button>
+                  <button className="w-full bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-all duration-300">
+                    Delete Account
+                  </button>
+                </div>
+              </div>
             </div>
             
-            {/* Quick Actions */}
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold mb-4">Quick Actions</h2>
-              
-              <div className="space-y-3">
-                <button className="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors">
-                  Download All Icons
-                </button>
-                <button className="w-full bg-gray-700 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors">
-                  Export Data
-                </button>
-                <button className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors">
-                  Delete Account
-                </button>
+            {/* Navigation */}
+            <div className="text-center mt-8">
+              <div className="flex justify-center space-x-4">
+                <Link 
+                  href="/generate" 
+                  className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-pink-600 transition-all duration-300"
+                >
+                  Generate Icons
+                </Link>
+                <Link 
+                  href="/library" 
+                  className="bg-midnight-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-midnight-700 transition-all duration-300"
+                >
+                  View Library
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 } 

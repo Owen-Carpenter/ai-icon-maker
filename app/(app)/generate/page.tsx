@@ -1,69 +1,60 @@
+'use client';
+
+import { useAuth } from '../../../contexts/AuthContext';
+import Link from 'next/link';
+
 export default function GeneratePage() {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Generate Icons</h1>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* AI Generation Section */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4">AI Generation</h2>
-            <p className="text-gray-300 mb-6">
-              Describe your icon and let AI create it for you
-            </p>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Describe your icon
-                </label>
-                <textarea
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-purple-500"
-                  rows={4}
-                  placeholder="e.g., A modern shopping cart icon with a minimalist design..."
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Style
-                </label>
-                <select className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:border-purple-500">
-                  <option>Flat Design</option>
-                  <option>3D Style</option>
-                  <option>Line Art</option>
-                  <option>Filled</option>
-                </select>
-              </div>
-              
-              <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300">
-                Generate Icon
-              </button>
-            </div>
-          </div>
+    <div className="min-h-screen bg-dark-gradient">
+      <div className="container mx-auto px-4 py-20">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl font-bold text-white mb-6">
+            AI Icon Generator
+          </h1>
           
-          {/* Drawing Canvas Section */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4">Drawing Canvas</h2>
-            <p className="text-gray-300 mb-6">
-              Create your icon by drawing
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8 mb-8">
+            <p className="text-sunset-200 mb-4">
+              Welcome, {user?.email}! You're now authenticated and can access the AI Icon Generator.
             </p>
             
-            <div className="bg-white rounded-lg aspect-square mb-4 flex items-center justify-center">
-              <p className="text-gray-500">Canvas will be implemented here</p>
+            <div className="bg-sunset-gradient rounded-lg p-6 mb-6">
+              <h2 className="text-white text-xl font-semibold mb-4">
+                Generate Your AI Icon
+              </h2>
+              <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4">
+                <p className="text-white text-sm">
+                  AI Icon generation feature coming soon!
+                </p>
+              </div>
             </div>
             
-            <div className="flex gap-2">
-              <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Clear Canvas
-              </button>
-              <button className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
-                Save Draft
-              </button>
+            <div className="flex justify-center space-x-4">
+              <Link 
+                href="/library" 
+                className="bg-coral-gradient text-white px-6 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300"
+              >
+                View Library
+              </Link>
+              <Link 
+                href="/account" 
+                className="bg-midnight-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-midnight-700 transition-all duration-300"
+              >
+                Account Settings
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 } 

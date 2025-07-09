@@ -32,9 +32,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Listen for auth changes
     const { data: { subscription } } = authService.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state changed:', event, session)
         setSession(session)
         setUser(session?.user ?? null)
         setLoading(false)
+        
+        // Force page refresh on sign in to ensure middleware runs
+        if (event === 'SIGNED_IN') {
+          window.location.reload()
+        }
       }
     )
 
