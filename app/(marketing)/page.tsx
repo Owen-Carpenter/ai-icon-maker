@@ -1,32 +1,16 @@
 import ScrollAnimation from '../components/ScrollAnimation';
+import Navbar from '../components/Navbar';
+import Contact from '../components/Contact';
+import Footer from '../components/Footer';
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-dark-gradient">
       {/* Navigation */}
-              <nav className="bg-midnight-900/80 backdrop-blur-sm border-b border-midnight-800">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 group">
-              <div className="w-8 h-8 bg-sunset-gradient rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <span className="text-xl font-bold text-white group-hover:text-sunset-100 transition-colors duration-300">AI Icon Maker</span>
-            </div>
-            <div className="flex items-center space-x-6">
-              <a href="#" className="text-sunset-200 hover:text-sunset-100 transition-all duration-300 hover:scale-105">Login</a>
-              <a href="#" className="text-sunset-200 hover:text-sunset-100 transition-all duration-300 hover:scale-105">Sign Up</a>
-              <a href="#" className="text-sunset-200 hover:text-sunset-100 transition-all duration-300 hover:scale-105">Pricing</a>
-              <a href="#" className="text-sunset-200 hover:text-sunset-100 transition-all duration-300 hover:scale-105">Contact</a>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-20">
+      <div className="container mx-auto px-4 py-20 pt-32">
         <div className="flex flex-col lg:flex-row items-center justify-between">
           <div className="lg:w-1/2 text-center lg:text-left">
             <ScrollAnimation>
@@ -319,6 +303,12 @@ export default function HomePage() {
           </ScrollAnimation>
         </div>
       </div>
+
+      {/* Contact Section */}
+      <Contact />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 } 
