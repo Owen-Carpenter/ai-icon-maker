@@ -32,7 +32,7 @@ export default function VerifyPage() {
             } else {
               setMessage('Email verified successfully! You can now sign in.')
               setTimeout(() => {
-                router.push('/auth/login')
+                router.push('/login')
               }, 3000)
             }
           } else {
@@ -51,7 +51,7 @@ export default function VerifyPage() {
             } else {
               setMessage('Email verified! You can now reset your password.')
               setTimeout(() => {
-                router.push('/auth/reset-password')
+                router.push('/reset-password')
               }, 2000)
             }
           } else {
@@ -110,7 +110,7 @@ export default function VerifyPage() {
             <div className="pt-4">
               <p className="text-gray-300 text-sm">
                 Need help?{' '}
-                <Link href="/auth/login" className="text-orange-400 hover:text-orange-300 transition-colors duration-300">
+                <Link href="/login" className="text-orange-400 hover:text-orange-300 transition-colors duration-300">
                   Back to login
                 </Link>
               </p>

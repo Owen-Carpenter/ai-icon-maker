@@ -62,11 +62,11 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <Link href="/auth/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100">
+                  <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100">
                     Login
                   </Link>
                   <Link 
-                    href="/auth/register" 
+                    href="/register" 
                     className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-2 rounded-full font-medium hover:from-orange-600 hover:to-pink-600 transition-all duration-200 shadow-sm hover:shadow-md"
                   >
                     Sign up
@@ -126,11 +126,11 @@ export default function Navbar() {
                       </>
                     ) : (
                       <>
-                        <Link href="/auth/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100 text-center">
+                        <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100 text-center">
                           Login
                         </Link>
                         <Link 
-                          href="/auth/register" 
+                          href="/register" 
                           className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-full font-medium hover:from-orange-600 hover:to-pink-600 transition-all duration-200 shadow-sm hover:shadow-md text-center"
                         >
                           Sign up

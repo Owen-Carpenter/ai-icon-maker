@@ -22,10 +22,10 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 4. Add these to your `.env.local` file
 
 ## Authentication Flow
-- **Login**: `/auth/login` - User login page
-- **Register**: `/auth/register` - User registration page
-- **Forgot Password**: `/auth/forgot-password` - Password reset request
-- **Reset Password**: `/auth/reset-password` - Password reset form
+- **Login**: `/login` - User login page
+- **Register**: `/register` - User registration page
+- **Forgot Password**: `/forgot-password` - Password reset request
+- **Reset Password**: `/reset-password` - Password reset form
 
 ## Protected Routes
 The following routes require authentication:

@@ -40,7 +40,7 @@ export default function RegisterPage() {
       } else {
         setMessage('Please check your email for verification link')
         // Optionally redirect after successful signup
-        // router.push('/auth/verify')
+        // router.push('/verify')
       }
     } catch (error) {
       setError('An unexpected error occurred')
@@ -147,7 +147,7 @@ export default function RegisterPage() {
             <div className="text-center">
               <p className="text-gray-300">
                 Already have an account?{' '}
-                <Link href="/auth/login" className="text-orange-400 hover:text-orange-300 transition-colors duration-300 font-semibold">
+                <Link href="/login" className="text-orange-400 hover:text-orange-300 transition-colors duration-300 font-semibold">
                   Sign in
                 </Link>
               </p>

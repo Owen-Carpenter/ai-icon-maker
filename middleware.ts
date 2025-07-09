@@ -60,7 +60,7 @@ export async function middleware(req: NextRequest) {
 
   // Define protected routes
   const protectedRoutes = ['/generate', '/library', '/account']
-  const authRoutes = ['/auth/login', '/auth/register', '/auth/forgot-password']
+  const authRoutes = ['/login', '/register', '/forgot-password']
 
   const { data: { session } } = await supabase.auth.getSession()
 
@@ -76,7 +76,7 @@ export async function middleware(req: NextRequest) {
 
   // If user is not authenticated and trying to access a protected route
   if (isProtectedRoute && !session) {
-    return NextResponse.redirect(new URL('/auth/login', req.url))
+    return NextResponse.redirect(new URL('/login', req.url))
   }
 
   // If user is authenticated and trying to access auth pages, redirect to dashboard

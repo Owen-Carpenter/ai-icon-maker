@@ -49,7 +49,7 @@ export default function ResetPasswordPage() {
       } else {
         setMessage('Password updated successfully! Redirecting to login...')
         setTimeout(() => {
-          router.push('/auth/login')
+          router.push('/login')
         }, 2000)
       }
     } catch (error) {
@@ -140,7 +140,7 @@ export default function ResetPasswordPage() {
             <div className="text-center">
               <p className="text-gray-300">
                 Remember your password?{' '}
-                <Link href="/auth/login" className="text-orange-400 hover:text-orange-300 transition-colors duration-300 font-semibold">
+                <Link href="/login" className="text-orange-400 hover:text-orange-300 transition-colors duration-300 font-semibold">
                   Sign in
                 </Link>
               </p>
