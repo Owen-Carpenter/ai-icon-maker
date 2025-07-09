@@ -93,6 +93,72 @@ module.exports = {
         'aurora-gradient': 'linear-gradient(135deg, #FF8A65 0%, #CE93D8 50%, #8E24AA 100%)',
         'glass-gradient': 'linear-gradient(135deg, rgba(255, 138, 101, 0.1) 0%, rgba(171, 71, 188, 0.1) 100%)',
         'dark-gradient': 'linear-gradient(135deg, #1F2937 0%, #111827 70%, #0A0A0A 100%)',
+      },
+      
+      // Custom animations for scroll effects
+      keyframes: {
+        'fade-in-up': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(30px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
+        },
+        'fade-in-down': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-30px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
+        },
+        'fade-in-left': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateX(-30px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateX(0)'
+          }
+        },
+        'fade-in-right': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateX(30px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateX(0)'
+          }
+        },
+        'scale-in': {
+          '0%': {
+            opacity: '0',
+            transform: 'scale(0.8)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'scale(1)'
+          }
+        },
+        'border': {
+          'to': { '--border-angle': '360deg' }
+        }
+      },
+      
+      animation: {
+        'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
+        'fade-in-down': 'fade-in-down 0.8s ease-out forwards',
+        'fade-in-left': 'fade-in-left 0.8s ease-out forwards',
+        'fade-in-right': 'fade-in-right 0.8s ease-out forwards',
+        'scale-in': 'scale-in 0.8s ease-out forwards',
+        'border': 'border 4s linear infinite',
       }
     },
   },

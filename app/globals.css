@@ -9,6 +9,12 @@
   --secondary: #CE93D8; /* Light purple from image */
 }
 
+@property --border-angle {
+  inherits: false;
+  initial-value: 0deg;
+  syntax: '<angle>';
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     --background: #FFF7ED; /* Light orange-tinted background */
