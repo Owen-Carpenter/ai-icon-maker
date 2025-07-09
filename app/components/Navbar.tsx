@@ -1,16 +1,33 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user, signOut, loading } = useAuth();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleSignOut = async () => {
     await signOut();
+    setIsDropdownOpen(false);
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
@@ -39,27 +56,41 @@ export default function Navbar() {
               <Link href="/library" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-3 py-2 rounded-full hover:bg-gray-100">
                 Library
               </Link>
-              <Link href="/account" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-3 py-2 rounded-full hover:bg-gray-100">
-                Account
-              </Link>
-              <Link href="#contact" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-3 py-2 rounded-full hover:bg-gray-100">
-                Contact
-              </Link>
             </div>
 
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center space-x-4 ml-8">
               {user ? (
-                <>
-                  <span className="text-gray-600 text-sm">{user.email}</span>
+                <div className="relative" ref={dropdownRef}>
                   <button 
-                    onClick={handleSignOut}
-                    disabled={loading}
-                    className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100 disabled:opacity-50"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100"
                   >
-                    {loading ? 'Signing out...' : 'Sign out'}
+                    <span className="text-sm">{user.email}</span>
+                    <svg className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
                   </button>
-                </>
+                  
+                  {isDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                      <Link 
+                        href="/account" 
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        Account Settings
+                      </Link>
+                      <button 
+                        onClick={handleSignOut}
+                        disabled={loading}
+                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50"
+                      >
+                        {loading ? 'Signing out...' : 'Sign out'}
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <>
                   <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100">
@@ -105,17 +136,18 @@ export default function Navbar() {
                 <Link href="/library" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100">
                   Library
                 </Link>
-                <Link href="/account" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100">
-                  Account
-                </Link>
-                <Link href="#contact" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100">
-                  Contact
-                </Link>
                 <div className="pt-4 border-t border-gray-200">
                   <div className="flex flex-col space-y-3">
                     {user ? (
                       <>
-                        <div className="text-gray-600 text-sm px-4 py-3 text-center">{user.email}</div>
+                        <div className="text-gray-600 text-sm px-4 py-3 text-center font-medium">{user.email}</div>
+                        <Link 
+                          href="/account" 
+                          className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100 text-center"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Account Settings
+                        </Link>
                         <button 
                           onClick={handleSignOut}
                           disabled={loading}
