@@ -2,9 +2,15 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut, loading } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
@@ -43,15 +49,30 @@ export default function Navbar() {
 
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center space-x-4 ml-8">
-              <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100">
-                Login
-              </Link>
-              <Link 
-                href="/generate" 
-                className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-2 rounded-full font-medium hover:from-orange-600 hover:to-pink-600 transition-all duration-200 shadow-sm hover:shadow-md"
-              >
-                Sign up
-              </Link>
+              {user ? (
+                <>
+                  <span className="text-gray-600 text-sm">{user.email}</span>
+                  <button 
+                    onClick={handleSignOut}
+                    disabled={loading}
+                    className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100 disabled:opacity-50"
+                  >
+                    {loading ? 'Signing out...' : 'Sign out'}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100">
+                    Login
+                  </Link>
+                  <Link 
+                    href="/auth/register" 
+                    className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-2 rounded-full font-medium hover:from-orange-600 hover:to-pink-600 transition-all duration-200 shadow-sm hover:shadow-md"
+                  >
+                    Sign up
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -92,15 +113,30 @@ export default function Navbar() {
                 </Link>
                 <div className="pt-4 border-t border-gray-200">
                   <div className="flex flex-col space-y-3">
-                    <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100 text-center">
-                      Login
-                    </Link>
-                    <Link 
-                      href="/generate" 
-                      className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-full font-medium hover:from-orange-600 hover:to-pink-600 transition-all duration-200 shadow-sm hover:shadow-md text-center"
-                    >
-                      Sign up
-                    </Link>
+                    {user ? (
+                      <>
+                        <div className="text-gray-600 text-sm px-4 py-3 text-center">{user.email}</div>
+                        <button 
+                          onClick={handleSignOut}
+                          disabled={loading}
+                          className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100 text-center disabled:opacity-50"
+                        >
+                          {loading ? 'Signing out...' : 'Sign out'}
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <Link href="/auth/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100 text-center">
+                          Login
+                        </Link>
+                        <Link 
+                          href="/auth/register" 
+                          className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-full font-medium hover:from-orange-600 hover:to-pink-600 transition-all duration-200 shadow-sm hover:shadow-md text-center"
+                        >
+                          Sign up
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
