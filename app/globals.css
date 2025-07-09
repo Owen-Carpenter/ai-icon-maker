@@ -3,14 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #111827; /* Deep black-gray instead of purple */
+  --foreground: #FFF7ED; /* Light orange-tinted white */
+  --accent: #FF8A65; /* Primary orange from image */
+  --secondary: #CE93D8; /* Light purple from image */
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --background: #ffffff;
-    --foreground: #171717;
+    --background: #FFF7ED; /* Light orange-tinted background */
+    --foreground: #1F2937; /* Dark black-gray text */
+    --accent: #FF7043; /* Darker orange for light mode */
+    --secondary: #8E24AA; /* Darker purple for light mode */
   }
 }
 

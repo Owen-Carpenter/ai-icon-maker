@@ -1,4 +1,4 @@
-# AIcon Studio - AI-Powered Icon Generator
+# AI Icon Maker - AI-Powered Icon Generator
 
 A premium SaaS web application that enables users to create professional-grade icons using AI or drawing tools. Built with Next.js 14, TypeScript, and Tailwind CSS.
 
