@@ -45,12 +45,19 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
       return [
         { href: '/generate', label: 'Generate' },
         { href: '/library', label: 'Library' },
-        { href: '/community', label: 'Community' }
+        { href: '#', label: 'Community', onClick: () => alert('🚧 Community features are still being developed and will be available soon! Stay tuned for updates.') }
       ];
     }
   };
 
   const navigationLinks = getNavigationLinks();
+
+  const handleLinkClick = (link: any, e: React.MouseEvent) => {
+    if (link.onClick) {
+      e.preventDefault();
+      link.onClick();
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
@@ -74,6 +81,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                 <Link 
                   key={link.href}
                   href={link.href} 
+                  onClick={(e) => handleLinkClick(link, e)}
                   className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-3 py-2 rounded-full hover:bg-gray-100"
                 >
                   {link.label}
@@ -154,6 +162,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                   <Link 
                     key={link.href}
                     href={link.href} 
+                    onClick={(e) => handleLinkClick(link, e)}
                     className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100"
                   >
                     {link.label}
