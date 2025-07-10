@@ -1,7 +1,7 @@
-import ScrollAnimation from '../../components/ScrollAnimation';
-import Navbar from '../../components/Navbar';
-import Contact from '../../components/Contact';
-import Footer from '../../components/Footer';
+import ScrollAnimation from '../../../components/ScrollAnimation';
+import Navbar from '../../../components/Navbar';
+import Contact from '../../../components/Contact';
+import Footer from '../../../components/Footer';
 import Link from 'next/link';
 
 export default function PricingPage() {
