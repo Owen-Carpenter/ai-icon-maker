@@ -8,7 +8,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-dark-gradient">
       {/* Navigation */}
-      <Navbar />
+      <Navbar variant="marketing" />
 
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-20 pt-32">
