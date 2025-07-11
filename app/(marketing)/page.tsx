@@ -48,7 +48,7 @@ export default function HomePage() {
                     <span className="bg-sunset-gradient text-white px-2 py-0.5 rounded text-xs">BETA</span>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">What should we build?</h3>
-                  <p className="text-sunset-200 text-sm">Using your existing design & code context</p>
+                  <p className="text-sunset-200 text-sm">Creating stunning icons with AI has never been easier.</p>
                 </div>
 
                 {/* Prompt Input */}
@@ -129,7 +129,7 @@ export default function HomePage() {
       </div>
 
       {/* Benefits Section */}
-      <div className="py-20">
+      <div id="features" className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <ScrollAnimation>
@@ -340,6 +340,301 @@ export default function HomePage() {
               </ScrollAnimation>
             </div>
           </ScrollAnimation>
+        </div>
+      </div>
+
+      {/* Pricing Section */}
+      <div id="pricing" className="py-20 bg-midnight-900/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <ScrollAnimation>
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+                Professional AI Icon Generation
+              </h2>
+            </ScrollAnimation>
+            <ScrollAnimation delay={300}>
+              <p className="text-xl text-sunset-200 mb-8 max-w-3xl mx-auto">
+                High-quality AI-powered icon creation using premium models like DALL-E 3, Midjourney, and Stable Diffusion XL. Professional tools deserve professional pricing.
+            </p>
+            </ScrollAnimation>
+          </div>
+          
+          {/* Pricing Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+            
+            {/* Pro Plan */}
+            <ScrollAnimation delay={400}>
+              <div className="bg-gradient-to-br from-sunset-500/20 to-coral-500/20 backdrop-blur-md rounded-2xl p-8 border-2 border-sunset-500/50 shadow-2xl hover:shadow-3xl hover:shadow-sunset-500/30 transition-all duration-500 hover:scale-105 relative">
+                {/* Popular Badge */}
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-gradient-to-r from-sunset-500 to-coral-500 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+                    Most Popular
+                  </div>
+                </div>
+                
+                <div className="text-center mb-8 mt-4">
+                  <h3 className="text-2xl font-bold text-white mb-2">AI Icon Maker Pro</h3>
+                  <div className="text-4xl font-bold text-white mb-4">
+                    $20<span className="text-lg font-normal text-sunset-200">/month</span>
+                  </div>
+                  <p className="text-sunset-200">Perfect for professionals and small teams</p>
+                </div>
+
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    200 AI-generated icons per month
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Premium AI models (DALL-E 3, Midjourney, SDXL)
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Multiple formats (PNG, SVG, ICO)
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    High-resolution outputs (up to 1024x1024)
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Priority AI processing
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Icon library management
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Commercial usage rights
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Email support
+                  </li>
+                </ul>
+                
+                <Link 
+                  href="/register" 
+                  className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl"
+                >
+                  Start Creating Icons
+                </Link>
+              </div>
+            </ScrollAnimation>
+
+            {/* Enterprise Plan */}
+            <ScrollAnimation delay={600}>
+              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 relative">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
+                  <div className="text-4xl font-bold text-white mb-4">
+                    $99<span className="text-lg font-normal text-sunset-200">/month</span>
+                  </div>
+                  <p className="text-sunset-200">For agencies and large organizations</p>
+                </div>
+                
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    1,000 AI-generated icons per month
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    All premium AI models + experimental models
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Ultra-high resolution (up to 2048x2048)
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Team collaboration & sharing
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Brand style consistency tools
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    API access for integrations
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    White-label options
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Priority support & dedicated account manager
+                  </li>
+                </ul>
+                
+                <Link 
+                  href="/register" 
+                  className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-purple-600 transition-all duration-300 text-center block"
+                >
+                  Start Creating Icons
+                </Link>
+              </div>
+            </ScrollAnimation>
+          </div>
+
+          {/* Cost Breakdown */}
+          <div className="mb-16">
+            <div className="text-center mb-12">
+              <ScrollAnimation>
+                <h3 className="text-3xl font-bold text-white mb-4">Why This Pricing Makes Sense</h3>
+              </ScrollAnimation>
+              <ScrollAnimation delay={200}>
+                <p className="text-sunset-200 max-w-2xl mx-auto">
+                  We use premium AI models to ensure the highest quality icons. Here's what it costs to generate icons with leading AI services:
+                </p>
+              </ScrollAnimation>
+            </div>
+
+            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+              <ScrollAnimation delay={300}>
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
+                  <h4 className="text-xl font-semibold text-white mb-3">DALL-E 3</h4>
+                  <p className="text-sunset-200 mb-2">$0.040 per image</p>
+                  <p className="text-sunset-200 text-sm">OpenAI's premium model</p>
+                </div>
+              </ScrollAnimation>
+
+              <ScrollAnimation delay={400}>
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
+                  <h4 className="text-xl font-semibold text-white mb-3">Midjourney</h4>
+                  <p className="text-sunset-200 mb-2">$0.33+ per image</p>
+                  <p className="text-sunset-200 text-sm">Based on $10/month plan</p>
+                </div>
+              </ScrollAnimation>
+
+              <ScrollAnimation delay={500}>
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
+                  <h4 className="text-xl font-semibold text-white mb-3">Stable Diffusion XL</h4>
+                  <p className="text-sunset-200 mb-2">$0.001-0.004 per image</p>
+                  <p className="text-sunset-200 text-sm">Via cloud providers</p>
+                </div>
+              </ScrollAnimation>
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="mb-16">
+            <div className="text-center mb-12">
+              <ScrollAnimation>
+                <h3 className="text-3xl font-bold text-white mb-4">Frequently Asked Questions</h3>
+              </ScrollAnimation>
+              <ScrollAnimation delay={200}>
+                <p className="text-sunset-200 max-w-2xl mx-auto">
+                  Got questions? We've got answers. Here are some common questions about our pricing and service.
+                </p>
+              </ScrollAnimation>
+            </div>
+
+            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+              <ScrollAnimation delay={300}>
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
+                  <h4 className="text-xl font-semibold text-white mb-3">Why no free plan?</h4>
+                  <p className="text-sunset-200">
+                    AI image generation using premium models like DALL-E 3 and Midjourney has real costs. We prefer to offer quality over quantity with transparent pricing.
+                  </p>
+                </div>
+              </ScrollAnimation>
+
+              <ScrollAnimation delay={400}>
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
+                  <h4 className="text-xl font-semibold text-white mb-3">What if I need more icons?</h4>
+                  <p className="text-sunset-200">
+                    Our Pro plan (200 icons/month) covers most professional needs. For agencies and high-volume users, our Enterprise plan offers 1,000 icons/month plus advanced features.
+                  </p>
+                </div>
+              </ScrollAnimation>
+
+              <ScrollAnimation delay={500}>
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
+                  <h4 className="text-xl font-semibold text-white mb-3">Can I cancel anytime?</h4>
+                  <p className="text-sunset-200">
+                    Yes! You can cancel your subscription at any time. Your access continues until the end of your current billing period.
+                  </p>
+                </div>
+              </ScrollAnimation>
+
+              <ScrollAnimation delay={600}>
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
+                  <h4 className="text-xl font-semibold text-white mb-3">Do I own the generated icons?</h4>
+                  <p className="text-sunset-200">
+                    Yes! All icons generated with AI Icon Maker can be used for commercial purposes without any additional licensing fees.
+                  </p>
+                </div>
+              </ScrollAnimation>
+            </div>
+          </div>
+          
+          {/* CTA Section */}
+          <div className="text-center">
+            <ScrollAnimation>
+              <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-12 border border-midnight-800 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
+                <ScrollAnimation delay={200}>
+                  <h3 className="text-3xl font-bold text-white mb-4">Ready to Create Professional Icons?</h3>
+                </ScrollAnimation>
+                <ScrollAnimation delay={400}>
+                  <p className="text-sunset-200 mb-8 max-w-2xl mx-auto">
+                    Join professionals who are already using AI Icon Maker to create stunning icons for their projects.
+                  </p>
+                </ScrollAnimation>
+                <ScrollAnimation delay={600}>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Link 
+                      href="/register" 
+                      className="bg-gradient-to-r from-sunset-500 to-coral-500 text-white px-8 py-3 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    >
+                      Start Your Subscription
+                    </Link>
+                    <Link 
+                      href="#contact" 
+                      className="bg-transparent border-2 border-sunset-500 text-sunset-500 px-8 py-3 rounded-full font-semibold hover:bg-sunset-500 hover:text-white transition-all duration-300"
+                    >
+                      Contact Sales
+                    </Link>
+                  </div>
+                </ScrollAnimation>
+              </div>
+            </ScrollAnimation>
+          </div>
         </div>
       </div>
 

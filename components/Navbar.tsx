@@ -37,9 +37,9 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
   const getNavigationLinks = () => {
     if (variant === 'marketing') {
       return [
-        { href: '/', label: 'Home' },
+        { href: '#features', label: 'Features' },
         { href: '/generate', label: 'Generate' },
-        { href: '/pricing', label: 'Pricing' }
+        { href: '#pricing', label: 'Pricing' }
       ];
     } else {
       return [
