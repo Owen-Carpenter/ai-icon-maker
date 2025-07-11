@@ -40,15 +40,53 @@ export default function HomePage() {
           
           <div className="lg:w-1/2 mt-10 lg:mt-0">
             <ScrollAnimation delay={400} className="translate-x-8">
-              <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 shadow-2xl border border-midnight-800 hover:shadow-3xl transition-all duration-500 hover:scale-105">
-                <div className="bg-sunset-gradient rounded-lg h-80 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
-                      <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                      </svg>
+              <div className="bg-gradient-to-br from-midnight-900/40 to-midnight-950/60 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-white/10 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 max-w-md mx-auto">
+                {/* Header */}
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center space-x-2 bg-sunset-500/20 text-sunset-300 px-3 py-1 rounded-full text-sm font-medium mb-4">
+                    <span>INTRODUCING AI ICON MAKER</span>
+                    <span className="bg-sunset-gradient text-white px-2 py-0.5 rounded text-xs">BETA</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">What should we build?</h3>
+                  <p className="text-sunset-200 text-sm">Using your existing design & code context</p>
+                </div>
+
+                {/* Prompt Input */}
+                <div className="relative">
+                  <div className="relative">
+                    <textarea
+                      id="ai-prompt"
+                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-4 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-1 focus:ring-sunset-400 transition-all duration-300 resize-none"
+                      rows={3}
+                      placeholder=""
+                    />
+                    <div 
+                      id="typing-placeholder" 
+                      className="absolute top-4 left-4 text-sunset-300/70 pointer-events-none"
+                    >
+                      <span id="typed-text"></span>
+                      <span id="cursor" className="animate-pulse text-sunset-400">|</span>
                     </div>
-                    <p className="text-white text-sm">AI Icon Generation Preview</p>
+                  </div>
+                  
+                  {/* Attach Button */}
+                  <div className="flex items-center justify-between mt-4">
+                    <button className="flex items-center space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-sm">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                      </svg>
+                      <span>Attach</span>
+                    </button>
+                    
+                    <Link 
+                      href="/generate"
+                      className="bg-sunset-gradient hover:scale-105 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl hover:shadow-sunset-500/30"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      </svg>
+                      <span>Generate</span>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -310,6 +348,88 @@ export default function HomePage() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Typing Animation Script */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              const examples = [
+                "Create a shopping cart icon with modern flat design",
+                "Design a lightning bolt icon for a productivity app", 
+                "Generate a heart icon with gradient colors",
+                "Build a settings gear icon with minimal style",
+                "Make a star rating icon with golden color"
+              ];
+              
+              let currentExample = 0;
+              let currentChar = 0;
+              let isDeleting = false;
+              
+              function typeWriter() {
+                const typedTextElement = document.getElementById('typed-text');
+                const cursorElement = document.getElementById('cursor');
+                const textareaElement = document.getElementById('ai-prompt');
+                
+                if (!typedTextElement || !cursorElement || !textareaElement) return;
+                
+                const currentText = examples[currentExample];
+                
+                if (isDeleting) {
+                  typedTextElement.textContent = currentText.substring(0, currentChar - 1);
+                  currentChar--;
+                } else {
+                  typedTextElement.textContent = currentText.substring(0, currentChar + 1);
+                  currentChar++;
+                }
+                
+                let typeSpeed = isDeleting ? 30 : 50;
+                
+                if (!isDeleting && currentChar === currentText.length) {
+                  typeSpeed = 2000;
+                  isDeleting = true;
+                } else if (isDeleting && currentChar === 0) {
+                  isDeleting = false;
+                  currentExample = (currentExample + 1) % examples.length;
+                  typeSpeed = 500;
+                }
+                
+                // Hide placeholder when user starts typing
+                textareaElement.addEventListener('input', function() {
+                  const placeholderElement = document.getElementById('typing-placeholder');
+                  if (placeholderElement) {
+                    placeholderElement.style.display = this.value ? 'none' : 'block';
+                  }
+                });
+                
+                // Show placeholder when textarea is empty
+                textareaElement.addEventListener('blur', function() {
+                  const placeholderElement = document.getElementById('typing-placeholder');
+                  if (placeholderElement && !this.value) {
+                    placeholderElement.style.display = 'block';
+                  }
+                });
+                
+                setTimeout(typeWriter, typeSpeed);
+              }
+              
+              // Start typing animation when page loads
+              document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(typeWriter, 1000);
+              });
+              
+              // Also start if DOM is already loaded
+              if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                  setTimeout(typeWriter, 1000);
+                });
+              } else {
+                setTimeout(typeWriter, 1000);
+              }
+            })();
+          `,
+        }}
+      />
     </div>
   );
 } 
