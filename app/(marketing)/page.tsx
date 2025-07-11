@@ -638,6 +638,156 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Testimonials Section */}
+      <div className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <ScrollAnimation>
+              <div className="flex justify-center items-center mb-6">
+                <div className="flex -space-x-2">
+                  <div className="w-10 h-10 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">D</div>
+                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">S</div>
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">M</div>
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">A</div>
+                  <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">K</div>
+                  <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">L</div>
+                  <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">T</div>
+                </div>
+              </div>
+              <p className="text-sunset-200 mb-4">500+ Designers & developers trust AI Icon Maker</p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+                Helping creators streamline their<br />
+                workflow and deliver faster
+              </h2>
+            </ScrollAnimation>
+            <ScrollAnimation delay={300}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="bg-midnight-800/50 text-sunset-200 px-6 py-3 rounded-full font-medium hover:bg-midnight-700/50 transition-all duration-300 flex items-center justify-center space-x-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  <span>Join our community</span>
+                </button>
+                <button className="bg-transparent border border-sunset-500 text-sunset-500 px-6 py-3 rounded-full font-medium hover:bg-sunset-500 hover:text-white transition-all duration-300">
+                  Read more reviews
+                </button>
+              </div>
+            </ScrollAnimation>
+          </div>
+          
+          {/* Testimonials Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Testimonial 1 */}
+            <ScrollAnimation delay={400}>
+              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500">
+                <p className="text-sunset-200 mb-6">
+                  "Wow, this is absolutely incredible – huge props to the @ai_icon_maker team for bringing these amazing AI superpowers to more designers and developers!"
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full flex items-center justify-center text-white font-bold">
+                    D
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">@designerdave</p>
+                    <p className="text-sunset-300 text-sm">Co-founder & CEO @designstudio</p>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+
+            {/* Testimonial 2 */}
+            <ScrollAnimation delay={500}>
+              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500">
+                <p className="text-sunset-200 mb-6">
+                  "Finally an AI tool that I will ACTUALLY include as part of my workflow. I love how seamless it is from start to finish."
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                    S
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">@sarahcreates</p>
+                    <p className="text-sunset-300 text-sm">Designer & Creative developer</p>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+
+            {/* Testimonial 3 */}
+            <ScrollAnimation delay={600}>
+              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500">
+                <p className="text-sunset-200 mb-6">
+                  "This is pure magic. ✨ → Icons in seconds → Perfect styles in minutes → Full icon sets with AI → @ai_icon_maker saving the day for designers!"
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold">
+                    M
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">@mikepixel</p>
+                    <p className="text-sunset-300 text-sm">Designer & Content Creator</p>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+
+            {/* Testimonial 4 */}
+            <ScrollAnimation delay={700}>
+              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500">
+                <p className="text-sunset-200 mb-6">
+                  "Very excited for @ai_icon_maker's new AI-powered icon generator. I love the messaging and positioning 'to empower you, not replace you'. Strategic language to get even skeptical designers to jump in."
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold">
+                    A
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">@alexbrand</p>
+                    <p className="text-sunset-300 text-sm">Designer</p>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+
+            {/* Testimonial 5 */}
+            <ScrollAnimation delay={800}>
+              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500">
+                <p className="text-sunset-200 mb-6">
+                  "Yooooooooo, this is 🔥 @ai_icon_maker has been one of my favorite tools I've seen evolve in the design space. They're carving out a tremendous groove that designers and developers can vibe in."
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                    K
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">@kyle_dev</p>
+                    <p className="text-sunset-300 text-sm">Designer & Developer</p>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+
+            {/* Testimonial 6 */}
+            <ScrollAnimation delay={900}>
+              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500">
+                <p className="text-sunset-200 mb-6">
+                  "This is the most exciting AI design product I've seen – great work AI Icon Maker team!!! Looks especially powerful for serious designers looking to build icons at scale."
+                </p>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                    L
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">@lisadesigns</p>
+                    <p className="text-sunset-300 text-sm">Senior Product Designer</p>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+          </div>
+        </div>
+      </div>
+
       {/* Contact Section */}
       <Contact />
 
