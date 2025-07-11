@@ -38,56 +38,83 @@ export default function HomePage() {
             </ScrollAnimation>
           </div>
           
-          <div className="lg:w-1/2 mt-10 lg:mt-0">
+                    <div className="lg:w-1/2 mt-10 lg:mt-0">
             <ScrollAnimation delay={400} className="translate-x-8">
-              <div className="bg-gradient-to-br from-midnight-900/40 to-midnight-950/60 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-white/10 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 max-w-md mx-auto">
+              <div className="bg-gradient-to-br from-midnight-900/40 to-midnight-950/60 backdrop-blur-sm rounded-2xl p-5 shadow-2xl border border-white/10 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 max-w-md mx-auto">
                 {/* Header */}
-                <div className="text-center mb-6">
-                  <div className="inline-flex items-center space-x-2 bg-sunset-500/20 text-sunset-300 px-3 py-1 rounded-full text-sm font-medium mb-4">
+                <div className="text-center mb-4">
+                  <div className="inline-flex items-center space-x-2 bg-sunset-500/20 text-sunset-300 px-3 py-1 rounded-full text-sm font-medium mb-3">
                     <span>INTRODUCING AI ICON MAKER</span>
                     <span className="bg-sunset-gradient text-white px-2 py-0.5 rounded text-xs">BETA</span>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">What should we build?</h3>
-                  <p className="text-sunset-200 text-sm">Creating stunning icons with AI has never been easier.</p>
+                  <h3 className="text-lg font-bold text-white mb-1">What should we build?</h3>
+                  <p className="text-sunset-200 text-xs">Creating stunning icons with AI has never been easier.</p>
                 </div>
 
                 {/* Prompt Input */}
-                <div className="relative">
+                <div className="mb-4">
                   <div className="relative">
                     <textarea
                       id="ai-prompt"
-                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-4 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-1 focus:ring-sunset-400 transition-all duration-300 resize-none"
-                      rows={3}
+                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-1 focus:ring-sunset-400 transition-all duration-300 resize-none text-sm"
+                      rows={2}
                       placeholder=""
                     />
                     <div 
                       id="typing-placeholder" 
-                      className="absolute top-4 left-4 text-sunset-300/70 pointer-events-none"
+                      className="absolute top-3 left-3 text-sunset-300/70 pointer-events-none text-sm"
                     >
                       <span id="typed-text"></span>
                       <span id="cursor" className="animate-pulse text-sunset-400">|</span>
                     </div>
                   </div>
-                  
-                  {/* Attach Button */}
-                  <div className="flex items-center justify-between mt-4">
-                    <button className="flex items-center space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-sm">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                      </svg>
-                      <span>Attach</span>
-                    </button>
+                </div>
+
+                {/* Animated Sketch to Icon Demo */}
+                <div className="mb-4">
+                  <div className="bg-white rounded-lg p-3 relative overflow-hidden h-32">
+                    {/* Animated Sketch Canvas */}
+                    <canvas
+                      id="sketch-canvas"
+                      width="280"
+                      height="100"
+                      className="absolute inset-2 opacity-100 transition-opacity duration-1000 w-full h-full"
+                    ></canvas>
                     
-                    <Link 
-                      href="/generate"
-                      className="bg-sunset-gradient hover:scale-105 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl hover:shadow-sunset-500/30"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                      </svg>
-                      <span>Generate</span>
-                    </Link>
+                    {/* Generated Icon Display */}
+                    <div id="generated-icon" className="absolute inset-2 flex items-center justify-center opacity-0 transition-opacity duration-1000">
+                      <div className="w-16 h-16 bg-gradient-to-br from-sunset-500 to-coral-500 rounded-xl flex items-center justify-center shadow-lg transform scale-0 transition-transform duration-500">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Progress Indicator */}
+                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2">
+                      <div id="demo-status" className="text-xs text-gray-500 font-medium">Sketching...</div>
+                    </div>
                   </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex items-center justify-between">
+                  <button className="flex items-center space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-sm">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                    </svg>
+                    <span>Attach</span>
+                  </button>
+                  
+                  <Link 
+                    href="/generate"
+                    className="bg-sunset-gradient hover:scale-105 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl hover:shadow-sunset-500/30"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    <span>Generate</span>
+                  </Link>
                 </div>
               </div>
             </ScrollAnimation>
@@ -794,7 +821,7 @@ export default function HomePage() {
       {/* Footer */}
       <Footer />
 
-      {/* Typing Animation Script */}
+      {/* Typing Animation & Sketch Demo Script */}
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -858,18 +885,149 @@ export default function HomePage() {
                 setTimeout(typeWriter, typeSpeed);
               }
               
-              // Start typing animation when page loads
+              // Animated Sketch to Icon Demo
+              function initSketchDemo() {
+                const canvas = document.getElementById('sketch-canvas');
+                const generatedIcon = document.getElementById('generated-icon');
+                const demoStatus = document.getElementById('demo-status');
+                
+                if (!canvas || !generatedIcon || !demoStatus) return;
+                
+                const ctx = canvas.getContext('2d');
+                let animationStep = 0;
+                let currentPath = [];
+                
+                                 // Lightning bolt path 1 - Classic zigzag
+                 const lightningPath1 = [
+                   {x: 140, y: 20},
+                   {x: 125, y: 40},
+                   {x: 155, y: 40},
+                   {x: 140, y: 60},
+                   {x: 110, y: 45},
+                   {x: 140, y: 20}
+                 ];
+                 
+                 // Lightning bolt path 2 - Wider zigzag
+                 const lightningPath2 = [
+                   {x: 140, y: 25},
+                   {x: 120, y: 45},
+                   {x: 160, y: 45},
+                   {x: 140, y: 75},
+                   {x: 105, y: 50},
+                   {x: 140, y: 25}
+                 ];
+                 
+                 // Lightning bolt path 3 - Taller lightning
+                 const lightningPath3 = [
+                   {x: 140, y: 15},
+                   {x: 130, y: 35},
+                   {x: 150, y: 35},
+                   {x: 140, y: 55},
+                   {x: 125, y: 75},
+                   {x: 155, y: 75},
+                   {x: 140, y: 85},
+                   {x: 115, y: 60},
+                   {x: 140, y: 15}
+                 ];
+                
+                                 const paths = [lightningPath1, lightningPath2, lightningPath3];
+                let currentPathIndex = 0;
+                
+                function drawSketch() {
+                  ctx.clearRect(0, 0, canvas.width, canvas.height);
+                  
+                  // Set drawing style
+                  ctx.strokeStyle = '#666';
+                  ctx.lineWidth = 2;
+                  ctx.lineCap = 'round';
+                  ctx.lineJoin = 'round';
+                  
+                  const path = paths[currentPathIndex];
+                  
+                  if (animationStep < path.length) {
+                    // Draw the path progressively
+                    ctx.beginPath();
+                    ctx.moveTo(path[0].x, path[0].y);
+                    
+                    for (let i = 1; i <= animationStep; i++) {
+                      ctx.lineTo(path[i].x, path[i].y);
+                    }
+                    
+                    ctx.stroke();
+                    
+                                         // Add some random sketch lines for effect
+                     if (Math.random() > 0.8) {
+                       ctx.beginPath();
+                       const pointIndex = Math.max(0, Math.floor(animationStep/2));
+                       if (path[pointIndex]) {
+                         ctx.moveTo(path[pointIndex].x + Math.random() * 3 - 1.5, 
+                                   path[pointIndex].y + Math.random() * 3 - 1.5);
+                         ctx.lineTo(path[pointIndex].x + Math.random() * 6 - 3, 
+                                   path[pointIndex].y + Math.random() * 6 - 3);
+                         ctx.stroke();
+                       }
+                     }
+                    
+                    animationStep++;
+                    setTimeout(drawSketch, 150);
+                  } else {
+                    // Sketch complete, show AI processing
+                    demoStatus.textContent = 'AI Processing...';
+                    setTimeout(showGeneratedIcon, 1000);
+                  }
+                }
+                
+                function showGeneratedIcon() {
+                  // Hide sketch canvas
+                  canvas.style.opacity = '0';
+                  
+                  // Show generated icon
+                  generatedIcon.style.opacity = '1';
+                  generatedIcon.querySelector('div').style.transform = 'scale(1)';
+                  
+                  demoStatus.textContent = 'Icon Generated!';
+                  
+                  // Reset after 3 seconds
+                  setTimeout(resetDemo, 3000);
+                }
+                
+                function resetDemo() {
+                  // Hide generated icon
+                  generatedIcon.style.opacity = '0';
+                  generatedIcon.querySelector('div').style.transform = 'scale(0)';
+                  
+                  // Show sketch canvas
+                  canvas.style.opacity = '1';
+                  
+                  // Reset variables
+                  animationStep = 0;
+                  currentPathIndex = (currentPathIndex + 1) % paths.length;
+                  
+                  demoStatus.textContent = 'Sketching...';
+                  
+                  // Start next sketch
+                  setTimeout(drawSketch, 1000);
+                }
+                
+                // Start the demo
+                setTimeout(drawSketch, 2000);
+              }
+              
+              // Initialize everything when DOM is ready
               document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(typeWriter, 1000);
+                initSketchDemo();
               });
               
               // Also start if DOM is already loaded
               if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', function() {
                   setTimeout(typeWriter, 1000);
+                  initSketchDemo();
                 });
               } else {
                 setTimeout(typeWriter, 1000);
+                initSketchDemo();
               }
             })();
           `,
