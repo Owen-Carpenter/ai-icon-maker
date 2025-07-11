@@ -40,7 +40,7 @@ export default function HomePage() {
           
                     <div className="lg:w-1/2 mt-10 lg:mt-0">
             <ScrollAnimation delay={400} className="translate-x-8">
-              <div className="bg-gradient-to-br from-midnight-900/40 to-midnight-950/60 backdrop-blur-sm rounded-2xl p-5 shadow-2xl border border-white/10 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 max-w-md mx-auto">
+              <div className="bg-gradient-to-br from-midnight-900/40 to-midnight-950/60 backdrop-blur-sm rounded-2xl p-5 shadow-2xl border border-white/10 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 max-w-md mx-auto animate-float">
                 {/* Header */}
                 <div className="text-center mb-4">
                   <div className="inline-flex items-center space-x-2 bg-sunset-500/20 text-sunset-300 px-3 py-1 rounded-full text-sm font-medium mb-3">
