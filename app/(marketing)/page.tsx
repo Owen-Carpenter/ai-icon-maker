@@ -816,7 +816,9 @@ export default function HomePage() {
       </div>
 
       {/* Contact Section */}
-      <Contact />
+      <div id="contact">
+        <Contact />
+      </div>
 
       {/* Footer */}
       <Footer />

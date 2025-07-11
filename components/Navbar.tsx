@@ -38,7 +38,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
     if (variant === 'marketing') {
       return [
         { href: '#features', label: 'Features' },
-        { href: '/generate', label: 'Generate' },
+        { href: '#contact', label: 'Contact' },
         { href: '#pricing', label: 'Pricing' }
       ];
     } else {
