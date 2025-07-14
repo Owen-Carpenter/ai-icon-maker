@@ -11,17 +11,17 @@ export default function HomePage() {
       <Navbar variant="marketing" />
 
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-20 pt-32">
-        <div className="flex flex-col lg:flex-row items-center justify-between">
-          <div className="lg:w-1/2 text-center lg:text-left">
+      <div className="container mx-auto px-4 py-12 sm:py-20 pt-24 sm:pt-32">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+          <div className="w-full lg:w-1/2 text-center lg:text-left">
             <ScrollAnimation>
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6">
-              A Magical AI Icon<br />
-              Editor for Creators
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+              A Magical AI Icon<br className="hidden sm:block" />
+              <span className="sm:hidden"> </span>Editor for Creators
             </h1>
             </ScrollAnimation>
             <ScrollAnimation delay={300}>
-              <p className="text-xl text-sunset-200 mb-8 max-w-2xl">
+              <p className="text-lg sm:text-xl text-sunset-200 mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0">
                AI Icon Maker lets you easily build, create, and manage professional icons 
                for OpenAI, Anthropic, Google, and many other AI APIs and integrated 
                your icon library everywhere in one centralized environment.
@@ -31,38 +31,39 @@ export default function HomePage() {
             <ScrollAnimation delay={600}>
               {/* Swirling Border Button */}
               <div className="inline-block [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
-                <Link href="/register" className="bg-transparent text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block">
+                <Link href="/register" className="bg-transparent text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block text-sm sm:text-base">
               Try AI Icon Maker
                 </Link>
               </div>
             </ScrollAnimation>
           </div>
           
-          <div className="lg:w-1/2 mt-10 lg:mt-0">
-            <ScrollAnimation delay={400} className="translate-x-8">
-              <div className="bg-gradient-to-br from-midnight-900/40 to-midnight-950/60 backdrop-blur-sm rounded-2xl p-5 shadow-2xl border border-white/10 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 max-w-md mx-auto animate-float">
+          <div className="w-full lg:w-1/2 mt-8 lg:mt-0 max-w-lg mx-auto">
+            <ScrollAnimation delay={400} className="lg:translate-x-8">
+              <div className="bg-gradient-to-br from-midnight-900/40 to-midnight-950/60 backdrop-blur-sm rounded-2xl p-4 sm:p-5 shadow-2xl border border-white/10 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 animate-float">
                 {/* Header */}
-                <div className="text-center mb-4">
-                  <div className="inline-flex items-center space-x-2 bg-sunset-500/20 text-sunset-300 px-3 py-1 rounded-full text-sm font-medium mb-3">
-                    <span>INTRODUCING AI ICON MAKER</span>
-                    <span className="bg-sunset-gradient text-white px-2 py-0.5 rounded text-xs">BETA</span>
+                <div className="text-center mb-3 sm:mb-4">
+                  <div className="inline-flex items-center space-x-1 sm:space-x-2 bg-sunset-500/20 text-sunset-300 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium mb-2 sm:mb-3">
+                    <span className="hidden sm:inline">INTRODUCING AI ICON MAKER</span>
+                    <span className="sm:hidden">AI ICON MAKER</span>
+                    <span className="bg-sunset-gradient text-white px-1 sm:px-2 py-0.5 rounded text-xs">BETA</span>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-1">What should we build?</h3>
-                  <p className="text-sunset-200 text-xs">Creating stunning icons with AI has never been easier.</p>
+                  <h3 className="text-base sm:text-lg font-bold text-white mb-1">What should we build?</h3>
+                  <p className="text-sunset-200 text-xs hidden sm:block">Creating stunning icons with AI has never been easier.</p>
                 </div>
 
                 {/* Prompt Input */}
-                <div className="mb-4">
+                <div className="mb-3 sm:mb-4">
                   <div className="relative">
                     <textarea
                       id="ai-prompt"
-                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-1 focus:ring-sunset-400 transition-all duration-300 resize-none text-sm"
+                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-2 sm:p-3 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-1 focus:ring-sunset-400 transition-all duration-300 resize-none text-xs sm:text-sm"
                       rows={2}
                       placeholder=""
                     />
                     <div 
                       id="typing-placeholder" 
-                      className="absolute top-3 left-3 text-sunset-300/70 pointer-events-none text-sm"
+                      className="absolute top-2 sm:top-3 left-2 sm:left-3 text-sunset-300/70 pointer-events-none text-xs sm:text-sm"
                     >
                       <span id="typed-text"></span>
                       <span id="cursor" className="animate-pulse text-sunset-400">|</span>
@@ -71,20 +72,20 @@ export default function HomePage() {
                 </div>
 
                 {/* Animated Sketch to Icon Demo */}
-                <div className="mb-4">
-                  <div className="bg-white rounded-lg p-3 relative overflow-hidden h-32">
+                <div className="mb-3 sm:mb-4">
+                  <div className="bg-white rounded-lg p-2 sm:p-3 relative overflow-hidden h-24 sm:h-32">
                     {/* Animated Sketch Canvas */}
                     <canvas
                       id="sketch-canvas"
                       width="280"
                       height="100"
-                      className="absolute inset-2 opacity-100 transition-opacity duration-1000 w-full h-full"
+                      className="absolute inset-1 sm:inset-2 opacity-100 transition-opacity duration-1000 w-full h-full"
                     ></canvas>
                     
                     {/* Generated Icon Display */}
-                    <div id="generated-icon" className="absolute inset-2 flex items-center justify-center opacity-0 transition-opacity duration-1000">
-                      <div className="w-16 h-16 bg-gradient-to-br from-sunset-500 to-coral-500 rounded-xl flex items-center justify-center shadow-lg transform scale-0 transition-transform duration-500">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div id="generated-icon" className="absolute inset-1 sm:inset-2 flex items-center justify-center opacity-0 transition-opacity duration-1000">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-sunset-500 to-coral-500 rounded-xl flex items-center justify-center shadow-lg transform scale-0 transition-transform duration-500">
+                        <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                       </div>
@@ -99,8 +100,8 @@ export default function HomePage() {
 
                 {/* Action Buttons */}
                 <div className="flex items-center justify-between">
-                  <button className="flex items-center space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-sm">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <button className="flex items-center space-x-1 sm:space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-xs sm:text-sm">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                     </svg>
                     <span>Attach</span>
@@ -108,9 +109,9 @@ export default function HomePage() {
                   
                   <Link 
                     href="/generate"
-                    className="bg-sunset-gradient hover:scale-105 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl hover:shadow-sunset-500/30"
+                    className="bg-sunset-gradient hover:scale-105 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-1 sm:space-x-2 shadow-lg hover:shadow-xl hover:shadow-sunset-500/30 text-xs sm:text-sm"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                     </svg>
                     <span>Generate</span>
@@ -703,11 +704,11 @@ export default function HomePage() {
           </div>
           
           {/* Testimonials Carousel */}
-          <div className="space-y-8 overflow-hidden">
+          <div className="space-y-6 sm:space-y-8 overflow-hidden">
             {/* Top Row - Moving Right to Left */}
             <div className="flex animate-scroll-rtl hover:animate-pause" style={{width: '200%'}}>
-              <div className="flex space-x-6 min-w-full">
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+              <div className="flex space-x-4 sm:space-x-6 min-w-full testimonial-carousel">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Wow, this is absolutely incredible – huge props to the @ai_icon_maker team for bringing these amazing AI superpowers to more designers and developers!"
                   </p>
@@ -722,7 +723,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Finally an AI tool that I will ACTUALLY include as part of my workflow. I love how seamless it is from start to finish."
                   </p>
@@ -737,7 +738,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "This is pure magic. ✨ → Icons in seconds → Perfect styles in minutes → Full icon sets with AI → @ai_icon_maker saving the day for designers!"
                   </p>
@@ -752,7 +753,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "The AI understands exactly what I need! Creating icon sets has never been this fast and consistent. Absolutely game-changing for my design process."
                   </p>
@@ -767,7 +768,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "As a freelancer, this tool has literally 10x'd my productivity. I can deliver icon sets to clients in hours instead of days. Mind-blowing quality!"
                   </p>
@@ -785,7 +786,7 @@ export default function HomePage() {
               
               {/* Duplicate for seamless loop */}
               <div className="flex space-x-6 min-w-full ml-6">
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Wow, this is absolutely incredible – huge props to the @ai_icon_maker team for bringing these amazing AI superpowers to more designers and developers!"
                   </p>
@@ -800,7 +801,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Finally an AI tool that I will ACTUALLY include as part of my workflow. I love how seamless it is from start to finish."
                   </p>
@@ -815,7 +816,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "This is pure magic. ✨ → Icons in seconds → Perfect styles in minutes → Full icon sets with AI → @ai_icon_maker saving the day for designers!"
                   </p>
@@ -830,7 +831,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "The AI understands exactly what I need! Creating icon sets has never been this fast and consistent. Absolutely game-changing for my design process."
                   </p>
@@ -845,7 +846,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "As a freelancer, this tool has literally 10x'd my productivity. I can deliver icon sets to clients in hours instead of days. Mind-blowing quality!"
                   </p>
@@ -864,8 +865,8 @@ export default function HomePage() {
 
             {/* Bottom Row - Moving Left to Right */}
             <div className="flex animate-scroll-ltr hover:animate-pause" style={{width: '200%'}}>
-              <div className="flex space-x-6 min-w-full">
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+              <div className="flex space-x-6 min-w-full testimonial-carousel">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Very excited for @ai_icon_maker's new AI-powered icon generator. I love the messaging and positioning 'to empower you, not replace you'. Strategic language to get even skeptical designers to jump in."
                   </p>
@@ -880,7 +881,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Yooooooooo, this is 🔥 @ai_icon_maker has been one of my favorite tools I've seen evolve in the design space. They're carving out a tremendous groove that designers and developers can vibe in."
                   </p>
@@ -895,7 +896,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "This is the most exciting AI design product I've seen – great work AI Icon Maker team!!! Looks especially powerful for serious designers looking to build icons at scale."
                   </p>
@@ -910,7 +911,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "I've tried every icon tool out there, and this is hands down the best. The AI suggestions are spot-on and save me hours of iteration time."
                   </p>
@@ -925,7 +926,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Our entire design team switched to AI Icon Maker last month. The consistency across projects is incredible, and clients love the quality!"
                   </p>
@@ -943,7 +944,7 @@ export default function HomePage() {
               
               {/* Duplicate for seamless loop */}
               <div className="flex space-x-6 min-w-full ml-6">
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Very excited for @ai_icon_maker's new AI-powered icon generator. I love the messaging and positioning 'to empower you, not replace you'. Strategic language to get even skeptical designers to jump in."
                   </p>
@@ -958,7 +959,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Yooooooooo, this is 🔥 @ai_icon_maker has been one of my favorite tools I've seen evolve in the design space. They're carving out a tremendous groove that designers and developers can vibe in."
                   </p>
@@ -973,7 +974,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "This is the most exciting AI design product I've seen – great work AI Icon Maker team!!! Looks especially powerful for serious designers looking to build icons at scale."
                   </p>
@@ -988,7 +989,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "I've tried every icon tool out there, and this is hands down the best. The AI suggestions are spot-on and save me hours of iteration time."
                   </p>
@@ -1003,7 +1004,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px]">
+                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 min-w-[350px] testimonial-card">
                   <p className="text-sunset-200 mb-6">
                     "Our entire design team switched to AI Icon Maker last month. The consistency across projects is incredible, and clients love the quality!"
                   </p>
