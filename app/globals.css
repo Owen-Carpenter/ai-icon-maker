@@ -48,4 +48,47 @@ body {
 
 .animate-float {
   animation: float 4s ease-in-out infinite;
+}
+
+/* Testimonial carousel animations */
+@keyframes scroll-rtl {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes scroll-ltr {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-rtl {
+  animation: scroll-rtl 40s linear infinite;
+}
+
+.animate-scroll-ltr {
+  animation: scroll-ltr 40s linear infinite;
+}
+
+.hover\:animate-pause:hover {
+  animation-play-state: paused;
+}
+
+/* Seamless scrolling effect */
+.testimonial-row {
+  display: flex;
+  width: 200%; /* Double width to fit original + duplicate */
+}
+
+.testimonial-row::after {
+  content: '';
+  flex: 1;
+  display: flex;
 } 
