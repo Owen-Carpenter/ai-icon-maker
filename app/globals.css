@@ -91,44 +91,4 @@ body {
   content: '';
   flex: 1;
   display: flex;
-}
-
-/* Mobile responsive testimonial cards */
-@media (max-width: 640px) {
-  /* Target all testimonial cards by their structure */
-  .testimonial-carousel > div[class*="min-w-"] {
-    min-width: 280px !important;
-    padding: 1rem !important;
-  }
-  
-  .testimonial-carousel > div[class*="min-w-"] p {
-    font-size: 0.875rem !important;
-    margin-bottom: 1rem !important;
-  }
-  
-  .testimonial-carousel > div[class*="min-w-"] div[class*="w-10"] {
-    width: 2rem !important;
-    height: 2rem !important;
-    font-size: 0.875rem !important;
-  }
-  
-  .testimonial-carousel {
-    gap: 1rem !important;
-  }
-  
-  /* More specific targeting for testimonials */
-  div[style*="width: 200%"] .flex.space-x-6 {
-    gap: 1rem !important;
-  }
-  
-  div[style*="width: 200%"] .flex.space-x-6 > div {
-    min-width: 280px !important;
-    padding: 1rem !important;
-    flex-shrink: 0;
-  }
-  
-  div[style*="width: 200%"] .flex.space-x-6 > div p:first-child {
-    font-size: 0.875rem !important;
-    margin-bottom: 1rem !important;
-  }
 } 
