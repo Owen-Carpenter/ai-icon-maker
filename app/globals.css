@@ -56,13 +56,13 @@ body {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-33.333%);
   }
 }
 
 @keyframes scroll-ltr {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-33.333%);
   }
   100% {
     transform: translateX(0);
@@ -70,11 +70,11 @@ body {
 }
 
 .animate-scroll-rtl {
-  animation: scroll-rtl 40s linear infinite;
+  animation: scroll-rtl 15s linear infinite;
 }
 
 .animate-scroll-ltr {
-  animation: scroll-ltr 40s linear infinite;
+  animation: scroll-ltr 15s linear infinite;
 }
 
 .hover\:animate-pause:hover {
