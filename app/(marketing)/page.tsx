@@ -44,9 +44,9 @@ export default function HomePage() {
               <div className="bg-gradient-to-br from-midnight-900/40 to-midnight-950/60 backdrop-blur-sm rounded-2xl p-5 shadow-2xl border border-white/10 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 max-w-md animate-float">
                 {/* Header */}
                 <div className="text-center mb-4">
-                  <div className="inline-flex items-center space-x-2 bg-sunset-500/20 text-sunset-300 px-3 py-1 rounded-full text-sm font-medium mb-3">
+                  <div className="inline-flex items-center space-x-2 bg-[#ff7e5f]/20 text-sunset-300 px-3 py-1 rounded-full text-sm font-medium mb-3">
                     <span>INTRODUCING AI ICON MAKER</span>
-                    <span className="bg-sunset-gradient text-white px-2 py-0.5 rounded text-xs">BETA</span>
+                    <span className="bg-[#ff7e5f] text-white px-2 py-0.5 rounded text-xs">BETA</span>
                   </div>
                   <h3 className="text-lg font-bold text-white mb-1">What should we build?</h3>
                   <p className="text-sunset-200 text-xs">Creating stunning icons with AI has never been easier.</p>
@@ -175,7 +175,7 @@ export default function HomePage() {
             {/* Visual AI Prompt Builder */}
             <ScrollAnimation delay={300}>
               <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-sunset-gradient rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
+                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
@@ -191,7 +191,7 @@ export default function HomePage() {
             {/* Quick Preview */}
             <ScrollAnimation delay={400}>
               <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-sunset-gradient rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
+                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -208,7 +208,7 @@ export default function HomePage() {
             {/* Slack Brand Management */}
             <ScrollAnimation delay={500}>
               <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-sunset-gradient rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
+                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
@@ -224,7 +224,7 @@ export default function HomePage() {
             {/* Multi-Provider Support */}
             <ScrollAnimation delay={600}>
               <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-sunset-gradient rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
+                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
@@ -240,7 +240,7 @@ export default function HomePage() {
             {/* Save & Share */}
             <ScrollAnimation delay={700}>
               <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-sunset-gradient rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
+                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
                 </svg>
@@ -256,7 +256,7 @@ export default function HomePage() {
             {/* AI Model Fine-Tuning */}
             <ScrollAnimation delay={800}>
               <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-sunset-gradient rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
+                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
@@ -286,7 +286,7 @@ export default function HomePage() {
             <ScrollAnimation delay={200}>
             <div className="text-center">
                 <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 mb-6 border border-midnight-800 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                  <div className="bg-sunset-gradient rounded-lg h-48 flex items-center justify-center">
+                  <div className="bg-coral-gradient rounded-lg h-48 flex items-center justify-center">
                   <div className="text-center">
                       <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300">
                         <span className="text-2xl font-bold text-white">1</span>
@@ -395,7 +395,7 @@ export default function HomePage() {
               <div className="bg-gradient-to-br from-sunset-500/20 to-coral-500/20 backdrop-blur-md rounded-2xl p-8 border-2 border-sunset-500/50 shadow-2xl hover:shadow-3xl hover:shadow-sunset-500/30 transition-all duration-500 hover:scale-105 relative">
                 {/* Popular Badge */}
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-sunset-500 to-coral-500 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+                  <div className="bg-[#ff7e5f] text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
                     Most Popular
                   </div>
                 </div>
