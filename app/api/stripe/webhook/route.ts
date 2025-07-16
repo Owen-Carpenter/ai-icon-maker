@@ -104,7 +104,8 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       plan: planType,
       period_start: periodStart,
       period_end: periodEnd,
-      credits: getCreditsForPlan(planType || 'free')
+      credits: getCreditsForPlan(planType || 'free'),
+      cancel_at_period_end: subscription.cancel_at_period_end || false
     })
 
     if (error) {
@@ -157,7 +158,8 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
     plan: planType,
     period_start: periodStart,
     period_end: periodEnd,
-    credits: getCreditsForPlan(planType)
+    credits: getCreditsForPlan(planType),
+    cancel_at_period_end: subscription.cancel_at_period_end || false
   })
 }
 
@@ -199,7 +201,8 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     plan: planType,
     period_start: periodStart,
     period_end: periodEnd,
-    credits: getCreditsForPlan(planType)
+    credits: getCreditsForPlan(planType),
+    cancel_at_period_end: subscription.cancel_at_period_end || false
   })
 }
 
@@ -229,7 +232,8 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     plan: 'free',
     period_start: null,
     period_end: null,
-    credits: getCreditsForPlan('free')
+    credits: getCreditsForPlan('free'),
+    cancel_at_period_end: false
   })
 }
 

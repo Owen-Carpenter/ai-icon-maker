@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { CheckCircle, Crown, Zap } from 'lucide-react';
-import SubscriptionManager from '../../../components/payment/SubscriptionManager';
+import CancelSubscriptionButton from '../../../components/payment/CancelSubscriptionButton';
+import ReactivateSubscriptionButton from '../../../components/payment/ReactivateSubscriptionButton';
 import PricingSection from '../../../components/payment/PricingSection';
 
 function AccountPageContent() {
@@ -149,16 +150,35 @@ function AccountPageContent() {
 
                 {isPaidPlan && userData?.subscription_current_period_end && (
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-300">Renews On:</span>
+                    <span className="text-gray-300">
+                      {userData?.subscription_cancel_at_period_end ? 'Expires On:' : 'Renews On:'}
+                    </span>
                     <span className="text-white">
                       {new Date(userData.subscription_current_period_end).toLocaleDateString()}
                     </span>
                   </div>
                 )}
 
-                {isPaidPlan && (
+                {userData?.subscription_cancel_at_period_end && (
+                  <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3">
+                    <p className="text-orange-400 text-sm">
+                      <strong>Subscription Canceled</strong><br />
+                      You'll retain access to all features until {userData.subscription_current_period_end ? new Date(userData.subscription_current_period_end).toLocaleDateString() : 'the end of your billing period'}.
+                    </p>
+                  </div>
+                )}
+
+                {/* Show Cancel button for active subscriptions */}
+                {isPaidPlan && !userData?.subscription_cancel_at_period_end && (
                   <div className="pt-4">
-                    <SubscriptionManager />
+                    <CancelSubscriptionButton className="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors" />
+                  </div>
+                )}
+
+                {/* Show Reactivate button for canceled subscriptions still in grace period */}
+                {isPaidPlan && userData?.subscription_cancel_at_period_end && (
+                  <div className="pt-4">
+                    <ReactivateSubscriptionButton className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors" />
                   </div>
                 )}
               </div>
@@ -183,12 +203,12 @@ function AccountPageContent() {
             </div>
           </div>
 
-          {/* Pricing Section - Only show if not on a paid plan */}
+          {/* Pricing Section - Show for free users or fully expired subscriptions */}
           {!isPaidPlan && (
             <PricingSection 
               currentPlan={userData?.subscription_plan || 'free'}
-              title="Upgrade Your Plan"
-              subtitle="Get more credits and unlock premium features"
+              title={userData?.subscription_status === 'canceled' ? 'Resubscribe to Continue' : 'Upgrade Your Plan'}
+              subtitle={userData?.subscription_status === 'canceled' ? 'Get back to creating amazing icons with our premium features' : 'Get more credits and unlock premium features'}
             />
           )}
         </div>

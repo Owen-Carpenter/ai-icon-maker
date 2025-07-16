@@ -14,6 +14,7 @@ interface UserData {
   subscription_plan: string
   subscription_current_period_start?: string
   subscription_current_period_end?: string
+  subscription_cancel_at_period_end?: boolean
   credits_remaining: number
   total_generations_used: number
   created_at: string
