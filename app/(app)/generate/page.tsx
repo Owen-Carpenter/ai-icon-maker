@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
 import Navbar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
 import PromptInput from '../../../components/generate/PromptInput';
 import DrawingTools from '../../../components/generate/DrawingTools';
 import DrawingCanvas from '../../../components/generate/DrawingCanvas';
@@ -184,6 +185,8 @@ export default function GeneratePage() {
           </div>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 } 
