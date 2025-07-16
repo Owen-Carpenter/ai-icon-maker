@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { CheckCircle } from 'lucide-react';
 import Navbar from '../../../components/Navbar';
 import PromptInput from '../../../components/generate/PromptInput';
 import DrawingTools from '../../../components/generate/DrawingTools';
@@ -17,13 +19,26 @@ interface DrawingTool {
 }
 
 export default function GeneratePage() {
-  const { user, hasActiveSubscription, loading } = useAuth();
+  const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
+  const searchParams = useSearchParams();
   const [currentTool, setCurrentTool] = useState('pencil');
   const [brushSize, setBrushSize] = useState(5);
   const [brushColor, setBrushColor] = useState('#000000');
   const [prompt, setPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    const success = searchParams.get('success');
+    
+    if (success === 'true') {
+      setShowSuccess(true);
+      // Refresh user data after successful payment
+      refreshUserData();
+      setTimeout(() => setShowSuccess(false), 8000);
+    }
+  }, [searchParams, refreshUserData]);
 
   // Show loading state
   if (loading) {
@@ -103,6 +118,17 @@ export default function GeneratePage() {
           <h1 className="text-3xl font-bold text-white mb-2">AI Icon Generator</h1>
           <p className="text-sunset-200">Create amazing icons with AI assistance and drawing tools</p>
         </div>
+
+        {/* Success Message */}
+        {showSuccess && (
+          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6 flex items-center max-w-4xl mx-auto">
+            <CheckCircle className="h-5 w-5 text-green-400 mr-3 flex-shrink-0" />
+            <div>
+              <p className="text-green-400 font-semibold">Payment successful! Welcome to AI Icon Generator!</p>
+              <p className="text-green-300 text-sm mt-1">Your subscription is now active. Start creating amazing icons below!</p>
+            </div>
+          </div>
+        )}
 
         {/* AI Prompt Input */}
         <PromptInput

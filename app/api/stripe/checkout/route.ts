@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
       ],
       mode: 'subscription',
       allow_promotion_codes: true,
-      success_url: `${req.nextUrl.origin}/account?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${req.nextUrl.origin}/generate?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.nextUrl.origin}/account?canceled=true`,
       metadata: {
         user_id: session.user.id,

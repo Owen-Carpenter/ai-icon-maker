@@ -1,35 +1,27 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { Loader2 } from 'lucide-react';
 
 interface SubscriptionButtonProps {
   priceId: string;
   planType: string;
-  children: React.ReactNode;
   className?: string;
   loadingClassName?: string;
-  disabled?: boolean;
+  children: React.ReactNode;
 }
 
-export default function SubscriptionButton({
-  priceId,
-  planType,
-  children,
-  className = '',
+export default function SubscriptionButton({ 
+  priceId, 
+  planType, 
+  className = '', 
   loadingClassName = '',
-  disabled = false
+  children 
 }: SubscriptionButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { user } = useAuth();
 
-  const handleSubscribe = async () => {
-    if (!user) {
-      window.location.href = '/login';
-      return;
-    }
-
+  const handleCheckout = async () => {
     setLoading(true);
     setError('');
 
@@ -39,10 +31,7 @@ export default function SubscriptionButton({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          priceId,
-          planType,
-        }),
+        body: JSON.stringify({ planType }),
       });
 
       const data = await response.json();
@@ -52,26 +41,33 @@ export default function SubscriptionButton({
       }
 
       // Redirect to Stripe Checkout
-      window.location.href = data.url;
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
     } catch (error: any) {
-      console.error('Subscription error:', error);
+      console.error('Checkout error:', error);
       setError(error.message || 'Something went wrong. Please try again.');
       setLoading(false);
     }
   };
 
   return (
-    <div>
+    <div className="w-full">
       <button
-        onClick={handleSubscribe}
-        disabled={disabled || loading}
-        className={`
-          ${className}
-          ${loading ? loadingClassName : ''}
-          ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-        `}
+        onClick={handleCheckout}
+        disabled={loading}
+        className={`${className} ${loading ? loadingClassName : ''}`}
       >
-        {loading ? 'Processing...' : children}
+        {loading ? (
+          <div className="flex items-center justify-center gap-2">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Processing...
+          </div>
+        ) : (
+          children
+        )}
       </button>
       
       {error && (
