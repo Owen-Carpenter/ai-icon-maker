@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import Navbar from '../../../components/Navbar';
 import Link from 'next/link';
+import Loading from '../../../components/ui/Loading';
 import SubscriptionGate from '../../../components/SubscriptionGate';
 import SmartGenerateLink from '../../../components/SmartGenerateLink';
 
@@ -105,11 +106,7 @@ export default function LibraryPage() {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
-    );
+    return <Loading text="Loading your icon library..." />;
   }
 
   // Show subscription gate if user doesn't have active subscription

@@ -8,6 +8,7 @@ import PromptInput from '../../../components/generate/PromptInput';
 import DrawingTools from '../../../components/generate/DrawingTools';
 import DrawingCanvas from '../../../components/generate/DrawingCanvas';
 import GenerationPanel from '../../../components/generate/GenerationPanel';
+import Loading from '../../../components/ui/Loading';
 import { useAuth } from '../../../contexts/AuthContext';
 
 interface DrawingTool {
@@ -50,20 +51,12 @@ export default function GeneratePage() {
 
   // Show loading state
   if (loading) {
-    return (
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
-    );
+    return <Loading text="Loading your workspace..." />;
   }
 
   // Show loading or redirect if no subscription
   if (!hasActiveSubscription) {
-    return (
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <div className="text-white">Redirecting to pricing...</div>
-      </div>
-    );
+    return <Loading text="Redirecting to pricing..." />;
   }
 
   const tools: DrawingTool[] = [

@@ -7,6 +7,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { CheckCircle, Crown, Zap } from 'lucide-react';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
+import Loading from '../../../components/ui/Loading';
 import CancelSubscriptionButton from '../../../components/payment/CancelSubscriptionButton';
 import ReactivateSubscriptionButton from '../../../components/payment/ReactivateSubscriptionButton';
 import PricingSection from '../../../components/payment/PricingSection';
@@ -44,11 +45,7 @@ function AccountPageContent() {
   }, [searchParams, refreshUserData]); // Now safe because refreshUserData is memoized
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
-    );
+    return <Loading text="Loading your account..." />;
   }
 
   const isPaidPlan = hasActiveSubscription;
@@ -238,11 +235,7 @@ function AccountPageContent() {
 
 export default function AccountPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <div className="text-white">Loading...</div>
-      </div>
-    }>
+    <Suspense fallback={<Loading text="Loading account settings..." />}>
       <AccountPageContent />
     </Suspense>
   );
