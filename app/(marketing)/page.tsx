@@ -7,6 +7,7 @@ import Contact from '../../components/Contact';
 import Footer from '../../components/Footer';
 import TestimonialCarousel from '../../components/TestimonialCarousel';
 import Link from 'next/link';
+import SmartGenerateLink from '../../components/SmartGenerateLink';
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -63,12 +64,15 @@ export default function HomePage() {
              </p>
             </ScrollAnimation>
             
-            <ScrollAnimation delay={600}>
+                          <ScrollAnimation delay={600}>
               {/* Swirling Border Button */}
               <div className="inline-block [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
-                <Link href="/register" className="bg-transparent text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block">
-              Try AI Icon Maker
-                </Link>
+                <SmartGenerateLink 
+                  className="bg-transparent text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block"
+                  fallbackHref="/register"
+                >
+                  Try AI Icon Maker
+                </SmartGenerateLink>
               </div>
             </ScrollAnimation>
           </div>
@@ -141,15 +145,14 @@ export default function HomePage() {
                     <span>Attach</span>
                   </button>
                   
-                  <Link 
-                    href="/generate"
+                  <SmartGenerateLink 
                     className="bg-sunset-gradient hover:scale-105 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl hover:shadow-sunset-500/30"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                     </svg>
                     <span>Generate</span>
-                  </Link>
+                  </SmartGenerateLink>
                 </div>
               </div>
             </ScrollAnimation>
@@ -392,12 +395,15 @@ export default function HomePage() {
                   Join thousands of creators who are already using AI Icon Maker to bring their ideas to life.
                 </p>
               </ScrollAnimation>
-              <ScrollAnimation delay={600}>
+                              <ScrollAnimation delay={600}>
                 {/* Swirling Border Button */}
                 <div className="inline-block [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
-                  <Link href="/register" className="bg-transparent text-white px-12 py-4 rounded-lg font-semibold hover:scale-110 transition-all duration-300 block">
+                  <SmartGenerateLink 
+                    className="bg-transparent text-white px-12 py-4 rounded-lg font-semibold hover:scale-110 transition-all duration-300 block"
+                    fallbackHref="/register"
+                  >
                     Start Creating Now
-                  </Link>
+                  </SmartGenerateLink>
                 </div>
               </ScrollAnimation>
             </div>

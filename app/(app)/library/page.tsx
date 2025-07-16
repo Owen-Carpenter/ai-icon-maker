@@ -5,6 +5,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import Navbar from '../../../components/Navbar';
 import Link from 'next/link';
 import SubscriptionGate from '../../../components/SubscriptionGate';
+import SmartGenerateLink from '../../../components/SmartGenerateLink';
 
 interface SavedIcon {
   id: string;
@@ -338,12 +339,11 @@ export default function LibraryPage() {
                   : 'Start creating icons to build your library'
                 }
               </p>
-              <Link 
-                href="/generate" 
+              <SmartGenerateLink 
                 className="bg-gradient-to-r from-sunset-500 to-coral-500 text-white px-6 py-3 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Create Your First Icon
-              </Link>
+              </SmartGenerateLink>
             </div>
           </div>
         )}

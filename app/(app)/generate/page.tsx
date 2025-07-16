@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
 import Navbar from '../../../components/Navbar';
 import PromptInput from '../../../components/generate/PromptInput';
 import DrawingTools from '../../../components/generate/DrawingTools';
 import DrawingCanvas from '../../../components/generate/DrawingCanvas';
 import GenerationPanel from '../../../components/generate/GenerationPanel';
-import SubscriptionGate from '../../../components/SubscriptionGate';
 import { useAuth } from '../../../contexts/AuthContext';
 
 interface DrawingTool {
@@ -21,6 +20,7 @@ interface DrawingTool {
 export default function GeneratePage() {
   const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [currentTool, setCurrentTool] = useState('pencil');
   const [brushSize, setBrushSize] = useState(5);
   const [brushColor, setBrushColor] = useState('#000000');
@@ -49,13 +49,19 @@ export default function GeneratePage() {
     );
   }
 
-  // Show subscription gate if user doesn't have active subscription
+  // Redirect to pricing section if user doesn't have active subscription
+  useEffect(() => {
+    if (!loading && !hasActiveSubscription) {
+      router.replace('/#pricing');
+    }
+  }, [loading, hasActiveSubscription, router]);
+
+  // Show loading or redirect if no subscription
   if (!hasActiveSubscription) {
     return (
-      <SubscriptionGate 
-        title="AI Icon Generator"
-        description="Start creating amazing icons with AI assistance. A subscription is required to access the icon generator."
-      />
+      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
+        <div className="text-white">Redirecting to pricing...</div>
+      </div>
     );
   }
 

@@ -119,8 +119,8 @@ export async function middleware(req: NextRequest) {
          new Date(userData.subscription_current_period_end) > new Date())
 
       if (!hasActiveSubscription) {
-        // Redirect to account page where they can subscribe
-        return NextResponse.redirect(new URL('/account?subscription_required=true', req.url))
+        // Redirect to marketing page pricing section where they can subscribe
+        return NextResponse.redirect(new URL('/#pricing', req.url))
       }
     } catch (error) {
       console.error('Error checking subscription status:', error)
