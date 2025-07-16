@@ -19,12 +19,29 @@ interface NavigationLink {
 export default function Navbar({ variant = 'marketing' }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
   const { user, signOut, loading } = useAuth();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleSignOut = async () => {
     await signOut();
     setIsDropdownOpen(false);
+  };
+
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    setIsHovering(true);
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovering(false);
+    }, 300); // 300ms delay before hiding
   };
 
   // Close dropdown when clicking outside
@@ -38,6 +55,59 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Auto-hide navbar on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show navbar when at top, scrolling up, or hovering
+      if (currentScrollY < 10) {
+        setIsVisible(true);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down and past threshold
+        setIsVisible(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    // Throttle scroll events for performance
+    let ticking = false;
+    const throttledHandleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', throttledHandleScroll);
+    };
+  }, [lastScrollY]);
+
+  // Show navbar on hover when hidden
+  useEffect(() => {
+    if (isHovering) {
+      setIsVisible(true);
+    }
+  }, [isHovering]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -68,7 +138,22 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
+    <>
+      {/* Invisible hover area at top when navbar is hidden */}
+      {!isVisible && (
+        <div 
+          className="fixed top-0 left-0 right-0 h-4 z-40"
+          onMouseEnter={handleMouseEnter}
+        />
+      )}
+      
+      <nav 
+        className={`fixed top-0 left-0 right-0 z-50 bg-transparent transition-transform duration-300 ease-in-out ${
+          isVisible ? 'translate-y-0' : '-translate-y-full'
+        }`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
       <div className="w-full px-6 py-4">
         <div className="flex items-center justify-center">
           {/* Centered Navigation Container */}
@@ -237,5 +322,6 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
         )}
       </div>
     </nav>
+    </>
   );
 } 
