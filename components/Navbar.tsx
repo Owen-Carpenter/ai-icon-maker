@@ -69,7 +69,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
       } else if (currentScrollY < lastScrollY) {
         // Scrolling up
         setIsVisible(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+      } else if (currentScrollY > lastScrollY && currentScrollY > 30) {
         // Scrolling down and past threshold
         setIsVisible(false);
       }

@@ -134,7 +134,7 @@ export default function GeneratePage() {
     <div className="min-h-screen bg-dark-gradient">
       <Navbar variant="app" />
       
-      <div className="container mx-auto px-4 py-8 pt-6">
+      <div className="container mx-auto px-4 py-8 pt-32">
         {/* Header */}
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-white mb-2">AI Icon Generator</h1>
