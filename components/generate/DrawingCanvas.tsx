@@ -458,26 +458,42 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
     }
   }, [onGenerate, hasDrawing, exportCanvasData]);
 
+  const createCustomCursor = useCallback((emoji: string, hotspotX = 8, hotspotY = 8) => {
+    // Create SVG with just the emoji icon
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+        <text x="12" y="16" text-anchor="middle" font-size="16" font-family="system-ui">${emoji}</text>
+      </svg>
+    `;
+    
+    const encodedSvg = encodeURIComponent(svg);
+    return `url("data:image/svg+xml,${encodedSvg}") ${hotspotX} ${hotspotY}, auto`;
+  }, []);
+
   const getCursorStyle = useCallback(() => {
     switch (currentTool) {
       case 'pencil':
+        return createCustomCursor('✏️', 4, 20);
       case 'brush':
-        return 'crosshair';
+        return createCustomCursor('🖌️', 4, 20);
       case 'eraser':
-        return 'grab';
-      case 'fill':
-        return 'copy';
-      case 'hand':
-        return isDragging ? 'grabbing' : 'grab';
+        return createCustomCursor('🧽', 12, 12);
       case 'line':
+        return createCustomCursor('📏', 4, 20);
       case 'rectangle':
+        return createCustomCursor('⬜', 12, 12);
       case 'circle':
+        return createCustomCursor('⭕', 12, 12);
       case 'triangle':
-        return 'crosshair';
+        return createCustomCursor('🔺', 12, 12);
+      case 'fill':
+        return createCustomCursor('🎨', 4, 20);
+      case 'hand':
+        return isDragging ? createCustomCursor('✊', 12, 12) : createCustomCursor('✋', 12, 12);
       default:
         return 'default';
     }
-  }, [currentTool, isDragging]);
+  }, [currentTool, isDragging, createCustomCursor]);
 
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-4">
