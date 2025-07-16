@@ -122,7 +122,7 @@ function AccountPageContent() {
                       : 'bg-gray-600 text-gray-300'
                   }`}>
                     {(() => {
-                      const plan = userData?.subscription_plan || 'free';
+                      const plan = userData?.subscription_plan || '';
                       if (plan === 'unlimited') return 'Enterprise';
                       return plan.charAt(0).toUpperCase() + plan.slice(1);
                     })()}
@@ -206,10 +206,10 @@ function AccountPageContent() {
             </div>
           </div>
 
-          {/* Pricing Section - Show for free users or fully expired subscriptions */}
+          {/* Pricing Section - Show for users without subscriptions or fully expired subscriptions */}
           {!isPaidPlan && (
             <PricingSection 
-              currentPlan={userData?.subscription_plan || 'free'}
+              currentPlan={userData?.subscription_plan || ''}
               title={userData?.subscription_status === 'canceled' ? 'Resubscribe to Continue' : 'Upgrade Your Plan'}
               subtitle={userData?.subscription_status === 'canceled' ? 'Get back to creating amazing icons with our premium features' : 'Get more credits and unlock premium features'}
             />

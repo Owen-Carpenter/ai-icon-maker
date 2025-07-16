@@ -1,17 +1,5 @@
 // Subscription plans configuration (client-safe - no environment variables)
 export const SUBSCRIPTION_PLANS = {
-  free: {
-    name: 'Free',
-    price: 0,
-    priceId: null,
-    credits: 5,
-    features: [
-      '5 AI generations per month',
-      'Watermarked downloads',
-      'Basic drawing tools',
-      'Standard resolution exports'
-    ]
-  },
   pro: {
     name: 'Pro',
     price: 20, // Updated to match marketing page

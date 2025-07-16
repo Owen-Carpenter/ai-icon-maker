@@ -11,7 +11,7 @@ interface PricingSectionProps {
 }
 
 export default function PricingSection({ 
-  currentPlan = 'free', 
+  currentPlan = '', 
   title = "Choose Your Plan",
   subtitle = "Select the perfect plan for your icon creation needs"
 }: PricingSectionProps) {
@@ -23,11 +23,7 @@ export default function PricingSection({
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">{subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          <PricingCard 
-            plan="free" 
-            currentPlan={currentPlan}
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <PricingCard 
             plan="pro" 
             currentPlan={currentPlan}

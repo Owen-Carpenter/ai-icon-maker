@@ -41,7 +41,7 @@ export default function PricingCard({ plan, currentPlan, isPopular }: PricingCar
         <h3 className="text-2xl font-bold text-white mb-2">{planData.name}</h3>
         <div className="mb-4">
           <span className="text-4xl font-bold text-white">${planData.price}</span>
-          {plan !== 'free' && <span className="text-gray-400 text-lg">/month</span>}
+          <span className="text-gray-400 text-lg">/month</span>
         </div>
         
         {plan === 'unlimited' && (
@@ -51,11 +51,6 @@ export default function PricingCard({ plan, currentPlan, isPopular }: PricingCar
         )}
         {plan === 'pro' && (
           <div className="text-blue-400 font-semibold text-sm">
-            {planData.credits} generations/month
-          </div>
-        )}
-        {plan === 'free' && (
-          <div className="text-gray-400 font-semibold text-sm">
             {planData.credits} generations/month
           </div>
         )}
@@ -71,11 +66,7 @@ export default function PricingCard({ plan, currentPlan, isPopular }: PricingCar
       </ul>
 
       <div className="mt-auto">
-        {plan === 'free' ? (
-          <div className="w-full py-3 px-6 rounded-xl bg-gray-600 text-gray-400 text-center font-semibold cursor-not-allowed">
-            Current Plan
-          </div>
-        ) : isCurrentPlan ? (
+        {isCurrentPlan ? (
           <div className="w-full py-3 px-6 rounded-xl bg-green-600 text-white text-center font-semibold cursor-default">
             ✓ Subscribed
           </div>

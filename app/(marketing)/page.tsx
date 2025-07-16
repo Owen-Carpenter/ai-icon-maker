@@ -638,9 +638,9 @@ export default function HomePage() {
             <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
               <ScrollAnimation delay={300}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
-                  <h4 className="text-xl font-semibold text-white mb-3">Why no free plan?</h4>
+                  <h4 className="text-xl font-semibold text-white mb-3">What AI models do you use?</h4>
                   <p className="text-sunset-200">
-                    AI image generation using premium models like DALL-E 3 and Midjourney has real costs. We prefer to offer quality over quantity with transparent pricing.
+                    We use premium AI models including DALL-E 3, Midjourney, and Stable Diffusion XL to ensure the highest quality icon generation for professional use.
                   </p>
                 </div>
               </ScrollAnimation>
