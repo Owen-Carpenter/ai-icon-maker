@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { CheckCircle, Crown, Zap } from 'lucide-react';
 import Navbar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
 import CancelSubscriptionButton from '../../../components/payment/CancelSubscriptionButton';
 import ReactivateSubscriptionButton from '../../../components/payment/ReactivateSubscriptionButton';
 import PricingSection from '../../../components/payment/PricingSection';
@@ -215,6 +216,7 @@ function AccountPageContent() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
