@@ -26,6 +26,8 @@ export default function GeneratePage() {
   const [brushSize, setBrushSize] = useState(5);
   const [brushColor, setBrushColor] = useState('#000000');
   const [prompt, setPrompt] = useState('');
+  const [style, setStyle] = useState('modern');
+  const [primaryColor, setPrimaryColor] = useState('#00D4FF');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -75,13 +77,16 @@ export default function GeneratePage() {
   ];
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim() || !style) return;
 
     setIsGenerating(true);
     
-    // Simulate AI processing
+    // Log the generation request (in real app, this would be sent to AI API)
+    console.log('Generating icon:', { prompt, style });
+    
+    // Simulate AI processing with style-specific variations
     setTimeout(() => {
-      // Mock generated images - in real app, these would come from AI API
+      // Mock generated images - in real app, these would come from AI API with style applied
       const mockImages = [
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNGRjZDMDAiLz4KPC9zdmc+Cg==',
@@ -134,6 +139,10 @@ export default function GeneratePage() {
         <PromptInput
           prompt={prompt}
           setPrompt={setPrompt}
+          style={style}
+          setStyle={setStyle}
+          primaryColor={primaryColor}
+          setPrimaryColor={setPrimaryColor}
           onGenerate={handleGenerate}
           isGenerating={isGenerating}
         />

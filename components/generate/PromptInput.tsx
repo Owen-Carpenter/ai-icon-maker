@@ -2,33 +2,121 @@
 
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 interface PromptInputProps {
   prompt: string;
   setPrompt: (prompt: string) => void;
+  style: string;
+  setStyle: (style: string) => void;
+  primaryColor: string;
+  setPrimaryColor: (color: string) => void;
   onGenerate: () => void;
   isGenerating: boolean;
 }
 
-export default function PromptInput({ prompt, setPrompt, onGenerate, isGenerating }: PromptInputProps) {
+export default function PromptInput({ prompt, setPrompt, style, setStyle, primaryColor, setPrimaryColor, onGenerate, isGenerating }: PromptInputProps) {
+  const iconStyles = [
+    { value: 'modern', label: 'Modern', description: 'Clean and contemporary design' },
+    { value: 'flat', label: 'Flat', description: 'Minimalist flat design' },
+    { value: 'metallic', label: 'Metallic', description: 'Shiny metallic finish' },
+    { value: 'cartoon', label: 'Cartoon', description: 'Fun and playful style' },
+    { value: 'pictogram', label: 'Pictogram', description: 'Simple symbolic representation' },
+    { value: 'line-art', label: 'Line Art', description: 'Outline style with clean lines' },
+    { value: '3d', label: '3D', description: 'Three-dimensional appearance' },
+    { value: 'vintage', label: 'Vintage', description: 'Retro and classic style' },
+    { value: 'neon', label: 'Neon', description: 'Glowing neon effect' },
+    { value: 'hand-drawn', label: 'Hand-drawn', description: 'Sketchy, artistic style' }
+  ];
+
   return (
     <div className="max-w-4xl mx-auto mb-6">
-      <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-4">
-        <div className="flex space-x-4">
+      <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-6">
+        {/* Main Prompt Input */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-white mb-2">
+            Describe your icon
+          </label>
           <Input
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Describe the icon you want to create (e.g., 'A modern shopping cart icon with clean lines')"
-            className="flex-1 h-12"
+            placeholder="e.g., A minimalist shopping cart with rounded corners"
+            className="w-full h-12"
           />
-          <Button
-            onClick={onGenerate}
-            disabled={isGenerating}
-            size="lg"
-          >
-            {isGenerating ? 'Generating...' : 'Generate'}
-          </Button>
         </div>
+
+        {/* Controls Row */}
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-end">
+          {/* Style Selection */}
+          <div className="flex-1 min-w-0">
+            <label className="block text-sm font-medium text-white mb-2">
+              Style
+            </label>
+            <Select value={style} onValueChange={setStyle}>
+              <SelectTrigger className="w-full h-10">
+                <SelectValue placeholder="Choose a style..." />
+              </SelectTrigger>
+              <SelectContent>
+                {iconStyles.map((iconStyle) => (
+                  <SelectItem key={iconStyle.value} value={iconStyle.value}>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{iconStyle.label}</span>
+                      <span className="text-xs text-gray-400">{iconStyle.description}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Primary Color Selection */}
+          <div className="flex-shrink-0">
+            <label className="block text-sm font-medium text-white mb-2">
+              Primary Color
+            </label>
+            <input
+              type="color"
+              value={primaryColor}
+              onChange={(e) => setPrimaryColor(e.target.value)}
+              className="w-20 h-10 rounded-lg border border-white/20 bg-white/10 cursor-pointer"
+              title="Choose primary color"
+            />
+          </div>
+
+          {/* Generate Button */}
+          <div className="flex-shrink-0">
+            <Button
+              onClick={onGenerate}
+              disabled={isGenerating || !prompt.trim() || !style}
+              size="lg"
+              className="px-8"
+            >
+              {isGenerating ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                  Generating...
+                </>
+              ) : (
+                'Generate Icons'
+              )}
+            </Button>
+          </div>
+        </div>
+
+        {/* Preview Section */}
+        {style && prompt && (
+          <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              <p className="text-sm text-gray-300">
+                <span className="text-white font-medium">Ready to generate:</span> {iconStyles.find(s => s.value === style)?.label} style icon of "{prompt}" 
+                <span className="inline-flex items-center gap-1 ml-2">
+                  in <span className="inline-block w-3 h-3 rounded-full border border-gray-500" style={{ backgroundColor: primaryColor }}></span> color
+                </span>
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
