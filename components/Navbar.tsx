@@ -3,9 +3,17 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import SmartGenerateLink from './SmartGenerateLink';
 
 interface NavbarProps {
   variant?: 'marketing' | 'app';
+}
+
+interface NavigationLink {
+  href: string;
+  label: string;
+  isSmartLink?: boolean;
+  onClick?: () => void;
 }
 
 export default function Navbar({ variant = 'marketing' }: NavbarProps) {
@@ -34,11 +42,11 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
   }, []);
 
   // Define navigation links based on variant
-  const getNavigationLinks = () => {
+  const getNavigationLinks = (): NavigationLink[] => {
     if (variant === 'marketing') {
       return [
         { href: '#features', label: 'Features' },
-        { href: '#contact', label: 'Contact' },
+        { href: '/generate', label: 'Generate', isSmartLink: true },
         { href: '#pricing', label: 'Pricing' }
       ];
     } else {
@@ -78,14 +86,24 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
               {navigationLinks.map((link) => (
-                <Link 
-                  key={link.href}
-                  href={link.href} 
-                  onClick={(e) => handleLinkClick(link, e)}
-                  className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-3 py-2 rounded-full hover:bg-gray-100"
-                >
-                  {link.label}
-                </Link>
+                link.isSmartLink ? (
+                  <SmartGenerateLink
+                    key={link.href}
+                    className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-3 py-2 rounded-full hover:bg-gray-100"
+                    fallbackHref="/register"
+                  >
+                    {link.label}
+                  </SmartGenerateLink>
+                ) : (
+                  <Link 
+                    key={link.href}
+                    href={link.href} 
+                    onClick={(e) => handleLinkClick(link, e)}
+                    className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-3 py-2 rounded-full hover:bg-gray-100"
+                  >
+                    {link.label}
+                  </Link>
+                )
               ))}
             </div>
 
@@ -159,14 +177,24 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
             <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 p-6 w-full max-w-sm">
               <div className="flex flex-col space-y-3">
                 {navigationLinks.map((link) => (
-                  <Link 
-                    key={link.href}
-                    href={link.href} 
-                    onClick={(e) => handleLinkClick(link, e)}
-                    className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100"
-                  >
-                    {link.label}
-                  </Link>
+                  link.isSmartLink ? (
+                    <SmartGenerateLink
+                      key={link.href}
+                      className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100"
+                      fallbackHref="/register"
+                    >
+                      {link.label}
+                    </SmartGenerateLink>
+                  ) : (
+                    <Link 
+                      key={link.href}
+                      href={link.href} 
+                      onClick={(e) => handleLinkClick(link, e)}
+                      className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100"
+                    >
+                      {link.label}
+                    </Link>
+                  )
                 ))}
                 <div className="pt-4 border-t border-gray-200">
                   <div className="flex flex-col space-y-3">
