@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { CheckCircle, Crown, Zap } from 'lucide-react';
+import Navbar from '../../../components/Navbar';
 import CancelSubscriptionButton from '../../../components/payment/CancelSubscriptionButton';
 import ReactivateSubscriptionButton from '../../../components/payment/ReactivateSubscriptionButton';
 import PricingSection from '../../../components/payment/PricingSection';
@@ -53,7 +54,8 @@ function AccountPageContent() {
 
   return (
     <div className="min-h-screen bg-dark-gradient">
-      <div className="container mx-auto px-4 py-20">
+      <Navbar variant="app" />
+      <div className="container mx-auto px-4 pt-32 pb-20">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-bold text-white mb-6 text-center">
             Account Settings
