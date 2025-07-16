@@ -28,7 +28,7 @@ export default function GeneratePage() {
   const [brushColor, setBrushColor] = useState('#000000');
   const [prompt, setPrompt] = useState('');
   const [style, setStyle] = useState('modern');
-  const [primaryColor, setPrimaryColor] = useState('#00D4FF');
+  const [primaryColor, setPrimaryColor] = useState('#000000');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);

@@ -29,6 +29,9 @@ export default function PromptInput({ prompt, setPrompt, style, setStyle, primar
     { value: 'hand-drawn', label: 'Hand-drawn', description: 'Sketchy, artistic style' }
   ];
 
+  // Find the selected style for display purposes
+  const selectedStyle = iconStyles.find(s => s.value === style);
+
   return (
     <div className="w-full h-full">
       <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-6 h-full flex flex-col">
@@ -56,14 +59,27 @@ export default function PromptInput({ prompt, setPrompt, style, setStyle, primar
               </label>
               <Select value={style} onValueChange={setStyle}>
                 <SelectTrigger className="w-full h-10">
-                  <SelectValue placeholder="Choose a style..." />
+                  <SelectValue placeholder="Choose a style...">
+                    {selectedStyle && (
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-white">{selectedStyle.label}</span>
+                        <span className="text-xs text-gray-400 hidden sm:inline">
+                          • {selectedStyle.description}
+                        </span>
+                      </div>
+                    )}
+                  </SelectValue>
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="w-full">
                   {iconStyles.map((iconStyle) => (
-                    <SelectItem key={iconStyle.value} value={iconStyle.value}>
-                      <div className="flex flex-col">
-                        <span className="font-medium">{iconStyle.label}</span>
-                        <span className="text-xs text-gray-400">{iconStyle.description}</span>
+                    <SelectItem 
+                      key={iconStyle.value} 
+                      value={iconStyle.value}
+                      className="cursor-pointer"
+                    >
+                      <div className="flex flex-col py-1">
+                        <span className="font-medium text-white">{iconStyle.label}</span>
+                        <span className="text-xs text-gray-400 mt-0.5">{iconStyle.description}</span>
                       </div>
                     </SelectItem>
                   ))}
