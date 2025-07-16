@@ -70,12 +70,14 @@ export default function GeneratePage() {
   const tools: DrawingTool[] = [
     // Sketching tools
     { id: 'pencil', name: 'Pencil', icon: '✏️', category: 'sketch' },
+    { id: 'brush', name: 'Brush', icon: '🖌️', category: 'sketch' },
     { id: 'eraser', name: 'Eraser', icon: '🧽', category: 'sketch' },
     
     // Shape tools
     { id: 'line', name: 'Line', icon: '📏', category: 'shape' },
     { id: 'rectangle', name: 'Rectangle', icon: '⬜', category: 'shape' },
     { id: 'circle', name: 'Circle', icon: '⭕', category: 'shape' },
+    { id: 'triangle', name: 'Triangle', icon: '🔺', category: 'shape' },
     
     // Utility tools
     { id: 'fill', name: 'Fill', icon: '🎨', category: 'utility' },

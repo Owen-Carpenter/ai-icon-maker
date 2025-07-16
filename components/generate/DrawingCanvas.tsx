@@ -10,7 +10,7 @@ interface Point {
 
 interface DrawingElement {
   id: string;
-  type: 'pencil' | 'line' | 'rectangle' | 'circle' | 'stroke';
+  type: 'pencil' | 'brush' | 'line' | 'rectangle' | 'circle' | 'triangle' | 'stroke';
   points: Point[];
   color: string;
   size: number;
@@ -56,13 +56,47 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
     return Math.random().toString(36).substring(2, 11);
   }, []);
 
-  const calculateBounds = useCallback((points: Point[]): { x: number; y: number; width: number; height: number } => {
-    if (points.length === 0) return { x: 0, y: 0, width: 0, height: 0 };
+  const calculateBounds = useCallback((element: DrawingElement): { x: number; y: number; width: number; height: number } => {
+    if (element.points.length === 0) return { x: 0, y: 0, width: 0, height: 0 };
     
-    const minX = Math.min(...points.map(p => p.x));
-    const maxX = Math.max(...points.map(p => p.x));
-    const minY = Math.min(...points.map(p => p.y));
-    const maxY = Math.max(...points.map(p => p.y));
+    let minX, maxX, minY, maxY;
+    
+    if (element.type === 'circle' && element.points.length >= 2) {
+      // Special handling for circles
+      const centerX = element.points[0].x;
+      const centerY = element.points[0].y;
+      const radius = Math.sqrt(
+        Math.pow(element.points[1].x - element.points[0].x, 2) + 
+        Math.pow(element.points[1].y - element.points[0].y, 2)
+      );
+      
+      minX = centerX - radius;
+      maxX = centerX + radius;
+      minY = centerY - radius;
+      maxY = centerY + radius;
+    } else if (element.type === 'triangle' && element.points.length >= 2) {
+      // Special handling for triangles
+      const width = element.points[1].x - element.points[0].x;
+      const height = element.points[1].y - element.points[0].y;
+      
+      const topX = element.points[0].x + width / 2;
+      const topY = element.points[0].y;
+      const bottomLeftX = element.points[0].x;
+      const bottomLeftY = element.points[1].y;
+      const bottomRightX = element.points[1].x;
+      const bottomRightY = element.points[1].y;
+      
+      minX = Math.min(topX, bottomLeftX, bottomRightX);
+      maxX = Math.max(topX, bottomLeftX, bottomRightX);
+      minY = Math.min(topY, bottomLeftY, bottomRightY);
+      maxY = Math.max(topY, bottomLeftY, bottomRightY);
+    } else {
+      // Default handling for other shapes
+      minX = Math.min(...element.points.map(p => p.x));
+      maxX = Math.max(...element.points.map(p => p.x));
+      minY = Math.min(...element.points.map(p => p.y));
+      maxY = Math.max(...element.points.map(p => p.y));
+    }
     
     return {
       x: minX - 5, // Add padding for easier selection
@@ -116,6 +150,49 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
           ctx.fill();
         }
         break;
+
+      case 'brush':
+        // Brush tool - smoother, thicker strokes with variable opacity
+        if (element.points.length > 1) {
+          ctx.lineWidth = element.size * 1.5; // Make brush thicker than pencil
+          ctx.globalAlpha = 0.8; // Slightly transparent for softer look
+          ctx.beginPath();
+          ctx.moveTo(element.points[0].x, element.points[0].y);
+          
+          // Use quadratic curves for smoother strokes
+          for (let i = 1; i < element.points.length; i++) {
+            const prevPoint = element.points[i - 1];
+            const currentPoint = element.points[i];
+            const midPoint = {
+              x: (prevPoint.x + currentPoint.x) / 2,
+              y: (prevPoint.y + currentPoint.y) / 2
+            };
+            
+            if (i === 1) {
+              ctx.lineTo(midPoint.x, midPoint.y);
+            } else {
+              ctx.quadraticCurveTo(prevPoint.x, prevPoint.y, midPoint.x, midPoint.y);
+            }
+          }
+          
+          // Draw to the last point
+          if (element.points.length > 1) {
+            const lastPoint = element.points[element.points.length - 1];
+            ctx.lineTo(lastPoint.x, lastPoint.y);
+          }
+          
+          ctx.stroke();
+          ctx.globalAlpha = 1.0; // Reset alpha
+          ctx.lineWidth = element.size; // Reset line width
+        } else if (element.points.length === 1) {
+          // Draw a single brush dot
+          ctx.globalAlpha = 0.8;
+          ctx.beginPath();
+          ctx.arc(element.points[0].x, element.points[0].y, (element.size * 1.5) / 2, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.globalAlpha = 1.0;
+        }
+        break;
       
       case 'line':
         if (element.points.length >= 2) {
@@ -142,6 +219,21 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
           );
           ctx.beginPath();
           ctx.arc(element.points[0].x, element.points[0].y, radius, 0, 2 * Math.PI);
+          ctx.stroke();
+        }
+        break;
+
+      case 'triangle':
+        if (element.points.length >= 2) {
+          const width = element.points[1].x - element.points[0].x;
+          const height = element.points[1].y - element.points[0].y;
+          
+          // Draw triangle with three points
+          ctx.beginPath();
+          ctx.moveTo(element.points[0].x + width / 2, element.points[0].y); // Top point
+          ctx.lineTo(element.points[0].x, element.points[1].y); // Bottom left
+          ctx.lineTo(element.points[1].x, element.points[1].y); // Bottom right
+          ctx.closePath();
           ctx.stroke();
         }
         break;
@@ -253,7 +345,7 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
     
     const newElement: DrawingElement = {
       id: generateId(),
-      type: currentTool as 'pencil' | 'line' | 'rectangle' | 'circle',
+      type: currentTool as 'pencil' | 'brush' | 'line' | 'rectangle' | 'circle' | 'triangle',
       points: [pos],
       color: brushColor,
       size: brushSize
@@ -276,10 +368,13 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
             x: point.x + deltaX,
             y: point.y + deltaY
           }));
-          const newBounds = calculateBounds(newPoints);
-          return {
+          const updatedElement = {
             ...element,
-            points: newPoints,
+            points: newPoints
+          };
+          const newBounds = calculateBounds(updatedElement);
+          return {
+            ...updatedElement,
             bounds: newBounds
           };
         }
@@ -293,7 +388,7 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
 
     if (!isDrawing || !currentElement) return;
 
-    if (currentTool === 'pencil') {
+    if (currentTool === 'pencil' || currentTool === 'brush') {
       setCurrentElement(prev => prev ? {
         ...prev,
         points: [...prev.points, pos]
@@ -317,7 +412,7 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
     if (isDrawing && currentElement) {
       const finalElement = {
         ...currentElement,
-        bounds: calculateBounds(currentElement.points)
+        bounds: calculateBounds(currentElement)
       };
       
       setDrawingElements(prev => [...prev, finalElement]);
@@ -366,6 +461,7 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
   const getCursorStyle = useCallback(() => {
     switch (currentTool) {
       case 'pencil':
+      case 'brush':
         return 'crosshair';
       case 'eraser':
         return 'grab';
@@ -376,6 +472,7 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
       case 'line':
       case 'rectangle':
       case 'circle':
+      case 'triangle':
         return 'crosshair';
       default:
         return 'default';
