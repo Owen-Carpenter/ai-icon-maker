@@ -77,19 +77,29 @@ export default function GeneratePage() {
     { id: 'hand', name: 'Hand', icon: '✋', category: 'utility' },
   ];
 
-  const handleGenerate = async () => {
-    if (!prompt.trim() || !style) return;
+  const handleGenerate = async (canvasData?: string | null) => {
+    const hasPrompt = prompt.trim() && style;
+    const hasCanvas = canvasData !== null && canvasData !== undefined;
+
+    // Must have either prompt or canvas data
+    if (!hasPrompt && !hasCanvas) return;
 
     setIsGenerating(true);
     
     // Log the generation request (in real app, this would be sent to AI API)
-    console.log('Generating icon:', { prompt, style });
+    console.log('Generating icon:', { 
+      prompt: hasPrompt ? prompt : null, 
+      style: hasPrompt ? style : null,
+      primaryColor: hasPrompt ? primaryColor : null,
+      canvasData: hasCanvas ? 'Canvas drawing provided' : null,
+      mode: hasPrompt && hasCanvas ? 'prompt+canvas' : hasPrompt ? 'prompt-only' : 'canvas-only'
+    });
     
-    // Simulate AI processing with style-specific variations
+    // Simulate AI processing with different modes
     setTimeout(() => {
-      // Mock generated images - in real app, these would come from AI API with style applied
+      // Mock generated images - in real app, these would come from AI API
       const mockImages = [
-        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA8LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNGRjZDMDAiLz4KPC9zdmc+Cg==',
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNCIgZmlsbD0iI0ZGNkMwMCIvPgo8L3N2Zz4K'
       ];
@@ -105,6 +115,7 @@ export default function GeneratePage() {
 
   const handleRegenerateVariations = () => {
     if (generatedImages.length > 0) {
+      // Regenerate with last used mode (no canvas data for prompt-only regeneration)
       handleGenerate();
     }
   };
@@ -136,22 +147,10 @@ export default function GeneratePage() {
           </div>
         )}
 
-        {/* AI Prompt Input */}
-        <PromptInput
-          prompt={prompt}
-          setPrompt={setPrompt}
-          style={style}
-          setStyle={setStyle}
-          primaryColor={primaryColor}
-          setPrimaryColor={setPrimaryColor}
-          onGenerate={handleGenerate}
-          isGenerating={isGenerating}
-        />
-
-        {/* Main Interface */}
-        <div className="grid grid-cols-12 gap-6 max-w-7xl mx-auto">
-          {/* Left Panel - Drawing Tools */}
-          <div className="col-span-12 lg:col-span-2">
+        {/* Main Interface - Custom Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          {/* Top Row - Both components take 2 columns each */}
+          <div className="lg:col-span-2 order-1 h-80">
             <DrawingTools
               tools={tools}
               currentTool={currentTool}
@@ -164,18 +163,33 @@ export default function GeneratePage() {
             />
           </div>
 
-          {/* Center Panel - Drawing Canvas */}
-          <div className="col-span-12 lg:col-span-7">
+          <div className="lg:col-span-2 order-2 h-80">
+            <PromptInput
+              prompt={prompt}
+              setPrompt={setPrompt}
+              style={style}
+              setStyle={setStyle}
+              primaryColor={primaryColor}
+              setPrimaryColor={setPrimaryColor}
+              onGenerate={handleGenerate}
+              isGenerating={isGenerating}
+            />
+          </div>
+
+          {/* Drawing Canvas (Large) */}
+          <div className="lg:col-span-3 order-3">
             <DrawingCanvas
               currentTool={currentTool}
               brushSize={brushSize}
               brushColor={brushColor}
               onClearCanvas={handleClearCanvas}
+              onGenerate={handleGenerate}
+              isGenerating={isGenerating}
             />
           </div>
 
-          {/* Right Panel - Generated Icons */}
-          <div className="col-span-12 lg:col-span-3">
+          {/* AI Chat Panel */}
+          <div className="lg:col-span-1 order-4">
             <GenerationPanel
               generatedImages={generatedImages}
               isGenerating={isGenerating}

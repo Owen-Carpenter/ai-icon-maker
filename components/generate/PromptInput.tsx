@@ -30,8 +30,8 @@ export default function PromptInput({ prompt, setPrompt, style, setStyle, primar
   ];
 
   return (
-    <div className="max-w-4xl mx-auto mb-6">
-      <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-6">
+    <div className="w-full h-full">
+      <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 p-6 h-full flex flex-col">
         {/* Main Prompt Input */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-white mb-2">
@@ -46,58 +46,61 @@ export default function PromptInput({ prompt, setPrompt, style, setStyle, primar
         </div>
 
         {/* Controls Row */}
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-end">
-          {/* Style Selection */}
-          <div className="flex-1 min-w-0">
-            <label className="block text-sm font-medium text-white mb-2">
-              Style
-            </label>
-            <Select value={style} onValueChange={setStyle}>
-              <SelectTrigger className="w-full h-10">
-                <SelectValue placeholder="Choose a style..." />
-              </SelectTrigger>
-              <SelectContent>
-                {iconStyles.map((iconStyle) => (
-                  <SelectItem key={iconStyle.value} value={iconStyle.value}>
-                    <div className="flex flex-col">
-                      <span className="font-medium">{iconStyle.label}</span>
-                      <span className="text-xs text-gray-400">{iconStyle.description}</span>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="flex flex-col gap-4 items-start flex-1">
+          {/* Style and Color Row */}
+          <div className="flex gap-4 w-full">
+            {/* Style Selection */}
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-white mb-2">
+                Style
+              </label>
+              <Select value={style} onValueChange={setStyle}>
+                <SelectTrigger className="w-full h-10">
+                  <SelectValue placeholder="Choose a style..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {iconStyles.map((iconStyle) => (
+                    <SelectItem key={iconStyle.value} value={iconStyle.value}>
+                      <div className="flex flex-col">
+                        <span className="font-medium">{iconStyle.label}</span>
+                        <span className="text-xs text-gray-400">{iconStyle.description}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          {/* Primary Color Selection */}
-          <div className="flex-shrink-0">
-            <label className="block text-sm font-medium text-white mb-2">
-              Primary Color
-            </label>
-            <input
-              type="color"
-              value={primaryColor}
-              onChange={(e) => setPrimaryColor(e.target.value)}
-              className="w-20 h-10 rounded-lg border border-white/20 bg-white/10 cursor-pointer"
-              title="Choose primary color"
-            />
+            {/* Primary Color Selection */}
+            <div className="flex-shrink-0">
+              <label className="block text-sm font-medium text-white mb-2">
+                Primary Color
+              </label>
+              <input
+                type="color"
+                value={primaryColor}
+                onChange={(e) => setPrimaryColor(e.target.value)}
+                className="w-20 h-10 rounded-lg border border-white/20 bg-white/10 cursor-pointer"
+                title="Choose primary color"
+              />
+            </div>
           </div>
 
           {/* Generate Button */}
-          <div className="flex-shrink-0">
+          <div className="w-full mt-auto">
             <Button
-              onClick={onGenerate}
-              disabled={isGenerating || !prompt.trim() || !style}
+              onClick={() => onGenerate()}
+              disabled={isGenerating || (!prompt.trim() || !style)}
               size="lg"
-              className="px-8"
+              className="w-full bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isGenerating ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                  Generating...
+                  Generating from Prompt...
                 </>
               ) : (
-                'Generate Icons'
+                'Generate from Prompt'
               )}
             </Button>
           </div>
@@ -109,12 +112,21 @@ export default function PromptInput({ prompt, setPrompt, style, setStyle, primar
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
               <p className="text-sm text-gray-300">
-                <span className="text-white font-medium">Ready to generate:</span> {iconStyles.find(s => s.value === style)?.label} style icon of "{prompt}" 
+                <span className="text-white font-medium">Ready to generate from prompt:</span> {iconStyles.find(s => s.value === style)?.label} style icon of "{prompt}" 
                 <span className="inline-flex items-center gap-1 ml-2">
                   in <span className="inline-block w-3 h-3 rounded-full border border-gray-500" style={{ backgroundColor: primaryColor }}></span> color
                 </span>
               </p>
             </div>
+          </div>
+        )}
+
+        {/* Instructions */}
+        {!prompt && !style && (
+          <div className="mt-4 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+            <p className="text-sm text-blue-300">
+              <span className="text-blue-200 font-medium">Tip:</span> You can generate icons from text prompts here, drawings on the canvas, or combine both approaches for unique results!
+            </p>
           </div>
         )}
       </div>

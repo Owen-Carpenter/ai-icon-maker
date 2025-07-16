@@ -22,9 +22,11 @@ interface DrawingCanvasProps {
   brushSize: number;
   brushColor: string;
   onClearCanvas: () => void;
+  onGenerate?: (canvasData: string | null) => void;
+  isGenerating?: boolean;
 }
 
-export default function DrawingCanvas({ currentTool, brushSize, brushColor, onClearCanvas }: DrawingCanvasProps) {
+export default function DrawingCanvas({ currentTool, brushSize, brushColor, onClearCanvas, onGenerate, isGenerating = false }: DrawingCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const [drawingElements, setDrawingElements] = useState<DrawingElement[]>([]);
@@ -342,6 +344,25 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
     }
   }, [selectedElement]);
 
+  const exportCanvasData = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+    
+    // Export as base64 image data
+    return canvas.toDataURL('image/png');
+  }, []);
+
+  const hasDrawing = useCallback(() => {
+    return drawingElements.length > 0;
+  }, [drawingElements]);
+
+  const handleGenerate = useCallback(() => {
+    if (onGenerate) {
+      const canvasData = hasDrawing() ? exportCanvasData() : null;
+      onGenerate(canvasData);
+    }
+  }, [onGenerate, hasDrawing, exportCanvasData]);
+
   const getCursorStyle = useCallback(() => {
     switch (currentTool) {
       case 'pencil':
@@ -383,38 +404,61 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
       </div>
       
       {/* Canvas Controls */}
-      <div className="mt-4 flex justify-between items-center">
-        <div className="text-white text-sm">
-          Tool: <span className="font-semibold capitalize">{currentTool}</span>
-          {currentTool !== 'fill' && currentTool !== 'hand' && (
-            <span className="ml-2">Size: {brushSize}px</span>
-          )}
-          {currentTool === 'hand' && selectedElement && (
-            <span className="ml-2">Selected</span>
-          )}
-        </div>
-        <div className="flex space-x-2">
-          <Button variant="secondary" size="sm">
-            Save Draft
-          </Button>
-          <Button variant="outline" size="sm">
-            Export PNG
-          </Button>
-          {selectedElement && (
-            <Button 
-              variant="destructive" 
-              size="sm" 
-              onClick={deleteSelected}
-              className="flex items-center space-x-1"
-            >
-              <span>🗑️</span>
-              <span>Delete</span>
+      <div className="mt-4 space-y-3">
+        <div className="flex justify-between items-center">
+          <div className="text-white text-sm">
+            Tool: <span className="font-semibold capitalize">{currentTool}</span>
+            {currentTool !== 'fill' && currentTool !== 'hand' && (
+              <span className="ml-2">Size: {brushSize}px</span>
+            )}
+            {currentTool === 'hand' && selectedElement && (
+              <span className="ml-2">Selected</span>
+            )}
+          </div>
+          <div className="flex space-x-2">
+            <Button variant="secondary" size="sm">
+              Save Draft
             </Button>
-          )}
-          <Button variant="destructive" size="sm" onClick={clearCanvas}>
-            Clear
-          </Button>
+            <Button variant="outline" size="sm">
+              Export PNG
+            </Button>
+            {selectedElement && (
+              <Button 
+                variant="destructive" 
+                size="sm" 
+                onClick={deleteSelected}
+                className="flex items-center space-x-1"
+              >
+                <span>🗑️</span>
+                <span>Delete</span>
+              </Button>
+            )}
+            <Button variant="destructive" size="sm" onClick={clearCanvas}>
+              Clear
+            </Button>
+          </div>
         </div>
+        
+        {/* Generate from Canvas */}
+        {hasDrawing() && (
+          <div className="flex justify-center">
+                         <Button 
+               onClick={handleGenerate}
+               disabled={isGenerating}
+               size="lg"
+               className="px-8 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+             >
+              {isGenerating ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                  Generating from Drawing...
+                </>
+              ) : (
+                'Generate from Drawing'
+              )}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
