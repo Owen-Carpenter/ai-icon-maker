@@ -119,35 +119,50 @@ function AccountPageContent() {
                   <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                     isPaidPlan 
                       ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white' 
-                      : 'bg-gray-600 text-gray-300'
+                      : 'bg-red-500/20 text-red-400 border border-red-500/30'
                   }`}>
                     {(() => {
                       const plan = userData?.subscription_plan || '';
+                      if (!isPaidPlan) return 'Subscription Required';
                       if (plan === 'unlimited') return 'Enterprise';
                       return plan.charAt(0).toUpperCase() + plan.slice(1);
                     })()}
                   </span>
                 </div>
                 
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-300">Credits Remaining:</span>
-                  <span className="flex items-center text-white font-semibold">
-                    <Zap className="h-4 w-4 mr-1 text-yellow-400" />
-                    {userData?.credits_remaining || 0}
-                    {userData?.subscription_plan === 'unlimited' && (
-                      <span className="ml-1 text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">
-                        Enterprise
+                {isPaidPlan ? (
+                  <>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-300">Credits Remaining:</span>
+                      <span className="flex items-center text-white font-semibold">
+                        <Zap className="h-4 w-4 mr-1 text-yellow-400" />
+                        {userData?.credits_remaining || 0}
+                        {userData?.subscription_plan === 'unlimited' && (
+                          <span className="ml-1 text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">
+                            Enterprise
+                          </span>
+                        )}
                       </span>
-                    )}
-                  </span>
-                </div>
+                    </div>
 
-                {userData?.total_generations_used !== undefined && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-300">Total Generated:</span>
-                    <span className="text-white font-semibold">
-                      {userData.total_generations_used}
-                    </span>
+                    {userData?.total_generations_used !== undefined && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-300">Total Generated:</span>
+                        <span className="text-white font-semibold">
+                          {userData.total_generations_used}
+                        </span>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4">
+                    <div className="flex items-center mb-2">
+                      <Crown className="h-5 w-5 text-orange-400 mr-2" />
+                      <span className="text-orange-400 font-semibold">Access Required</span>
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                      Subscribe to start generating custom icons with AI. Choose from our flexible plans below to unlock unlimited creativity.
+                    </p>
                   </div>
                 )}
 
