@@ -1,3 +1,6 @@
+'use client';
+
+import React, { useState } from 'react';
 import ScrollAnimation from '../../components/ScrollAnimation';
 import Navbar from '../../components/Navbar';
 import Contact from '../../components/Contact';
@@ -6,6 +9,37 @@ import TestimonialCarousel from '../../components/TestimonialCarousel';
 import Link from 'next/link';
 
 export default function HomePage() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleCheckout = async (planType: string) => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ planType }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        window.location.href = data.url;
+      } else {
+        // If not authenticated, redirect to register
+        window.location.href = '/register';
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      // Fallback to registration
+      window.location.href = '/register';
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-dark-gradient">
       {/* Navigation */}
@@ -459,12 +493,13 @@ export default function HomePage() {
                   </li>
               </ul>
                 
-                <Link 
-                  href="/register" 
-                  className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl"
+                <button 
+                  onClick={() => handleCheckout('pro')}
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Start Creating Icons
-                </Link>
+                  {isLoading ? 'Processing...' : 'Start Creating Icons'}
+                </button>
               </div>
             </ScrollAnimation>
 
@@ -530,12 +565,13 @@ export default function HomePage() {
                   </li>
                 </ul>
                 
-                <Link 
-                  href="/register" 
-                  className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-purple-600 transition-all duration-300 text-center block"
+                <button 
+                  onClick={() => handleCheckout('unlimited')}
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-purple-600 transition-all duration-300 text-center block disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Start Creating Icons
-                </Link>
+                  {isLoading ? 'Processing...' : 'Start Creating Icons'}
+                </button>
               </div>
             </ScrollAnimation>
           </div>
@@ -646,12 +682,13 @@ export default function HomePage() {
                 </ScrollAnimation>
                 <ScrollAnimation delay={600}>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Link 
-                      href="/register" 
-                      className="bg-gradient-to-r from-sunset-500 to-coral-500 text-white px-8 py-3 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    <button 
+                      onClick={() => handleCheckout('pro')}
+                      disabled={isLoading}
+                      className="bg-gradient-to-r from-sunset-500 to-coral-500 text-white px-8 py-3 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Start Your Subscription
-                    </Link>
+                      {isLoading ? 'Processing...' : 'Start Your Subscription'}
+                    </button>
                     <Link 
                       href="#contact" 
                       className="bg-transparent border-2 border-sunset-500 text-sunset-500 px-8 py-3 rounded-full font-semibold hover:bg-sunset-500 hover:text-white transition-all duration-300"

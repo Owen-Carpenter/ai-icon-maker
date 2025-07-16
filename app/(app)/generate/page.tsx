@@ -6,6 +6,8 @@ import PromptInput from '../../../components/generate/PromptInput';
 import DrawingTools from '../../../components/generate/DrawingTools';
 import DrawingCanvas from '../../../components/generate/DrawingCanvas';
 import GenerationPanel from '../../../components/generate/GenerationPanel';
+import SubscriptionGate from '../../../components/SubscriptionGate';
+import { useAuth } from '../../../contexts/AuthContext';
 
 interface DrawingTool {
   id: string;
@@ -15,12 +17,32 @@ interface DrawingTool {
 }
 
 export default function GeneratePage() {
+  const { user, hasActiveSubscription, loading } = useAuth();
   const [currentTool, setCurrentTool] = useState('pencil');
   const [brushSize, setBrushSize] = useState(5);
   const [brushColor, setBrushColor] = useState('#000000');
   const [prompt, setPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
+  // Show subscription gate if user doesn't have active subscription
+  if (!hasActiveSubscription) {
+    return (
+      <SubscriptionGate 
+        title="AI Icon Generator"
+        description="Start creating amazing icons with AI assistance. A subscription is required to access the icon generator."
+      />
+    );
+  }
 
   const tools: DrawingTool[] = [
     // Sketching tools

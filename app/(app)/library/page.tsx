@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import Navbar from '../../../components/Navbar';
 import Link from 'next/link';
+import SubscriptionGate from '../../../components/SubscriptionGate';
 
 interface SavedIcon {
   id: string;
@@ -16,7 +17,7 @@ interface SavedIcon {
 }
 
 export default function LibraryPage() {
-  const { user, loading } = useAuth();
+  const { user, hasActiveSubscription, loading } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedFormat, setSelectedFormat] = useState('all');
@@ -107,6 +108,16 @@ export default function LibraryPage() {
       <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
         <div className="text-white">Loading...</div>
       </div>
+    );
+  }
+
+  // Show subscription gate if user doesn't have active subscription
+  if (!hasActiveSubscription) {
+    return (
+      <SubscriptionGate 
+        title="Icon Library"
+        description="Access your saved icons and manage your collection. A subscription is required to access the icon library."
+      />
     );
   }
 
