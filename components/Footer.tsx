@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import SmartGenerateLink from './SmartGenerateLink';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -51,9 +50,9 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">Product</h3>
             <ul className="space-y-3">
               <li>
-                <SmartGenerateLink className="text-gray-300 hover:text-white transition-colors duration-300">
+                <Link href="/generate" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Generate Icons
-                </SmartGenerateLink>
+                </Link>
               </li>
               <li>
                 <Link href="/library" className="text-gray-300 hover:text-white transition-colors duration-300">
