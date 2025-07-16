@@ -52,6 +52,11 @@ export default function GeneratePage() {
     }
   }, [loading, hasActiveSubscription, router]);
 
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Show loading state
   if (loading) {
     return <Loading text="Loading your workspace..." />;
