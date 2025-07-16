@@ -149,21 +149,8 @@ export default function GeneratePage() {
 
         {/* Main Interface - Custom Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {/* Top Row - Both components take 2 columns each */}
-          <div className="lg:col-span-2 order-1 h-80">
-            <DrawingTools
-              tools={tools}
-              currentTool={currentTool}
-              setCurrentTool={setCurrentTool}
-              brushSize={brushSize}
-              setBrushSize={setBrushSize}
-              brushColor={brushColor}
-              setBrushColor={setBrushColor}
-              onClearCanvas={handleClearCanvas}
-            />
-          </div>
-
-          <div className="lg:col-span-2 order-2 h-80">
+          {/* PromptInput - First on mobile, Right on desktop */}
+          <div className="lg:col-span-2 order-1 lg:order-2 h-80">
             <PromptInput
               prompt={prompt}
               setPrompt={setPrompt}
@@ -176,7 +163,21 @@ export default function GeneratePage() {
             />
           </div>
 
-          {/* Drawing Canvas (Large) */}
+          {/* DrawingTools - Second on mobile, Left on desktop */}
+          <div className="lg:col-span-2 order-2 lg:order-1 h-80 mb-0 lg:mb-6">
+            <DrawingTools
+              tools={tools}
+              currentTool={currentTool}
+              setCurrentTool={setCurrentTool}
+              brushSize={brushSize}
+              setBrushSize={setBrushSize}
+              brushColor={brushColor}
+              setBrushColor={setBrushColor}
+              onClearCanvas={handleClearCanvas}
+            />
+          </div>
+
+          {/* Drawing Canvas - Third on mobile, touches DrawingTools */}
           <div className="lg:col-span-3 order-3">
             <DrawingCanvas
               currentTool={currentTool}
@@ -188,7 +189,7 @@ export default function GeneratePage() {
             />
           </div>
 
-          {/* AI Chat Panel */}
+          {/* AI Chat Panel - Last on mobile */}
           <div className="lg:col-span-1 order-4">
             <GenerationPanel
               generatedImages={generatedImages}
