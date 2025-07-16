@@ -29,6 +29,7 @@ export default function GeneratePage() {
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  // All useEffect hooks must be called before any conditional returns
   useEffect(() => {
     const success = searchParams.get('success');
     
@@ -40,6 +41,13 @@ export default function GeneratePage() {
     }
   }, [searchParams, refreshUserData]);
 
+  // Redirect to pricing section if user doesn't have active subscription
+  useEffect(() => {
+    if (!loading && !hasActiveSubscription) {
+      router.replace('/#pricing');
+    }
+  }, [loading, hasActiveSubscription, router]);
+
   // Show loading state
   if (loading) {
     return (
@@ -48,13 +56,6 @@ export default function GeneratePage() {
       </div>
     );
   }
-
-  // Redirect to pricing section if user doesn't have active subscription
-  useEffect(() => {
-    if (!loading && !hasActiveSubscription) {
-      router.replace('/#pricing');
-    }
-  }, [loading, hasActiveSubscription, router]);
 
   // Show loading or redirect if no subscription
   if (!hasActiveSubscription) {
