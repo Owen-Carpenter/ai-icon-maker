@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '../../../lib/supabase'
 
-export default function VerifyPage() {
+function VerifyContent() {
   const [message, setMessage] = useState('Verifying your email...')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -71,6 +71,54 @@ export default function VerifyPage() {
   }, [searchParams, router])
 
   return (
+    <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+      <div className="text-center space-y-4">
+        {isLoading && (
+          <div className="flex justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+          </div>
+        )}
+        
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+            <p className="text-red-400 text-sm">{error}</p>
+          </div>
+        )}
+
+        {message && !error && (
+          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+            <p className="text-green-400 text-sm">{message}</p>
+          </div>
+        )}
+
+        <div className="pt-4">
+          <p className="text-gray-300 text-sm">
+            Need help?{' '}
+            <Link href="/login" className="text-orange-400 hover:text-orange-300 transition-colors duration-300">
+              Back to login
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function VerifyFallback() {
+  return (
+    <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+      <div className="text-center space-y-4">
+        <div className="flex justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+        </div>
+        <p className="text-gray-300">Loading...</p>
+      </div>
+    </div>
+  )
+}
+
+export default function VerifyPage() {
+  return (
     <div className="min-h-screen bg-dark-gradient flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
@@ -87,36 +135,9 @@ export default function VerifyPage() {
           </h2>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-          <div className="text-center space-y-4">
-            {isLoading && (
-              <div className="flex justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
-              </div>
-            )}
-            
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-                <p className="text-red-400 text-sm">{error}</p>
-              </div>
-            )}
-
-            {message && !error && (
-              <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
-                <p className="text-green-400 text-sm">{message}</p>
-              </div>
-            )}
-
-            <div className="pt-4">
-              <p className="text-gray-300 text-sm">
-                Need help?{' '}
-                <Link href="/login" className="text-orange-400 hover:text-orange-300 transition-colors duration-300">
-                  Back to login
-                </Link>
-              </p>
-            </div>
-          </div>
-        </div>
+        <Suspense fallback={<VerifyFallback />}>
+          <VerifyContent />
+        </Suspense>
       </div>
     </div>
   )
