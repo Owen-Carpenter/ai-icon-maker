@@ -115,4 +115,47 @@ body {
 html {
   scrollbar-width: thin;
   scrollbar-color: #ff7e5f #181c24;
-} 
+}
+
+/* Glass swipe animation for feature cards */
+@keyframes glass-swipe {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  20% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  30% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+.glass-swipe {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-swipe::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: glass-swipe 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* All cards animate in unison */ 
