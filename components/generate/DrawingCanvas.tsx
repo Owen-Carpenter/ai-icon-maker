@@ -124,6 +124,78 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
     return null;
   }, [drawingElements, isPointInBounds]);
 
+  const hexToRgb = useCallback((hex: string): { r: number; g: number; b: number } => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : { r: 0, g: 0, b: 0 };
+  }, []);
+
+  const colorsMatch = useCallback((data: Uint8ClampedArray, index: number, targetColor: { r: number; g: number; b: number }): boolean => {
+    return data[index] === targetColor.r && 
+           data[index + 1] === targetColor.g && 
+           data[index + 2] === targetColor.b;
+  }, []);
+
+  const floodFill = useCallback((startPoint: Point, fillColor: string) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+
+    const { r: fillR, g: fillG, b: fillB } = hexToRgb(fillColor);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    
+    const startX = Math.floor(startPoint.x);
+    const startY = Math.floor(startPoint.y);
+    
+    if (startX < 0 || startX >= canvas.width || startY < 0 || startY >= canvas.height) return;
+    
+    const startIndex = (startY * canvas.width + startX) * 4;
+    const targetColor = {
+      r: data[startIndex],
+      g: data[startIndex + 1],
+      b: data[startIndex + 2]
+    };
+    
+    // Don't fill if target color is the same as fill color
+    if (targetColor.r === fillR && targetColor.g === fillG && targetColor.b === fillB) return;
+    
+    const stack: Point[] = [{ x: startX, y: startY }];
+    const visited = new Set<string>();
+    
+    while (stack.length > 0) {
+      const point = stack.pop()!;
+      const { x, y } = point;
+      const key = `${x},${y}`;
+      
+      if (visited.has(key)) continue;
+      if (x < 0 || x >= canvas.width || y < 0 || y >= canvas.height) continue;
+      
+      const index = (y * canvas.width + x) * 4;
+      
+      if (!colorsMatch(data, index, targetColor)) continue;
+      
+      visited.add(key);
+      
+      // Fill this pixel
+      data[index] = fillR;
+      data[index + 1] = fillG;
+      data[index + 2] = fillB;
+      data[index + 3] = 255; // Full opacity
+      
+      // Add neighboring pixels to stack
+      stack.push({ x: x + 1, y });
+      stack.push({ x: x - 1, y });
+      stack.push({ x, y: y + 1 });
+      stack.push({ x, y: y - 1 });
+    }
+    
+    ctx.putImageData(imageData, 0, 0);
+  }, [hexToRgb, colorsMatch]);
+
   const drawElement = useCallback((ctx: CanvasRenderingContext2D, element: DrawingElement) => {
     ctx.save();
     ctx.strokeStyle = element.color;
@@ -335,7 +407,7 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
     }
 
     if (currentTool === 'fill') {
-      // Fill functionality would go here
+      floodFill(pos, brushColor);
       return;
     }
 
@@ -520,12 +592,15 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
       <div className="mt-4 space-y-3">
         <div className="flex justify-between items-center">
           <div className="text-white text-sm">
-            Tool: <span className="font-semibold capitalize">{currentTool}</span>
+            Tool: <span className="font-semibold capitalize">{currentTool === 'fill' ? 'Fill Bucket' : currentTool}</span>
             {currentTool !== 'fill' && currentTool !== 'hand' && (
               <span className="ml-2">Size: {brushSize}px</span>
             )}
             {currentTool === 'hand' && selectedElement && (
               <span className="ml-2">Selected</span>
+            )}
+            {currentTool === 'fill' && (
+              <span className="ml-2">Click to fill closed areas</span>
             )}
           </div>
           <div className="flex space-x-2">
