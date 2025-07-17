@@ -604,9 +604,23 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
             )}
           </div>
           <div className="flex space-x-2">
-            <Button variant="secondary" size="sm">
-              Save Draft
-            </Button>
+            {hasDrawing() && (
+              <Button 
+                onClick={handleGenerate}
+                disabled={isGenerating}
+                size="sm"
+                className="bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              >
+                {isGenerating ? (
+                  <>
+                    <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin mr-1" />
+                    Generating...
+                  </>
+                ) : (
+                  'Generate'
+                )}
+              </Button>
+            )}
             <Button variant="outline" size="sm">
               Export PNG
             </Button>
@@ -626,27 +640,6 @@ export default function DrawingCanvas({ currentTool, brushSize, brushColor, onCl
             </Button>
           </div>
         </div>
-        
-        {/* Generate from Canvas */}
-        {hasDrawing() && (
-          <div className="flex justify-center">
-                         <Button 
-               onClick={handleGenerate}
-               disabled={isGenerating}
-               size="lg"
-               className="px-8 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-             >
-              {isGenerating ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                  Generating from Drawing...
-                </>
-              ) : (
-                'Generate from Drawing'
-              )}
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   );
