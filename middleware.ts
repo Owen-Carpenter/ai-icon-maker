@@ -63,13 +63,6 @@ export async function middleware(req: NextRequest) {
   const accountRoutes = ['/account'] // Routes that require auth but not necessarily subscription
   const authRoutes = ['/login', '/register', '/forgot-password']
   const publicRoutes = ['/'] // Routes that don't require auth
-  const callbackRoutes = ['/auth/callback'] // OAuth callback routes - skip all checks
-
-  // Skip middleware for OAuth callback routes
-  const isCallbackRoute = callbackRoutes.some(route => req.nextUrl.pathname.startsWith(route))
-  if (isCallbackRoute) {
-    return response
-  }
 
   const { data: { user } } = await supabase.auth.getUser()
 

@@ -14,33 +14,49 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        // Get the URL search params to check for OAuth code
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
+        // Handle the OAuth callback
+        const { data, error } = await supabase.auth.getSession();
         
-        if (code) {
-          // Exchange the OAuth code for a session
-          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-          
-          if (error) {
-            console.error('OAuth code exchange error:', error);
-            setError('Authentication failed. Please try again.');
-            setLoading(false);
-            return;
-          }
-
-          if (data.session) {
-            // Successfully authenticated, use absolute URL for redirect
-            const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-            window.location.href = `${baseUrl}/generate`;
-            return;
-          }
+        if (error) {
+          console.error('Auth callback error:', error);
+          setError('Authentication failed. Please try again.');
+          setLoading(false);
+          return;
         }
-        
-        // If no code or session failed, redirect to login with absolute URL
-        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-        window.location.href = `${baseUrl}/login?error=authentication_failed`;
-        
+
+        if (data.session?.user) {
+          console.log('OAuth login successful:', data.session.user.email);
+          
+          // Give a moment for the auth context to update
+          setTimeout(() => {
+            // Check if user has subscription and redirect accordingly
+            const checkUserAndRedirect = async () => {
+              try {
+                const response = await fetch('/api/user/profile');
+                if (response.ok) {
+                  const userData = await response.json();
+                  if (userData.hasActiveSubscription) {
+                    window.location.href = '/generate';
+                  } else {
+                    window.location.href = '/account';
+                  }
+                } else {
+                  // Fallback to account page
+                  window.location.href = '/account';
+                }
+              } catch (err) {
+                console.error('Error checking user profile:', err);
+                window.location.href = '/account';
+              }
+            };
+            
+            checkUserAndRedirect();
+          }, 500);
+        } else {
+          // No session found, redirect to login
+          console.log('No session found in callback');
+          router.push('/login?error=authentication_failed');
+        }
       } catch (err) {
         console.error('Unexpected error during auth callback:', err);
         setError('An unexpected error occurred. Please try again.');
@@ -48,8 +64,11 @@ export default function AuthCallback() {
       }
     };
 
-    handleAuthCallback();
-  }, []); // Remove router dependency to prevent re-runs
+    // Small delay to ensure URL params are processed
+    const timeoutId = setTimeout(handleAuthCallback, 100);
+    
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   if (loading) {
     return <Loading text="Completing sign in with Google..." size="lg" />;
@@ -59,22 +78,16 @@ export default function AuthCallback() {
     return (
       <div className="min-h-screen bg-dark-gradient flex items-center justify-center py-12 px-4">
         <div className="max-w-md w-full">
-                     {/* Site Header */}
-           <div className="text-center mb-8">
-             <button 
-               onClick={() => {
-                 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-                 window.location.href = baseUrl;
-               }}
-               className="flex items-center justify-center space-x-2 group mb-6 bg-transparent border-none cursor-pointer"
-             >
+          {/* Site Header */}
+          <div className="text-center mb-8">
+            <Link href="/" className="flex items-center justify-center space-x-2 group mb-6">
               <div className="w-12 h-12 bg-[#ff7e5f] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                             </div>
-               <span className="text-2xl font-bold text-white">AI Icon Maker</span>
-             </button>
+              </div>
+              <span className="text-2xl font-bold text-white">AI Icon Maker</span>
+            </Link>
           </div>
 
           {/* Error Card */}
@@ -89,43 +102,29 @@ export default function AuthCallback() {
             <h1 className="text-2xl font-bold text-white mb-4">Authentication Error</h1>
             <p className="text-white/70 mb-8 leading-relaxed">{error}</p>
             
-                         {/* Action Buttons */}
-             <div className="flex flex-col sm:flex-row gap-3">
-               <button
-                 onClick={() => {
-                   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-                   window.location.href = `${baseUrl}/login`;
-                 }}
-                 className="flex-1 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
-               >
-                 Back to Login
-               </button>
-               <button
-                 onClick={() => {
-                   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-                   window.location.href = baseUrl;
-                 }}
-                 className="flex-1 bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-white/20 hover:border-white/30 text-center"
-               >
-                 Go Home
-               </button>
-             </div>
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => router.push('/login')}
+                className="flex-1 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                Back to Login
+              </button>
+              <Link
+                href="/"
+                className="flex-1 bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-white/20 hover:border-white/30 text-center"
+              >
+                Go Home
+              </Link>
+            </div>
           </div>
 
-                     {/* Help Text */}
-           <div className="mt-6 text-center">
-             <p className="text-white/60 text-sm">
-               Need help? <button 
-                 onClick={() => {
-                   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-                   window.location.href = `${baseUrl}/#contact`;
-                 }}
-                 className="text-orange-400 hover:text-orange-300 transition-colors duration-300 font-medium underline bg-transparent border-none cursor-pointer"
-               >
-                 Contact support
-               </button>
-             </p>
-           </div>
+          {/* Help Text */}
+          <div className="mt-6 text-center">
+            <p className="text-white/60 text-sm">
+              Need help? <Link href="/#contact" className="text-orange-400 hover:text-orange-300 transition-colors duration-300 font-medium">Contact support</Link>
+            </p>
+          </div>
         </div>
       </div>
     );

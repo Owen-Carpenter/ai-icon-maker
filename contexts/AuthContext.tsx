@@ -99,9 +99,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         setLoading(false)
         
-        // Only force page refresh for email/password sign in, not OAuth
-        if (event === 'SIGNED_IN' && !window.location.pathname.includes('/auth/callback')) {
-          window.location.reload()
+        // Only reload if we're not on the OAuth callback page
+        // and not already on a protected route
+        if (event === 'SIGNED_IN' && 
+            !window.location.pathname.includes('/auth/callback') &&
+            !window.location.pathname.includes('/generate') &&
+            !window.location.pathname.includes('/library') &&
+            !window.location.pathname.includes('/account')) {
+          // Small delay to ensure state is updated
+          setTimeout(() => {
+            window.location.href = '/generate'
+          }, 100)
         }
       }
     )

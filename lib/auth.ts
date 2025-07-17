@@ -27,13 +27,10 @@ export const authService = {
 
   // Sign in with Google OAuth
   async signInWithGoogle() {
-    // Use environment variable for production URL, fallback to current origin for development
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-    
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${baseUrl}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback`,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
@@ -51,11 +48,8 @@ export const authService = {
 
   // Reset password
   async resetPassword(email: string) {
-    // Use environment variable for production URL, fallback to current origin for development
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
-    
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${baseUrl}/reset-password`,
+      redirectTo: `${window.location.origin}/reset-password`,
     })
     return { error }
   },

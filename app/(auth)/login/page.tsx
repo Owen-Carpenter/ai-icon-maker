@@ -24,8 +24,8 @@ export default function LoginPage() {
       if (error) {
         setError(error.message)
       } else {
-        // Force a page refresh to ensure middleware runs
-        window.location.href = '/generate'
+        // Redirect without forced reload - let the auth context handle it
+        router.push('/generate')
       }
     } catch (error) {
       setError('An unexpected error occurred')
