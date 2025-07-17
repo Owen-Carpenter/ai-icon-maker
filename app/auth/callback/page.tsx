@@ -30,15 +30,16 @@ export default function AuthCallback() {
           }
 
           if (data.session) {
-            // Successfully authenticated, use window.location.href for hard redirect
-            // This ensures middleware runs and prevents infinite loops
-            window.location.href = '/generate';
+            // Successfully authenticated, use absolute URL for redirect
+            const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+            window.location.href = `${baseUrl}/generate`;
             return;
           }
         }
         
-        // If no code or session failed, redirect to login
-        window.location.href = '/login?error=authentication_failed';
+        // If no code or session failed, redirect to login with absolute URL
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+        window.location.href = `${baseUrl}/login?error=authentication_failed`;
         
       } catch (err) {
         console.error('Unexpected error during auth callback:', err);
@@ -58,16 +59,22 @@ export default function AuthCallback() {
     return (
       <div className="min-h-screen bg-dark-gradient flex items-center justify-center py-12 px-4">
         <div className="max-w-md w-full">
-          {/* Site Header */}
-          <div className="text-center mb-8">
-            <Link href="/" className="flex items-center justify-center space-x-2 group mb-6">
+                     {/* Site Header */}
+           <div className="text-center mb-8">
+             <button 
+               onClick={() => {
+                 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+                 window.location.href = baseUrl;
+               }}
+               className="flex items-center justify-center space-x-2 group mb-6 bg-transparent border-none cursor-pointer"
+             >
               <div className="w-12 h-12 bg-[#ff7e5f] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-              </div>
-              <span className="text-2xl font-bold text-white">AI Icon Maker</span>
-            </Link>
+                             </div>
+               <span className="text-2xl font-bold text-white">AI Icon Maker</span>
+             </button>
           </div>
 
           {/* Error Card */}
@@ -82,29 +89,43 @@ export default function AuthCallback() {
             <h1 className="text-2xl font-bold text-white mb-4">Authentication Error</h1>
             <p className="text-white/70 mb-8 leading-relaxed">{error}</p>
             
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={() => router.push('/login')}
-                className="flex-1 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
-                Back to Login
-              </button>
-              <Link
-                href="/"
-                className="flex-1 bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-white/20 hover:border-white/30 text-center"
-              >
-                Go Home
-              </Link>
-            </div>
+                         {/* Action Buttons */}
+             <div className="flex flex-col sm:flex-row gap-3">
+               <button
+                 onClick={() => {
+                   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+                   window.location.href = `${baseUrl}/login`;
+                 }}
+                 className="flex-1 bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+               >
+                 Back to Login
+               </button>
+               <button
+                 onClick={() => {
+                   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+                   window.location.href = baseUrl;
+                 }}
+                 className="flex-1 bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-white/20 hover:border-white/30 text-center"
+               >
+                 Go Home
+               </button>
+             </div>
           </div>
 
-          {/* Help Text */}
-          <div className="mt-6 text-center">
-            <p className="text-white/60 text-sm">
-              Need help? <Link href="/#contact" className="text-orange-400 hover:text-orange-300 transition-colors duration-300 font-medium">Contact support</Link>
-            </p>
-          </div>
+                     {/* Help Text */}
+           <div className="mt-6 text-center">
+             <p className="text-white/60 text-sm">
+               Need help? <button 
+                 onClick={() => {
+                   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+                   window.location.href = `${baseUrl}/#contact`;
+                 }}
+                 className="text-orange-400 hover:text-orange-300 transition-colors duration-300 font-medium underline bg-transparent border-none cursor-pointer"
+               >
+                 Contact support
+               </button>
+             </p>
+           </div>
         </div>
       </div>
     );
