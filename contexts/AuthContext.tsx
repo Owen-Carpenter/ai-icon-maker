@@ -99,8 +99,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         setLoading(false)
         
-        // Force page refresh on sign in to ensure middleware runs
-        if (event === 'SIGNED_IN') {
+        // Only force page refresh for email/password sign in, not OAuth
+        if (event === 'SIGNED_IN' && !window.location.pathname.includes('/auth/callback')) {
           window.location.reload()
         }
       }

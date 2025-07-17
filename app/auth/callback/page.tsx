@@ -14,23 +14,32 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        // Get the auth code from the URL
-        const { data, error } = await supabase.auth.getSession();
+        // Get the URL search params to check for OAuth code
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
         
-        if (error) {
-          console.error('Auth callback error:', error);
-          setError('Authentication failed. Please try again.');
-          setLoading(false);
-          return;
-        }
+        if (code) {
+          // Exchange the OAuth code for a session
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+          
+          if (error) {
+            console.error('OAuth code exchange error:', error);
+            setError('Authentication failed. Please try again.');
+            setLoading(false);
+            return;
+          }
 
-        if (data.session) {
-          // User is authenticated, redirect to generate page
-          router.push('/generate');
-        } else {
-          // No session found, redirect to login
-          router.push('/login?error=authentication_failed');
+          if (data.session) {
+            // Successfully authenticated, use window.location.href for hard redirect
+            // This ensures middleware runs and prevents infinite loops
+            window.location.href = '/generate';
+            return;
+          }
         }
+        
+        // If no code or session failed, redirect to login
+        window.location.href = '/login?error=authentication_failed';
+        
       } catch (err) {
         console.error('Unexpected error during auth callback:', err);
         setError('An unexpected error occurred. Please try again.');
@@ -39,7 +48,7 @@ export default function AuthCallback() {
     };
 
     handleAuthCallback();
-  }, [router]);
+  }, []); // Remove router dependency to prevent re-runs
 
   if (loading) {
     return <Loading text="Completing sign in with Google..." size="lg" />;
