@@ -29,6 +29,7 @@ interface AuthContextType {
   loading: boolean
   signIn: (email: string, password: string) => Promise<any>
   signUp: (email: string, password: string) => Promise<any>
+  signInWithGoogle: () => Promise<any>
   signOut: () => Promise<any>
   resetPassword: (email: string) => Promise<any>
   refreshUserData: () => Promise<void>
@@ -122,6 +123,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return result
   }
 
+  const signInWithGoogle = async () => {
+    setLoading(true)
+    const result = await authService.signInWithGoogle()
+    setLoading(false)
+    return result
+  }
+
   const signOut = async () => {
     setLoading(true)
     const result = await authService.signOut()
@@ -141,6 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loading,
     signIn,
     signUp,
+    signInWithGoogle,
     signOut,
     resetPassword,
     refreshUserData,

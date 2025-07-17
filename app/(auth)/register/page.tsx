@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '../../../contexts/AuthContext'
+import GoogleSignInButton from '../../../components/auth/GoogleSignInButton'
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('')
@@ -70,6 +71,21 @@ export default function RegisterPage() {
         </div>
 
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+          {/* Google Sign In */}
+          <div className="mb-6">
+            <GoogleSignInButton text="Sign up with Google" />
+          </div>
+
+          {/* Divider */}
+          <div className="relative mb-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-white/20"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white/10 text-gray-300">Or continue with email</span>
+            </div>
+          </div>
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
               <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
