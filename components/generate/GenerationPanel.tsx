@@ -38,13 +38,7 @@ export default function AIChatPanel({
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  // Removed auto-scroll behavior to prevent page jumping
 
   // Add AI feedback when generation starts
   useEffect(() => {
