@@ -29,10 +29,10 @@ export default function LibraryPage() {
   const [savedIcons] = useState<SavedIcon[]>([
     {
       id: '1',
-      name: 'Lightning Bolt',
+      name: 'AI Icon Maker Logo',
       imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
       createdAt: '2024-01-15',
-      tags: ['energy', 'power', 'electric'],
+      tags: ['logo', 'brand', 'ai'],
       category: 'business',
       format: 'SVG'
     },

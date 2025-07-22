@@ -8,6 +8,7 @@ import Footer from '../../components/Footer';
 import TestimonialCarousel from '../../components/TestimonialCarousel';
 import Link from 'next/link';
 import SmartGenerateLink from '../../components/SmartGenerateLink';
+import Logo from '../../components/ui/Logo';
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -122,10 +123,8 @@ export default function HomePage() {
                     
                     {/* Generated Icon Display */}
                     <div id="generated-icon" className="absolute inset-2 flex items-center justify-center opacity-0 transition-opacity duration-1000">
-                      <div className="w-16 h-16 bg-gradient-to-br from-sunset-500 to-coral-500 rounded-xl flex items-center justify-center shadow-lg transform scale-0 transition-transform duration-500">
-                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
+                      <div className="w-16 h-16 flex items-center justify-center shadow-lg transform scale-0 transition-transform duration-500">
+                        <Logo width={56} height={56} className="text-white" />
                       </div>
                     </div>
 
@@ -212,10 +211,8 @@ export default function HomePage() {
             {/* Visual AI Prompt Builder */}
             <ScrollAnimation delay={300}>
               <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+                <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
+                <Logo width={56} height={56} className="text-white" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Visual AI Prompt Builder</h3>
                 <p className="text-sunset-200">
@@ -766,7 +763,7 @@ export default function HomePage() {
             (function() {
               const examples = [
                 "Create a shopping cart icon with modern flat design",
-                "Design a lightning bolt icon for a productivity app", 
+                "Design an AI icon maker logo for a productivity app", 
                 "Generate a heart icon with gradient colors",
                 "Build a settings gear icon with minimal style",
                 "Make a star rating icon with golden color"
