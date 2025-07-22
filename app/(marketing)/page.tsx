@@ -422,7 +422,7 @@ export default function HomePage() {
             </ScrollAnimation>
             <ScrollAnimation delay={300}>
               <p className="text-xl text-sunset-200 mb-8 max-w-3xl mx-auto">
-                High-quality AI-powered icon creation using premium models like DALL-E 3, Midjourney, and Stable Diffusion XL. Professional tools deserve professional pricing.
+                High-quality AI-powered SVG icon creation using Claude Sonnet 4.0 and advanced image recognition APIs. Professional tools deserve professional pricing.
             </p>
             </ScrollAnimation>
           </div>
@@ -459,19 +459,19 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Premium AI models (DALL-E 3, Midjourney, SDXL)
+                    Claude Sonnet 4.0 for SVG generation
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Multiple formats (PNG, SVG, ICO)
+                    Advanced image recognition API
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    High-resolution outputs (up to 1024x1024)
+                    Scalable SVG outputs (any size)
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -531,13 +531,13 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    All premium AI models + experimental models
+                    Claude Sonnet 4.0 + experimental models
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Ultra-high resolution (up to 2048x2048)
+                    Unlimited SVG scaling (any size)
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -590,7 +590,7 @@ export default function HomePage() {
               </ScrollAnimation>
               <ScrollAnimation delay={200}>
                 <p className="text-sunset-200 max-w-2xl mx-auto">
-                  We use premium AI models to ensure the highest quality icons. Here's what it costs to generate icons with leading AI services:
+                  We use cutting-edge AI models to ensure the highest quality SVG icons. Here's what it costs to generate professional icons with leading AI services:
                 </p>
               </ScrollAnimation>
             </div>
@@ -598,25 +598,25 @@ export default function HomePage() {
             <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
               <ScrollAnimation delay={300}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
-                  <h4 className="text-xl font-semibold text-white mb-3">DALL-E 3</h4>
-                  <p className="text-sunset-200 mb-2">$0.040 per image</p>
-                  <p className="text-sunset-200 text-sm">OpenAI's premium model</p>
+                  <h4 className="text-xl font-semibold text-white mb-3">Claude Sonnet 4.0</h4>
+                  <p className="text-sunset-200 mb-2">$0.015 per SVG</p>
+                  <p className="text-sunset-200 text-sm">Anthropic's latest model for SVG code generation</p>
                 </div>
               </ScrollAnimation>
 
               <ScrollAnimation delay={400}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
-                  <h4 className="text-xl font-semibold text-white mb-3">Midjourney</h4>
-                  <p className="text-sunset-200 mb-2">$0.33+ per image</p>
-                  <p className="text-sunset-200 text-sm">Based on $10/month plan</p>
+                  <h4 className="text-xl font-semibold text-white mb-3">Image Recognition API</h4>
+                  <p className="text-sunset-200 mb-2">$0.005 per analysis</p>
+                  <p className="text-sunset-200 text-sm">Advanced drawing-to-prompt conversion</p>
                 </div>
               </ScrollAnimation>
 
               <ScrollAnimation delay={500}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
-                  <h4 className="text-xl font-semibold text-white mb-3">Stable Diffusion XL</h4>
-                  <p className="text-sunset-200 mb-2">$0.001-0.004 per image</p>
-                  <p className="text-sunset-200 text-sm">Via cloud providers</p>
+                  <h4 className="text-xl font-semibold text-white mb-3">Premium Infrastructure</h4>
+                  <p className="text-sunset-200 mb-2">$0.010 per request</p>
+                  <p className="text-sunset-200 text-sm">High-speed processing & optimization</p>
                 </div>
               </ScrollAnimation>
             </div>
@@ -640,7 +640,7 @@ export default function HomePage() {
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
                   <h4 className="text-xl font-semibold text-white mb-3">What AI models do you use?</h4>
                   <p className="text-sunset-200">
-                    We use premium AI models including DALL-E 3, Midjourney, and Stable Diffusion XL to ensure the highest quality icon generation for professional use.
+                    We use Claude Sonnet 4.0 for generating high-quality SVG code and advanced image recognition APIs to convert your drawings into precise prompts. This ensures scalable, professional-grade icons.
                   </p>
                 </div>
               </ScrollAnimation>
