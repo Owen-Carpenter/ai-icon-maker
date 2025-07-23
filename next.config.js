@@ -7,6 +7,7 @@ const nextConfig = {
   },
   images: {
     domains: ['supabase.co'],
+    unoptimized: true,
   },
 }
 

@@ -20,6 +20,8 @@ export default function Logo({
       width={width}
       height={height}
       className={className}
+      priority={true}
+      unoptimized={true}
     />
   );
 } 
