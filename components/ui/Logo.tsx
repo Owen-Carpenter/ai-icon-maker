@@ -1,6 +1,4 @@
-'use client';
-
-import { useState } from 'react';
+import Image from 'next/image';
 
 interface LogoProps {
   className?: string;
@@ -15,36 +13,19 @@ export default function Logo({
   height = 24, 
   alt = 'AI Icon Maker Logo' 
 }: LogoProps) {
-  const [imageError, setImageError] = useState(false);
-
-  if (imageError) {
-    // Fallback to text if image fails to load
-    return (
-      <div 
-        className={`${className} bg-[#ff7e5f] rounded-full flex items-center justify-center text-white font-bold text-xs`}
-        style={{ width: `${width}px`, height: `${height}px` }}
-      >
-        AI
-      </div>
-    );
-  }
-
+  // Check if the className contains text-white to apply filter
+  const isWhite = className.includes('text-white');
+  
   return (
-    <img
+    <Image
       src="/AIIconMakerLogo.png"
       alt={alt}
       width={width}
       height={height}
-      className={className}
-      style={{ width: `${width}px`, height: `${height}px` }}
-      onLoad={() => console.log('Logo loaded successfully')}
-      onError={(e) => {
-        console.error('Logo failed to load:', e);
-        const target = e.target as HTMLImageElement;
-        console.error('Attempted src:', target.src);
-        console.error('Current origin:', window.location.origin);
-        setImageError(true);
-      }}
+      className={`${className} ${isWhite ? 'brightness-0 invert' : ''}`}
+      priority={true}
+      style={isWhite ? { filter: 'brightness(0) invert(1)' } : {}}
+      unoptimized={false}
     />
   );
 } 

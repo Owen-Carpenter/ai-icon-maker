@@ -34,6 +34,21 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* Logo filter utilities */
+  .filter {
+    filter: var(--tw-filter);
+  }
+  
+  .brightness-0 {
+    --tw-brightness: brightness(0);
+    filter: var(--tw-filter);
+  }
+  
+  .invert {
+    --tw-invert: invert(1);
+    filter: var(--tw-filter);
+  }
 }
 
 /* Floating animation for hero container */
