@@ -1,4 +1,4 @@
-import Image from 'next/image';
+
 
 interface LogoProps {
   className?: string;
@@ -14,14 +14,13 @@ export default function Logo({
   alt = 'AI Icon Maker Logo' 
 }: LogoProps) {
   return (
-    <Image
+    <img
       src="/AIIconMakerLogo.png"
       alt={alt}
       width={width}
       height={height}
       className={className}
-      priority={true}
-      unoptimized={true}
+      style={{ width: `${width}px`, height: `${height}px` }}
     />
   );
 } 
