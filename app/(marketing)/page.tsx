@@ -96,9 +96,10 @@ export default function HomePage() {
                   <div className="relative">
                     <textarea
                       id="ai-prompt"
-                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-1 focus:ring-sunset-400 transition-all duration-300 resize-none text-sm"
+                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-1 focus:ring-sunset-400 transition-all duration-300 resize-none text-sm cursor-not-allowed"
                       rows={2}
                       placeholder=""
+                      disabled
                     />
                     <div 
                       id="typing-placeholder" 
