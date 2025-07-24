@@ -125,7 +125,7 @@ export default function HomePage() {
                     {/* Generated Icon Display */}
                     <div id="generated-icon" className="absolute inset-2 flex items-center justify-center opacity-0 transition-opacity duration-1000">
                       <div className="w-16 h-16 flex items-center justify-center shadow-lg transform scale-0 transition-transform duration-500">
-                        <Logo width={56} height={56} className="text-white" />
+                        <Logo width={56} height={56} />
                       </div>
                     </div>
 

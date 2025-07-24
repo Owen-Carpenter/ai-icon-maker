@@ -26,7 +26,7 @@ export default function Loading({ text = 'Loading...', size = 'md' }: LoadingPro
           <Logo 
             width={size === 'sm' ? 28 : size === 'md' ? 42 : 56} 
             height={size === 'sm' ? 28 : size === 'md' ? 42 : 56} 
-            className="text-white animate-spin" 
+            className="animate-spin" 
           />
         </div>
         

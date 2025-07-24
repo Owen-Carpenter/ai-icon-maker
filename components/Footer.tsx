@@ -11,7 +11,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2 group">
-              <Logo width={32} height={32} className="text-white group-hover:scale-110 transition-transform duration-300" />
+              <Logo width={32} height={32} className="group-hover:scale-110 transition-transform duration-300" />
               <span className="text-xl font-bold text-white">AI Icon Maker</span>
             </Link>
             <p className="text-gray-300 max-w-sm">

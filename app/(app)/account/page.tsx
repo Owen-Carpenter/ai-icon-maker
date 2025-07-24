@@ -133,7 +133,7 @@ function AccountPageContent() {
                     <div className="flex items-center justify-between">
                       <span className="text-gray-300">Credits Remaining:</span>
                       <span className="flex items-center text-white font-semibold">
-                        <Logo width={24} height={24} className="mr-2 text-white" />
+                        <Logo width={24} height={24} className="mr-2" />
                         {userData?.credits_remaining || 0}
                         {userData?.subscription_plan === 'unlimited' && (
                           <span className="ml-1 text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">

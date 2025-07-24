@@ -18,7 +18,7 @@ export default function Logo({
   
   return (
     <Image
-      src="/AIIconMakerLogo.png"
+      src="/images/AIIconMakerLogo.png"
       alt={alt}
       width={width}
       height={height}
