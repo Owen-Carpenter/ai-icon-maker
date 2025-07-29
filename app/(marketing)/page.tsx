@@ -49,114 +49,86 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-20 pt-32">
-        <div className="flex flex-col lg:flex-row items-center justify-between">
-          <div className="lg:w-1/2 text-center lg:text-left">
-            <ScrollAnimation>
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6">
-              A Magical AI Icon<br />
-              Editor for Creators
+        <div className="flex flex-col items-center justify-center text-center max-w-full mx-auto">
+          <ScrollAnimation>
+            <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+              Make something 
+              <span className="inline-flex items-center mx-2">
+                <span className="text-3xl lg:text-4xl">🎨</span>
+              </span>
+              Iconic
             </h1>
-            </ScrollAnimation>
-            <ScrollAnimation delay={300}>
-              <p className="text-xl text-sunset-200 mb-8 max-w-2xl">
-               AI Icon Maker lets you easily build, create, and manage professional icons 
-               for OpenAI, Anthropic, Google, and many other AI APIs and integrated 
-               your icon library everywhere in one centralized environment.
-             </p>
-            </ScrollAnimation>
-            
-                          <ScrollAnimation delay={600}>
-              {/* Swirling Border Button */}
-              <div className="inline-block [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
-                <SmartGenerateLink 
-                  className="bg-transparent text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block"
-                  fallbackHref="/register"
-                >
-                  Try AI Icon Maker
-                </SmartGenerateLink>
-              </div>
-            </ScrollAnimation>
-          </div>
+          </ScrollAnimation>
           
-          <div className="lg:w-1/2 mt-10 lg:mt-0 flex justify-center lg:justify-end">
-            <ScrollAnimation delay={400} className="lg:translate-x-8">
-              <div className="bg-gradient-to-br from-midnight-900/40 to-midnight-950/60 backdrop-blur-sm rounded-2xl p-5 shadow-2xl border border-white/10 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 max-w-md animate-float">
-                {/* Header */}
-                <div className="text-center mb-4">
-                  <div className="inline-flex items-center space-x-2 bg-[#ff7e5f]/20 text-sunset-300 px-3 py-1 rounded-full text-sm font-medium mb-3">
-                    <span>INTRODUCING AI ICON MAKER</span>
-                    <span className="bg-[#ff7e5f] text-white px-2 py-0.5 rounded text-xs">BETA</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-1">What should we build?</h3>
-                  <p className="text-sunset-200 text-xs">Creating stunning icons with AI has never been easier.</p>
+          <ScrollAnimation delay={300}>
+            <p className="text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl">
+              Create stunning icons and designs by chatting with AI
+            </p>
+          </ScrollAnimation>
+          
+          <ScrollAnimation delay={600}>
+            {/* Main Input Field */}
+            <div className="w-full max-w-6xl mx-auto mb-8">
+              <div className="relative">
+                <textarea
+                  id="ai-prompt"
+                  className="w-full bg-midnight-800/90 border border-midnight-700 rounded-2xl p-6 pr-16 text-white placeholder-transparent focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300 resize-none text-lg backdrop-blur-sm min-h-[120px] max-h-[200px]"
+                  rows={5}
+                  placeholder=""
+                  disabled
+                />
+                <div 
+                  id="typing-placeholder" 
+                  className="absolute top-6 left-6 text-sunset-300/70 pointer-events-none text-lg"
+                >
+                  <span id="typed-text"></span>
+                  <span id="cursor" className="animate-pulse text-sunset-400">|</span>
                 </div>
-
-                {/* Prompt Input */}
-                <div className="mb-4">
-                  <div className="relative">
-                    <textarea
-                      id="ai-prompt"
-                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-1 focus:ring-sunset-400 transition-all duration-300 resize-none text-sm cursor-not-allowed"
-                      rows={2}
-                      placeholder=""
-                      disabled
-                    />
-                    <div 
-                      id="typing-placeholder" 
-                      className="absolute top-3 left-3 text-sunset-300/70 pointer-events-none text-sm"
-                    >
-                      <span id="typed-text"></span>
-                      <span id="cursor" className="animate-pulse text-sunset-400">|</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Animated Sketch to Icon Demo */}
-                <div className="mb-4">
-                  <div className="bg-white rounded-lg p-3 relative overflow-hidden h-32">
-                    {/* Animated Sketch Canvas */}
-                    <canvas
-                      id="sketch-canvas"
-                      width="280"
-                      height="100"
-                      className="absolute inset-2 opacity-100 transition-opacity duration-1000 w-full h-full"
-                    ></canvas>
-                    
-                    {/* Generated Icon Display */}
-                    <div id="generated-icon" className="absolute inset-2 flex items-center justify-center opacity-0 transition-opacity duration-1000">
-                      <div className="w-16 h-16 flex items-center justify-center shadow-lg transform scale-0 transition-transform duration-500">
-                        <Logo width={56} height={56} />
-                      </div>
-                    </div>
-
-                    {/* Progress Indicator */}
-                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2">
-                      <div id="demo-status" className="text-xs text-gray-500 font-medium">Sketching...</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex items-center justify-between">
-                  <button className="flex items-center space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-sm">
+                
+                {/* Interactive Elements at Bottom */}
+                <div className="absolute bottom-4 left-6 flex items-center space-x-4">
+                  <button className="flex items-center justify-center w-8 h-8 bg-midnight-700/50 hover:bg-midnight-600/50 rounded-full text-sunset-300 hover:text-white transition-all duration-300">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                  </button>
+                  
+                  <button className="flex items-center space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-sm bg-midnight-700/50 hover:bg-midnight-600/50 px-3 py-1.5 rounded-full">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                     </svg>
                     <span>Attach</span>
                   </button>
                   
-                  <SmartGenerateLink 
-                    className="bg-sunset-gradient hover:scale-105 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl hover:shadow-sunset-500/30"
-                  >
+                  <button className="flex items-center space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-sm bg-midnight-700/50 hover:bg-midnight-600/50 px-3 py-1.5 rounded-full">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span>Generate</span>
-                  </SmartGenerateLink>
+                    <span>Public</span>
+                  </button>
                 </div>
+                
+                {/* Send Button */}
+                <button className="absolute bottom-4 right-4 bg-sunset-gradient hover:scale-105 text-white p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-sunset-500/30">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                  </svg>
+                </button>
               </div>
-            </ScrollAnimation>
-          </div>
+            </div>
+          </ScrollAnimation>
+          
+          <ScrollAnimation delay={900}>
+            {/* CTA Button */}
+            <div className="inline-block [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
+              <SmartGenerateLink 
+                className="bg-transparent text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block"
+                fallbackHref="/register"
+              >
+                Start Creating Icons
+              </SmartGenerateLink>
+            </div>
+          </ScrollAnimation>
         </div>
       </div>
 
@@ -765,6 +737,7 @@ export default function HomePage() {
           __html: `
             (function() {
               const examples = [
+                "Ask AI Icon Maker to create an icon for my...",
                 "Create a shopping cart icon with modern flat design",
                 "Design an AI icon maker logo for a productivity app", 
                 "Generate a heart icon with gradient colors",
