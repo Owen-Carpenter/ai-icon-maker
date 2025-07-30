@@ -771,8 +771,12 @@ export default function HomePage() {
                 let typeSpeed = isDeleting ? 30 : 50;
                 
                 if (!isDeleting && currentChar === currentText.length) {
-                  typeSpeed = 2000;
-                  isDeleting = true;
+                  // Pause for 1 second after completing the sentence, then start deleting
+                  setTimeout(() => {
+                    isDeleting = true;
+                    typeWriter();
+                  }, 1000);
+                  return; // Don't continue with the current cycle
                 } else if (isDeleting && currentChar === 0) {
                   isDeleting = false;
                   currentExample = (currentExample + 1) % examples.length;
