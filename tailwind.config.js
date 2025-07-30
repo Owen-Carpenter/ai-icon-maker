@@ -149,6 +149,14 @@ module.exports = {
         },
         'border': {
           'to': { '--border-angle': '360deg' }
+        },
+        'float': {
+          '0%, 100%': {
+            transform: 'translateY(0px)'
+          },
+          '50%': {
+            transform: 'translateY(-20px)'
+          }
         }
       },
       
@@ -159,6 +167,7 @@ module.exports = {
         'fade-in-right': 'fade-in-right 0.8s ease-out forwards',
         'scale-in': 'scale-in 0.8s ease-out forwards',
         'border': 'border 4s linear infinite',
+        'float': 'float 6s ease-in-out infinite',
       }
     },
   },
