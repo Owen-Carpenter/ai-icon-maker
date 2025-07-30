@@ -52,66 +52,45 @@ export default function HomePage() {
         {/* Gradient overlay for extra depth */}
         <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10"></div>
         
-        {/* Floating Icons */}
-        <div className="absolute top-20 left-10 w-8 h-8 text-sunset-400/30 animate-float" style={{animationDuration: '6s', animationDelay: '0s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-          </svg>
+        {/* Floating Emoji Icons */}
+        <div className="absolute top-20 left-10 text-3xl animate-float opacity-20" style={{animationDuration: '6s', animationDelay: '0s'}}>
+          🎨
         </div>
         
-        <div className="absolute top-32 right-20 w-6 h-6 text-coral-400/25 animate-float" style={{animationDuration: '8s', animationDelay: '1s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
+        <div className="absolute top-32 right-20 text-2xl animate-float opacity-10" style={{animationDuration: '8s', animationDelay: '1s'}}>
+          ⭐
         </div>
         
-        <div className="absolute top-40 left-1/4 w-10 h-10 text-sunset-300/20 animate-float" style={{animationDuration: '10s', animationDelay: '2s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
-          </svg>
+        <div className="absolute top-40 left-1/4 text-4xl animate-float opacity-25" style={{animationDuration: '10s', animationDelay: '2s'}}>
+          ✨
         </div>
         
-        <div className="absolute bottom-32 left-16 w-7 h-7 text-coral-300/30 animate-float" style={{animationDuration: '7s', animationDelay: '3s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-          </svg>
+        <div className="absolute bottom-32 left-16 text-2xl animate-float opacity-20" style={{animationDuration: '7s', animationDelay: '3s'}}>
+          🚀
         </div>
         
-        <div className="absolute bottom-20 right-1/3 w-8 h-8 text-sunset-400/25 animate-float" style={{animationDuration: '9s', animationDelay: '4s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-          </svg>
+        <div className="absolute bottom-20 right-1/3 text-3xl animate-float opacity-10" style={{animationDuration: '9s', animationDelay: '4s'}}>
+          💡
         </div>
         
-        <div className="absolute top-1/3 right-10 w-6 h-6 text-coral-400/20 animate-float" style={{animationDuration: '11s', animationDelay: '5s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
+        <div className="absolute top-1/3 right-10 text-2xl animate-float opacity-20" style={{animationDuration: '11s', animationDelay: '5s'}}>
+          🔥
         </div>
         
-        <div className="absolute top-1/2 left-8 w-9 h-9 text-sunset-300/15 animate-float" style={{animationDuration: '12s', animationDelay: '6s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-          </svg>
+        <div className="absolute top-1/2 left-8 text-4xl animate-float opacity-25" style={{animationDuration: '12s', animationDelay: '6s'}}>
+          🎯
         </div>
         
-        {/* Additional interesting icons */}
-        <div className="absolute top-16 right-1/4 w-7 h-7 text-sunset-400/20 animate-float" style={{animationDuration: '13s', animationDelay: '7s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-          </svg>
+        <div className="absolute top-16 right-1/4 text-2xl animate-float opacity-10" style={{animationDuration: '13s', animationDelay: '7s'}}>
+          🌟
         </div>
         
-        <div className="absolute bottom-40 right-16 w-6 h-6 text-coral-400/25 animate-float" style={{animationDuration: '14s', animationDelay: '8s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
+        <div className="absolute bottom-40 right-16 text-2xl animate-float opacity-20" style={{animationDuration: '14s', animationDelay: '8s'}}>
+          🎪
         </div>
         
-        <div className="absolute top-2/3 left-1/3 w-8 h-8 text-sunset-300/15 animate-float" style={{animationDuration: '15s', animationDelay: '9s'}}>
-          <svg fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
-          </svg>
+        <div className="absolute top-2/3 left-1/3 text-3xl animate-float opacity-10" style={{animationDuration: '15s', animationDelay: '9s'}}>
+          🎭
         </div>
         <div className="flex flex-col items-center justify-center text-center w-full relative z-10">
           <ScrollAnimation>
