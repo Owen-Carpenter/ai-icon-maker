@@ -48,9 +48,9 @@ export default function HomePage() {
       <Navbar variant="marketing" />
 
       {/* Hero Section */}
-      <div className="w-full px-4 py-20 pt-32 bg-gradient-to-br from-midnight-900 via-midnight-800 to-sunset-900 relative overflow-hidden">
+      <div className="w-full px-4 py-32 pt-40 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden animate-fade-in">
         {/* Gradient overlay for extra depth */}
-        <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10 animate-fade-in" style={{animationDelay: '0.3s'}}></div>
         
         {/* Floating Emoji Icons */}
         <div className="absolute top-20 left-10 text-3xl animate-float opacity-20" style={{animationDuration: '6s', animationDelay: '0s'}}>
@@ -92,7 +92,7 @@ export default function HomePage() {
         <div className="absolute top-2/3 left-1/3 text-3xl animate-float opacity-10" style={{animationDuration: '15s', animationDelay: '9s'}}>
           🎭
         </div>
-        <div className="flex flex-col items-center justify-center text-center w-full relative z-10">
+        <div className="flex flex-col items-center justify-center text-center w-full relative z-10 animate-fade-in" style={{animationDelay: '0.5s'}}>
           <ScrollAnimation>
             <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
               Make something 

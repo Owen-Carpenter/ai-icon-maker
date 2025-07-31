@@ -93,6 +93,7 @@ module.exports = {
         'aurora-gradient': 'linear-gradient(135deg, #FF8A65 0%, #CE93D8 50%, #8E24AA 100%)',
         'glass-gradient': 'linear-gradient(135deg, rgba(255, 138, 101, 0.1) 0%, rgba(171, 71, 188, 0.1) 100%)',
         'dark-gradient': 'linear-gradient(135deg, #1F2937 0%, #111827 70%, #0A0A0A 100%)',
+        'gradient-radial': 'radial-gradient(ellipse at center bottom, var(--tw-gradient-stops))',
       },
       
       // Custom animations for scroll effects
@@ -105,6 +106,14 @@ module.exports = {
           '100%': {
             opacity: '1',
             transform: 'translateY(0)'
+          }
+        },
+        'fade-in': {
+          '0%': {
+            opacity: '0'
+          },
+          '100%': {
+            opacity: '1'
           }
         },
         'fade-in-down': {
@@ -177,6 +186,7 @@ module.exports = {
         'scale-in': 'scale-in 0.8s ease-out forwards',
         'border': 'border 4s linear infinite',
         'float': 'float 6s ease-in-out infinite',
+        'fade-in': 'fade-in 1.2s ease-out forwards',
       }
     },
   },
