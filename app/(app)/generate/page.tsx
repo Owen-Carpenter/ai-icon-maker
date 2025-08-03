@@ -6,26 +6,14 @@ import { CheckCircle } from 'lucide-react';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import PromptInput from '../../../components/generate/PromptInput';
-import DrawingTools from '../../../components/generate/DrawingTools';
-import DrawingCanvas from '../../../components/generate/DrawingCanvas';
 import GenerationPanel from '../../../components/generate/GenerationPanel';
 import Loading from '../../../components/ui/Loading';
 import { useAuth } from '../../../contexts/AuthContext';
-
-interface DrawingTool {
-  id: string;
-  name: string;
-  icon: string;
-  category: 'sketch' | 'shape' | 'utility';
-}
 
 function GeneratePageContent() {
   const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [currentTool, setCurrentTool] = useState('pencil');
-  const [brushSize, setBrushSize] = useState(5);
-  const [brushColor, setBrushColor] = useState('#000000');
   const [prompt, setPrompt] = useState('');
   const [style, setStyle] = useState('modern');
   const [primaryColor, setPrimaryColor] = useState('#000000');
@@ -67,42 +55,23 @@ function GeneratePageContent() {
     return <Loading text="Redirecting to pricing..." />;
   }
 
-  const tools: DrawingTool[] = [
-    // Sketching tools
-    { id: 'pencil', name: 'Pencil', icon: '✏️', category: 'sketch' },
-    { id: 'brush', name: 'Brush', icon: '🖌️', category: 'sketch' },
-    { id: 'eraser', name: 'Eraser', icon: '🧽', category: 'sketch' },
-    
-    // Shape tools
-    { id: 'line', name: 'Line', icon: '📏', category: 'shape' },
-    { id: 'rectangle', name: 'Rectangle', icon: '⬜', category: 'shape' },
-    { id: 'circle', name: 'Circle', icon: '⭕', category: 'shape' },
-    { id: 'triangle', name: 'Triangle', icon: '🔺', category: 'shape' },
-    
-    // Utility tools
-    { id: 'fill', name: 'Fill', icon: '🎨', category: 'utility' },
-    { id: 'hand', name: 'Hand', icon: '✋', category: 'utility' },
-  ];
-
-  const handleGenerate = async (canvasData?: string | null) => {
+  const handleGenerate = async () => {
     const hasPrompt = prompt.trim() && style;
-    const hasCanvas = canvasData !== null && canvasData !== undefined;
 
-    // Must have either prompt or canvas data
-    if (!hasPrompt && !hasCanvas) return;
+    // Must have prompt
+    if (!hasPrompt) return;
 
     setIsGenerating(true);
     
     // Log the generation request (in real app, this would be sent to AI API)
     console.log('Generating icon:', { 
-      prompt: hasPrompt ? prompt : null, 
-      style: hasPrompt ? style : null,
-      primaryColor: hasPrompt ? primaryColor : null,
-      canvasData: hasCanvas ? 'Canvas drawing provided' : null,
-      mode: hasPrompt && hasCanvas ? 'prompt+canvas' : hasPrompt ? 'prompt-only' : 'canvas-only'
+      prompt: prompt, 
+      style: style,
+      primaryColor: primaryColor,
+      mode: 'prompt-only'
     });
     
-    // Simulate AI processing with different modes
+    // Simulate AI processing
     setTimeout(() => {
       // Mock generated images - in real app, these would come from AI API
       const mockImages = [
@@ -116,19 +85,15 @@ function GeneratePageContent() {
     }, 3000);
   };
 
-  const handleClearCanvas = () => {
-    // Canvas clearing is handled by the DrawingCanvas component
-  };
-
   const handleRegenerateVariations = () => {
     if (generatedImages.length > 0) {
-      // Regenerate with last used mode (no canvas data for prompt-only regeneration)
+      // Regenerate with last used prompt
       handleGenerate();
     }
   };
 
   const handleSelectImage = (imageUrl: string) => {
-    // Handle image selection - could load into canvas or save to library
+    // Handle image selection - could save to library
     console.log('Selected image:', imageUrl);
   };
 
@@ -140,7 +105,7 @@ function GeneratePageContent() {
         {/* Header */}
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-white mb-2">AI Icon Generator</h1>
-          <p className="text-sunset-200">Create amazing icons with AI assistance and drawing tools</p>
+          <p className="text-sunset-200">Create amazing icons with AI-powered text-to-icon generation</p>
         </div>
 
         {/* Success Message */}
@@ -154,10 +119,10 @@ function GeneratePageContent() {
           </div>
         )}
 
-        {/* Main Interface - Custom Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {/* PromptInput - First on mobile, Right on desktop */}
-          <div className="lg:col-span-2 order-1 lg:order-2 h-80">
+        {/* Main Interface - Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {/* PromptInput - Left Column */}
+          <div className="lg:col-span-1">
             <PromptInput
               prompt={prompt}
               setPrompt={setPrompt}
@@ -170,39 +135,14 @@ function GeneratePageContent() {
             />
           </div>
 
-          {/* DrawingTools - Second on mobile, Left on desktop */}
-          <div className="lg:col-span-2 order-2 lg:order-1 h-80 mb-0 lg:mb-6">
-            <DrawingTools
-              tools={tools}
-              currentTool={currentTool}
-              setCurrentTool={setCurrentTool}
-              brushSize={brushSize}
-              setBrushSize={setBrushSize}
-              brushColor={brushColor}
-              setBrushColor={setBrushColor}
-              onClearCanvas={handleClearCanvas}
-            />
-          </div>
-
-          {/* Drawing Canvas - Third on mobile, touches DrawingTools */}
-          <div className="lg:col-span-3 order-3">
-            <DrawingCanvas
-              currentTool={currentTool}
-              brushSize={brushSize}
-              brushColor={brushColor}
-              onClearCanvas={handleClearCanvas}
-              onGenerate={handleGenerate}
-              isGenerating={isGenerating}
-            />
-          </div>
-
-          {/* AI Chat Panel - Last on mobile */}
-          <div className="lg:col-span-1 order-4">
+          {/* Generation Panel - Right Column */}
+          <div className="lg:col-span-2">
             <GenerationPanel
               generatedImages={generatedImages}
               isGenerating={isGenerating}
               onRegenerateVariations={handleRegenerateVariations}
               onSelectImage={handleSelectImage}
+              currentPrompt={prompt}
             />
           </div>
         </div>

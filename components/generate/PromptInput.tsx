@@ -141,7 +141,7 @@ export default function PromptInput({ prompt, setPrompt, style, setStyle, primar
         {!prompt && !style && (
           <div className="mt-4 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
             <p className="text-sm text-blue-300">
-              <span className="text-blue-200 font-medium">Tip:</span> You can generate icons from text prompts here, drawings on the canvas, or combine both approaches for unique results!
+              <span className="text-blue-200 font-medium">Tip:</span> Describe your icon idea and choose a style to generate amazing AI-powered icons!
             </p>
           </div>
         )}
