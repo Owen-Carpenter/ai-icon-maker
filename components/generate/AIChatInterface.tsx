@@ -49,9 +49,14 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
     { value: 'hand-drawn', label: 'Hand-drawn', description: 'Sketchy, artistic style' }
   ];
 
-  // Auto-scroll to bottom when new messages are added
+  // Auto-scroll to bottom when new messages are added (only for chat container, not page)
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current) {
+      const chatContainer = messagesEndRef.current.closest('.overflow-y-auto');
+      if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+    }
   }, [messages]);
 
   // Add AI feedback when generation starts
