@@ -5,8 +5,8 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
-import PromptInput from '../../../components/generate/PromptInput';
-import GenerationPanel from '../../../components/generate/GenerationPanel';
+import AIChatInterface from '../../../components/generate/AIChatInterface';
+import IconVisualization from '../../../components/generate/IconVisualization';
 import Loading from '../../../components/ui/Loading';
 import { useAuth } from '../../../contexts/AuthContext';
 
@@ -14,9 +14,7 @@ function GeneratePageContent() {
   const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [prompt, setPrompt] = useState('');
-  const [style, setStyle] = useState('modern');
-  const [primaryColor, setPrimaryColor] = useState('#000000');
+  const [currentPrompt, setCurrentPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -55,19 +53,17 @@ function GeneratePageContent() {
     return <Loading text="Redirecting to pricing..." />;
   }
 
-  const handleGenerate = async () => {
-    const hasPrompt = prompt.trim() && style;
+  const handleGenerate = async (prompt: string, style: string, color: string) => {
+    if (!prompt.trim()) return;
 
-    // Must have prompt
-    if (!hasPrompt) return;
-
+    setCurrentPrompt(prompt);
     setIsGenerating(true);
     
     // Log the generation request (in real app, this would be sent to AI API)
     console.log('Generating icon:', { 
       prompt: prompt, 
       style: style,
-      primaryColor: primaryColor,
+      primaryColor: color,
       mode: 'prompt-only'
     });
     
@@ -86,9 +82,9 @@ function GeneratePageContent() {
   };
 
   const handleRegenerateVariations = () => {
-    if (generatedImages.length > 0) {
+    if (generatedImages.length > 0 && currentPrompt) {
       // Regenerate with last used prompt
-      handleGenerate();
+      handleGenerate(currentPrompt, 'modern', '#000000');
     }
   };
 
@@ -119,30 +115,25 @@ function GeneratePageContent() {
           </div>
         )}
 
-        {/* Main Interface - Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {/* PromptInput - Left Column */}
-          <div className="lg:col-span-1">
-            <PromptInput
-              prompt={prompt}
-              setPrompt={setPrompt}
-              style={style}
-              setStyle={setStyle}
-              primaryColor={primaryColor}
-              setPrimaryColor={setPrimaryColor}
+        {/* Main Interface - Base44 Style Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto min-h-[600px]">
+          {/* AI Chat Interface - Left Side */}
+          <div className="h-full">
+            <AIChatInterface
               onGenerate={handleGenerate}
               isGenerating={isGenerating}
+              currentPrompt={currentPrompt}
             />
           </div>
 
-          {/* Generation Panel - Right Column */}
-          <div className="lg:col-span-2">
-            <GenerationPanel
+          {/* Icon Visualization - Right Side */}
+          <div className="h-full">
+            <IconVisualization
               generatedImages={generatedImages}
               isGenerating={isGenerating}
-              onRegenerateVariations={handleRegenerateVariations}
+              onRegenerate={handleRegenerateVariations}
               onSelectImage={handleSelectImage}
-              currentPrompt={prompt}
+              currentPrompt={currentPrompt}
             />
           </div>
         </div>
