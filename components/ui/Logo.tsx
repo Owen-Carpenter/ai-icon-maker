@@ -31,35 +31,19 @@ export default function Logo({
         xmlns="http://www.w3.org/2000/svg"
         className={className}
       >
-        {/* Brain outline */}
-        <path
-          d="M9 3a4 4 0 0 1 6 0v2a4 4 0 0 1-6 0V3zM7 7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V7z"
-          stroke={isWhite ? "white" : "currentColor"}
-          strokeWidth="1.5"
-          fill="none"
-        />
-        {/* Brain folds */}
-        <path
-          d="M9 9h6M9 11h6M9 13h6M9 15h6"
-          stroke={isWhite ? "white" : "currentColor"}
-          strokeWidth="1"
-          strokeLinecap="round"
-        />
-        {/* Pencil */}
-        <path
-          d="M6 6l12 12M7 5l10 10"
-          stroke={isWhite ? "white" : "currentColor"}
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
+        {/* Simple brain icon */}
+        <circle cx="12" cy="12" r="8" stroke={isWhite ? "white" : "currentColor"} strokeWidth="2" fill="none"/>
+        <path d="M8 10h8M8 12h8M8 14h8" stroke={isWhite ? "white" : "currentColor"} strokeWidth="1.5" strokeLinecap="round"/>
+        {/* Pencil crossing */}
+        <path d="M6 6l12 12" stroke={isWhite ? "white" : "currentColor"} strokeWidth="2" strokeLinecap="round"/>
       </svg>
     );
   }
   
-  // Use regular img tag directly for better production compatibility
+  // Try multiple image paths for better production compatibility
   return (
     <img
-      src="/images/AIIconMakerLogo.png"
+      src="/AIIconMakerLogo.png"
       alt={alt}
       width={width}
       height={height}
