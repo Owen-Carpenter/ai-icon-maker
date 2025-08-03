@@ -97,7 +97,12 @@ function GeneratePageContent() {
     <div className="min-h-screen bg-dark-gradient">
       <Navbar variant="app" />
       
-      <div className="container mx-auto px-4 py-8 pt-32">
+      {/* Hero-style gradient background */}
+      <div className="w-full px-4 py-8 pt-32 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden">
+        {/* Gradient overlay for extra depth */}
+        <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10"></div>
+        
+        <div className="container mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-white mb-2">AI Icon Generator</h1>
@@ -136,6 +141,7 @@ function GeneratePageContent() {
               currentPrompt={currentPrompt}
             />
           </div>
+        </div>
         </div>
       </div>
       
