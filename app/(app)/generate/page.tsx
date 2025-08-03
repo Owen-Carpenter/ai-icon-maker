@@ -98,7 +98,7 @@ function GeneratePageContent() {
       <Navbar variant="app" />
       
       {/* Hero-style gradient background */}
-      <div className="w-full px-4 py-8 pt-32 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden">
+      <div className="w-full min-h-screen px-4 py-8 pt-32 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden">
         {/* Gradient overlay for extra depth */}
         <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10"></div>
         
