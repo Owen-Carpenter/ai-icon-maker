@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Download, RefreshCw, Heart, Share2 } from 'lucide-react';
+import Logo from '../ui/Logo';
 
 interface IconVisualizationProps {
   generatedImages: string[];
@@ -63,37 +64,32 @@ export default function IconVisualization({
       <div className="flex-1 p-6 flex items-start justify-center overflow-y-auto">
         {isGenerating ? (
           // Loading State
-          <div className="text-center space-y-6">
-            <div className="relative">
-              {/* Animated background circles */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-32 h-32 border-4 border-white/10 rounded-full animate-pulse"></div>
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-24 h-24 border-4 border-orange-500/30 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 border-4 border-pink-500/50 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-              </div>
-              
-              {/* Central icon placeholder */}
-              <div className="relative z-10 w-12 h-12 bg-gradient-to-r from-orange-500 to-pink-600 rounded-lg flex items-center justify-center">
-                <div className="w-6 h-6 bg-white rounded-sm animate-pulse"></div>
-              </div>
+          <div className="flex flex-col items-center justify-center h-full space-y-4">
+            {/* Animated Site Icon */}
+            <div className="w-16 h-16 flex items-center justify-center animate-spin">
+              <Logo 
+                width={48} 
+                height={48} 
+                className="text-white"
+                alt="AI Icon Maker"
+              />
             </div>
             
-            <div className="space-y-2">
-              <h3 className="text-white font-semibold text-lg">Generating your icon...</h3>
-              <p className="text-white/60 text-sm max-w-md">
-                Our AI is creating a beautiful icon based on your description. This usually takes a few seconds.
+            {/* Text */}
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-white mb-2">
+                Generating your icon...
+              </h3>
+              <p className="text-sm text-sunset-200 animate-pulse">
+                Our AI is creating a beautiful icon based on your description
               </p>
             </div>
 
-            {/* Progress indicators */}
-            <div className="flex justify-center space-x-2">
-              <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-              <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+            {/* Loading Dots Animation */}
+            <div className="flex space-x-1">
+              <div className="w-2 h-2 bg-sunset-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+              <div className="w-2 h-2 bg-sunset-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+              <div className="w-2 h-2 bg-sunset-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
             </div>
           </div>
         ) : generatedImages.length > 0 ? (
