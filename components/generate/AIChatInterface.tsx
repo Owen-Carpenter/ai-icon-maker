@@ -229,14 +229,21 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
           <div className="flex gap-2">
             <Select value={style} onValueChange={setStyle}>
               <SelectTrigger className="flex-1 h-9 text-xs">
-                <SelectValue placeholder="Style" />
+                <SelectValue placeholder="Style">
+                  {iconStyles.find(s => s.value === style) && (
+                    <div className="flex flex-col items-start text-left">
+                      <span className="font-medium text-white">{iconStyles.find(s => s.value === style)?.label}</span>
+                      <span className="text-xs text-gray-400">{iconStyles.find(s => s.value === style)?.description}</span>
+                    </div>
+                  )}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {iconStyles.map((iconStyle) => (
                   <SelectItem key={iconStyle.value} value={iconStyle.value}>
-                    <div className="flex flex-col">
-                      <span className="font-medium">{iconStyle.label}</span>
-                      <span className="text-xs text-gray-400">{iconStyle.description}</span>
+                    <div className="flex flex-col items-start text-left">
+                      <span className="font-medium text-white">{iconStyle.label}</span>
+                      <span className="text-xs text-gray-400 mt-0.5">{iconStyle.description}</span>
                     </div>
                   </SelectItem>
                 ))}
