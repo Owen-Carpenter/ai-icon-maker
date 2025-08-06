@@ -27,7 +27,8 @@ export default function Logo({
       className={`${className} ${isWhite ? 'brightness-0 invert' : ''}`}
       priority={true}
       style={isWhite ? { filter: 'brightness(0) invert(1)' } : {}}
-      unoptimized={true}
+      //Logo test fix
+      //unoptimized={true}
     />
   );
 } 
