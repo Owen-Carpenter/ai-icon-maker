@@ -20,15 +20,14 @@ export default function Logo({
   
   return (
     <Image
-      src="/images/AIIconMakerLogo.png"
+      src="/images/mcstudioLogo.png"
       alt={alt}
       width={width}
       height={height}
       className={`${className} ${isWhite ? 'brightness-0 invert' : ''}`}
       priority={true}
       style={isWhite ? { filter: 'brightness(0) invert(1)' } : {}}
-      //Logo test fix
-      //unoptimized={true}
+      unoptimized={true}
     />
   );
 } 
