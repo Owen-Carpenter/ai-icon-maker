@@ -20,7 +20,7 @@ export default function Logo({
   
   return (
     <Image
-      src="/images/mcstudioLogo.png"
+      src="/images/AIIconMakerLogo.png"
       alt={alt}
       width={width}
       height={height}
