@@ -1,3 +1,7 @@
+'use client';
+
+import Image from 'next/image';
+
 interface LogoProps {
   className?: string;
   width?: number;
@@ -11,12 +15,19 @@ export default function Logo({
   height = 24, 
   alt = 'AI Icon Maker Logo' 
 }: LogoProps) {
+  // Check if the className contains text-white to apply filter
+  const isWhite = className.includes('text-white');
+  
   return (
-    <div 
-      className={`flex items-center justify-center ${className}`}
-      style={{ width: width, height: height }}
-    >
-      🧠
-    </div>
+    <Image
+      src="/images/AIIconMakerLogo.png"
+      alt={alt}
+      width={width}
+      height={height}
+      className={`${className} ${isWhite ? 'brightness-0 invert' : ''}`}
+      priority={true}
+      style={isWhite ? { filter: 'brightness(0) invert(1)' } : {}}
+      unoptimized={true}
+    />
   );
 } 
