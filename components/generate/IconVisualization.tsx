@@ -2,7 +2,7 @@
 
 
 import { Button } from '../ui/button';
-import { Download, RefreshCw, Heart, Share2 } from 'lucide-react';
+import { Download, RefreshCw, Share2 } from 'lucide-react';
 import Logo from '../ui/Logo';
 
 interface IconVisualizationProps {
@@ -107,14 +107,6 @@ export default function IconVisualization({
                   className="bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  Download
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="text-white border-white/30 hover:bg-white/10"
-                >
-                  <Heart className="w-4 h-4 mr-2" />
                   Save
                 </Button>
                 <Button
