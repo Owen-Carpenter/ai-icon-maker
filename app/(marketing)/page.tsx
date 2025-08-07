@@ -48,7 +48,7 @@ export default function HomePage() {
       <Navbar variant="marketing" />
 
       {/* Hero Section */}
-      <div className="w-full px-4 py-32 pt-40 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden animate-fade-in">
+      <div className="w-full h-screen px-4 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden animate-fade-in flex items-center">
         {/* Gradient overlay for extra depth */}
         <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10 animate-fade-in" style={{animationDelay: '0.3s'}}></div>
         
