@@ -66,34 +66,12 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
       const newMessage: ChatMessage = {
         id: Date.now().toString(),
         type: 'ai',
-        content: `Perfect! I'm creating your "${currentPrompt}" icon in ${iconStyles.find(s => s.value === style)?.label} style. Let me work on that for you...`,
+        content: `Creating your "${currentPrompt}" icon in ${iconStyles.find(s => s.value === style)?.label} style...`,
         timestamp: new Date(),
         status: 'typing'
       };
       setMessages(prev => [...prev, newMessage]);
       setIsTyping(true);
-
-      // Simulate typing and progress updates
-      const progressMessages = [
-        "🎨 Analyzing your design requirements...",
-        "🤖 Selecting the best AI model for your style...",
-        "⚡ Generating your icon...",
-        "🎯 Optimizing for clarity and scalability...",
-        "✨ Adding final touches..."
-      ];
-
-      progressMessages.forEach((msg, index) => {
-        setTimeout(() => {
-          const progressMessage: ChatMessage = {
-            id: `progress-${Date.now()}-${index}`,
-            type: 'ai',
-            content: msg,
-            timestamp: new Date(),
-            status: 'typing'
-          };
-          setMessages(prev => [...prev, progressMessage]);
-        }, (index + 1) * 1000);
-      });
     }
   }, [isGenerating, currentPrompt, style]);
 
@@ -104,7 +82,7 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
       const completionMessage: ChatMessage = {
         id: `complete-${Date.now()}`,
         type: 'ai',
-        content: `🎉 Your icon is ready! I've created a beautiful ${iconStyles.find(s => s.value === style)?.label} style icon based on your description. Check it out on the right side!`,
+        content: `✅ Your "${currentPrompt}" icon is ready! Check it out on the right. Would you like me to make any modifications or generate a different variation?`,
         timestamp: new Date(),
         status: 'complete'
       };
