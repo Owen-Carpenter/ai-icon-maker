@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+
 import { Button } from '../ui/button';
 import { Download, RefreshCw, Heart, Share2 } from 'lucide-react';
 import Logo from '../ui/Logo';
@@ -20,20 +20,15 @@ export default function IconVisualization({
   onSelectImage,
   currentPrompt 
 }: IconVisualizationProps) {
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-
-  const handleImageSelect = (imageUrl: string, index: number) => {
-    setSelectedImageIndex(index);
-    onSelectImage(imageUrl);
-  };
-
-  const handleDownload = (imageUrl: string) => {
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = `icon-${Date.now()}.svg`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = () => {
+    if (generatedImages.length > 0) {
+      const link = document.createElement('a');
+      link.href = generatedImages[0];
+      link.download = `icon-${Date.now()}.svg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
@@ -93,75 +88,43 @@ export default function IconVisualization({
             </div>
           </div>
         ) : generatedImages.length > 0 ? (
-          // Generated Icons Display
-          <div className="w-full space-y-6 py-4">
-            {/* Main selected icon */}
-            {selectedImageIndex !== null && (
-              <div className="text-center space-y-4">
-                <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200 max-w-xs mx-auto">
-                  <img
-                    src={generatedImages[selectedImageIndex]}
-                    alt="Selected icon"
-                    className="w-full h-32 object-contain"
-                  />
-                </div>
-                
-                {/* Action buttons */}
-                <div className="flex justify-center space-x-3">
-                  <Button
-                    onClick={() => handleDownload(generatedImages[selectedImageIndex])}
-                    size="sm"
-                    className="bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-white border-white/30 hover:bg-white/10"
-                  >
-                    <Heart className="w-4 h-4 mr-2" />
-                    Save
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="text-white border-white/30 hover:bg-white/10"
-                  >
-                    <Share2 className="w-4 h-4 mr-2" />
-                    Share
-                  </Button>
-                </div>
+          // Generated Icon Display
+          <div className="w-full py-4">
+            <div className="text-center space-y-4">
+              <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200 w-64 h-64 mx-auto flex items-center justify-center">
+                <img
+                  src={generatedImages[0]}
+                  alt="Generated icon"
+                  className="w-32 h-32 object-contain"
+                />
               </div>
-            )}
-
-            {/* All generated variations */}
-            <div className="pb-4">
-              <h4 className="text-white font-medium mb-3 text-center">All Variations</h4>
-              <div className="grid grid-cols-2 gap-4">
-                {generatedImages.map((imageUrl, index) => (
-                  <div
-                    key={index}
-                    className={`bg-white rounded-lg p-4 border-2 cursor-pointer transition-all hover:scale-105 ${
-                      selectedImageIndex === index 
-                        ? 'border-orange-500 shadow-lg' 
-                        : 'border-gray-200 hover:border-orange-300'
-                    }`}
-                    onClick={() => handleImageSelect(imageUrl, index)}
-                  >
-                    <img
-                      src={imageUrl}
-                      alt={`Generated icon ${index + 1}`}
-                      className="w-full h-20 object-contain"
-                    />
-                    <div className="mt-2 text-center">
-                      <span className="text-xs text-gray-600">
-                        {selectedImageIndex === index ? 'Selected' : 'Click to select'}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+              
+              {/* Action buttons */}
+              <div className="flex justify-center space-x-3">
+                <Button
+                  onClick={handleDownload}
+                  size="sm"
+                  className="bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-white border-white/30 hover:bg-white/10"
+                >
+                  <Heart className="w-4 h-4 mr-2" />
+                  Save
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-white border-white/30 hover:bg-white/10"
+                >
+                  <Share2 className="w-4 h-4 mr-2" />
+                  Share
+                </Button>
               </div>
             </div>
           </div>
@@ -186,7 +149,7 @@ export default function IconVisualization({
         <div className="p-4 border-t border-white/20 mt-auto">
           <div className="text-center">
             <p className="text-white/60 text-xs mb-2">
-              Generated {generatedImages.length} variations
+              Icon generated successfully
             </p>
             <div className="flex justify-center space-x-2">
               <Button
@@ -196,7 +159,7 @@ export default function IconVisualization({
                 className="text-white border-white/30 hover:bg-white/10"
               >
                 <RefreshCw className="w-4 h-4 mr-2" />
-                Generate More
+                Generate New
               </Button>
             </div>
           </div>
