@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { Send, Sparkles } from 'lucide-react';
+import { Send } from 'lucide-react';
+import Logo from '../ui/Logo';
 
 interface ChatMessage {
   id: string;
@@ -146,8 +147,8 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
     <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 h-full flex flex-col">
       {/* Header */}
       <div className="flex items-center space-x-3 p-4 border-b border-white/20">
-        <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-pink-600 rounded-full flex items-center justify-center">
-          <Sparkles className="w-4 h-4 text-white" />
+        <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-pink-600 rounded-full flex items-center justify-center">
+          <Logo width={28} height={28} className="text-white brightness-0 invert" />
         </div>
         <div>
           <h3 className="text-white font-semibold">AI Icon Assistant</h3>
