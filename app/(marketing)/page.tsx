@@ -232,10 +232,10 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Visual AI Prompt Builder</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">AI-Powered Icon Generation</h3>
                 <p className="text-sunset-200">
-                Build better prompts with AI guidance and 
-                a modern visual canvas.
+                Create stunning icons instantly with 
+                advanced AI prompt technology.
               </p>
             </div>
             </ScrollAnimation>
@@ -437,7 +437,7 @@ export default function HomePage() {
             </ScrollAnimation>
             <ScrollAnimation delay={300}>
               <p className="text-xl text-sunset-200 mb-8 max-w-3xl mx-auto">
-                High-quality AI-powered SVG icon creation using Claude Sonnet 4.0 and advanced image recognition APIs. Professional tools deserve professional pricing.
+                High-quality AI-powered SVG icon creation using Claude Sonnet 4.0 and advanced prompt-to-icon technology. Professional tools deserve professional pricing.
             </p>
             </ScrollAnimation>
           </div>
@@ -480,7 +480,7 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Advanced image recognition API
+                    Advanced prompt-to-icon AI
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -621,9 +621,9 @@ export default function HomePage() {
 
               <ScrollAnimation delay={400}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
-                  <h4 className="text-xl font-semibold text-white mb-3">Image Recognition API</h4>
-                  <p className="text-sunset-200 mb-2">$0.005 per analysis</p>
-                  <p className="text-sunset-200 text-sm">Advanced drawing-to-prompt conversion</p>
+                  <h4 className="text-xl font-semibold text-white mb-3">AI Icon Generation</h4>
+                  <p className="text-sunset-200 mb-2">$0.005 per generation</p>
+                  <p className="text-sunset-200 text-sm">Advanced prompt-to-icon conversion</p>
                 </div>
               </ScrollAnimation>
 
@@ -655,7 +655,7 @@ export default function HomePage() {
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
                   <h4 className="text-xl font-semibold text-white mb-3">What AI models do you use?</h4>
                   <p className="text-sunset-200">
-                    We use Claude Sonnet 4.0 for generating high-quality SVG code and advanced image recognition APIs to convert your drawings into precise prompts. This ensures scalable, professional-grade icons.
+                    We use Claude Sonnet 4.0 for generating high-quality SVG code and advanced prompt-to-icon technology to convert your descriptions into precise icons. This ensures scalable, professional-grade icons.
                   </p>
                 </div>
               </ScrollAnimation>
@@ -774,7 +774,7 @@ export default function HomePage() {
       {/* Footer */}
       <Footer />
 
-      {/* Typing Animation & Sketch Demo Script */}
+      {/* Typing Animation & Icon Demo Script */}
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -843,149 +843,48 @@ export default function HomePage() {
                 setTimeout(typeWriter, typeSpeed);
               }
               
-              // Animated Sketch to Icon Demo
-              function initSketchDemo() {
-                const canvas = document.getElementById('sketch-canvas');
-                const generatedIcon = document.getElementById('generated-icon');
+              // Simple Icon Generation Demo
+              function initIconDemo() {
                 const demoStatus = document.getElementById('demo-status');
+                if (!demoStatus) return;
                 
-                if (!canvas || !generatedIcon || !demoStatus) return;
+                const statuses = [
+                  'Processing prompt...',
+                  'Generating icon...',
+                  'Optimizing design...',
+                  'Icon ready!'
+                ];
                 
-                const ctx = canvas.getContext('2d');
-                let animationStep = 0;
-                let currentPath = [];
+                let currentStatus = 0;
                 
-                                 // Lightning bolt path 1 - Classic zigzag
-                 const lightningPath1 = [
-                   {x: 140, y: 20},
-                   {x: 125, y: 40},
-                   {x: 155, y: 40},
-                   {x: 140, y: 60},
-                   {x: 110, y: 45},
-                   {x: 140, y: 20}
-                 ];
-                 
-                 // Lightning bolt path 2 - Wider zigzag
-                 const lightningPath2 = [
-                   {x: 140, y: 25},
-                   {x: 120, y: 45},
-                   {x: 160, y: 45},
-                   {x: 140, y: 75},
-                   {x: 105, y: 50},
-                   {x: 140, y: 25}
-                 ];
-                 
-                 // Lightning bolt path 3 - Taller lightning
-                 const lightningPath3 = [
-                   {x: 140, y: 15},
-                   {x: 130, y: 35},
-                   {x: 150, y: 35},
-                   {x: 140, y: 55},
-                   {x: 125, y: 75},
-                   {x: 155, y: 75},
-                   {x: 140, y: 85},
-                   {x: 115, y: 60},
-                   {x: 140, y: 15}
-                 ];
-                
-                                 const paths = [lightningPath1, lightningPath2, lightningPath3];
-                let currentPathIndex = 0;
-                
-                function drawSketch() {
-                  ctx.clearRect(0, 0, canvas.width, canvas.height);
-                  
-                  // Set drawing style
-                  ctx.strokeStyle = '#666';
-                  ctx.lineWidth = 2;
-                  ctx.lineCap = 'round';
-                  ctx.lineJoin = 'round';
-                  
-                  const path = paths[currentPathIndex];
-                  
-                  if (animationStep < path.length) {
-                    // Draw the path progressively
-                    ctx.beginPath();
-                    ctx.moveTo(path[0].x, path[0].y);
-                    
-                    for (let i = 1; i <= animationStep; i++) {
-                      ctx.lineTo(path[i].x, path[i].y);
-                    }
-                    
-                    ctx.stroke();
-                    
-                                         // Add some random sketch lines for effect
-                     if (Math.random() > 0.8) {
-                       ctx.beginPath();
-                       const pointIndex = Math.max(0, Math.floor(animationStep/2));
-                       if (path[pointIndex]) {
-                         ctx.moveTo(path[pointIndex].x + Math.random() * 3 - 1.5, 
-                                   path[pointIndex].y + Math.random() * 3 - 1.5);
-                         ctx.lineTo(path[pointIndex].x + Math.random() * 6 - 3, 
-                                   path[pointIndex].y + Math.random() * 6 - 3);
-                         ctx.stroke();
-                       }
-                     }
-                    
-                    animationStep++;
-                    setTimeout(drawSketch, 150);
-                  } else {
-                    // Sketch complete, show AI processing
-                    demoStatus.textContent = 'AI Processing...';
-                    setTimeout(showGeneratedIcon, 1000);
+                function updateStatus() {
+                  if (demoStatus) {
+                    demoStatus.textContent = statuses[currentStatus];
+                    currentStatus = (currentStatus + 1) % statuses.length;
                   }
-                }
-                
-                function showGeneratedIcon() {
-                  // Hide sketch canvas
-                  canvas.style.opacity = '0';
                   
-                  // Show generated icon
-                  generatedIcon.style.opacity = '1';
-                  generatedIcon.querySelector('div').style.transform = 'scale(1)';
-                  
-                  demoStatus.textContent = 'Icon Generated!';
-                  
-                  // Reset after 3 seconds
-                  setTimeout(resetDemo, 3000);
-                }
-                
-                function resetDemo() {
-                  // Hide generated icon
-                  generatedIcon.style.opacity = '0';
-                  generatedIcon.querySelector('div').style.transform = 'scale(0)';
-                  
-                  // Show sketch canvas
-                  canvas.style.opacity = '1';
-                  
-                  // Reset variables
-                  animationStep = 0;
-                  currentPathIndex = (currentPathIndex + 1) % paths.length;
-                  
-                  demoStatus.textContent = 'Sketching...';
-                  
-                  // Start next sketch
-                  setTimeout(drawSketch, 1000);
+                  setTimeout(updateStatus, 2000);
                 }
                 
                 // Start the demo
-                setTimeout(drawSketch, 2000);
+                setTimeout(updateStatus, 2000);
               }
               
               // Initialize everything when DOM is ready
               document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(typeWriter, 1000);
-                initSketchDemo();
+                initIconDemo();
               });
               
               // Also start if DOM is already loaded
               if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', function() {
                   setTimeout(typeWriter, 1000);
-                  initSketchDemo();
+                  initIconDemo();
                 });
               } else {
                 setTimeout(typeWriter, 1000);
-                initSketchDemo();
+                initIconDemo();
               }
             })();
           `,
