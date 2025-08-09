@@ -96,7 +96,7 @@ export default function IconVisualization({
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 h-full flex flex-col max-h-[600px] relative">
+    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 h-full flex flex-col min-h-[400px] lg:max-h-[600px] relative">
       {/* Copy Confirmation Popup */}
       {showCopyPopup && (
         <div className="absolute top-4 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-fade-in-up">
@@ -110,7 +110,7 @@ export default function IconVisualization({
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-white/20 flex-shrink-0">
         <div>
-          <h3 className="text-white font-semibold">
+          <h3 className="text-white font-semibold text-sm lg:text-base">
             {generatedImages.length > 0 && viewMode === 'code' ? 'SVG Code' : 'Icon Preview'}
           </h3>
           <p className="text-white/60 text-xs">
@@ -132,7 +132,7 @@ export default function IconVisualization({
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 flex items-start justify-center overflow-y-auto min-h-0">
+      <div className="flex-1 p-4 lg:p-6 flex items-start justify-center overflow-y-auto min-h-0">
         {isGenerating ? (
           // Animated SVG Code Generation State
           <div className="w-full h-full flex flex-col">
@@ -228,21 +228,21 @@ export default function IconVisualization({
 
             {/* Content based on view mode */}
             {viewMode === 'icon' ? (
-              <div className="flex-1 flex flex-col items-center justify-center min-h-0">
-                <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200 w-64 h-64 flex items-center justify-center">
+              <div className="flex-1 flex flex-col items-center justify-center min-h-0 p-4">
+                <div className="bg-white rounded-xl p-4 lg:p-8 shadow-lg border border-gray-200 w-full max-w-[256px] h-48 lg:h-64 flex items-center justify-center">
                   <img
                     src={generatedImages[0]}
                     alt="Generated icon"
-                    className="w-32 h-32 object-contain"
+                    className="w-16 h-16 lg:w-32 lg:h-32 object-contain"
                   />
                 </div>
                 
                 {/* Action buttons */}
-                <div className="flex justify-center space-x-3 mt-4">
+                <div className="flex flex-col sm:flex-row justify-center gap-3 mt-4 w-full max-w-[256px]">
                   <Button
                     onClick={handleDownload}
                     size="sm"
-                    className="bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white"
+                    className="bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white w-full sm:w-auto"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     Save
@@ -250,7 +250,7 @@ export default function IconVisualization({
                   <Button
                     size="sm"
                     variant="outline"
-                    className="text-white border-white/30 hover:bg-white/10"
+                    className="text-white border-white/30 hover:bg-white/10 w-full sm:w-auto"
                   >
                     <Share2 className="w-4 h-4 mr-2" />
                     Share
@@ -260,7 +260,7 @@ export default function IconVisualization({
             ) : (
               // Code View
               <div className="flex-1 bg-midnight-900/50 rounded-lg border border-white/20 p-4 overflow-hidden flex flex-col min-h-0">
-                <div className="flex items-center justify-between mb-2 flex-shrink-0">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 flex-shrink-0 gap-2">
                   <span className="text-white/60 text-xs font-mono">icon.svg</span>
                   <div className="flex items-center space-x-2">
                     <Button
@@ -279,7 +279,7 @@ export default function IconVisualization({
                   </div>
                 </div>
                 
-                <div className="bg-midnight-800 rounded p-4 flex-1 overflow-auto min-h-0" style={{ overflowX: 'scroll', overflowY: 'auto' }}>
+                <div className="bg-midnight-800 rounded p-2 lg:p-4 flex-1 overflow-auto min-h-0" style={{ overflowX: 'scroll', overflowY: 'auto' }}>
                   <pre className="text-xs text-green-400 font-mono leading-relaxed whitespace-pre" style={{ minWidth: 'max-content' }}>
                     <code className="block">
                       {sampleSvgCode.split('\n').map((line, index) => (

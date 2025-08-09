@@ -122,14 +122,14 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 h-full flex flex-col max-h-[600px]">
+    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 h-full flex flex-col min-h-[400px] lg:max-h-[600px]">
       {/* Header */}
       <div className="flex items-center space-x-3 p-4 border-b border-white/20 flex-shrink-0">
-        <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-pink-600 rounded-full flex items-center justify-center">
-          <Logo width={28} height={28} className="text-white brightness-0 invert" />
+        <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-orange-500 to-pink-600 rounded-full flex items-center justify-center">
+          <Logo width={20} height={20} className="text-white brightness-0 invert lg:w-7 lg:h-7" />
         </div>
         <div>
-          <h3 className="text-white font-semibold">AI Icon Assistant</h3>
+          <h3 className="text-white font-semibold text-sm lg:text-base">AI Icon Assistant</h3>
           <p className="text-white/60 text-xs">Powered by advanced AI</p>
         </div>
       </div>
@@ -205,7 +205,7 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
       <div className="p-4 border-t border-white/20 flex-shrink-0">
         <form onSubmit={handleSubmit} className="space-y-3">
           {/* Style and Color Controls */}
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Select value={style} onValueChange={setStyle}>
               <SelectTrigger className="flex-1 h-9 text-xs">
                 <SelectValue placeholder="Style">
@@ -233,7 +233,7 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
               type="color"
               value={primaryColor}
               onChange={(e) => setPrimaryColor(e.target.value)}
-              className="w-12 h-9 rounded-lg border border-white/20 bg-white/10 cursor-pointer"
+              className="w-full sm:w-12 h-9 rounded-lg border border-white/20 bg-white/10 cursor-pointer"
               title="Choose primary color"
             />
           </div>

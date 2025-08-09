@@ -94,7 +94,7 @@ function GeneratePageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-gradient">
+    <div className="min-h-screen bg-dark-gradient overflow-x-hidden">
       <Navbar variant="app" />
       
       {/* Hero-style gradient background */}
@@ -102,28 +102,28 @@ function GeneratePageContent() {
         {/* Gradient overlay for extra depth */}
         <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10"></div>
         
-        <div className="container mx-auto relative z-10">
+        <div className="container mx-auto relative z-10 h-full">
         {/* Header */}
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-white mb-2">AI Icon Generator</h1>
-          <p className="text-sunset-200">Create amazing icons with AI-powered text-to-icon generation</p>
+          <h1 className="text-2xl lg:text-3xl font-bold text-white mb-2">AI Icon Generator</h1>
+          <p className="text-sunset-200 text-sm lg:text-base">Create amazing icons with AI-powered text-to-icon generation</p>
         </div>
 
         {/* Success Message */}
         {showSuccess && (
-          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6 flex items-center max-w-4xl mx-auto">
-            <CheckCircle className="h-5 w-5 text-green-400 mr-3 flex-shrink-0" />
+          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center max-w-4xl mx-auto gap-3">
+            <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
             <div>
-              <p className="text-green-400 font-semibold">Payment successful! Welcome to AI Icon Generator!</p>
-              <p className="text-green-300 text-sm mt-1">Your subscription is now active. Start creating amazing icons below!</p>
+              <p className="text-green-400 font-semibold text-sm lg:text-base">Payment successful! Welcome to AI Icon Generator!</p>
+              <p className="text-green-300 text-xs lg:text-sm mt-1">Your subscription is now active. Start creating amazing icons below!</p>
             </div>
           </div>
         )}
 
         {/* Main Interface - Base44 Style Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto h-[600px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 max-w-7xl mx-auto min-h-[600px] lg:h-[600px]">
           {/* AI Chat Interface - Left Side */}
-          <div className="h-full">
+          <div className="h-full min-h-[400px] lg:min-h-0">
             <AIChatInterface
               onGenerate={handleGenerate}
               isGenerating={isGenerating}
@@ -132,7 +132,7 @@ function GeneratePageContent() {
           </div>
 
           {/* Icon Visualization - Right Side */}
-          <div className="h-full">
+          <div className="h-full min-h-[400px] lg:min-h-0">
             <IconVisualization
               generatedImages={generatedImages}
               isGenerating={isGenerating}
