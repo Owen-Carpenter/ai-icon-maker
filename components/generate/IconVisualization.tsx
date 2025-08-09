@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
-import { Download, RefreshCw, Share2, Code, Eye, Copy } from 'lucide-react';
+import { Download, RefreshCw, Share2, Code, Eye } from 'lucide-react';
 import Logo from '../ui/Logo';
 
 interface IconVisualizationProps {
@@ -42,15 +42,14 @@ export default function IconVisualization({
 }: IconVisualizationProps) {
   const [displayedCode, setDisplayedCode] = useState('');
   const [codeIndex, setCodeIndex] = useState(0);
-  const [showCode, setShowCode] = useState(false);
-  const [generatedSvgCode, setGeneratedSvgCode] = useState('');
+  const [viewMode, setViewMode] = useState<'icon' | 'code'>('icon');
 
   // Animate SVG code typing
   useEffect(() => {
     if (isGenerating) {
       setDisplayedCode('');
       setCodeIndex(0);
-      setShowCode(false);
+      setViewMode('icon'); // Reset to icon view when generating
       
       const interval = setInterval(() => {
         setCodeIndex((prevIndex) => {
@@ -75,41 +74,6 @@ export default function IconVisualization({
     setDisplayedCode(sampleSvgCode.slice(0, codeIndex));
   }, [codeIndex]);
 
-  // When generation completes, extract and store the actual SVG code
-  useEffect(() => {
-    if (!isGenerating && generatedImages.length > 0) {
-      // Try to extract SVG code from the generated image
-      const imageUrl = generatedImages[0];
-      if (imageUrl.startsWith('data:image/svg+xml')) {
-        // Extract the SVG code from the data URL
-        try {
-          const svgCode = decodeURIComponent(imageUrl.split(',')[1]);
-          setGeneratedSvgCode(svgCode);
-        } catch (error) {
-          // If decoding fails, use sample code
-          setGeneratedSvgCode(sampleSvgCode);
-        }
-      } else if (imageUrl.startsWith('data:image/')) {
-        // For other image types, create a sample SVG wrapper
-        const sampleCode = `<!-- Generated Icon -->
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- This icon was generated as a raster image -->
-  <!-- Original source: ${imageUrl.substring(0, 50)}... -->
-  <rect width="64" height="64" fill="url(#pattern)" />
-  <defs>
-    <pattern id="pattern" patternUnits="userSpaceOnUse" width="64" height="64">
-      <image href="${imageUrl}" width="64" height="64" />
-    </pattern>
-  </defs>
-</svg>`;
-        setGeneratedSvgCode(sampleCode);
-      } else {
-        // For external URLs or other formats, use sample code
-        setGeneratedSvgCode(sampleSvgCode);
-      }
-    }
-  }, [isGenerating, generatedImages]);
-
   const handleDownload = () => {
     if (generatedImages.length > 0) {
       const link = document.createElement('a');
@@ -121,57 +85,41 @@ export default function IconVisualization({
     }
   };
 
-  const handleCopyCode = async () => {
-    if (generatedSvgCode) {
-      try {
-        await navigator.clipboard.writeText(generatedSvgCode);
-        // You could add a toast notification here
-        console.log('SVG code copied to clipboard');
-      } catch (error) {
-        console.error('Failed to copy code:', error);
-      }
-    }
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(sampleSvgCode).then(() => {
+      // You could add a toast notification here
+      console.log('SVG code copied to clipboard');
+    });
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 h-full flex flex-col">
+    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 h-full flex flex-col max-h-[600px]">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-white/20">
+      <div className="flex items-center justify-between p-4 border-b border-white/20 flex-shrink-0">
         <div>
-          <h3 className="text-white font-semibold">Icon Preview</h3>
+          <h3 className="text-white font-semibold">
+            {generatedImages.length > 0 && viewMode === 'code' ? 'SVG Code' : 'Icon Preview'}
+          </h3>
           <p className="text-white/60 text-xs">
             {currentPrompt ? `"${currentPrompt}"` : 'Your generated icon will appear here'}
           </p>
         </div>
-        <div className="flex items-center space-x-2">
-          {generatedImages.length > 0 && !isGenerating && (
-            <>
-              <Button
-                onClick={() => setShowCode(!showCode)}
-                size="sm"
-                variant="outline"
-                className="text-white border-white/30 hover:bg-white/10"
-              >
-                {showCode ? <Eye className="w-4 h-4 mr-2" /> : <Code className="w-4 h-4 mr-2" />}
-                {showCode ? 'View Icon' : 'View Code'}
-              </Button>
-              <Button
-                onClick={onRegenerate}
-                disabled={isGenerating}
-                size="sm"
-                variant="outline"
-                className="text-white border-white/30 hover:bg-white/10"
-              >
-                <RefreshCw className={`w-4 h-4 mr-2 ${isGenerating ? 'animate-spin' : ''}`} />
-                Regenerate
-              </Button>
-            </>
-          )}
-        </div>
+        {generatedImages.length > 0 && (
+          <Button
+            onClick={onRegenerate}
+            disabled={isGenerating}
+            size="sm"
+            variant="outline"
+            className="text-white border-white/30 hover:bg-white/10"
+          >
+            <RefreshCw className={`w-4 h-4 mr-2 ${isGenerating ? 'animate-spin' : ''}`} />
+            Regenerate
+          </Button>
+        )}
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 flex items-start justify-center overflow-y-auto max-h-[500px]">
+      <div className="flex-1 p-6 flex items-start justify-center overflow-y-auto min-h-0">
         {isGenerating ? (
           // Animated SVG Code Generation State
           <div className="w-full h-full flex flex-col">
@@ -195,15 +143,15 @@ export default function IconVisualization({
                 </div>
               </div>
               
-              <div className="bg-midnight-800 rounded p-4 h-full overflow-auto">
-                <pre className="text-xs text-green-400 font-mono leading-relaxed">
-                  <code>
+              <div className="bg-midnight-800 rounded p-4 h-full overflow-auto" style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
+                <pre className="text-xs text-green-400 font-mono leading-relaxed whitespace-pre" style={{ minWidth: 'max-content' }}>
+                  <code className="block">
                     {displayedCode.split('\n').map((line, index) => (
                       <div key={index} className="flex">
-                        <span className="text-white/40 mr-2 select-none w-8 text-right">
+                        <span className="text-white/40 mr-2 select-none w-8 text-right flex-shrink-0">
                           {index + 1}
                         </span>
-                        <span className="flex-1">{line || ' '}</span>
+                        <span className="flex-1 whitespace-pre">{line || ' '}</span>
                       </div>
                     ))}
                     {displayedCode && <span className="animate-pulse text-green-300">|</span>}
@@ -222,62 +170,44 @@ export default function IconVisualization({
             </div>
           </div>
         ) : generatedImages.length > 0 ? (
-          // Generated Icon Display or Code View
-          <div className="w-full py-4">
-            {showCode ? (
-              // SVG Code View
-              <div className="w-full h-full flex flex-col">
-                <div className="text-center mb-4">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Generated SVG Code
-                  </h3>
-                  <p className="text-sm text-sunset-200">
-                    Here's the SVG code that was generated for your icon
-                  </p>
-                </div>
-                
-                {/* SVG Code Display */}
-                <div className="flex-1 bg-midnight-900/50 rounded-lg border border-white/20 p-4 overflow-hidden">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-white/60 text-xs font-mono">generated-icon.svg</span>
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        onClick={handleCopyCode}
-                        size="sm"
-                        variant="outline"
-                        className="text-white border-white/30 hover:bg-white/10 h-6 px-2"
-                      >
-                        <Copy className="w-3 h-3 mr-1" />
-                        Copy
-                      </Button>
-                      <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                        <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-midnight-800 rounded p-4 h-full overflow-auto">
-                    <pre className="text-xs text-green-400 font-mono leading-relaxed">
-                      <code>
-                        {generatedSvgCode.split('\n').map((line, index) => (
-                          <div key={index} className="flex">
-                            <span className="text-white/40 mr-2 select-none w-8 text-right">
-                              {index + 1}
-                            </span>
-                            <span className="flex-1">{line || ' '}</span>
-                          </div>
-                        ))}
-                      </code>
-                    </pre>
-                  </div>
-                </div>
+          // Generated Icon Display with Toggle
+          <div className="w-full h-full flex flex-col min-h-0">
+            {/* Toggle Buttons */}
+            <div className="flex justify-center mb-4 flex-shrink-0">
+              <div className="bg-white/10 rounded-lg p-1 flex">
+                <Button
+                  onClick={() => setViewMode('icon')}
+                  size="sm"
+                  variant={viewMode === 'icon' ? 'default' : 'ghost'}
+                  className={`text-xs ${
+                    viewMode === 'icon' 
+                      ? 'bg-gradient-to-r from-orange-500 to-pink-600 text-white' 
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  <Eye className="w-3 h-3 mr-1" />
+                  Icon
+                </Button>
+                <Button
+                  onClick={() => setViewMode('code')}
+                  size="sm"
+                  variant={viewMode === 'code' ? 'default' : 'ghost'}
+                  className={`text-xs ${
+                    viewMode === 'code' 
+                      ? 'bg-gradient-to-r from-orange-500 to-pink-600 text-white' 
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  <Code className="w-3 h-3 mr-1" />
+                  Code
+                </Button>
               </div>
-            ) : (
-              // Icon Display
-              <div className="text-center space-y-4">
-                <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200 w-64 h-64 mx-auto flex items-center justify-center">
+            </div>
+
+            {/* Content based on view mode */}
+            {viewMode === 'icon' ? (
+              <div className="flex-1 flex flex-col items-center justify-center min-h-0">
+                <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200 w-64 h-64 flex items-center justify-center">
                   <img
                     src={generatedImages[0]}
                     alt="Generated icon"
@@ -286,7 +216,7 @@ export default function IconVisualization({
                 </div>
                 
                 {/* Action buttons */}
-                <div className="flex justify-center space-x-3">
+                <div className="flex justify-center space-x-3 mt-4">
                   <Button
                     onClick={handleDownload}
                     size="sm"
@@ -303,6 +233,43 @@ export default function IconVisualization({
                     <Share2 className="w-4 h-4 mr-2" />
                     Share
                   </Button>
+                </div>
+              </div>
+            ) : (
+              // Code View
+              <div className="flex-1 bg-midnight-900/50 rounded-lg border border-white/20 p-4 overflow-hidden flex flex-col min-h-0">
+                <div className="flex items-center justify-between mb-2 flex-shrink-0">
+                  <span className="text-white/60 text-xs font-mono">icon.svg</span>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      onClick={handleCopyCode}
+                      size="sm"
+                      variant="outline"
+                      className="text-white border-white/30 hover:bg-white/10 text-xs"
+                    >
+                      Copy Code
+                    </Button>
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-midnight-800 rounded p-4 flex-1 overflow-auto min-h-0" style={{ overflowX: 'scroll', overflowY: 'auto' }}>
+                  <pre className="text-xs text-green-400 font-mono leading-relaxed whitespace-pre" style={{ minWidth: 'max-content' }}>
+                    <code className="block">
+                      {sampleSvgCode.split('\n').map((line, index) => (
+                        <div key={index} className="flex">
+                          <span className="text-white/40 mr-2 select-none w-8 text-right flex-shrink-0">
+                            {index + 1}
+                          </span>
+                          <span className="flex-1 whitespace-pre">{line || ' '}</span>
+                        </div>
+                      ))}
+                    </code>
+                  </pre>
                 </div>
               </div>
             )}
@@ -325,7 +292,7 @@ export default function IconVisualization({
 
       {/* Footer */}
       {generatedImages.length > 0 && !isGenerating && (
-        <div className="p-4 border-t border-white/20 mt-auto">
+        <div className="p-4 border-t border-white/20 mt-auto flex-shrink-0">
           <div className="text-center">
             <p className="text-white/60 text-xs mb-2">
               Icon generated successfully

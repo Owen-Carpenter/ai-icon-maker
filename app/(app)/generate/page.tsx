@@ -121,7 +121,7 @@ function GeneratePageContent() {
         )}
 
         {/* Main Interface - Base44 Style Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto min-h-[600px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto h-[600px]">
           {/* AI Chat Interface - Left Side */}
           <div className="h-full">
             <AIChatInterface
