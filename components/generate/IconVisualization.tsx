@@ -174,15 +174,24 @@ export default function IconVisualization({
           <div className="w-full h-full flex flex-col min-h-0">
             {/* Toggle Buttons */}
             <div className="flex justify-center mb-4 flex-shrink-0">
-              <div className="bg-white/10 rounded-lg p-1 flex">
+              <div className="bg-white/10 rounded-lg p-1 flex relative">
+                {/* Sliding Background */}
+                <div 
+                  className={`absolute top-1 bottom-1 rounded-md bg-gradient-to-r from-orange-500 to-pink-600 transition-all duration-300 ease-in-out ${
+                    viewMode === 'icon' 
+                      ? 'left-1 w-[calc(50%-8px)]' 
+                      : 'left-[calc(50%-1px)] w-[calc(50%-4px)]'
+                  }`}
+                />
+                
                 <Button
                   onClick={() => setViewMode('icon')}
                   size="sm"
-                  variant={viewMode === 'icon' ? 'default' : 'ghost'}
-                  className={`text-xs ${
+                  variant="ghost"
+                  className={`text-xs relative z-10 transition-colors duration-300 px-3 flex-1 ${
                     viewMode === 'icon' 
-                      ? 'bg-gradient-to-r from-orange-500 to-pink-600 text-white' 
-                      : 'text-white hover:bg-white/10'
+                      ? 'text-white' 
+                      : 'text-white'
                   }`}
                 >
                   <Eye className="w-3 h-3 mr-1" />
@@ -191,11 +200,11 @@ export default function IconVisualization({
                 <Button
                   onClick={() => setViewMode('code')}
                   size="sm"
-                  variant={viewMode === 'code' ? 'default' : 'ghost'}
-                  className={`text-xs ${
+                  variant="ghost"
+                  className={`text-xs relative z-10 transition-colors duration-300 px-3 flex-1 ${
                     viewMode === 'code' 
-                      ? 'bg-gradient-to-r from-orange-500 to-pink-600 text-white' 
-                      : 'text-white hover:bg-white/10'
+                      ? 'text-white' 
+                      : 'text-white'
                   }`}
                 >
                   <Code className="w-3 h-3 mr-1" />
