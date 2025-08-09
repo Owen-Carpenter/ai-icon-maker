@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
-import { Download, RefreshCw, Share2, Code, Eye } from 'lucide-react';
+import { Download, RefreshCw, Share2, Code, Eye, CheckCircle } from 'lucide-react';
 import Logo from '../ui/Logo';
 
 interface IconVisualizationProps {
@@ -43,6 +43,7 @@ export default function IconVisualization({
   const [displayedCode, setDisplayedCode] = useState('');
   const [codeIndex, setCodeIndex] = useState(0);
   const [viewMode, setViewMode] = useState<'icon' | 'code'>('icon');
+  const [showCopyPopup, setShowCopyPopup] = useState(false);
 
   // Animate SVG code typing
   useEffect(() => {
@@ -87,13 +88,25 @@ export default function IconVisualization({
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(sampleSvgCode).then(() => {
-      // You could add a toast notification here
-      console.log('SVG code copied to clipboard');
+      setShowCopyPopup(true);
+      setTimeout(() => setShowCopyPopup(false), 2000); // Hide after 2 seconds
+    }).catch((err) => {
+      console.error('Failed to copy code:', err);
     });
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 h-full flex flex-col max-h-[600px]">
+    <div className="bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 h-full flex flex-col max-h-[600px] relative">
+      {/* Copy Confirmation Popup */}
+      {showCopyPopup && (
+        <div className="absolute top-4 right-4 z-50 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-fade-in-up">
+          <div className="flex items-center space-x-2">
+            <CheckCircle className="w-4 h-4" />
+            <span className="text-sm font-medium">Code copied!</span>
+          </div>
+        </div>
+      )}
+      
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-white/20 flex-shrink-0">
         <div>
