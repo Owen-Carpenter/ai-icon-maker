@@ -9,6 +9,7 @@ interface IconVisualizationProps {
   generatedImages: string[];
   isGenerating: boolean;
   onRegenerate: () => void;
+  onGenerateNew?: () => void;
   onSelectImage: (imageUrl: string) => void;
   currentPrompt?: string;
 }
@@ -37,6 +38,7 @@ export default function IconVisualization({
   generatedImages, 
   isGenerating, 
   onRegenerate, 
+  onGenerateNew,
   onSelectImage,
   currentPrompt 
 }: IconVisualizationProps) {
@@ -321,7 +323,7 @@ export default function IconVisualization({
             </p>
             <div className="flex justify-center space-x-2">
               <Button
-                onClick={onRegenerate}
+                onClick={onGenerateNew || onRegenerate}
                 size="sm"
                 variant="outline"
                 className="text-white border-white/30 hover:bg-white/10"

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
 import Navbar from '../../../components/Navbar';
@@ -14,6 +14,7 @@ function GeneratePageContent() {
   const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const chatInterfaceRef = useRef<{ reset: () => void }>(null);
   const [currentPrompt, setCurrentPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
@@ -93,6 +94,17 @@ function GeneratePageContent() {
     console.log('Selected image:', imageUrl);
   };
 
+  const handleReset = () => {
+    // Reset chat interface
+    if (chatInterfaceRef.current) {
+      chatInterfaceRef.current.reset();
+    }
+    // Reset visualization state
+    setCurrentPrompt('');
+    setGeneratedImages([]);
+    setIsGenerating(false);
+  };
+
   return (
     <div className="min-h-screen bg-dark-gradient overflow-x-hidden">
       <Navbar variant="app" />
@@ -125,6 +137,7 @@ function GeneratePageContent() {
           {/* AI Chat Interface - Left Side */}
           <div className="h-full min-h-[400px] lg:min-h-0">
             <AIChatInterface
+              ref={chatInterfaceRef}
               onGenerate={handleGenerate}
               isGenerating={isGenerating}
               currentPrompt={currentPrompt}
@@ -137,6 +150,7 @@ function GeneratePageContent() {
               generatedImages={generatedImages}
               isGenerating={isGenerating}
               onRegenerate={handleRegenerateVariations}
+              onGenerateNew={handleReset}
               onSelectImage={handleSelectImage}
               currentPrompt={currentPrompt}
             />

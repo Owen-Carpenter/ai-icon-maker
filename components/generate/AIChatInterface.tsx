@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -21,7 +21,7 @@ interface AIChatInterfaceProps {
   currentPrompt?: string;
 }
 
-export default function AIChatInterface({ onGenerate, isGenerating, currentPrompt }: AIChatInterfaceProps) {
+const AIChatInterface = forwardRef<{ reset: () => void }, AIChatInterfaceProps>(({ onGenerate, isGenerating, currentPrompt }, ref) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
@@ -112,6 +112,28 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
   const handleQuickPrompt = (prompt: string) => {
     setInputValue(prompt);
   };
+
+  // Reset function to clear chat and input
+  const resetChat = () => {
+    setMessages([
+      {
+        id: '1',
+        type: 'ai',
+        content: "Hi! I'm your AI icon assistant. Describe the icon you'd like me to create, and I'll generate it for you. You can be as detailed or simple as you want!",
+        timestamp: new Date(),
+        status: 'complete'
+      }
+    ]);
+    setInputValue('');
+    setStyle('modern');
+    setPrimaryColor('#000000');
+    setIsTyping(false);
+  };
+
+  // Expose reset function to parent component
+  useImperativeHandle(ref, () => ({
+    reset: resetChat
+  }));
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', { 
@@ -244,4 +266,6 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
       </div>
     </div>
   );
-} 
+});
+
+export default AIChatInterface;
