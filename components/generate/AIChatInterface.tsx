@@ -183,23 +183,7 @@ export default function AIChatInterface({ onGenerate, isGenerating, currentPromp
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Quick Prompts */}
-      {!isGenerating && messages.length <= 2 && (
-        <div className="px-4 pb-3 flex-shrink-0">
-          <p className="text-xs text-white/60 mb-2">Try these examples:</p>
-          <div className="flex flex-wrap gap-2">
-            {['shopping cart', 'heart icon', 'settings gear', 'home house'].map((prompt) => (
-              <button
-                key={prompt}
-                onClick={() => handleQuickPrompt(prompt)}
-                className="text-xs bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded-full border border-white/20 transition-colors"
-              >
-                {prompt}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+
 
       {/* Input Form */}
       <div className="p-4 border-t border-white/20 flex-shrink-0">
