@@ -208,6 +208,166 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* How It Works Section */}
+      <div className="bg-midnight-900/30 py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <ScrollAnimation>
+            <h2 className="text-4xl font-bold text-white mb-4">How It Works</h2>
+            </ScrollAnimation>
+          </div>
+          
+          <div className="space-y-32">
+            {/* Step 1 - Left Side */}
+            <ScrollAnimation delay={100}>
+              <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                {/* Content - Left */}
+                <div className="order-2 lg:order-1 space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 bg-coral-gradient rounded-2xl flex items-center justify-center shadow-lg">
+                      <span className="text-2xl font-bold text-white">1</span>
+                    </div>
+                    <div className="h-px bg-gradient-to-r from-coral-500 to-transparent flex-1"></div>
+                  </div>
+                  <h3 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                    Enter Your Prompt
+                  </h3>
+                  <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
+                    Describe the icon you want to create in natural language. Be as detailed or simple as you like - our AI understands both approaches.
+                  </p>
+                  <div className="pt-4">
+                    <div className="inline-flex items-center gap-2 text-coral-400 font-medium">
+                      <span>Start creating</span>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Visual - Right */}
+                <div className="order-1 lg:order-2">
+                  <div className="relative">
+                    <div className="bg-coral-gradient rounded-3xl p-12 shadow-2xl">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 min-h-[300px] flex items-center justify-center">
+                        <div className="text-center space-y-4">
+                          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto">
+                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                          </div>
+                          <p className="text-white/90 font-medium">Type your icon idea</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="absolute -top-4 -right-4 w-8 h-8 bg-coral-400 rounded-full"></div>
+                    <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-coral-300 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+
+            {/* Step 2 - Right Side */}
+            <ScrollAnimation delay={200}>
+              <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                {/* Visual - Left */}
+                <div className="order-1">
+                  <div className="relative">
+                    <div className="bg-sunset-gradient rounded-3xl p-12 shadow-2xl">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 min-h-[300px] flex items-center justify-center">
+                        <div className="text-center space-y-4">
+                          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto animate-pulse">
+                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                          </div>
+                          <p className="text-white/90 font-medium">AI processing...</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="absolute -top-4 -left-4 w-8 h-8 bg-sunset-400 rounded-full"></div>
+                    <div className="absolute -bottom-4 -right-4 w-6 h-6 bg-sunset-300 rounded-full"></div>
+                  </div>
+                </div>
+                
+                {/* Content - Right */}
+                <div className="order-2 space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 bg-sunset-gradient rounded-2xl flex items-center justify-center shadow-lg">
+                      <span className="text-2xl font-bold text-white">2</span>
+                    </div>
+                    <div className="h-px bg-gradient-to-r from-sunset-500 to-transparent flex-1"></div>
+                  </div>
+                  <h3 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                    AI Magic Happens
+                  </h3>
+                  <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
+                    Our advanced AI analyzes your prompt and generates multiple high-quality icon variations, each optimized for clarity and professional use.
+                  </p>
+                  <div className="pt-4">
+                    <div className="inline-flex items-center gap-2 text-sunset-400 font-medium">
+                      <span>Watch the magic</span>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+
+            {/* Step 3 - Left Side */}
+            <ScrollAnimation delay={300}>
+              <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                {/* Content - Left */}
+                <div className="order-2 lg:order-1 space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 bg-aurora-gradient rounded-2xl flex items-center justify-center shadow-lg">
+                      <span className="text-2xl font-bold text-white">3</span>
+                    </div>
+                    <div className="h-px bg-gradient-to-r from-purple-400 to-transparent flex-1"></div>
+                  </div>
+                  <h3 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                    Download & Use
+                  </h3>
+                  <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
+                    Choose your favorite icon from the generated variations and download it in multiple formats including SVG, PNG, and more for immediate use.
+                  </p>
+                  <div className="pt-4">
+                    <div className="inline-flex items-center gap-2 text-purple-400 font-medium">
+                      <span>Get your icons</span>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Visual - Right */}
+                <div className="order-1 lg:order-2">
+                  <div className="relative">
+                    <div className="bg-aurora-gradient rounded-3xl p-12 shadow-2xl">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 min-h-[300px] flex items-center justify-center">
+                        <div className="text-center space-y-4">
+                          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto">
+                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          </div>
+                          <p className="text-white/90 font-medium">Ready to download</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="absolute -top-4 -right-4 w-8 h-8 bg-purple-400 rounded-full"></div>
+                    <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-purple-300 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+            </ScrollAnimation>
+          </div>
+        </div>
+      </div>
+
       {/* Benefits Section */}
       <div id="features" className="py-20">
         <div className="container mx-auto px-4">
@@ -224,178 +384,107 @@ export default function HomePage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Visual AI Prompt Builder */}
+            {/* AI-Powered Icon Generation */}
             <ScrollAnimation delay={150}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-                </svg>
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-10 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-coral-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#ff7e5f] to-coral-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-coral-300 transition-colors duration-300">AI-Powered Generation</h3>
+                  <div className="w-12 h-1 bg-gradient-to-r from-coral-500 to-sunset-500 rounded-full mx-auto"></div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">AI-Powered Icon Generation</h3>
-                <p className="text-sunset-200">
-                Create stunning icons instantly with 
-                advanced AI prompt technology.
-              </p>
-            </div>
             </ScrollAnimation>
 
             {/* Quick Preview */}
             <ScrollAnimation delay={200}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-10 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-sunset-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#ff7e5f] to-sunset-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-sunset-300 transition-colors duration-300">Quick Preview</h3>
+                  <div className="w-12 h-1 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full mx-auto"></div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Quick Preview</h3>
-                <p className="text-sunset-200">
-                Get feedback on completion and likely quality 
-                with your prompts.
-              </p>
-            </div>
             </ScrollAnimation>
 
-            {/* Slack Brand Management */}
+            {/* Professional Quality */}
             <ScrollAnimation delay={250}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-10 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#ff7e5f] to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors duration-300">Professional Quality</h3>
+                  <div className="w-12 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto"></div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Slack Brand Management</h3>
-                <p className="text-sunset-200">
-                Generate prompts like company-ready 
-                with easy icon workflow integration.
-              </p>
-            </div>
             </ScrollAnimation>
 
-            {/* Multi-Provider Support */}
+            {/* Multi-Format Export */}
             <ScrollAnimation delay={300}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-10 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#ff7e5f] to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors duration-300">Multi-Format Export</h3>
+                  <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mx-auto"></div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Multi-Provider Support</h3>
-                <p className="text-sunset-200">
-                Works with OpenAI, Anthropic, Google, 
-                and more with your OpenAI.
-              </p>
-            </div>
             </ScrollAnimation>
 
-            {/* Save & Share */}
+            {/* Save & Organize */}
             <ScrollAnimation delay={350}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
-                </svg>
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-10 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#ff7e5f] to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-green-300 transition-colors duration-300">Save & Organize</h3>
+                  <div className="w-12 h-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mx-auto"></div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Save & Share</h3>
-                <p className="text-sunset-200">
-                Save your best prompts and share them 
-                with clients easily.
-              </p>
-            </div>
             </ScrollAnimation>
 
-            {/* AI Model Fine-Tuning */}
+            {/* Smart Optimization */}
             <ScrollAnimation delay={400}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
-                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-10 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#ff7e5f] to-yellow-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-yellow-300 transition-colors duration-300">Smart Optimization</h3>
+                  <div className="w-12 h-1 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full mx-auto"></div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">AI Model Fine-Tuning</h3>
-                <p className="text-sunset-200">
-                Optimize prompts with expert techniques 
-                for different AI models.
-              </p>
-            </div>
             </ScrollAnimation>
           </div>
         </div>
       </div>
 
-      {/* How It Works Section */}
-      <div className="bg-midnight-900/30 py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <ScrollAnimation>
-            <h2 className="text-4xl font-bold text-white mb-4">How It Works</h2>
-            </ScrollAnimation>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <ScrollAnimation delay={100}>
-            <div className="text-center">
-                <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 mb-6 border border-midnight-800 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                  <div className="bg-coral-gradient rounded-lg h-48 flex items-center justify-center">
-                  <div className="text-center">
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300">
-                        <span className="text-2xl font-bold text-white">1</span>
-                      </div>
-                      <p className="text-white text-sm">Step 1</p>
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Enter Your Prompt</h3>
-                <p className="text-sunset-200">
-                  Describe the icon you want to create in natural language.
-                </p>
-              </div>
-            </ScrollAnimation>
 
-            {/* Step 2 */}
-            <ScrollAnimation delay={200}>
-            <div className="text-center">
-                <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 mb-6 border border-midnight-800 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                  <div className="bg-coral-gradient rounded-lg h-48 flex items-center justify-center">
-                  <div className="text-center">
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300">
-                        <span className="text-2xl font-bold text-white">2</span>
-                      </div>
-                      <p className="text-white text-sm">Step 2</p>
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-2">AI Magic Happens</h3>
-                <p className="text-sunset-200">
-                  Our AI generates multiple high-quality icon variations for you.
-                </p>
-              </div>
-            </ScrollAnimation>
-
-            {/* Step 3 */}
-            <ScrollAnimation delay={300}>
-            <div className="text-center">
-                <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 mb-6 border border-midnight-800 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                  <div className="bg-aurora-gradient rounded-lg h-48 flex items-center justify-center">
-                  <div className="text-center">
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300">
-                        <span className="text-2xl font-bold text-white">3</span>
-                      </div>
-                      <p className="text-white text-sm">Step 3</p>
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Download & Use</h3>
-                <p className="text-sunset-200">
-                  Choose your favorite and download in multiple formats.
-                </p>
-              </div>
-            </ScrollAnimation>
-          </div>
-        </div>
-      </div>
 
       {/* CTA Section */}
       <div className="py-20">
