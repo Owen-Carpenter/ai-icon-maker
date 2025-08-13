@@ -94,17 +94,17 @@ export default function HomePage() {
         </div>
         <div className="flex flex-col items-center justify-center text-center w-full relative z-10 animate-fade-in" style={{animationDelay: '0.5s'}}>
           <ScrollAnimation>
-            <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
               Make something 
-              <span className="inline-flex items-center mx-2">
-                <span className="text-3xl lg:text-4xl">🎨</span>
+              <span className="inline-flex items-center mx-1 sm:mx-2">
+                <span className="text-2xl sm:text-3xl lg:text-4xl">🎨</span>
               </span>
               Iconic
             </h1>
           </ScrollAnimation>
           
           <ScrollAnimation delay={100}>
-            <p className="text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl">
+            <p className="text-base sm:text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl px-4">
               Create stunning icons and designs by chatting with AI
             </p>
           </ScrollAnimation>
