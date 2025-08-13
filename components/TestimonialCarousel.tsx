@@ -101,23 +101,30 @@ export default function TestimonialCarousel() {
       {/* Top Row - Moving Right to Left */}
       <div className="relative">
         <div className="flex animate-scroll-rtl hover:animate-pause">
-          <div className="flex space-x-3 sm:space-x-4 lg:space-x-6 shrink-0">
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0">
             {topRowTestimonials.map((testimonial) => (
               <TestimonialCard key={testimonial.id} {...testimonial} />
             ))}
           </div>
           
           {/* Duplicate for seamless loop */}
-          <div className="flex space-x-3 sm:space-x-4 lg:space-x-6 shrink-0 ml-3 sm:ml-4 lg:ml-6">
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
             {topRowTestimonials.map((testimonial) => (
               <TestimonialCard key={`${testimonial.id}-duplicate`} {...testimonial} />
             ))}
           </div>
           
           {/* Additional duplicate for better mobile experience */}
-          <div className="flex space-x-3 sm:space-x-4 lg:space-x-6 shrink-0 ml-3 sm:ml-4 lg:ml-6">
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
             {topRowTestimonials.map((testimonial) => (
               <TestimonialCard key={`${testimonial.id}-duplicate2`} {...testimonial} />
+            ))}
+          </div>
+          
+          {/* Fourth duplicate for ultra-smooth mobile experience */}
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
+            {topRowTestimonials.map((testimonial) => (
+              <TestimonialCard key={`${testimonial.id}-duplicate3`} {...testimonial} />
             ))}
           </div>
         </div>
@@ -126,23 +133,30 @@ export default function TestimonialCarousel() {
       {/* Bottom Row - Moving Left to Right */}
       <div className="relative">
         <div className="flex animate-scroll-ltr hover:animate-pause">
-          <div className="flex space-x-3 sm:space-x-4 lg:space-x-6 shrink-0">
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0">
             {bottomRowTestimonials.map((testimonial) => (
               <TestimonialCard key={testimonial.id} {...testimonial} />
             ))}
           </div>
           
           {/* Duplicate for seamless loop */}
-          <div className="flex space-x-3 sm:space-x-4 lg:space-x-6 shrink-0 ml-3 sm:ml-4 lg:ml-6">
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
             {bottomRowTestimonials.map((testimonial) => (
               <TestimonialCard key={`${testimonial.id}-duplicate`} {...testimonial} />
             ))}
           </div>
           
           {/* Additional duplicate for better mobile experience */}
-          <div className="flex space-x-3 sm:space-x-4 lg:space-x-6 shrink-0 ml-3 sm:ml-4 lg:ml-6">
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
             {bottomRowTestimonials.map((testimonial) => (
               <TestimonialCard key={`${testimonial.id}-duplicate2`} {...testimonial} />
+            ))}
+          </div>
+          
+          {/* Fourth duplicate for ultra-smooth mobile experience */}
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
+            {bottomRowTestimonials.map((testimonial) => (
+              <TestimonialCard key={`${testimonial.id}-duplicate3`} {...testimonial} />
             ))}
           </div>
         </div>

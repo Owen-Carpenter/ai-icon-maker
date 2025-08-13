@@ -66,30 +66,41 @@ body {
 }
 
 /* Testimonial carousel animations */
+@keyframes scroll-ltr {
+  0% {
+    transform: translateX(-400%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 @keyframes scroll-rtl {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-33.333%);
-  }
-}
-
-@keyframes scroll-ltr {
-  0% {
-    transform: translateX(-33.333%);
-  }
-  100% {
-    transform: translateX(0);
+    transform: translateX(-400%);
   }
 }
 
 .animate-scroll-rtl {
-  animation: scroll-rtl 15s linear infinite;
+  animation: scroll-rtl 60s linear infinite;
 }
 
 .animate-scroll-ltr {
-  animation: scroll-ltr 15s linear infinite;
+  animation: scroll-ltr 60s linear infinite;
+}
+
+/* Mobile-specific animations with more time */
+@media (max-width: 768px) {
+  .animate-scroll-rtl {
+    animation: scroll-rtl 15s linear infinite;
+  }
+  
+  .animate-scroll-ltr {
+    animation: scroll-ltr 15s linear infinite;
+  }
 }
 
 .hover\:animate-pause:hover {
@@ -173,4 +184,5 @@ html {
   z-index: 1;
 }
 
+/* All cards animate in unison */ 
 /* All cards animate in unison */ 
