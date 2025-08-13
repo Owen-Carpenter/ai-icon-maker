@@ -8,13 +8,16 @@ import Footer from '../../../components/Footer';
 import AIChatInterface from '../../../components/generate/AIChatInterface';
 import IconVisualization from '../../../components/generate/IconVisualization';
 import Loading from '../../../components/ui/Loading';
+import { ToastContainer } from '../../../components/ui/Toast';
 import { useAuth } from '../../../contexts/AuthContext';
+import { useToast } from '../../../hooks/useToast';
 
 function GeneratePageContent() {
   const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
   const chatInterfaceRef = useRef<{ reset: () => void }>(null);
+  const { toasts, removeToast, success, error } = useToast();
   const [currentPrompt, setCurrentPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
@@ -60,26 +63,53 @@ function GeneratePageContent() {
     setCurrentPrompt(prompt);
     setIsGenerating(true);
     
-    // Log the generation request (in real app, this would be sent to AI API)
-    console.log('Generating icon:', { 
-      prompt: prompt, 
-      style: style,
-      primaryColor: color,
-      mode: 'prompt-only'
-    });
-    
-    // Simulate AI processing
-    setTimeout(() => {
-      // Mock generated images - in real app, these would come from AI API
+    try {
+      // Call our Claude API to generate icons
+      const response = await fetch('/api/generate-icons', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: prompt.trim(),
+          style: style,
+          primaryColor: color,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to generate icons');
+      }
+
+      if (data.success && data.icons?.length > 0) {
+        setGeneratedImages(data.icons);
+        success('Icons Generated!', `Successfully created ${data.icons.length} unique icons for "${prompt}"`);
+      } else {
+        throw new Error('No icons were generated');
+      }
+    } catch (err) {
+      console.error('Icon generation error:', err);
+      
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+      
+      // Show error message and fall back to mock data for demo purposes
       const mockImages = [
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNGRjZDMDAiLz4KPC9zdmc+Cg==',
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNCIgZmlsbD0iI0ZGNkMwMCIvPgo8L3N2Zz4K'
       ];
-      
       setGeneratedImages(mockImages);
+      
+      error(
+        'Generation Failed', 
+        `${errorMessage}. Showing demo icons instead. Please check your Claude API configuration.`,
+        8000
+      );
+    } finally {
       setIsGenerating(false);
-    }, 3000);
+    }
   };
 
   const handleRegenerateVariations = () => {
@@ -108,6 +138,7 @@ function GeneratePageContent() {
   return (
     <div className="min-h-screen bg-dark-gradient overflow-x-hidden">
       <Navbar variant="app" />
+      <ToastContainer toasts={toasts} onClose={removeToast} />
       
       {/* Hero-style gradient background */}
       <div className="w-full min-h-screen px-4 py-8 pt-32 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden">
