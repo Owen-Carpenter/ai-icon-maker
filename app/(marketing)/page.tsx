@@ -103,13 +103,13 @@ export default function HomePage() {
             </h1>
           </ScrollAnimation>
           
-          <ScrollAnimation delay={300}>
+          <ScrollAnimation delay={100}>
             <p className="text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl">
               Create stunning icons and designs by chatting with AI
             </p>
           </ScrollAnimation>
           
-          <ScrollAnimation delay={600}>
+          <ScrollAnimation delay={100}>
             {/* Main Input Field */}
             <div className="w-full mb-8">
               <div className="relative">
@@ -161,7 +161,7 @@ export default function HomePage() {
             </div>
           </ScrollAnimation>
           
-          <ScrollAnimation delay={900}>
+          <ScrollAnimation delay={150}>
             {/* CTA Button */}
             <div className="inline-block [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
               <SmartGenerateLink 
@@ -181,7 +181,7 @@ export default function HomePage() {
           <ScrollAnimation>
           <h2 className="text-4xl font-bold text-white mb-4">See AI Icon Maker in action!</h2>
           </ScrollAnimation>
-          <ScrollAnimation delay={200}>
+          <ScrollAnimation delay={100}>
             <p className="text-sunset-200 mb-12">
             Watch how quickly you can generate icons<br />
             like magic.
@@ -189,7 +189,7 @@ export default function HomePage() {
           </ScrollAnimation>
           
           <div className="max-w-4xl mx-auto">
-            <ScrollAnimation delay={300}>
+            <ScrollAnimation delay={150}>
               <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-8 shadow-2xl border border-midnight-800 hover:shadow-3xl transition-all duration-500 hover:scale-105">
                 <div className="bg-coral-gradient rounded-lg h-96 flex items-center justify-center">
                 <div className="text-center">
@@ -215,7 +215,7 @@ export default function HomePage() {
             <ScrollAnimation>
             <h2 className="text-4xl font-bold text-white mb-4">Powerful Benefits</h2>
             </ScrollAnimation>
-            <ScrollAnimation delay={200}>
+            <ScrollAnimation delay={100}>
               <p className="text-sunset-200 max-w-2xl mx-auto">
               Designed to make AI prompt engineering intuitive, efficient, powerful, and fun for 
               everyone.
@@ -225,7 +225,7 @@ export default function HomePage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Visual AI Prompt Builder */}
-            <ScrollAnimation delay={300}>
+            <ScrollAnimation delay={150}>
               <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
                 <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -241,7 +241,7 @@ export default function HomePage() {
             </ScrollAnimation>
 
             {/* Quick Preview */}
-            <ScrollAnimation delay={400}>
+            <ScrollAnimation delay={200}>
               <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
                 <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -258,7 +258,7 @@ export default function HomePage() {
             </ScrollAnimation>
 
             {/* Slack Brand Management */}
-            <ScrollAnimation delay={500}>
+            <ScrollAnimation delay={250}>
               <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
                 <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -274,7 +274,7 @@ export default function HomePage() {
             </ScrollAnimation>
 
             {/* Multi-Provider Support */}
-            <ScrollAnimation delay={600}>
+            <ScrollAnimation delay={300}>
               <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
                 <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -290,7 +290,7 @@ export default function HomePage() {
             </ScrollAnimation>
 
             {/* Save & Share */}
-            <ScrollAnimation delay={700}>
+            <ScrollAnimation delay={350}>
               <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
                 <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -306,7 +306,7 @@ export default function HomePage() {
             </ScrollAnimation>
 
             {/* AI Model Fine-Tuning */}
-            <ScrollAnimation delay={800}>
+            <ScrollAnimation delay={400}>
               <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
                 <div className="w-16 h-16 bg-[#ff7e5f] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -335,7 +335,7 @@ export default function HomePage() {
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Step 1 */}
-            <ScrollAnimation delay={200}>
+            <ScrollAnimation delay={100}>
             <div className="text-center">
                 <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 mb-6 border border-midnight-800 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
                   <div className="bg-coral-gradient rounded-lg h-48 flex items-center justify-center">
@@ -355,7 +355,7 @@ export default function HomePage() {
             </ScrollAnimation>
 
             {/* Step 2 */}
-            <ScrollAnimation delay={400}>
+            <ScrollAnimation delay={200}>
             <div className="text-center">
                 <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 mb-6 border border-midnight-800 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
                   <div className="bg-coral-gradient rounded-lg h-48 flex items-center justify-center">
@@ -375,7 +375,7 @@ export default function HomePage() {
             </ScrollAnimation>
 
             {/* Step 3 */}
-            <ScrollAnimation delay={600}>
+            <ScrollAnimation delay={300}>
             <div className="text-center">
                 <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-6 mb-6 border border-midnight-800 hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
                   <div className="bg-aurora-gradient rounded-lg h-48 flex items-center justify-center">
@@ -402,15 +402,15 @@ export default function HomePage() {
         <div className="container mx-auto px-4 text-center">
           <ScrollAnimation>
             <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-12 border border-midnight-800 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-              <ScrollAnimation delay={200}>
+              <ScrollAnimation delay={100}>
                 <h2 className="text-4xl font-bold text-white mb-4">Ready to Create Amazing Icons?</h2>
               </ScrollAnimation>
-              <ScrollAnimation delay={400}>
+              <ScrollAnimation delay={200}>
                 <p className="text-sunset-200 mb-8 max-w-2xl mx-auto">
                   Join thousands of creators who are already using AI Icon Maker to bring their ideas to life.
                 </p>
               </ScrollAnimation>
-                              <ScrollAnimation delay={600}>
+                              <ScrollAnimation delay={300}>
                 {/* Swirling Border Button */}
                 <div className="inline-block [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
                   <SmartGenerateLink 
@@ -435,7 +435,7 @@ export default function HomePage() {
                 Professional AI Icon Generation
               </h2>
             </ScrollAnimation>
-            <ScrollAnimation delay={300}>
+            <ScrollAnimation delay={150}>
               <p className="text-xl text-sunset-200 mb-8 max-w-3xl mx-auto">
                 High-quality AI-powered SVG icon creation using Claude Sonnet 4.0 and advanced prompt-to-icon technology. Professional tools deserve professional pricing.
             </p>
@@ -446,7 +446,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
             
             {/* Pro Plan */}
-            <ScrollAnimation delay={400}>
+            <ScrollAnimation delay={200}>
               <div className="bg-gradient-to-br from-sunset-500/20 to-coral-500/20 backdrop-blur-md rounded-2xl p-8 border-2 border-sunset-500/50 shadow-2xl hover:shadow-3xl hover:shadow-sunset-500/30 transition-all duration-500 hover:scale-105 relative">
                 {/* Popular Badge */}
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
@@ -525,7 +525,7 @@ export default function HomePage() {
             </ScrollAnimation>
 
             {/* Enterprise Plan */}
-            <ScrollAnimation delay={600}>
+            <ScrollAnimation delay={300}>
               <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 relative">
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
@@ -603,7 +603,7 @@ export default function HomePage() {
               <ScrollAnimation>
                 <h3 className="text-3xl font-bold text-white mb-4">Why This Pricing Makes Sense</h3>
               </ScrollAnimation>
-              <ScrollAnimation delay={200}>
+              <ScrollAnimation delay={100}>
                 <p className="text-sunset-200 max-w-2xl mx-auto">
                   We use cutting-edge AI models to ensure the highest quality SVG icons. Here's what it costs to generate professional icons with leading AI services:
                 </p>
@@ -611,7 +611,7 @@ export default function HomePage() {
             </div>
 
             <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-              <ScrollAnimation delay={300}>
+              <ScrollAnimation delay={150}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
                   <h4 className="text-xl font-semibold text-white mb-3">Claude Sonnet 4.0</h4>
                   <p className="text-sunset-200 mb-2">$0.015 per SVG</p>
@@ -619,7 +619,7 @@ export default function HomePage() {
                 </div>
               </ScrollAnimation>
 
-              <ScrollAnimation delay={400}>
+              <ScrollAnimation delay={200}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
                   <h4 className="text-xl font-semibold text-white mb-3">AI Icon Generation</h4>
                   <p className="text-sunset-200 mb-2">$0.005 per generation</p>
@@ -627,7 +627,7 @@ export default function HomePage() {
                 </div>
               </ScrollAnimation>
 
-              <ScrollAnimation delay={500}>
+              <ScrollAnimation delay={250}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
                   <h4 className="text-xl font-semibold text-white mb-3">Premium Infrastructure</h4>
                   <p className="text-sunset-200 mb-2">$0.010 per request</p>
@@ -643,7 +643,7 @@ export default function HomePage() {
               <ScrollAnimation>
                 <h3 className="text-3xl font-bold text-white mb-4">Frequently Asked Questions</h3>
               </ScrollAnimation>
-              <ScrollAnimation delay={200}>
+              <ScrollAnimation delay={100}>
                 <p className="text-sunset-200 max-w-2xl mx-auto">
                   Got questions? We've got answers. Here are some common questions about our pricing and service.
                 </p>
@@ -651,7 +651,7 @@ export default function HomePage() {
             </div>
 
             <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-              <ScrollAnimation delay={300}>
+              <ScrollAnimation delay={150}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
                   <h4 className="text-xl font-semibold text-white mb-3">What AI models do you use?</h4>
                   <p className="text-sunset-200">
@@ -660,7 +660,7 @@ export default function HomePage() {
                 </div>
               </ScrollAnimation>
 
-              <ScrollAnimation delay={400}>
+              <ScrollAnimation delay={200}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
                   <h4 className="text-xl font-semibold text-white mb-3">What if I need more icons?</h4>
                   <p className="text-sunset-200">
@@ -669,7 +669,7 @@ export default function HomePage() {
                 </div>
               </ScrollAnimation>
 
-              <ScrollAnimation delay={500}>
+              <ScrollAnimation delay={250}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
                   <h4 className="text-xl font-semibold text-white mb-3">Can I cancel anytime?</h4>
                   <p className="text-sunset-200">
@@ -678,7 +678,7 @@ export default function HomePage() {
                 </div>
               </ScrollAnimation>
 
-              <ScrollAnimation delay={600}>
+              <ScrollAnimation delay={300}>
                 <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
                   <h4 className="text-xl font-semibold text-white mb-3">Do I own the generated icons?</h4>
                   <p className="text-sunset-200">
@@ -693,15 +693,15 @@ export default function HomePage() {
           <div className="text-center">
             <ScrollAnimation>
               <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-12 border border-midnight-800 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
-                <ScrollAnimation delay={200}>
+                <ScrollAnimation delay={100}>
                   <h3 className="text-3xl font-bold text-white mb-4">Ready to Create Professional Icons?</h3>
                 </ScrollAnimation>
-                <ScrollAnimation delay={400}>
+                <ScrollAnimation delay={200}>
                   <p className="text-sunset-200 mb-8 max-w-2xl mx-auto">
                     Join professionals who are already using AI Icon Maker to create stunning icons for their projects.
                   </p>
                 </ScrollAnimation>
-                <ScrollAnimation delay={600}>
+                <ScrollAnimation delay={300}>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <button 
                       onClick={() => handleCheckout('pro')}
@@ -746,7 +746,7 @@ export default function HomePage() {
                 workflow and deliver faster
               </h2>
             </ScrollAnimation>
-            <ScrollAnimation delay={300}>
+            <ScrollAnimation delay={150}>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button className="bg-midnight-800/50 text-sunset-200 px-6 py-3 rounded-full font-medium hover:bg-midnight-700/50 transition-all duration-300 flex items-center justify-center space-x-2">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

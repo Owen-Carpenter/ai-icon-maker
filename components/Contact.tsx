@@ -30,7 +30,7 @@ export default function Contact() {
           <ScrollAnimation>
             <h2 className="text-4xl font-bold text-white mb-4">Get in Touch</h2>
           </ScrollAnimation>
-          <ScrollAnimation delay={200}>
+          <ScrollAnimation delay={100}>
             <p className="text-sunset-200 max-w-2xl mx-auto">
               Have questions about AI Icon Maker? We'd love to hear from you. 
               Send us a message and we'll respond as soon as possible.
@@ -40,7 +40,7 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <ScrollAnimation delay={300}>
+          <ScrollAnimation delay={150}>
             <div className="bg-gradient-to-br from-midnight-900/50 to-midnight-950/70 backdrop-blur-md rounded-lg p-8 border border-white/10 shadow-xl">
               <h3 className="text-2xl font-semibold text-white mb-6">Send us a message</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -100,7 +100,7 @@ export default function Contact() {
           </ScrollAnimation>
 
           {/* Contact Information */}
-          <ScrollAnimation delay={500}>
+          <ScrollAnimation delay={250}>
             <div className="space-y-8">
               <div className="bg-gradient-to-br from-midnight-900/50 to-midnight-950/70 backdrop-blur-md rounded-lg p-6 border border-white/10 shadow-xl">
                 <div className="flex items-center space-x-4">
