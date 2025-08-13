@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateIconsWithClaude, IconGenerationRequest } from '../../../lib/claude';
-import { createClient } from '@supabase/supabase-js';
-import { getServerSession } from 'next-auth';
 
 // Rate limiting - simple in-memory store (in production, use Redis or similar)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -44,9 +42,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get user session (optional - remove if not using authentication)
-    const session = await getServerSession();
-    const userId = session?.user?.email || request.ip || 'anonymous';
+    // Simple rate limiting using IP address from headers
+    const forwarded = request.headers.get('x-forwarded-for');
+    const ip = forwarded ? forwarded.split(',')[0] : 'unknown';
+    const userId = ip;
 
     // Check rate limiting
     if (!checkRateLimit(userId)) {

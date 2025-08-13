@@ -10,16 +10,17 @@ export const metadata: Metadata = {
   description: 'Create professional-grade icons with AI or drawing tools. Premium SaaS application for designers, developers, and content creators.',
   keywords: ['AI', 'icon', 'generator', 'design', 'SaaS', 'DALL-E'],
   icons: {
-    icon: '/AIIconMakerLogo.png',
-    shortcut: '/AIIconMakerLogo.png',
-    apple: '/AIIconMakerLogo.png',
+    icon: '/images/AIIconMakerLogo.png',
+    shortcut: '/images/AIIconMakerLogo.png',
+    apple: '/images/AIIconMakerLogo.png',
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({

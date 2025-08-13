@@ -1,9 +1,10 @@
 import Anthropic from '@anthropic-ai/sdk';
 
+// TODO: Uncomment when ready to use Claude API
 // Initialize Claude client
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+// const anthropic = new Anthropic({
+//   apiKey: process.env.ANTHROPIC_API_KEY,
+// });
 
 export interface IconGenerationRequest {
   prompt: string;
@@ -23,9 +24,10 @@ export interface IconGenerationResponse {
  */
 export async function generateIconsWithClaude(request: IconGenerationRequest): Promise<IconGenerationResponse> {
   try {
-    if (!process.env.ANTHROPIC_API_KEY) {
-      throw new Error('ANTHROPIC_API_KEY is not configured');
-    }
+    // TODO: Uncomment when ready to use Claude API
+    // if (!process.env.ANTHROPIC_API_KEY) {
+    //   throw new Error('ANTHROPIC_API_KEY is not configured');
+    // }
 
     const { prompt, style, primaryColor, count = 3 } = request;
 
@@ -61,41 +63,51 @@ Primary Color: ${primaryColor}
 
 Make each icon unique but related to the same concept. Ensure they are professional, scalable, and suitable for use in applications.`;
 
-    const message = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 4000,
-      temperature: 0.7,
-      system: systemPrompt,
-      messages: [
-        {
-          role: 'user',
-          content: userPrompt,
-        },
-      ],
-    });
+    // TODO: Uncomment when ready to use Claude API
+    // const message = await anthropic.messages.create({
+    //   model: 'claude-3-5-sonnet-20241022',
+    //   max_tokens: 4000,
+    //   temperature: 0.7,
+    //   system: systemPrompt,
+    //   messages: [
+    //     {
+    //       role: 'user',
+    //       content: userPrompt,
+    //   },
+    //   ],
+    // });
 
-    const responseText = message.content[0]?.type === 'text' ? message.content[0].text : '';
+    // const responseText = message.content[0]?.type === 'text' ? message.content[0].text : '';
     
-    if (!responseText) {
-      throw new Error('No response from Claude');
-    }
+    // if (!responseText) {
+    //   throw new Error('No response from Claude');
+    // }
 
+    // TODO: Uncomment when ready to use Claude API
     // Parse the SVG icons from the response
-    const svgIcons = parseSVGsFromResponse(responseText);
+    // const svgIcons = parseSVGsFromResponse(responseText);
     
-    if (svgIcons.length === 0) {
-      throw new Error('No valid SVG icons generated');
-    }
+    // if (svgIcons.length === 0) {
+    //   throw new Error('No valid SVG icons generated');
+    // }
 
+    // TODO: Uncomment when ready to use Claude API
     // Convert SVGs to base64 data URLs for consistent format
-    const iconDataUrls = svgIcons.map(svg => {
-      const base64 = Buffer.from(svg).toString('base64');
-      return `data:image/svg+xml;base64,${base64}`;
-    });
+    // const iconDataUrls = svgIcons.map(svg => {
+    //   const base64 = Buffer.from(svg).toString('base64');
+    //   return `data:image/svg+xml;base64,${base64}`;
+    // });
 
+    // return {
+    //   success: true,
+    //   icons: iconDataUrls,
+    // };
+
+    // Temporary: Return mock data until Claude API is configured
     return {
-      success: true,
-      icons: iconDataUrls,
+      success: false,
+      icons: [],
+      error: 'Claude API not yet configured. Please set up your ANTHROPIC_API_KEY and uncomment the Claude integration code.',
     };
 
   } catch (error) {

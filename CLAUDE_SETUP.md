@@ -9,7 +9,9 @@ This document explains how to set up Claude AI for SVG icon generation in your A
 
 ## Environment Configuration
 
-Add the following to your `.env.local` file:
+**Note: The Claude API key requirement is currently commented out to allow the project to build. When you're ready to use Claude, uncomment the relevant code in `lib/claude.ts`.**
+
+Add the following to your `.env.local` file when ready:
 
 ```bash
 # Anthropic API Key for Claude
