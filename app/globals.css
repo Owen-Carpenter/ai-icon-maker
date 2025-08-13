@@ -66,7 +66,27 @@ body {
 }
 
 /* Testimonial carousel animations */
-@keyframes scroll-ltr {
+/* Desktop keyframes */
+@keyframes scroll-ltr-desktop {
+  0% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes scroll-rtl-desktop {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-200%);
+  }
+}
+
+/* Mobile keyframes */
+@keyframes scroll-ltr-mobile {
   0% {
     transform: translateX(-400%);
   }
@@ -75,7 +95,7 @@ body {
   }
 }
 
-@keyframes scroll-rtl {
+@keyframes scroll-rtl-mobile {
   0% {
     transform: translateX(0);
   }
@@ -85,21 +105,21 @@ body {
 }
 
 .animate-scroll-rtl {
-  animation: scroll-rtl 60s linear infinite;
+  animation: scroll-rtl-desktop 60s linear infinite;
 }
 
 .animate-scroll-ltr {
-  animation: scroll-ltr 60s linear infinite;
+  animation: scroll-ltr-desktop 60s linear infinite;
 }
 
 /* Mobile-specific animations with more time */
 @media (max-width: 768px) {
   .animate-scroll-rtl {
-    animation: scroll-rtl 15s linear infinite;
+    animation: scroll-rtl-mobile 30s linear infinite;
   }
   
   .animate-scroll-ltr {
-    animation: scroll-ltr 15s linear infinite;
+    animation: scroll-ltr-mobile 30s linear infinite;
   }
 }
 

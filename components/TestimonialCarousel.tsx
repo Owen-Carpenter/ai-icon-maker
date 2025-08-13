@@ -127,6 +127,20 @@ export default function TestimonialCarousel() {
               <TestimonialCard key={`${testimonial.id}-duplicate3`} {...testimonial} />
             ))}
           </div>
+          
+          {/* Fifth duplicate for mobile 400% distance */}
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
+            {topRowTestimonials.map((testimonial) => (
+              <TestimonialCard key={`${testimonial.id}-duplicate4`} {...testimonial} />
+            ))}
+          </div>
+          
+          {/* Sixth duplicate for mobile 400% distance */}
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
+            {topRowTestimonials.map((testimonial) => (
+              <TestimonialCard key={`${testimonial.id}-duplicate5`} {...testimonial} />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -157,6 +171,20 @@ export default function TestimonialCarousel() {
           <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
             {bottomRowTestimonials.map((testimonial) => (
               <TestimonialCard key={`${testimonial.id}-duplicate3`} {...testimonial} />
+            ))}
+          </div>
+          
+          {/* Fifth duplicate for mobile 400% distance */}
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
+            {bottomRowTestimonials.map((testimonial) => (
+              <TestimonialCard key={`${testimonial.id}-duplicate4`} {...testimonial} />
+            ))}
+          </div>
+          
+          {/* Sixth duplicate for mobile 400% distance */}
+          <div className="flex space-x-2 sm:space-x-3 lg:space-x-6 shrink-0 ml-2 sm:ml-3 lg:ml-6">
+            {bottomRowTestimonials.map((testimonial) => (
+              <TestimonialCard key={`${testimonial.id}-duplicate5`} {...testimonial} />
             ))}
           </div>
         </div>
