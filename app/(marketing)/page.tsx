@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import ScrollAnimation from '../../components/ScrollAnimation';
 import Navbar from '../../components/Navbar';
-import Contact from '../../components/Contact';
+
 import Footer from '../../components/Footer';
 import TestimonialCarousel from '../../components/TestimonialCarousel';
 import Link from 'next/link';
@@ -710,45 +710,7 @@ export default function HomePage() {
             </ScrollAnimation>
           </div>
 
-          {/* Cost Breakdown */}
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <ScrollAnimation>
-                <h3 className="text-3xl font-bold text-white mb-4">Why This Pricing Makes Sense</h3>
-              </ScrollAnimation>
-              <ScrollAnimation delay={100}>
-                <p className="text-sunset-200 max-w-2xl mx-auto">
-                  We use cutting-edge AI models to ensure the highest quality SVG icons. Here's what it costs to generate professional icons with leading AI services:
-                </p>
-              </ScrollAnimation>
-            </div>
 
-            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-              <ScrollAnimation delay={150}>
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
-                  <h4 className="text-xl font-semibold text-white mb-3">Claude Sonnet 4.0</h4>
-                  <p className="text-sunset-200 mb-2">$0.015 per SVG</p>
-                  <p className="text-sunset-200 text-sm">Anthropic's latest model for SVG code generation</p>
-                </div>
-              </ScrollAnimation>
-
-              <ScrollAnimation delay={200}>
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
-                  <h4 className="text-xl font-semibold text-white mb-3">AI Icon Generation</h4>
-                  <p className="text-sunset-200 mb-2">$0.005 per generation</p>
-                  <p className="text-sunset-200 text-sm">Advanced prompt-to-icon conversion</p>
-                </div>
-              </ScrollAnimation>
-
-              <ScrollAnimation delay={250}>
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10 text-center">
-                  <h4 className="text-xl font-semibold text-white mb-3">Premium Infrastructure</h4>
-                  <p className="text-sunset-200 mb-2">$0.010 per request</p>
-                  <p className="text-sunset-200 text-sm">High-speed processing & optimization</p>
-                </div>
-              </ScrollAnimation>
-            </div>
-          </div>
 
           {/* FAQ Section */}
           <div className="mb-16">
@@ -874,8 +836,44 @@ export default function HomePage() {
       </div>
 
       {/* Contact Section */}
-      <div id="contact">
-        <Contact />
+      <div id="contact" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-md mx-auto text-center">
+            <ScrollAnimation>
+              <h3 className="text-4xl font-bold text-white mb-4">Contact</h3>
+            </ScrollAnimation>
+            <ScrollAnimation delay={100}>
+              <p className="text-sunset-200 text-xl leading-relaxed mb-8">
+                Have questions or want to get in touch? Email us at{' '}
+                <a href="mailto:support@aiiconmaker.app" className="text-sunset-400 hover:text-sunset-300 transition-colors">
+                  support@aiiconmaker.app
+                </a>
+                , or use the form below.
+              </p>
+            </ScrollAnimation>
+            
+            <ScrollAnimation delay={200}>
+              <form className="space-y-4">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  className="w-full px-4 py-3 bg-midnight-800/50 border border-white/10 rounded-lg text-white placeholder-sunset-300 focus:outline-none focus:border-sunset-500 transition-colors"
+                />
+                <textarea
+                  placeholder="Your message"
+                  rows={4}
+                  className="w-full px-4 py-3 bg-midnight-800/50 border border-white/10 rounded-lg text-white placeholder-sunset-300 focus:outline-none focus:border-sunset-500 transition-colors resize-none"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300"
+                >
+                  Send Message
+                </button>
+              </form>
+            </ScrollAnimation>
+          </div>
+        </div>
       </div>
 
       {/* Footer */}
