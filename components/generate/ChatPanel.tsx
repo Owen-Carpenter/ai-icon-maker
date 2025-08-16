@@ -18,12 +18,11 @@ export default function ChatPanel({
   onGenerate 
 }: ChatPanelProps) {
   const [style, setStyle] = useState('modern');
-  const [color, setColor] = useState('#FF6C00');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (currentPrompt.trim()) {
-      onGenerate(currentPrompt, style, color);
+      onGenerate(currentPrompt, style, '#FF6C00'); // Default color, users can describe colors in prompt
     }
   };
 
@@ -42,8 +41,8 @@ export default function ChatPanel({
             </svg>
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-white">AI Assistant</h2>
-            <p className="text-sunset-200 text-sm">Claude Sonnet 4.0</p>
+            <h2 className="text-lg font-semibold text-white">Icon Assistant</h2>
+            <p className="text-sunset-200 text-sm">Powered by Claude Sonnet 4.0</p>
           </div>
         </div>
       </div>
@@ -119,7 +118,7 @@ export default function ChatPanel({
             <select 
               value={style}
               onChange={(e) => setStyle(e.target.value)}
-              className="flex-1 bg-white/10 border border-white/20 rounded-lg px-2 py-2 text-white text-xs"
+              className="flex-1 bg-white/10 border border-white/20 rounded-lg px-2 py-2 text-white text-xs focus:outline-none focus:border-sunset-500 transition-colors [&>option]:bg-midnight-800 [&>option]:text-white [&>option]:border-none"
             >
               <option value="modern">Modern</option>
               <option value="flat">Flat</option>
@@ -127,13 +126,9 @@ export default function ChatPanel({
               <option value="3d">3D</option>
               <option value="vintage">Vintage</option>
               <option value="neon">Neon</option>
+              <option value="minimalist">Minimalist</option>
+              <option value="hand-drawn">Hand Drawn</option>
             </select>
-            <input
-              type="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              className="w-10 h-9 rounded-lg border border-white/20 bg-white/10 cursor-pointer"
-            />
           </div>
 
           {/* Message Input */}

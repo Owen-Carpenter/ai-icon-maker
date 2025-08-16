@@ -72,7 +72,7 @@ function GeneratePageContent() {
         body: JSON.stringify({
           prompt: prompt.trim(),
           style: style,
-          primaryColor: color,
+          // Color is now described in the prompt instead of separate parameter
         }),
       });
 
