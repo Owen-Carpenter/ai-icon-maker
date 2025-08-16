@@ -12,6 +12,30 @@ import Logo from '../../components/ui/Logo';
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+
+  const faqData = [
+    {
+      question: "What AI models do you use?",
+      answer: "We use Claude Sonnet 4.0 for generating high-quality SVG code and advanced prompt-to-icon technology to convert your descriptions into precise icons. This ensures scalable, professional-grade icons."
+    },
+    {
+      question: "What if I need more icons?",
+      answer: "Our Pro plan (200 icons/month) covers most professional needs. For agencies and high-volume users, our Enterprise plan offers 1,000 icons/month plus advanced features."
+    },
+    {
+      question: "Can I cancel anytime?",
+      answer: "Yes! You can cancel your subscription at any time. Your access continues until the end of your current billing period."
+    },
+    {
+      question: "Do I own the generated icons?",
+      answer: "Yes! All icons generated with AI Icon Maker can be used for commercial purposes without any additional licensing fees."
+    }
+  ];
+
+  const toggleFAQ = (index: number) => {
+    setOpenFAQ(openFAQ === index ? null : index);
+  };
 
   const handleCheckout = async (planType: string) => {
     if (isLoading) return;
@@ -739,42 +763,36 @@ export default function HomePage() {
               </ScrollAnimation>
             </div>
 
-            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-              <ScrollAnimation delay={150}>
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
-                  <h4 className="text-xl font-semibold text-white mb-3">What AI models do you use?</h4>
-                  <p className="text-sunset-200">
-                    We use Claude Sonnet 4.0 for generating high-quality SVG code and advanced prompt-to-icon technology to convert your descriptions into precise icons. This ensures scalable, professional-grade icons.
-                  </p>
-                </div>
-              </ScrollAnimation>
-
-              <ScrollAnimation delay={200}>
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
-                  <h4 className="text-xl font-semibold text-white mb-3">What if I need more icons?</h4>
-                  <p className="text-sunset-200">
-                    Our Pro plan (200 icons/month) covers most professional needs. For agencies and high-volume users, our Enterprise plan offers 1,000 icons/month plus advanced features.
-                  </p>
-                </div>
-              </ScrollAnimation>
-
-              <ScrollAnimation delay={250}>
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
-                  <h4 className="text-xl font-semibold text-white mb-3">Can I cancel anytime?</h4>
-                  <p className="text-sunset-200">
-                    Yes! You can cancel your subscription at any time. Your access continues until the end of your current billing period.
-                  </p>
-                </div>
-              </ScrollAnimation>
-
-              <ScrollAnimation delay={300}>
-                <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 border border-white/10">
-                  <h4 className="text-xl font-semibold text-white mb-3">Do I own the generated icons?</h4>
-                  <p className="text-sunset-200">
-                    Yes! All icons generated with AI Icon Maker can be used for commercial purposes without any additional licensing fees.
-                  </p>
-                </div>
-              </ScrollAnimation>
+            <div className="max-w-3xl mx-auto space-y-4">
+              {faqData.map((faq, index) => (
+                <ScrollAnimation key={index} delay={150 + index * 50}>
+                  <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg border border-white/10 overflow-hidden">
+                    <button
+                      onClick={() => toggleFAQ(index)}
+                      className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-midnight-800/30 transition-colors duration-200"
+                    >
+                      <h4 className="text-lg font-semibold text-white">{faq.question}</h4>
+                      <svg
+                        className={`w-5 h-5 text-sunset-300 transition-transform duration-200 ${
+                          openFAQ === index ? 'rotate-180' : ''
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    <div
+                      className={`px-6 transition-all duration-300 ease-in-out ${
+                        openFAQ === index ? 'max-h-32 opacity-100 pb-4' : 'max-h-0 opacity-0 overflow-hidden'
+                      }`}
+                    >
+                      <p className="text-sunset-200">{faq.answer}</p>
+                    </div>
+                  </div>
+                </ScrollAnimation>
+              ))}
             </div>
           </div>
           
