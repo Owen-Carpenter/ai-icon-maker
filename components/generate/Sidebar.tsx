@@ -12,7 +12,10 @@ export default function Sidebar() {
   return (
     <div className="w-16 bg-white/5 backdrop-blur-sm border-r border-white/10 flex flex-col items-center py-6 space-y-6 relative z-[9999]">
       {/* Logo */}
-      <div className="w-10 h-10 rounded-lg flex items-center justify-center group relative">
+      <div 
+        onClick={() => handleNavigation('/')}
+        className="w-10 h-10 rounded-lg flex items-center justify-center group relative cursor-pointer hover:bg-white/10 transition-colors"
+      >
         <img 
           src="/images/AIIconMakerLogo.png" 
           alt="AI Icon Maker" 
@@ -20,7 +23,7 @@ export default function Sidebar() {
         />
         {/* Tooltip */}
         <div className="absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
-          AI Icon Maker
+          Go to Homepage
           <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
         </div>
       </div>
