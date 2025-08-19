@@ -8,6 +8,9 @@ interface ChatPanelProps {
   isGenerating: boolean;
   generatedImages: string[];
   onGenerate: (prompt: string, style: string, color: string) => void;
+  isImprovementMode?: boolean;
+  selectedIconUrl?: string;
+  onExitImprovementMode?: () => void;
 }
 
 export default function ChatPanel({ 
@@ -15,7 +18,10 @@ export default function ChatPanel({
   setCurrentPrompt, 
   isGenerating, 
   generatedImages, 
-  onGenerate 
+  onGenerate,
+  isImprovementMode = false,
+  selectedIconUrl,
+  onExitImprovementMode
 }: ChatPanelProps) {
   const [style, setStyle] = useState('modern');
 
@@ -40,42 +46,106 @@ export default function ChatPanel({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <div>
-            <h2 className="text-lg font-semibold text-white">Icon Assistant</h2>
-            <p className="text-sunset-200 text-sm">Powered by Claude Sonnet 4.0</p>
+          <div className="flex-1">
+            <h2 className="text-lg font-semibold text-white">
+              {isImprovementMode ? 'Icon Improvement' : 'Icon Assistant'}
+            </h2>
+            <p className="text-sunset-200 text-sm">
+              {isImprovementMode ? 'Describe how to improve this icon' : 'Powered by Claude Sonnet 4.0'}
+            </p>
           </div>
+          {isImprovementMode && onExitImprovementMode && (
+            <button
+              onClick={onExitImprovementMode}
+              className="text-sunset-300 hover:text-white transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
 
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
-        <div className="flex justify-start">
-          <div className="bg-white/10 border border-white/20 rounded-lg p-3">
-            <p className="text-white text-sm leading-relaxed">
-              Hi! Describe the icon you'd like me to create, and I'll generate multiple variations for you.
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1">
-              <button 
-                onClick={() => handleQuickPrompt('shopping cart icon')}
-                className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-              >
-                Shopping cart
-              </button>
-              <button 
-                onClick={() => handleQuickPrompt('settings gear icon')}
-                className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-              >
-                Settings
-              </button>
-              <button 
-                onClick={() => handleQuickPrompt('user profile icon')}
-                className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-              >
-                User profile
-              </button>
+        {isImprovementMode ? (
+          // Improvement mode messages
+          <>
+            <div className="flex justify-start">
+              <div className="bg-white/10 border border-white/20 rounded-lg p-3">
+                <p className="text-white text-sm leading-relaxed">
+                  I can see the icon you want to improve! Describe what changes you'd like me to make.
+                </p>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  <button 
+                    onClick={() => handleQuickPrompt('make it more modern')}
+                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
+                  >
+                    More modern
+                  </button>
+                  <button 
+                    onClick={() => handleQuickPrompt('change the colors')}
+                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
+                  >
+                    Change colors
+                  </button>
+                  <button 
+                    onClick={() => handleQuickPrompt('make it simpler')}
+                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
+                  >
+                    Simpler design
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+            
+            {/* Show selected icon */}
+            {selectedIconUrl && (
+              <div className="flex justify-start">
+                <div className="bg-white/10 border border-white/20 rounded-lg p-3">
+                  <p className="text-white text-sm mb-2">Selected icon to improve:</p>
+                  <img 
+                    src={selectedIconUrl} 
+                    alt="Icon to improve" 
+                    className="w-16 h-16 object-contain bg-white/5 rounded-lg"
+                  />
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          // Normal mode messages
+          <>
+            <div className="flex justify-start">
+              <div className="bg-white/10 border border-white/20 rounded-lg p-3">
+                <p className="text-white text-sm leading-relaxed">
+                  Hi! Describe the icon you'd like me to create, and I'll generate multiple variations for you.
+                </p>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  <button 
+                    onClick={() => handleQuickPrompt('shopping cart icon')}
+                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
+                  >
+                    Shopping cart
+                  </button>
+                  <button 
+                    onClick={() => handleQuickPrompt('settings gear icon')}
+                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
+                  >
+                    Settings
+                  </button>
+                  <button 
+                    onClick={() => handleQuickPrompt('user profile icon')}
+                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
+                  >
+                    User profile
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
         
         {/* Generated Messages */}
         {currentPrompt && (
@@ -89,7 +159,9 @@ export default function ChatPanel({
         {isGenerating && (
           <div className="flex justify-start">
             <div className="bg-white/10 border border-white/20 rounded-lg p-3">
-              <p className="text-white text-sm">Creating variations...</p>
+              <p className="text-white text-sm">
+                {isImprovementMode ? 'Improving your icon...' : 'Creating variations...'}
+              </p>
               <div className="mt-2 flex space-x-1">
                 <div className="w-1.5 h-1.5 bg-sunset-300 rounded-full animate-bounce"></div>
                 <div className="w-1.5 h-1.5 bg-sunset-300 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
@@ -102,8 +174,34 @@ export default function ChatPanel({
         {generatedImages.length > 0 && !isGenerating && (
           <div className="flex justify-start">
             <div className="bg-white/10 border border-white/20 rounded-lg p-3">
-              <p className="text-white text-sm">✨ Generated {generatedImages.length} icons! Check them out →</p>
-              <p className="text-sunset-200 text-xs mt-1">Want different variations?</p>
+              <p className="text-white text-sm">
+                ✨ {isImprovementMode ? 'Improve your icon!' : `Generated ${generatedImages.length} icons!`} Check them out →
+              </p>
+              <p className="text-sunset-200 text-xs mt-1">
+                {isImprovementMode ? 'How else would you like to improve it?' : 'Want different variations?'}
+              </p>
+              {isImprovementMode && (
+                <div className="mt-2 flex flex-wrap gap-1">
+                  <button 
+                    onClick={() => handleQuickPrompt('make it more colorful')}
+                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
+                  >
+                    More colorful
+                  </button>
+                  <button 
+                    onClick={() => handleQuickPrompt('add more details')}
+                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
+                  >
+                    Add details
+                  </button>
+                  <button 
+                    onClick={() => handleQuickPrompt('change the style')}
+                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
+                  >
+                    Change style
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -137,7 +235,7 @@ export default function ChatPanel({
               type="text"
               value={currentPrompt}
               onChange={(e) => setCurrentPrompt(e.target.value)}
-              placeholder="Describe your icon idea..."
+              placeholder={isImprovementMode ? "Describe how to improve this icon..." : "Describe your icon idea..."}
               className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm placeholder-sunset-300 focus:outline-none focus:border-sunset-500 transition-colors"
               disabled={isGenerating}
             />

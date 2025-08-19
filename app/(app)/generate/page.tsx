@@ -21,6 +21,9 @@ function GeneratePageContent() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isImprovementMode, setIsImprovementMode] = useState(false);
+  const [selectedIconUrl, setSelectedIconUrl] = useState<string>('');
+  const [originalImages, setOriginalImages] = useState<string[]>([]);
 
   // All useEffect hooks must be called before any conditional returns
   useEffect(() => {
@@ -84,7 +87,15 @@ function GeneratePageContent() {
 
       if (data.success && data.icons?.length > 0) {
         setGeneratedImages(data.icons);
-        success('Icons Generated!', `Successfully created ${data.icons.length} unique icons for "${prompt}"`);
+        if (!isImprovementMode) {
+          setOriginalImages(data.icons);
+        }
+        success(
+          isImprovementMode ? 'Icon Improved!' : 'Icons Generated!', 
+          isImprovementMode 
+            ? `Successfully improved your icon based on "${prompt}"`
+            : `Successfully created ${data.icons.length} unique icons for "${prompt}"`
+        );
       } else {
         throw new Error('No icons were generated');
       }
@@ -100,6 +111,9 @@ function GeneratePageContent() {
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNCIgZmlsbD0iI0ZGNkMwMCIvPgo8L3N2Zz4K'
       ];
       setGeneratedImages(mockImages);
+      if (!isImprovementMode) {
+        setOriginalImages(mockImages);
+      }
       
       error(
         'Generation Failed', 
@@ -123,11 +137,34 @@ function GeneratePageContent() {
     console.log('Selected image:', imageUrl);
   };
 
+  const handleImproveIcon = (imageUrl: string) => {
+    setSelectedIconUrl(imageUrl);
+    setIsImprovementMode(true);
+    setCurrentPrompt('');
+    // Store current images as original for comparison
+    if (generatedImages.length > 0) {
+      setOriginalImages([...generatedImages]);
+    }
+  };
+
+  const handleExitImprovementMode = () => {
+    setIsImprovementMode(false);
+    setSelectedIconUrl('');
+    setCurrentPrompt('');
+    // Restore original images
+    if (originalImages.length > 0) {
+      setGeneratedImages([...originalImages]);
+    }
+  };
+
   const handleReset = () => {
     // Reset state
     setCurrentPrompt('');
     setGeneratedImages([]);
     setIsGenerating(false);
+    setIsImprovementMode(false);
+    setSelectedIconUrl('');
+    setOriginalImages([]);
   };
 
   return (
@@ -159,6 +196,9 @@ function GeneratePageContent() {
             isGenerating={isGenerating}
             generatedImages={generatedImages}
             onGenerate={handleGenerate}
+            isImprovementMode={isImprovementMode}
+            selectedIconUrl={selectedIconUrl}
+            onExitImprovementMode={handleExitImprovementMode}
           />
 
           {/* Icon Display Panel */}
@@ -168,6 +208,10 @@ function GeneratePageContent() {
             onRegenerate={handleRegenerateVariations}
             onReset={handleReset}
             onSelectImage={handleSelectImage}
+            onImproveIcon={handleImproveIcon}
+            isImprovementMode={isImprovementMode}
+            onExitImprovementMode={handleExitImprovementMode}
+            selectedIconUrl={selectedIconUrl}
           />
         </div>
       </div>
