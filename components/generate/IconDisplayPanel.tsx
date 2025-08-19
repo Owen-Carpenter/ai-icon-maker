@@ -159,6 +159,27 @@ export default function IconDisplayPanel({
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
                   />
                 </div>
+                
+                {/* Action Buttons for Improvement Mode */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => handleShowCode(selectedIconUrl)}
+                    className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 py-2 px-4 rounded-lg text-sm font-medium transition-colors border border-purple-500/30 flex items-center gap-2"
+                    title="View SVG Code"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    View Code
+                  </button>
+                  <button
+                    onClick={() => onSelectImage(selectedIconUrl)}
+                    className="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors border border-white/20"
+                  >
+                    Download
+                  </button>
+                </div>
+                
                 <div className="text-center">
                   <p className="text-sunset-200 text-sm">Use the chat panel on the left to describe your improvements</p>
                 </div>
