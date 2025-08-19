@@ -50,7 +50,7 @@ export default function IconDisplayPanel({
             </div>
           </div>
         ) : generatedImages.length > 0 ? (
-          <div className="flex justify-center items-center w-full">
+          <div className="flex justify-center items-center w-full min-h-96">
             {isImprovementMode && selectedIconUrl ? (
               // Show only the selected icon for improvement
               <div className="flex flex-col items-center space-y-6">
@@ -71,7 +71,7 @@ export default function IconDisplayPanel({
               </div>
             ) : (
               // Show all generated icons in grid
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-items-center">
+              <div className="inline-grid grid-cols-3 gap-6">
                 {generatedImages.map((image, index) => (
                   <div
                     key={index}
