@@ -175,10 +175,8 @@ function GeneratePageContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row">
-      {/* Sidebar Navigation - Hidden on mobile, shown on desktop */}
-      <div className="hidden lg:block">
-        <Sidebar />
-      </div>
+      {/* Sidebar Navigation - Responsive */}
+      <Sidebar />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
