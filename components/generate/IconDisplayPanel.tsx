@@ -83,11 +83,20 @@ export default function IconDisplayPanel({
   };
 
   return (
-    <div className="flex-1 bg-white/5 backdrop-blur-sm flex flex-col lg:h-full lg:min-h-0">
+    <div className="flex-1 bg-gradient-to-b from-sunset-900 via-midnight-800 to-midnight-900 flex flex-col lg:h-full lg:min-h-0">
       {/* Results Header */}
-      <div className="px-4 lg:px-6 py-4 border-b border-white/10">
-        <h3 className="text-lg font-semibold text-white">Generated Icons</h3>
-        <p className="text-sunset-200 text-sm">Choose an action below each icon: Improve it or Download it</p>
+      <div className="px-6 py-4 border-b border-white/10 bg-white/5 backdrop-blur-sm">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full flex items-center justify-center">
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+          <div className="flex-1">
+            <h2 className="text-lg font-semibold text-white">Generated Icons</h2>
+            <p className="text-sunset-200 text-sm">Choose an action below each icon: Improve it or Download it</p>
+          </div>
+        </div>
       </div>
 
       {/* Results Content */}
@@ -164,7 +173,7 @@ export default function IconDisplayPanel({
                 <div className="flex gap-3">
                   <button
                     onClick={() => handleShowCode(selectedIconUrl)}
-                    className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 py-2 px-4 rounded-lg text-sm font-medium transition-colors border border-purple-500/30 flex items-center gap-2"
+                    className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
                     title="View SVG Code"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,12 +181,14 @@ export default function IconDisplayPanel({
                     </svg>
                     View Code
                   </button>
-                  <button
-                    onClick={() => onSelectImage(selectedIconUrl)}
-                    className="bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors border border-white/20"
-                  >
-                    Download
-                  </button>
+                  <div className="[background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
+                    <button
+                      onClick={() => onSelectImage(selectedIconUrl)}
+                      className="bg-transparent text-white py-2 px-4 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block w-full"
+                    >
+                      Download
+                    </button>
+                  </div>
                 </div>
                 
                 <div className="text-center">
@@ -213,21 +224,23 @@ export default function IconDisplayPanel({
                       
                       {/* Download and Code Buttons Row */}
                       <div className="flex gap-2">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onSelectImage(image);
-                          }}
-                          className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
-                        >
-                          Download
-                        </button>
+                        <div className="flex-1 [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onSelectImage(image);
+                            }}
+                            className="w-full bg-transparent text-white py-2 px-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 text-xs"
+                          >
+                            Download
+                          </button>
+                        </div>
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleShowCode(image);
                           }}
-                          className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200 border border-purple-500/30"
+                          className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
                           title="View SVG Code"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -262,20 +275,20 @@ export default function IconDisplayPanel({
           {isImprovementMode && onExitImprovementMode && (
             <button
               onClick={onExitImprovementMode}
-              className="w-full bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 py-2 px-4 rounded-lg font-medium transition-colors border border-blue-500/30"
+              className="w-full bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-blue-500/30 hover:border-blue-500/50"
             >
               ← Back to Original Icons
             </button>
           )}
           <button
             onClick={onRegenerate}
-            className="w-full bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg font-medium transition-colors border border-white/20"
+            className="w-full bg-sunset-500/20 hover:bg-sunset-500/30 text-sunset-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-sunset-500/30 hover:border-sunset-500/50"
           >
             {isImprovementMode ? 'Generate More Improvements' : 'Generate More Variations'}
           </button>
           <button
             onClick={onReset}
-            className="w-full bg-sunset-500/20 hover:bg-sunset-500/30 text-sunset-300 py-2 px-4 rounded-lg font-medium transition-colors"
+            className="w-full bg-red-500/20 hover:bg-red-500/30 text-red-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-red-500/30 hover:border-red-500/50"
           >
             Start New Icon
           </button>
