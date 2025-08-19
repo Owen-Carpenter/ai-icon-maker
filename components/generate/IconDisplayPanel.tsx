@@ -25,15 +25,15 @@ export default function IconDisplayPanel({
 }: IconDisplayPanelProps) {
 
   return (
-    <div className="flex-1 bg-white/5 backdrop-blur-sm flex flex-col">
+    <div className="flex-1 bg-white/5 backdrop-blur-sm flex flex-col lg:h-full lg:min-h-0">
       {/* Results Header */}
-      <div className="px-6 py-4 border-b border-white/10">
+      <div className="px-4 lg:px-6 py-4 border-b border-white/10">
         <h3 className="text-lg font-semibold text-white">Generated Icons</h3>
-        <p className="text-sunset-200 text-sm">Click any icon to improve it, or right-click to download</p>
+        <p className="text-sunset-200 text-sm">Choose an action below each icon: Improve it or Download it</p>
       </div>
 
       {/* Results Content */}
-      <div className="flex-1 overflow-y-auto p-8">
+      <div className="flex-1 overflow-y-auto p-4 lg:p-8 lg:min-h-0">
         {isGenerating ? (
           <div className="flex flex-col items-center justify-center h-96 space-y-6">
             <div className="w-24 h-24 border-4 border-sunset-500/30 border-t-sunset-500 rounded-full animate-spin"></div>
@@ -58,7 +58,7 @@ export default function IconDisplayPanel({
                   <h4 className="text-lg font-medium text-white mb-2">Icon to Improve</h4>
                   <p className="text-sunset-200 text-sm">Describe how you'd like to improve this icon</p>
                 </div>
-                <div className="w-80 h-80 bg-white/10 border border-white/20 rounded-xl p-12 hover:bg-white/20 transition-all duration-200 flex flex-col items-center justify-center group">
+                <div className="w-64 h-64 lg:w-80 lg:h-80 bg-white/10 border border-white/20 rounded-xl p-8 lg:p-12 hover:bg-white/20 transition-all duration-200 flex flex-col items-center justify-center group">
                   <img
                     src={selectedIconUrl}
                     alt="Icon to improve"
@@ -71,11 +71,11 @@ export default function IconDisplayPanel({
               </div>
             ) : (
               // Show all generated icons in grid
-              <div className="inline-grid grid-cols-3 gap-6">
+              <div className="inline-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                 {generatedImages.map((image, index) => (
                   <div
                     key={index}
-                    className="aspect-square bg-white/10 border border-white/20 rounded-xl p-6 hover:bg-white/20 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center group hover:scale-105"
+                    className="aspect-square bg-white/10 border border-white/20 rounded-xl p-4 lg:p-6 hover:bg-white/20 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center group hover:scale-105"
                   >
                     <img
                       src={image}
@@ -89,7 +89,7 @@ export default function IconDisplayPanel({
                         e.stopPropagation();
                         onImproveIcon(image);
                       }}
-                      className="mt-3 w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0"
+                      className="mt-3 w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
                     >
                       Improve Icon
                     </button>
@@ -100,7 +100,7 @@ export default function IconDisplayPanel({
                         e.stopPropagation();
                         onSelectImage(image);
                       }}
-                      className="mt-2 w-full bg-white/10 hover:bg-white/20 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0"
+                      className="mt-2 w-full bg-white/10 hover:bg-white/20 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
                     >
                       Download
                     </button>
@@ -126,7 +126,7 @@ export default function IconDisplayPanel({
 
       {/* Action Buttons */}
       {generatedImages.length > 0 && (
-        <div className="p-6 border-t border-white/10 space-y-3">
+        <div className="p-4 lg:p-6 border-t border-white/10 space-y-3">
           {isImprovementMode && onExitImprovementMode && (
             <button
               onClick={onExitImprovementMode}

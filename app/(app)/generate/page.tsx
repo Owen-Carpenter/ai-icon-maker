@@ -24,6 +24,7 @@ function GeneratePageContent() {
   const [isImprovementMode, setIsImprovementMode] = useState(false);
   const [selectedIconUrl, setSelectedIconUrl] = useState<string>('');
   const [originalImages, setOriginalImages] = useState<string[]>([]);
+  const [hasUserTakenAction, setHasUserTakenAction] = useState(true);
 
   // All useEffect hooks must be called before any conditional returns
   useEffect(() => {
@@ -89,6 +90,7 @@ function GeneratePageContent() {
         setGeneratedImages(data.icons);
         if (!isImprovementMode) {
           setOriginalImages(data.icons);
+          setHasUserTakenAction(false); // Reset action flag for new icons
         }
         success(
           isImprovementMode ? 'Icon Improved!' : 'Icons Generated!', 
@@ -113,6 +115,7 @@ function GeneratePageContent() {
       setGeneratedImages(mockImages);
       if (!isImprovementMode) {
         setOriginalImages(mockImages);
+        setHasUserTakenAction(false); // Reset action flag for new icons
       }
       
       error(
@@ -135,12 +138,14 @@ function GeneratePageContent() {
   const handleSelectImage = (imageUrl: string) => {
     // Handle image selection - could save to library
     console.log('Selected image:', imageUrl);
+    setHasUserTakenAction(true); // User has taken an action
   };
 
   const handleImproveIcon = (imageUrl: string) => {
     setSelectedIconUrl(imageUrl);
     setIsImprovementMode(true);
     setCurrentPrompt('');
+    setHasUserTakenAction(true); // User has taken an action
     // Store current images as original for comparison
     if (generatedImages.length > 0) {
       setOriginalImages([...generatedImages]);
@@ -165,12 +170,15 @@ function GeneratePageContent() {
     setIsImprovementMode(false);
     setSelectedIconUrl('');
     setOriginalImages([]);
+    setHasUserTakenAction(true); // Reset to allow new chat
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex">
-      {/* Sidebar Navigation */}
-      <Sidebar />
+    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row">
+      {/* Sidebar Navigation - Hidden on mobile, shown on desktop */}
+      <div className="hidden lg:block">
+        <Sidebar />
+      </div>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
@@ -187,8 +195,68 @@ function GeneratePageContent() {
           </div>
         )}
 
+        {/* Icons Selection Popup */}
+        {!hasUserTakenAction && generatedImages.length > 0 && !isGenerating && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+            <div className="bg-midnight-800 border border-white/20 rounded-xl p-4 sm:p-6 lg:p-8 max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">Your Icons Are Ready!</h3>
+                <p className="text-sunset-200 text-sm sm:text-base">Choose what you'd like to do with one of your generated icons:</p>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {generatedImages.map((image, index) => (
+                  <div
+                    key={index}
+                    className="bg-white/5 border border-white/20 rounded-xl p-4 sm:p-6 hover:bg-white/10 transition-all duration-200 flex flex-col items-center"
+                  >
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white/10 rounded-lg p-3 sm:p-4 mb-4 flex items-center justify-center">
+                      <img
+                        src={image}
+                        alt={`Generated icon ${index + 1}`}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    
+                    <div className="w-full space-y-2">
+                      <button
+                        onClick={() => {
+                          handleImproveIcon(image);
+                        }}
+                        className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-200"
+                      >
+                        Improve This Icon
+                      </button>
+                      
+                      <button
+                        onClick={() => {
+                          handleSelectImage(image);
+                        }}
+                        className="w-full bg-white/10 hover:bg-white/20 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-200"
+                      >
+                        Download This Icon
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="text-center mt-6">
+                <p className="text-sunset-300 text-sm">
+                  Select an action to continue chatting and generating more icons
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Main Interface */}
-        <div className="flex-1 flex">
+        <div className="flex-1 flex flex-col lg:flex-row min-h-0">
           {/* Chat Panel */}
           <ChatPanel
             currentPrompt={currentPrompt}
@@ -199,6 +267,7 @@ function GeneratePageContent() {
             isImprovementMode={isImprovementMode}
             selectedIconUrl={selectedIconUrl}
             onExitImprovementMode={handleExitImprovementMode}
+            hasUserTakenAction={hasUserTakenAction}
           />
 
           {/* Icon Display Panel */}
