@@ -67,7 +67,31 @@ function GeneratePageContent() {
     setIsGenerating(true);
     
     try {
-      // Call our Claude API to generate icons
+      // TEMPORARY: Skip API call to demo the code animation while Claude is being set up
+      // Simulate code generation time (4 seconds to see the full animation)
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      
+      // Use mock data for demonstration
+      const mockImages = [
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNGRjZDMDAiLz4KPC9zdmc+Cg==',
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNCIgZmlsbD0iI0ZGNkMwMCIvPgo8L3N2Zz4K'
+      ];
+      setGeneratedImages(mockImages);
+      if (!isImprovementMode) {
+        setOriginalImages(mockImages);
+        setHasUserTakenAction(false); // Reset action flag for new icons
+      }
+      
+      success(
+        isImprovementMode ? 'Icon Improved!' : 'Icons Generated!', 
+        isImprovementMode 
+          ? `Successfully improved your icon based on "${prompt}"`
+          : `Successfully created ${mockImages.length} unique icons for "${prompt}" (Demo Mode)`
+      );
+
+      /* REAL API CALL - Uncomment when Claude is set up:
+      
       const response = await fetch('/api/generate-icons', {
         method: 'POST',
         headers: {
@@ -101,6 +125,9 @@ function GeneratePageContent() {
       } else {
         throw new Error('No icons were generated');
       }
+      
+      */
+      
     } catch (err) {
       console.error('Icon generation error:', err);
       

@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 interface IconDisplayPanelProps {
   generatedImages: string[];
   isGenerating: boolean;
@@ -23,6 +25,62 @@ export default function IconDisplayPanel({
   onExitImprovementMode,
   selectedIconUrl
 }: IconDisplayPanelProps) {
+  const [animatedCode, setAnimatedCode] = useState('');
+  const [showCodeModal, setShowCodeModal] = useState(false);
+  const [selectedIconCode, setSelectedIconCode] = useState('');
+  const [codeAnimationComplete, setCodeAnimationComplete] = useState(false);
+  const [showGeneratedContent, setShowGeneratedContent] = useState(false);
+
+  // Fake SVG code for demonstration
+  const sampleSvgCode = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 2L13.09 8.26L20 9L13.09 15.74L12 22L10.91 15.74L4 9L10.91 8.26L12 2Z" fill="#FF6C00"/>
+  <circle cx="12" cy="12" r="8" stroke="#FF6C00" stroke-width="2" fill="none"/>
+  <rect x="8" y="8" width="8" height="8" rx="2" fill="#FF6C00" opacity="0.5"/>
+  <path d="M8 12H16M12 8V16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+</svg>`;
+
+  // Animate code writing during generation
+  useEffect(() => {
+    if (isGenerating) {
+      setCodeAnimationComplete(false);
+      setShowGeneratedContent(false);
+      let currentIndex = 0;
+      const interval = setInterval(() => {
+        if (currentIndex <= sampleSvgCode.length) {
+          setAnimatedCode(sampleSvgCode.slice(0, currentIndex));
+          currentIndex += Math.random() > 0.5 ? 3 : 2; // Faster typing speed
+        } else {
+          clearInterval(interval);
+          setCodeAnimationComplete(true);
+          // Show "Code Complete" message for a moment, then show icons
+          setTimeout(() => {
+            setShowGeneratedContent(true);
+          }, 500); // Reduced from 1000ms to 500ms
+        }
+      }, 25); // Reduced from 50ms to 25ms
+
+      return () => clearInterval(interval);
+    } else {
+      setAnimatedCode('');
+      setCodeAnimationComplete(false);
+      setShowGeneratedContent(false);
+    }
+  }, [isGenerating]);
+
+  // Show generated content when generation is complete and animation is done
+  useEffect(() => {
+    if (!isGenerating && generatedImages.length > 0) {
+      const timer = setTimeout(() => {
+        setShowGeneratedContent(true);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isGenerating, generatedImages.length]);
+
+  const handleShowCode = (imageUrl: string) => {
+    setSelectedIconCode(sampleSvgCode); // In real app, this would be the actual SVG code for the specific icon
+    setShowCodeModal(true);
+  };
 
   return (
     <div className="flex-1 bg-white/5 backdrop-blur-sm flex flex-col lg:h-full lg:min-h-0">
@@ -34,22 +92,58 @@ export default function IconDisplayPanel({
 
       {/* Results Content */}
       <div className="flex-1 overflow-y-auto p-4 lg:p-8 lg:min-h-0">
-        {isGenerating ? (
+        {isGenerating || (!showGeneratedContent && generatedImages.length > 0) ? (
           <div className="flex flex-col items-center justify-center h-96 space-y-6">
-            <div className="w-24 h-24 border-4 border-sunset-500/30 border-t-sunset-500 rounded-full animate-spin"></div>
-            <div className="text-center">
-              <p className="text-white text-lg font-medium">Generating your icons...</p>
-              <p className="text-sunset-200 text-sm mt-2">This may take a few moments</p>
-            </div>
-            <div className="bg-white/10 rounded-lg p-6 w-full max-w-md">
-              <div className="space-y-3">
-                <div className="h-3 bg-sunset-500/30 rounded animate-pulse"></div>
-                <div className="h-3 bg-sunset-500/20 rounded animate-pulse"></div>
-                <div className="h-3 bg-sunset-500/10 rounded animate-pulse"></div>
+            {isGenerating && (
+              <>
+                <div className="w-10 h-10 animate-spin mt-4">
+                  <img 
+                    src="/images/AIIconMakerLogo.png" 
+                    alt="AI Icon Maker" 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div className="text-center">
+                  <p className="text-white text-lg font-medium">Generating your icons...</p>
+                  <p className="text-sunset-200 text-sm mt-2">Claude is writing SVG code</p>
+                </div>
+              </>
+            )}
+            
+            {!isGenerating && !showGeneratedContent && (
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-white text-lg font-medium">Code Generation Complete!</p>
+                <p className="text-sunset-200 text-sm mt-2">Rendering your icons...</p>
               </div>
+            )}
+            
+            {/* Animated Code Display */}
+            <div className="bg-midnight-800 border border-white/20 rounded-lg p-4 w-full max-w-2xl">
+              <div className="flex items-center mb-3">
+                <svg className="w-4 h-4 text-sunset-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                <span className="text-sunset-400 text-sm font-medium">
+                  {codeAnimationComplete ? 'SVG Code Generated' : 'Generating SVG Code'}
+                </span>
+                {!codeAnimationComplete && <div className="ml-2 w-2 h-4 bg-sunset-400 animate-pulse"></div>}
+                {codeAnimationComplete && (
+                  <svg className="ml-2 w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+              <pre className="text-green-400 text-xs font-mono overflow-hidden min-h-[200px]">
+                <code>{animatedCode}</code>
+              </pre>
             </div>
           </div>
-        ) : generatedImages.length > 0 ? (
+        ) : generatedImages.length > 0 && showGeneratedContent ? (
           <div className="flex justify-center items-center w-full min-h-96">
             {isImprovementMode && selectedIconUrl ? (
               // Show only the selected icon for improvement
@@ -83,27 +177,44 @@ export default function IconDisplayPanel({
                       className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-200"
                     />
                     
-                    {/* Improvement Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onImproveIcon(image);
-                      }}
-                      className="mt-3 w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
-                    >
-                      Improve Icon
-                    </button>
-                    
-                    {/* Download Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelectImage(image);
-                      }}
-                      className="mt-2 w-full bg-white/10 hover:bg-white/20 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
-                    >
-                      Download
-                    </button>
+                    {/* Action Buttons Row */}
+                    <div className="mt-3 w-full space-y-2">
+                      {/* Improvement Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onImproveIcon(image);
+                        }}
+                        className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
+                      >
+                        Improve Icon
+                      </button>
+                      
+                      {/* Download and Code Buttons Row */}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelectImage(image);
+                          }}
+                          className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
+                        >
+                          Download
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleShowCode(image);
+                          }}
+                          className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200 border border-purple-500/30"
+                          title="View SVG Code"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -147,6 +258,51 @@ export default function IconDisplayPanel({
           >
             Start New Icon
           </button>
+        </div>
+      )}
+
+      {/* Code Modal */}
+      {showCodeModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-midnight-800 border border-white/20 rounded-xl p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <svg className="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                <h3 className="text-lg font-semibold text-white">SVG Code</h3>
+              </div>
+              <button
+                onClick={() => setShowCodeModal(false)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="bg-midnight-900 border border-white/10 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-gray-400 text-sm">SVG Code</span>
+                <button
+                  onClick={() => navigator.clipboard.writeText(selectedIconCode)}
+                  className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-3 py-1 rounded text-xs font-medium transition-colors border border-purple-500/30"
+                >
+                  Copy Code
+                </button>
+              </div>
+              <pre className="text-green-400 text-sm font-mono overflow-x-auto whitespace-pre-wrap">
+                <code>{selectedIconCode}</code>
+              </pre>
+            </div>
+            
+            <div className="mt-4 text-center">
+              <p className="text-gray-400 text-sm">
+                Copy this SVG code to use your icon in any web project or design tool.
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>
