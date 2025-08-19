@@ -182,9 +182,9 @@ function GeneratePageContent() {
       <div className="flex-1 flex flex-col">
         <ToastContainer toasts={toasts} onClose={removeToast} />
         
-        {/* Success Message */}
+        {/* Success Message Overlay */}
         {showSuccess && (
-          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mx-4 mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-[10000] bg-green-500/10 backdrop-blur-sm border border-green-500/20 rounded-lg p-4 mx-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 shadow-xl">
             <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
             <div>
               <p className="text-green-400 font-semibold">Payment successful! Welcome to AI Icon Generator!</p>
