@@ -18,7 +18,7 @@ export default function Sidebar() {
       <div className="lg:hidden fixed top-4 right-4 z-[10000]">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="w-10 h-10 bg-sunset-500/20 backdrop-blur-sm border border-sunset-500/30 rounded-lg flex items-center justify-center text-sunset-300 hover:bg-sunset-500/30 hover:text-white transition-colors shadow-lg shadow-sunset-500/20"
+          className="w-10 h-10 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg flex items-center justify-center text-white hover:bg-white/10 transition-colors"
         >
           {isMobileMenuOpen ? (
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,8 +45,8 @@ export default function Sidebar() {
         fixed lg:relative
         w-64 lg:w-16 
         h-full lg:h-auto
-        bg-sunset-500/20 backdrop-blur-sm
-        border-r border-sunset-500/30 
+        bg-white/5 backdrop-blur-sm
+        border-r border-white/10 
         flex flex-col 
         py-6 
         z-[9999]

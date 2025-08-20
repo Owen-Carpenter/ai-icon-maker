@@ -91,7 +91,7 @@ function GeneratePageContent() {
       setGeneratedImages(mockImages);
       if (!isImprovementMode) {
         setOriginalImages(mockImages);
-        setHasUserTakenAction(false); // Reset action flag for new icons
+        setHasUserTakenAction(true); // Allow continued interaction
       }
       
       success(
@@ -153,7 +153,7 @@ function GeneratePageContent() {
       setGeneratedImages(mockImages);
       if (!isImprovementMode) {
         setOriginalImages(mockImages);
-        setHasUserTakenAction(false); // Reset action flag for new icons
+        setHasUserTakenAction(true); // Allow continued interaction
       }
       
       error(
@@ -309,66 +309,7 @@ function GeneratePageContent() {
           </div>
         )}
 
-        {/* Icons Selection Popup */}
-        {!hasUserTakenAction && generatedImages.length > 0 && !isGenerating && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
-            <div className="bg-midnight-800 border border-white/20 rounded-xl p-4 sm:p-6 lg:p-8 max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Choose Your Action</h2>
-                <p className="text-sunset-200 text-sm sm:text-base">
-                  Select what you'd like to do with each of your generated icons
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-                {generatedImages.map((image, index) => (
-                  <div
-                    key={index}
-                    className="bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 lg:p-6 hover:bg-white/20 transition-all duration-200 flex flex-col items-center justify-center group"
-                  >
-                    <img
-                      src={image}
-                      alt={`Generated icon ${index + 1}`}
-                      className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain mb-3 sm:mb-4"
-                    />
-                    
-                    <div className="w-full space-y-2">
-                      <button
-                        onClick={() => {
-                          handleImproveIcon(image);
-                          setHasUserTakenAction(true);
-                        }}
-                        className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-200"
-                      >
-                        Improve This Icon
-                      </button>
-                      <button
-                        onClick={() => {
-                          handleSelectImage(image);
-                          setHasUserTakenAction(true);
-                        }}
-                        className="w-full bg-white/10 hover:bg-white/20 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-200"
-                      >
-                        Download This Icon
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="text-center mt-6">
-                <p className="text-sunset-300 text-sm">
-                  Select an action to continue chatting and generating more icons
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
+
 
         {/* Main Interface */}
         <div className="flex-1 flex flex-col lg:flex-row min-h-0">
