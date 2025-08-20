@@ -83,9 +83,11 @@ export default function IconDisplayPanel({
   };
 
   return (
-    <div className="flex-1 bg-gradient-to-b from-sunset-900 via-midnight-800 to-midnight-900 flex flex-col lg:h-full lg:min-h-0">
+    <div className="flex-1 flex flex-col lg:h-full lg:min-h-0 relative">
+      {/* Gradient Background - positioned behind content */}
+      <div className="absolute inset-0 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 z-0"></div>
       {/* Results Header */}
-      <div className="px-6 py-4 border-b border-white/10 bg-white/5 backdrop-blur-sm">
+      <div className="px-6 py-4 border-b border-white/10 bg-white/5 backdrop-blur-sm relative z-10">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full flex items-center justify-center">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,7 +102,7 @@ export default function IconDisplayPanel({
       </div>
 
       {/* Results Content */}
-      <div className="flex-1 overflow-y-auto p-4 lg:p-8 lg:min-h-0">
+      <div className="flex-1 overflow-y-auto p-4 lg:p-8 lg:min-h-0 relative z-10">
         {isGenerating || (!showGeneratedContent && generatedImages.length > 0) ? (
           <div className="flex flex-col items-center justify-center h-96 space-y-6">
             {isGenerating && (
@@ -271,7 +273,7 @@ export default function IconDisplayPanel({
 
       {/* Action Buttons */}
       {generatedImages.length > 0 && (
-        <div className="p-4 lg:p-6 border-t border-white/10 space-y-3">
+        <div className="p-4 lg:p-6 border-t border-white/10 space-y-3 bg-white/15 backdrop-blur-sm relative z-30">
           {isImprovementMode && onExitImprovementMode && (
             <button
               onClick={onExitImprovementMode}
