@@ -284,7 +284,7 @@ export default function IconDisplayPanel({
             onClick={onRegenerate}
             className="w-full bg-sunset-500/20 hover:bg-sunset-500/30 text-sunset-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-sunset-500/30 hover:border-sunset-500/50"
           >
-            {isImprovementMode ? 'Generate More Improvements' : 'Generate More Variations'}
+            {isImprovementMode ? 'Generate More Improvements' : 'Generate Different Variations'}
           </button>
           <button
             onClick={onReset}
