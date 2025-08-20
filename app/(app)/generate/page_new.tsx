@@ -9,7 +9,7 @@ import IconDisplayPanel from '../../../components/generate/IconDisplayPanel';
 import Sidebar from '../../../components/generate/Sidebar';
 import Loading from '../../../components/ui/Loading';
 import { useToast } from '../../../hooks/useToast';
-import { ToastContainer } from '../../../components/ui/Toast';
+import ToastContainer from '../../../components/ui/Toast';
 
 function GeneratePageContent() {
   const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
@@ -207,14 +207,12 @@ function GeneratePageContent() {
 
   if (showHeroView) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row">
+      <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col">
         {/* Sidebar Navigation - Responsive */}
         <Sidebar />
 
         {/* Hero View */}
-        <div className="flex-1 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden flex items-center justify-center px-4">
-          {/* Gradient overlay for extra depth */}
-          <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10"></div>
+        <div className="flex-1 flex items-center justify-center px-4">
           <ToastContainer toasts={toasts} onClose={removeToast} />
           
           {/* Success Message Overlay */}
@@ -229,7 +227,7 @@ function GeneratePageContent() {
           )}
 
           {/* Centered Hero Content */}
-          <div className="w-full max-w-4xl text-center animate-fade-in relative z-10">
+          <div className="w-full max-w-4xl text-center animate-fade-in">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
               Make something 
               <span className="inline-flex items-center mx-1 sm:mx-2">

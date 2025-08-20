@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
+import Loading from '../../../components/ui/Loading';
+import { ToastContainer } from '../../../components/ui/Toast';
+import { useAuth } from '../../../contexts/AuthContext';
+import { useToast } from '../../../hooks/useToast';
+import Sidebar from '../../../components/generate/Sidebar';
 import ChatPanel from '../../../components/generate/ChatPanel';
 import IconDisplayPanel from '../../../components/generate/IconDisplayPanel';
-import Sidebar from '../../../components/generate/Sidebar';
-import Loading from '../../../components/ui/Loading';
-import { useToast } from '../../../hooks/useToast';
-import { ToastContainer } from '../../../components/ui/Toast';
 
 function GeneratePageContent() {
   const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
@@ -36,11 +36,7 @@ function GeneratePageContent() {
       setShowSuccess(true);
       // Refresh user data after successful payment
       refreshUserData();
-      
-      // Auto-hide after 10 seconds
-      setTimeout(() => {
-        setShowSuccess(false);
-      }, 10000);
+      setTimeout(() => setShowSuccess(false), 8000);
     }
   }, [searchParams, refreshUserData]);
 
@@ -176,21 +172,28 @@ function GeneratePageContent() {
   const handleSelectImage = (imageUrl: string) => {
     // Handle image selection - could save to library
     console.log('Selected image:', imageUrl);
-    setHasUserTakenAction(true);
-    success('Icon Downloaded!', 'Icon saved to your downloads folder');
+    setHasUserTakenAction(true); // User has taken an action
   };
 
   const handleImproveIcon = (imageUrl: string) => {
     setSelectedIconUrl(imageUrl);
     setIsImprovementMode(true);
-    setHasUserTakenAction(true);
-    console.log('Improving icon:', imageUrl);
+    setCurrentPrompt('');
+    setHasUserTakenAction(true); // User has taken an action
+    // Store current images as original for comparison
+    if (generatedImages.length > 0) {
+      setOriginalImages([...generatedImages]);
+    }
   };
 
   const handleExitImprovementMode = () => {
     setIsImprovementMode(false);
     setSelectedIconUrl('');
-    setGeneratedImages(originalImages); // Restore original images
+    setCurrentPrompt('');
+    // Restore original images
+    if (originalImages.length > 0) {
+      setGeneratedImages([...originalImages]);
+    }
   };
 
   const handleReset = () => {
@@ -202,95 +205,10 @@ function GeneratePageContent() {
     setSelectedIconUrl('');
     setOriginalImages([]);
     setHasUserTakenAction(true); // Reset to allow new chat
-    setShowHeroView(true); // Go back to hero view
   };
 
-  if (showHeroView) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row">
-        {/* Sidebar Navigation - Responsive */}
-        <Sidebar />
-
-        {/* Hero View */}
-        <div className="flex-1 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden flex items-center justify-center px-4">
-          {/* Gradient overlay for extra depth */}
-          <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10"></div>
-          <ToastContainer toasts={toasts} onClose={removeToast} />
-          
-          {/* Success Message Overlay */}
-          {showSuccess && (
-            <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-[10000] bg-green-500/10 backdrop-blur-sm border border-green-500/20 rounded-lg p-4 mx-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 shadow-xl">
-              <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-              <div>
-                <p className="text-green-400 font-semibold">Payment successful! Welcome to AI Icon Generator!</p>
-                <p className="text-green-300 text-sm mt-1">Your subscription is now active. Start creating amazing icons below!</p>
-              </div>
-            </div>
-          )}
-
-          {/* Centered Hero Content */}
-          <div className="w-full max-w-4xl text-center animate-fade-in relative z-10">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-              Make something 
-              <span className="inline-flex items-center mx-1 sm:mx-2">
-                <span className="text-2xl sm:text-3xl lg:text-4xl">🎨</span>
-              </span>
-              Iconic
-            </h1>
-            
-            <p className="text-base sm:text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl mx-auto px-4">
-              Create stunning icons and designs by chatting with AI
-            </p>
-            
-            {/* Main Input Field */}
-            <div className="w-full mb-8">
-              <div className="relative">
-                <textarea
-                  value={currentPrompt}
-                  onChange={(e) => setCurrentPrompt(e.target.value)}
-                  className="w-full min-w-[300px] sm:min-w-[500px] md:min-w-[700px] lg:min-w-[900px] xl:min-w-[900px] max-w-[95vw] bg-midnight-800/90 border border-midnight-700 rounded-2xl p-4 sm:p-6 pr-12 sm:pr-16 text-white placeholder-sunset-300/70 focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300 resize-none text-base sm:text-lg backdrop-blur-sm min-h-[100px] sm:min-h-[120px] max-h-[200px]"
-                  rows={4}
-                  placeholder="Describe your icon idea..."
-                />
-                
-                {/* Style Controls at Bottom */}
-                <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 flex items-center space-x-2 sm:space-x-4">
-                  <select 
-                    value={style}
-                    onChange={(e) => setStyle(e.target.value)}
-                    className="bg-midnight-700/50 hover:bg-midnight-600/50 text-sunset-300 hover:text-white transition-all duration-300 text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-1.5 rounded-full border-none focus:outline-none [&>option]:bg-midnight-800 [&>option]:text-white"
-                  >
-                    <option value="modern">Modern</option>
-                    <option value="flat">Flat</option>
-                    <option value="line-art">Line Art</option>
-                    <option value="3d">3D</option>
-                    <option value="vintage">Vintage</option>
-                    <option value="neon">Neon</option>
-                    <option value="minimalist">Minimalist</option>
-                    <option value="hand-drawn">Hand Drawn</option>
-                  </select>
-                </div>
-                
-                {/* Send Button */}
-                <button 
-                  onClick={() => handleGenerate(currentPrompt, style, '#FF6C00')}
-                  disabled={!currentPrompt.trim() || isGenerating}
-                  className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 disabled:opacity-50 text-white p-2 sm:p-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-sunset-500/30 hover:scale-105"
-                >
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row animate-fade-in">
+    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row">
       {/* Sidebar Navigation - Responsive */}
       <Sidebar />
 
@@ -319,38 +237,37 @@ function GeneratePageContent() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Choose Your Action</h2>
-                <p className="text-sunset-200 text-sm sm:text-base">
-                  Select what you'd like to do with each of your generated icons
-                </p>
+                <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">Your Icons Are Ready!</h3>
+                <p className="text-sunset-200 text-sm sm:text-base">Choose what you'd like to do with one of your generated icons:</p>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {generatedImages.map((image, index) => (
                   <div
                     key={index}
-                    className="bg-white/10 border border-white/20 rounded-xl p-3 sm:p-4 lg:p-6 hover:bg-white/20 transition-all duration-200 flex flex-col items-center justify-center group"
+                    className="bg-white/5 border border-white/20 rounded-xl p-4 sm:p-6 hover:bg-white/10 transition-all duration-200 flex flex-col items-center"
                   >
-                    <img
-                      src={image}
-                      alt={`Generated icon ${index + 1}`}
-                      className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain mb-3 sm:mb-4"
-                    />
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white/10 rounded-lg p-3 sm:p-4 mb-4 flex items-center justify-center">
+                      <img
+                        src={image}
+                        alt={`Generated icon ${index + 1}`}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
                     
                     <div className="w-full space-y-2">
                       <button
                         onClick={() => {
                           handleImproveIcon(image);
-                          setHasUserTakenAction(true);
                         }}
                         className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-200"
                       >
                         Improve This Icon
                       </button>
+                      
                       <button
                         onClick={() => {
                           handleSelectImage(image);
-                          setHasUserTakenAction(true);
                         }}
                         className="w-full bg-white/10 hover:bg-white/20 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-sm sm:text-base font-medium transition-all duration-200"
                       >
@@ -409,4 +326,4 @@ export default function GeneratePage() {
       <GeneratePageContent />
     </Suspense>
   );
-}
+} 
