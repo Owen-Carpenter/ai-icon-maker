@@ -6,8 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { CheckCircle, Crown, BarChart3, Calendar, TrendingUp, Zap } from 'lucide-react';
 import Logo from '../../../components/ui/Logo';
-import Navbar from '../../../components/Navbar';
-import Footer from '../../../components/Footer';
+import Sidebar from '../../../components/generate/Sidebar';
 import Loading from '../../../components/ui/Loading';
 
 function UsagePageContent() {
@@ -37,9 +36,9 @@ function UsagePageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-gradient">
-      <Navbar variant="app" />
-      <div className="container mx-auto px-4 pt-32 pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row">
+      <Sidebar currentPage="usage" />
+      <div className="flex-1 px-4 py-8 lg:py-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-bold text-white mb-6 text-center">
             Usage & Limits
@@ -329,7 +328,6 @@ function UsagePageContent() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

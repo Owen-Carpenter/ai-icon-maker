@@ -118,18 +118,22 @@ export default function Sidebar({ currentPage = 'generate' }: SidebarProps) {
             </div>
           </div>
 
-          {/* Community */}
+          {/* Help */}
           <div 
-            onClick={() => handleNavigation('/community')}
+            onClick={() => {
+              // TODO: Trigger in-app walkthrough animation
+              // This will be implemented later to show generate page tutorial
+              console.log('Help walkthrough clicked - to be implemented');
+            }}
             className="lg:w-10 lg:h-10 w-full bg-white/10 rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer hover:bg-white/20 transition-colors group relative border border-sunset-500/30"
           >
             <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span className="text-sunset-600/80 group-hover:text-white font-medium lg:hidden drop-shadow-md">Community</span>
+            <span className="text-sunset-600/80 group-hover:text-sunset-600 font-medium lg:hidden drop-shadow-md">Help & Tips</span>
             {/* Desktop Tooltip */}
             <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
-              Community
+              Help & Tips
               <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
             </div>
           </div>
@@ -137,8 +141,11 @@ export default function Sidebar({ currentPage = 'generate' }: SidebarProps) {
           {/* Usage */}
           <div 
             onClick={() => handleNavigation('/usage')}
-            className="lg:w-10 lg:h-10 w-full bg-white/10 rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer hover:bg-white/20 transition-colors group relative border border-sunset-500/30"
-          >
+            className={`lg:w-10 lg:h-10 w-full rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-colors ${
+              currentPage === 'usage' 
+                ? 'bg-sunset-500/20 border-sunset-500/30' 
+                : 'bg-white/10 border-sunset-500/30 hover:bg-white/20'
+            }`}>
             <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
