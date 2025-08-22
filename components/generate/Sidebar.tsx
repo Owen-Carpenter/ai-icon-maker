@@ -118,6 +118,25 @@ export default function Sidebar({ currentPage = 'generate' }: SidebarProps) {
             </div>
           </div>
 
+          {/* Usage */}
+          <div 
+            onClick={() => handleNavigation('/usage')}
+            className={`lg:w-10 lg:h-10 w-full rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-colors ${
+              currentPage === 'usage' 
+                ? 'bg-sunset-500/20 border-sunset-500/30' 
+                : 'bg-white/10 border-sunset-500/30 hover:bg-white/20'
+            }`}>
+            <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span className="text-sunset-600/80 group-hover:text-sunset-600 font-medium lg:hidden drop-shadow-md">Usage & Limits</span>
+            {/* Desktop Tooltip */}
+            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
+              Usage & Limits
+              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
+            </div>
+          </div>
+
           {/* Help */}
           <div 
             onClick={() => {
@@ -134,25 +153,6 @@ export default function Sidebar({ currentPage = 'generate' }: SidebarProps) {
             {/* Desktop Tooltip */}
             <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
               Help & Tips
-              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
-            </div>
-          </div>
-
-          {/* Usage */}
-          <div 
-            onClick={() => handleNavigation('/usage')}
-            className={`lg:w-10 lg:h-10 w-full rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-colors ${
-              currentPage === 'usage' 
-                ? 'bg-sunset-500/20 border-sunset-500/30' 
-                : 'bg-white/10 border-sunset-500/30 hover:bg-white/20'
-            }`}>
-            <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
-            <span className="text-sunset-600/80 group-hover:text-sunset-600 font-medium lg:hidden drop-shadow-md">Usage & Limits</span>
-            {/* Desktop Tooltip */}
-            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
-              Usage & Limits
               <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
             </div>
           </div>
