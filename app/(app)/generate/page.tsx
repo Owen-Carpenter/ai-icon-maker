@@ -309,7 +309,7 @@ function GeneratePageContent() {
         )}
 
         {/* Main Interface - Seamlessly transitions in */}
-        <div className={`flex flex-col lg:flex-row h-full min-h-0 transition-all duration-1000 ease-in-out ${
+        <div className={`flex flex-col lg:flex-row h-full min-h-0 lg:ml-16 transition-all duration-1000 ease-in-out ${
           showHeroView ? 'opacity-0 scale-110' : 'opacity-100 scale-100'
         }`}>
           {/* Chat Panel */}
