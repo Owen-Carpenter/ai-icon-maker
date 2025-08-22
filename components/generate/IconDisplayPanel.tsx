@@ -85,21 +85,16 @@ export default function IconDisplayPanel({
   return (
     <div className="flex-1 flex flex-col lg:h-full lg:min-h-0 relative">
       {/* Gradient Background - positioned behind content */}
-      <div className="absolute inset-0 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-sunset-900/40 via-midnight-800/20 to-midnight-900/10 z-0"></div>
       {/* Results Header */}
-      <div className="px-6 py-4 border-b border-white/10 bg-white/5 backdrop-blur-sm relative z-10">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full flex items-center justify-center">
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-          </div>
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold text-white">Generated Icons</h2>
-            <p className="text-sunset-200 text-sm">Choose an action below each icon: Improve it or Download it</p>
+              <div className="px-6 py-4 border-b border-white/10 bg-white/5 backdrop-blur-sm relative z-10">
+          <div className="flex items-center space-x-3">
+            <div className="flex-1">
+              <h2 className="text-lg font-semibold text-white">Generated Icons</h2>
+              <p className="text-sunset-200 text-sm">Choose an action below each icon: Improve it or Download it</p>
+            </div>
           </div>
         </div>
-      </div>
 
       {/* Results Content */}
       <div className="flex-1 overflow-y-auto p-4 lg:p-8 lg:min-h-0 relative z-10">

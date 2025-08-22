@@ -43,11 +43,6 @@ export default function ChatPanel({
       {/* Chat Header */}
       <div className="px-6 py-4 border-b border-white/10 bg-white/5 backdrop-blur-sm">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full flex items-center justify-center">
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
           <div className="flex-1">
             <h2 className="text-lg font-semibold text-white">
               {isImprovementMode ? 'Icon Improvement' : 'Icon Assistant'}
