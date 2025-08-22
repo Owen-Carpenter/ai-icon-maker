@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
-import Navbar from '../../../components/Navbar';
+import Sidebar from '../../../components/generate/Sidebar';
 import Link from 'next/link';
 import Loading from '../../../components/ui/Loading';
 import SubscriptionGate from '../../../components/SubscriptionGate';
@@ -120,10 +120,10 @@ export default function LibraryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark-gradient">
-      <Navbar variant="app" />
+    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row">
+      <Sidebar currentPage="library" />
       
-      <div className="container mx-auto px-4 py-8 pt-24">
+      <div className="flex-1 px-4 py-8 lg:py-8">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">Your Icon Library</h1>

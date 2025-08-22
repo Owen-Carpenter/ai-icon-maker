@@ -3,7 +3,11 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function Sidebar() {
+interface SidebarProps {
+  currentPage?: string;
+}
+
+export default function Sidebar({ currentPage = 'generate' }: SidebarProps) {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -76,8 +80,14 @@ export default function Sidebar() {
 
         {/* Navigation Icons */}
         <div className="flex flex-col lg:space-y-4 space-y-2 lg:items-center items-stretch lg:px-0 px-4">
-          {/* Generate (Active) */}
-          <div className="lg:w-10 lg:h-10 w-full bg-sunset-500/20 border border-sunset-500/30 rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative">
+          {/* Generate */}
+          <div 
+            onClick={() => handleNavigation('/generate')}
+            className={`lg:w-10 lg:h-10 w-full rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-colors ${
+              currentPage === 'generate' 
+                ? 'bg-sunset-500/20 border-sunset-500/30' 
+                : 'bg-white/10 border-sunset-500/30 hover:bg-white/20'
+            }`}>
             <svg className="w-5 h-5 text-sunset-600 lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
@@ -92,8 +102,11 @@ export default function Sidebar() {
           {/* Library */}
           <div 
             onClick={() => handleNavigation('/library')}
-            className="lg:w-10 lg:h-10 w-full bg-white/10 rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer hover:bg-white/20 transition-colors group relative border border-sunset-500/30"
-          >
+            className={`lg:w-10 lg:h-10 w-full rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-colors ${
+              currentPage === 'library' 
+                ? 'bg-sunset-500/20 border-sunset-500/30' 
+                : 'bg-white/10 border-sunset-500/30 hover:bg-white/20'
+            }`}>
             <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>

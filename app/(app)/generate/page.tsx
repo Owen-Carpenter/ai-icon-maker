@@ -224,7 +224,7 @@ function GeneratePageContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row relative overflow-hidden">
       {/* Sidebar Navigation - Responsive */}
-      <Sidebar />
+      <Sidebar currentPage="generate" />
 
       {/* Main Content Area with Seamless Transition */}
       <div className="flex-1 relative overflow-hidden">
