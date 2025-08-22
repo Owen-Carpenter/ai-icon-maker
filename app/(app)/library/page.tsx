@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Loading from '../../../components/ui/Loading';
 import SubscriptionGate from '../../../components/SubscriptionGate';
 import SmartGenerateLink from '../../../components/SmartGenerateLink';
+import Footer from '../../../components/Footer';
 
 interface SavedIcon {
   id: string;
@@ -120,10 +121,10 @@ export default function LibraryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col">
       <Sidebar currentPage="library" />
       
-      <div className="flex-1 px-4 py-8 lg:py-8">
+      <div className="flex-1 px-4 py-8 lg:py-8 lg:ml-16">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">Your Icon Library</h1>
@@ -345,6 +346,7 @@ export default function LibraryPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 } 

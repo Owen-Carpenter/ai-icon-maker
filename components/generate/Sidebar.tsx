@@ -46,9 +46,9 @@ export default function Sidebar({ currentPage = 'generate' }: SidebarProps) {
 
       {/* Sidebar - Desktop always visible, Mobile slide-in */}
       <div className={`
-        fixed lg:relative
+        fixed
         w-64 lg:w-16 
-        h-full lg:h-auto
+        h-full
         bg-white/75 backdrop-blur-sm
         border-r border-white/10 
         flex flex-col 
