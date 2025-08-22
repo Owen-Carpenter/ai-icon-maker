@@ -256,7 +256,7 @@ function GeneratePageContent() {
                 <span className="inline-flex items-center mx-1 sm:mx-2">
                   <span className="text-2xl sm:text-3xl lg:text-4xl">🎨</span>
                 </span>
-                Iconic
+                <span className="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent">Iconic</span>
               </h1>
               
               <p className="text-base sm:text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl mx-auto px-4">
