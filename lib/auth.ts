@@ -6,6 +6,18 @@ export interface AuthUser extends User {
   email?: string
 }
 
+// Helper function to get the appropriate base URL
+const getBaseUrl = () => {
+  // Check for environment variables first
+  if (typeof window !== 'undefined') {
+    // Client-side: use environment variable or fallback to current origin
+    return process.env.NEXT_PUBLIC_APP_URL || window.location.origin
+  } else {
+    // Server-side: use environment variable or fallback to localhost
+    return process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  }
+}
+
 export const authService = {
   // Sign up with email and password
   async signUp(email: string, password: string) {
@@ -27,10 +39,11 @@ export const authService = {
 
   // Sign in with Google OAuth
   async signInWithGoogle() {
+    const baseUrl = getBaseUrl()
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${baseUrl}/auth/callback`,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
@@ -48,8 +61,9 @@ export const authService = {
 
   // Reset password
   async resetPassword(email: string) {
+    const baseUrl = getBaseUrl()
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: `${baseUrl}/reset-password`,
     })
     return { error }
   },
