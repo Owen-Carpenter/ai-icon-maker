@@ -83,7 +83,10 @@ export default function IconDisplayPanel({
   };
 
   return (
-    <div className="flex-1 flex flex-col lg:h-full lg:min-h-0 relative">
+    <div 
+      data-walkthrough="results-panel"
+      className="flex-1 flex flex-col lg:h-full lg:min-h-0 relative"
+    >
       {/* Gradient Background - positioned behind content */}
       <div className="absolute inset-0 bg-gradient-to-r from-sunset-900/40 via-midnight-800/20 to-midnight-900/10 z-0"></div>
       {/* Results Header */}
@@ -268,7 +271,10 @@ export default function IconDisplayPanel({
 
       {/* Action Buttons */}
       {generatedImages.length > 0 && (
-        <div className="p-4 lg:p-6 border-t border-white/10 space-y-3 bg-white/15 backdrop-blur-sm relative z-30">
+        <div 
+          data-walkthrough="action-buttons"
+          className="p-4 lg:p-6 border-t border-white/10 space-y-3 bg-white/15 backdrop-blur-sm relative z-30"
+        >
           {isImprovementMode && onExitImprovementMode && (
             <button
               onClick={onExitImprovementMode}

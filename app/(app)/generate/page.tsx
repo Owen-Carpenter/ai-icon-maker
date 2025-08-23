@@ -10,6 +10,8 @@ import Sidebar from '../../../components/generate/Sidebar';
 import Loading from '../../../components/ui/Loading';
 import { useToast } from '../../../hooks/useToast';
 import { ToastContainer } from '../../../components/ui/Toast';
+import Walkthrough, { useWalkthrough } from '../../../components/Walkthrough';
+import { generatePageSteps } from '../../../lib/walkthrough-steps';
 
 function GeneratePageContent() {
   const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
@@ -28,6 +30,9 @@ function GeneratePageContent() {
   const [showHeroView, setShowHeroView] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [style, setStyle] = useState('modern');
+  
+  // Walkthrough state
+  const { isActive: isWalkthroughActive, startWalkthrough, completeWalkthrough, skipWalkthrough } = useWalkthrough();
 
   // All useEffect hooks must be called before any conditional returns
   useEffect(() => {
@@ -202,6 +207,26 @@ function GeneratePageContent() {
     setGeneratedImages(originalImages); // Restore original images
   };
 
+  // Handle walkthrough trigger from sidebar
+  const handleStartWalkthrough = () => {
+    // If we're in hero view, transition to main interface first
+    if (showHeroView) {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setShowHeroView(false);
+      }, 50);
+      setTimeout(() => {
+        setIsTransitioning(false);
+        // Start walkthrough after transition completes
+        setTimeout(() => {
+          startWalkthrough();
+        }, 500);
+      }, 800);
+    } else {
+      startWalkthrough();
+    }
+  };
+
   const handleReset = () => {
     // Start transition animation back to hero view
     setIsTransitioning(true);
@@ -224,7 +249,7 @@ function GeneratePageContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row relative overflow-hidden">
       {/* Sidebar Navigation - Responsive */}
-      <Sidebar currentPage="generate" />
+              <Sidebar currentPage="generate" onStartWalkthrough={handleStartWalkthrough} />
 
       {/* Main Content Area with Seamless Transition */}
       <div className="flex-1 relative overflow-hidden">
@@ -339,6 +364,14 @@ function GeneratePageContent() {
           />
         </div>
       </div>
+
+      {/* Walkthrough Component */}
+      <Walkthrough
+        steps={generatePageSteps}
+        isActive={isWalkthroughActive}
+        onComplete={completeWalkthrough}
+        onSkip={skipWalkthrough}
+      />
     </div>
   );
 }

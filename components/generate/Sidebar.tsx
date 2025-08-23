@@ -5,9 +5,10 @@ import { useState } from 'react';
 
 interface SidebarProps {
   currentPage?: string;
+  onStartWalkthrough?: () => void;
 }
 
-export default function Sidebar({ currentPage = 'generate' }: SidebarProps) {
+export default function Sidebar({ currentPage = 'generate', onStartWalkthrough }: SidebarProps) {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -45,19 +46,22 @@ export default function Sidebar({ currentPage = 'generate' }: SidebarProps) {
       )}
 
       {/* Sidebar - Desktop always visible, Mobile slide-in */}
-      <div className={`
-        fixed
-        w-64 lg:w-16 
-        h-full
-        bg-white/75 backdrop-blur-sm
-        border-r border-white/10 
-        flex flex-col 
-        py-6 
-        z-[9999]
-        transition-transform duration-300 ease-in-out
-        shadow-lg shadow-sunset-500/20
-        ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
+      <div 
+        data-walkthrough="sidebar"
+        className={`
+          fixed
+          w-64 lg:w-16 
+          h-full
+          bg-white/75 backdrop-blur-sm
+          border-r border-white/10 
+          flex flex-col 
+          py-6 
+          z-[9999]
+          transition-transform duration-300 ease-in-out
+          shadow-lg shadow-sunset-500/20
+          ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        `}
+      >
                 {/* Logo */}
         <div className="lg:flex lg:items-center lg:justify-center mb-6">
           <div 
@@ -138,12 +142,14 @@ export default function Sidebar({ currentPage = 'generate' }: SidebarProps) {
           </div>
 
           {/* Help */}
-          <div 
-            onClick={() => {
-              // TODO: Trigger in-app walkthrough animation
-              // This will be implemented later to show generate page tutorial
-              console.log('Help walkthrough clicked - to be implemented');
-            }}
+                          <div 
+                  onClick={() => {
+                    if (onStartWalkthrough) {
+                      onStartWalkthrough();
+                    } else {
+                      console.log('Walkthrough handler not provided');
+                    }
+                  }}
             className="lg:w-10 lg:h-10 w-full bg-white/10 rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer hover:bg-white/20 transition-colors group relative border border-sunset-500/30"
           >
             <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">

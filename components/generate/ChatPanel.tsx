@@ -39,7 +39,10 @@ export default function ChatPanel({
   };
 
   return (
-    <div className="w-full lg:w-96 lg:flex-shrink-0 bg-white/5 backdrop-blur-sm flex flex-col border-r-0 lg:border-r border-b lg:border-b-0 border-white/10 lg:h-full">
+    <div 
+      data-walkthrough="chat-panel"
+      className="w-full lg:w-96 lg:flex-shrink-0 bg-white/5 backdrop-blur-sm flex flex-col border-r-0 lg:border-r border-b lg:border-b-0 border-white/10 lg:h-full"
+    >
       {/* Chat Header */}
       <div className="px-6 py-4 border-b border-white/10 bg-white/5 backdrop-blur-sm">
         <div className="flex items-center space-x-3">
@@ -212,6 +215,7 @@ export default function ChatPanel({
           {/* Style Controls */}
           <div className="flex gap-2">
             <select 
+              data-walkthrough="style-selector"
               value={style}
               onChange={(e) => setStyle(e.target.value)}
               disabled={isGenerating || (!hasUserTakenAction && generatedImages.length > 0 && !isImprovementMode)}
@@ -231,6 +235,7 @@ export default function ChatPanel({
           {/* Message Input */}
           <div className="flex gap-2">
             <input
+              data-walkthrough="prompt-input"
               type="text"
               value={currentPrompt}
               onChange={(e) => setCurrentPrompt(e.target.value)}
@@ -245,6 +250,7 @@ export default function ChatPanel({
               disabled={isGenerating || (!hasUserTakenAction && generatedImages.length > 0 && !isImprovementMode)}
             />
             <button
+              data-walkthrough="generate-button"
               type="submit"
               disabled={!currentPrompt.trim() || isGenerating || (!hasUserTakenAction && generatedImages.length > 0 && !isImprovementMode)}
               className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-1"
