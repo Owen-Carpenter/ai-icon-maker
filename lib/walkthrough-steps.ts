@@ -50,6 +50,14 @@ export const generatePageSteps: WalkthroughStep[] = [
     nextButton: 'Nice'
   },
   {
+    id: 'improve-icons',
+    target: '[data-walkthrough="results-panel"]',
+    title: '✨ Improve Your Icons',
+    content: 'Click on any generated icon to enter improvement mode. Then describe changes like "make it more colorful", "add shadows", or "change to blue" to refine your icon.',
+    position: 'left',
+    nextButton: 'Perfect'
+  },
+  {
     id: 'sidebar-navigation',
     target: '[data-walkthrough="sidebar"]',
     title: '🧭 Navigation',
