@@ -201,51 +201,59 @@ export default function IconDisplayPanel({
                 {generatedImages.map((image, index) => (
                   <div
                     key={index}
-                    className="aspect-square bg-white/10 border border-white/20 rounded-xl p-4 lg:p-6 hover:bg-white/20 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center group hover:scale-105"
+                    className="aspect-square bg-white/10 border border-white/20 rounded-xl p-4 lg:p-6 hover:bg-white/20 transition-all duration-200 flex flex-col items-center justify-center group hover:scale-105 relative"
                   >
-                    <img
-                      src={image}
-                      alt={`Generated icon ${index + 1}`}
-                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-200"
-                    />
+                    {/* Hover overlay with improve hint - positioned at top */}
+                    <div className="absolute top-2 left-2 right-2 bg-sunset-500/90 backdrop-blur-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center py-2 z-10">
+                      <div className="text-white text-xs font-medium flex items-center gap-1">
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Click icon to improve
+                      </div>
+                    </div>
                     
-                    {/* Action Buttons Row */}
-                    <div className="mt-3 w-full space-y-2">
-                      {/* Improvement Button */}
+                    <div 
+                      onClick={() => onImproveIcon(image)}
+                      className="w-full h-full cursor-pointer flex items-center justify-center"
+                    >
+                      <img
+                        src={image}
+                        alt={`Generated icon ${index + 1}`}
+                        className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-200"
+                      />
+                    </div>
+                    
+                    {/* Simplified Action Buttons - Only essential actions */}
+                    <div className="mt-3 w-full flex gap-2">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          onImproveIcon(image);
+                          // TODO: Implement save to library functionality
+                          console.log('Save to library clicked for:', image);
                         }}
-                        className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
+                        className="flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-3 rounded-lg text-xs font-medium transition-colors border border-green-500/30 hover:border-green-500/50 flex items-center justify-center gap-1"
+                        title="Save to Library"
                       >
-                        Improve Icon
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                        </svg>
+                        Save
                       </button>
                       
-                      {/* Download and Code Buttons Row */}
-                      <div className="flex gap-2">
-                        <div className="flex-1 [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onSelectImage(image);
-                            }}
-                            className="w-full bg-transparent text-white py-2 px-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 text-xs"
-                          >
-                            Download
-                          </button>
-                        </div>
+                      <div className="flex-1 [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleShowCode(image);
+                            onSelectImage(image);
                           }}
-                          className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200"
-                          title="View SVG Code"
+                          className="w-full bg-transparent text-white py-2 px-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 text-xs flex items-center justify-center gap-1"
+                          title="Download Icon"
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>
+                          Download
                         </button>
                       </div>
                     </div>
