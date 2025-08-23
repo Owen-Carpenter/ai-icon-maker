@@ -283,12 +283,24 @@ export default function IconDisplayPanel({
               ← Back to Original Icons
             </button>
           )}
-          <button
-            onClick={onRegenerate}
-            className="w-full bg-sunset-500/20 hover:bg-sunset-500/30 text-sunset-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-sunset-500/30 hover:border-sunset-500/50"
-          >
-            {isImprovementMode ? 'Generate More Improvements' : 'Generate Different Variations'}
-          </button>
+          {isImprovementMode ? (
+            <button
+              onClick={() => {
+                // TODO: Implement save to library functionality
+                console.log('Save to library clicked');
+              }}
+              className="w-full bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-green-500/30 hover:border-green-500/50"
+            >
+              💾 Save to Library
+            </button>
+          ) : (
+            <button
+              onClick={onRegenerate}
+              className="w-full bg-sunset-500/20 hover:bg-sunset-500/30 text-sunset-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-sunset-500/30 hover:border-sunset-500/50"
+            >
+              Generate Different Variations
+            </button>
+          )}
           <button
             onClick={onReset}
             className="w-full bg-red-500/20 hover:bg-red-500/30 text-red-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-red-500/30 hover:border-red-500/50"
