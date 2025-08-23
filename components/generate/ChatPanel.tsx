@@ -42,9 +42,7 @@ export default function ChatPanel({
     }
   };
 
-  const handleQuickPrompt = (prompt: string) => {
-    setCurrentPrompt(prompt);
-  };
+
 
   return (
     <div 
@@ -85,26 +83,6 @@ export default function ChatPanel({
                 <p className="text-white text-sm leading-relaxed">
                   I can see the icon you want to improve! Describe what changes you'd like me to make.
                 </p>
-                <div className="mt-2 flex flex-wrap gap-1">
-                  <button 
-                    onClick={() => handleQuickPrompt('make it more modern')}
-                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-                  >
-                    More modern
-                  </button>
-                  <button 
-                    onClick={() => handleQuickPrompt('change the colors')}
-                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-                  >
-                    Change colors
-                  </button>
-                  <button 
-                    onClick={() => handleQuickPrompt('make it simpler')}
-                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-                  >
-                    Simpler design
-                  </button>
-                </div>
               </div>
             </div>
             
@@ -130,26 +108,6 @@ export default function ChatPanel({
                 <p className="text-white text-sm leading-relaxed">
                   Hi! Describe the icon you'd like me to create, and I'll generate multiple variations for you.
                 </p>
-                <div className="mt-2 flex flex-wrap gap-1">
-                  <button 
-                    onClick={() => handleQuickPrompt('shopping cart icon')}
-                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-                  >
-                    Shopping cart
-                  </button>
-                  <button 
-                    onClick={() => handleQuickPrompt('settings gear icon')}
-                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-                  >
-                    Settings
-                  </button>
-                  <button 
-                    onClick={() => handleQuickPrompt('user profile icon')}
-                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-                  >
-                    User profile
-                  </button>
-                </div>
               </div>
             </div>
           </>
@@ -189,28 +147,7 @@ export default function ChatPanel({
                 {isImprovementMode ? 'How else would you like to improve it?' : 
                  hasUserTakenAction ? 'Want different variations?' : 'Please choose an action for one of your icons first!'}
               </p>
-              {isImprovementMode && (
-                <div className="mt-2 flex flex-wrap gap-1">
-                  <button 
-                    onClick={() => handleQuickPrompt('make it more colorful')}
-                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-                  >
-                    More colorful
-                  </button>
-                  <button 
-                    onClick={() => handleQuickPrompt('add more details')}
-                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-                  >
-                    Add details
-                  </button>
-                  <button 
-                    onClick={() => handleQuickPrompt('change the style')}
-                    className="text-xs px-2 py-1 bg-sunset-500/20 text-sunset-300 rounded-full hover:bg-sunset-500/30 transition-colors"
-                  >
-                    Change style
-                  </button>
-                </div>
-              )}
+
             </div>
           </div>
         )}
