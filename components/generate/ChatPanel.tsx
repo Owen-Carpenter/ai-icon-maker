@@ -27,6 +27,14 @@ export default function ChatPanel({
 }: ChatPanelProps) {
   const [style, setStyle] = useState('modern');
 
+  // Helper function to format icon title
+  const formatIconTitle = (prompt: string) => {
+    if (!prompt.trim()) return 'Icon Assistant';
+    const words = prompt.trim().split(' ');
+    if (words.length <= 3) return prompt.trim();
+    return words.slice(0, 3).join(' ') + '...';
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (currentPrompt.trim()) {
@@ -48,7 +56,7 @@ export default function ChatPanel({
         <div className="flex items-center space-x-3">
           <div className="flex-1">
             <h2 className="text-lg font-semibold text-white">
-              {isImprovementMode ? 'Icon Improvement' : 'Icon Assistant'}
+              {formatIconTitle(currentPrompt)}
             </h2>
             <p className="text-sunset-200 text-sm">
               {isImprovementMode ? 'Describe how to improve this icon' : 'Powered by Claude Sonnet 4.0'}
