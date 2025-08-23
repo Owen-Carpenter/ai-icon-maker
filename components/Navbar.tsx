@@ -124,7 +124,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
       return [
         { href: '/generate', label: 'Generate' },
         { href: '/library', label: 'Library' },
-        { href: '#', label: 'Community', onClick: () => alert('🚧 Community features are still being developed and will be available soon! Stay tuned for updates.') }
+        { href: '/usage', label: 'Usage' }
       ];
     }
   };
