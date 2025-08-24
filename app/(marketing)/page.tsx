@@ -201,9 +201,9 @@ export default function HomePage() {
         {/* Demo Video Preview - Positioned at bottom of hero, extending into next section */}
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-20">
           <ScrollAnimation delay={200}>
-            <div className="max-w-4xl mx-auto px-4">
+            <div className="w-full max-w-6xl mx-auto px-4">
               <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-8 shadow-2xl border border-midnight-800 hover:shadow-3xl transition-all duration-500 hover:scale-105">
-                <div className="bg-coral-gradient rounded-lg h-96 flex items-center justify-center">
+                <div className="bg-coral-gradient rounded-lg h-96 w-full flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 animate-spin">
                       <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
