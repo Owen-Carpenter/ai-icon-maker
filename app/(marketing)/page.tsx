@@ -72,9 +72,8 @@ export default function HomePage() {
       <Navbar variant="marketing" />
 
       {/* Hero Section */}
-      <div className="w-full h-screen px-4 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-visible animate-fade-in flex items-center">
-        {/* Gradient overlay for extra depth */}
-        <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10 animate-fade-in" style={{animationDelay: '0.3s'}}></div>
+      <div className="w-full h-screen px-4 bg-gradient-radial from-sunset-800 via-midnight-700 to-midnight-800 relative overflow-visible animate-fade-in flex items-center">
+
         
         {/* Floating Emoji Icons */}
         <div className="absolute top-20 left-10 text-3xl animate-float opacity-20" style={{animationDuration: '6s', animationDelay: '0s'}}>
@@ -199,11 +198,11 @@ export default function HomePage() {
         </div>
 
         {/* Demo Video Preview - Positioned at bottom of hero, extending into next section */}
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-20">
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-3/4 z-20">
           <ScrollAnimation delay={200}>
-            <div className="w-full max-w-6xl mx-auto px-4">
-              <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-8 shadow-2xl border border-midnight-800 hover:shadow-3xl transition-all duration-500 hover:scale-105">
-                <div className="bg-coral-gradient rounded-lg h-96 w-full flex items-center justify-center">
+            <div className="w-full max-w-[95vw] mx-auto px-2">
+              <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-3 shadow-2xl border border-midnight-800 hover:shadow-3xl transition-all duration-500 hover:scale-105">
+                <div className="bg-coral-gradient rounded-lg aspect-video w-full min-h-[60vh] flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 animate-spin">
                       <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -221,7 +220,7 @@ export default function HomePage() {
       </div>
 
       {/* Demo Section - Now with title/subtitle below the video */}
-      <div className="bg-midnight-900/30 pt-64 pb-20">
+      <div className="pt-[32rem] pb-20" style={{background: 'radial-gradient(ellipse at top, rgb(154, 52, 18), rgb(55, 65, 81), rgb(31, 41, 55))'}}>
         <div className="container mx-auto px-4 text-center">
           {/* Title and subtitle positioned below the video */}
           <ScrollAnimation delay={300}>
