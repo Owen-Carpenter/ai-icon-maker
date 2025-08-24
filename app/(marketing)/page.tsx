@@ -72,7 +72,7 @@ export default function HomePage() {
       <Navbar variant="marketing" />
 
       {/* Hero Section */}
-      <div className="w-full h-screen px-4 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-hidden animate-fade-in flex items-center">
+      <div className="w-full h-screen px-4 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 relative overflow-visible animate-fade-in flex items-center">
         {/* Gradient overlay for extra depth */}
         <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/10 via-transparent to-coral-500/10 animate-fade-in" style={{animationDelay: '0.3s'}}></div>
         
@@ -197,38 +197,77 @@ export default function HomePage() {
             </div>
           </ScrollAnimation>
         </div>
-      </div>
 
-      {/* Demo Section */}
-      <div className="bg-midnight-900/30 py-20">
-        <div className="container mx-auto px-4 text-center">
-          <ScrollAnimation>
-          <h2 className="text-4xl font-bold text-white mb-4">See AI Icon Maker in action!</h2>
-          </ScrollAnimation>
-          <ScrollAnimation delay={100}>
-            <p className="text-sunset-200 mb-12">
-            Watch how quickly you can generate icons<br />
-            like magic.
-          </p>
-          </ScrollAnimation>
-          
-          <div className="max-w-4xl mx-auto">
-            <ScrollAnimation delay={150}>
+        {/* Demo Video Preview - Positioned at bottom of hero, extending into next section */}
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-20">
+          <ScrollAnimation delay={200}>
+            <div className="max-w-4xl mx-auto px-4">
               <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-8 shadow-2xl border border-midnight-800 hover:shadow-3xl transition-all duration-500 hover:scale-105">
                 <div className="bg-coral-gradient rounded-lg h-96 flex items-center justify-center">
-                <div className="text-center">
+                  <div className="text-center">
                     <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 animate-spin">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.01M15 10h1.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <p className="text-white">Demo Video Placeholder</p>
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.01M15 10h1.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <p className="text-white">Demo Video Placeholder</p>
                     <p className="text-white/80 text-sm mt-2">Interactive AI Icon Generation</p>
                   </div>
                 </div>
               </div>
-            </ScrollAnimation>
-          </div>
+            </div>
+          </ScrollAnimation>
+        </div>
+      </div>
+
+      {/* Demo Section - Now with title/subtitle below the video */}
+      <div className="bg-midnight-900/30 pt-64 pb-20">
+        <div className="container mx-auto px-4 text-center">
+          {/* Title and subtitle positioned below the video */}
+          <ScrollAnimation delay={300}>
+            <h2 className="text-4xl font-bold text-white mb-4">See AI Icon Maker in action!</h2>
+          </ScrollAnimation>
+          <ScrollAnimation delay={400}>
+            <p className="text-sunset-200 mb-12 max-w-2xl mx-auto">
+              Watch how quickly you can generate icons like magic.<br />
+              Analyze your ideas → find what makes icons perfect → get more of them
+            </p>
+          </ScrollAnimation>
+          
+          {/* Additional demo content or features can go here */}
+          <ScrollAnimation delay={500}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-sunset-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-sunset-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Instant Generation</h3>
+                <p className="text-sunset-200 text-sm">Generate multiple icon variations in seconds</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-12 h-12 bg-sunset-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-sunset-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">AI-Powered Refinement</h3>
+                <p className="text-sunset-200 text-sm">Improve and iterate on your icons with natural language</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-12 h-12 bg-sunset-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-sunset-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Professional Export</h3>
+                <p className="text-sunset-200 text-sm">Download as SVG, PNG, or copy code directly</p>
+              </div>
+            </div>
+          </ScrollAnimation>
         </div>
       </div>
 
