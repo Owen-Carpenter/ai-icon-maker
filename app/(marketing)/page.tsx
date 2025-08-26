@@ -153,6 +153,18 @@ export default function HomePage() {
                 
                 {/* Interactive Elements at Bottom */}
                 <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 flex items-center space-x-2 sm:space-x-4">
+                  <select 
+                    className="bg-midnight-700/50 hover:bg-midnight-600/50 border border-white/20 rounded-lg px-2 py-1 text-sunset-300 text-xs focus:outline-none focus:border-sunset-500 transition-colors [&>option]:bg-midnight-800 [&>option]:text-white [&>option]:border-none"
+                  >
+                    <option value="modern">Modern</option>
+                    <option value="flat">Flat</option>
+                    <option value="line-art">Line Art</option>
+                    <option value="3d">3D</option>
+                    <option value="vintage">Vintage</option>
+                    <option value="neon">Neon</option>
+                    <option value="minimalist">Minimalist</option>
+                    <option value="hand-drawn">Hand Drawn</option>
+                  </select>
                 </div>
                 
                 {/* Send Button */}
