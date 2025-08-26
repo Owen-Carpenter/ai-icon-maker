@@ -153,25 +153,6 @@ export default function HomePage() {
                 
                 {/* Interactive Elements at Bottom */}
                 <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-6 flex items-center space-x-2 sm:space-x-4">
-                  <button className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 bg-midnight-700/50 hover:bg-midnight-600/50 rounded-full text-sunset-300 hover:text-white transition-all duration-300">
-                    <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                  </button>
-                  
-                  <button className="flex items-center space-x-1 sm:space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-xs sm:text-sm bg-midnight-700/50 hover:bg-midnight-600/50 px-2 py-1 sm:px-3 sm:py-1.5 rounded-full">
-                    <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                    </svg>
-                    <span>Attach</span>
-                  </button>
-                  
-                  <button className="flex items-center space-x-1 sm:space-x-2 text-sunset-300 hover:text-white transition-colors duration-300 text-xs sm:text-sm bg-midnight-700/50 hover:bg-midnight-600/50 px-2 py-1 sm:px-3 sm:py-1.5 rounded-full">
-                    <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>Public</span>
-                  </button>
                 </div>
                 
                 {/* Send Button */}
