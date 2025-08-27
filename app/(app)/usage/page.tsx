@@ -210,13 +210,13 @@ function UsagePageContent() {
                       </span>
                     </div>
 
-                    {userData?.subscription_current_period_end && (
+                    {userData?.subscription?.current_period_end && (
                       <div className="flex items-center justify-between">
                         <span className="text-gray-300">
-                          {userData?.subscription_cancel_at_period_end ? 'Expires:' : 'Renews:'}
+                          {userData?.subscription?.cancel_at_period_end ? 'Expires:' : 'Renews:'}
                         </span>
                         <span className="text-white">
-                          {new Date(userData.subscription_current_period_end).toLocaleDateString()}
+                          {new Date(userData.subscription.current_period_end).toLocaleDateString()}
                         </span>
                       </div>
                     )}

@@ -80,17 +80,18 @@ export async function middleware(req: NextRequest) {
   // If authenticated and trying to access auth pages, redirect based on subscription
   if (isAuthRoute && user) {
     try {
-      // Check if user has active subscription by querying users table
-      const { data: userData } = await supabase
-        .from('users')
-        .select('has_paid_subscription, subscription_status, subscription_current_period_end')
-        .eq('id', user.id)
+      // Check if user has active subscription using new subscriptions table
+      const { data: subscriptionData } = await supabase
+        .from('subscriptions')
+        .select('plan_type, status, current_period_end')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
         .single()
 
-      const hasActiveSubscription = userData?.has_paid_subscription && 
-        userData?.subscription_status === 'active' &&
-        (!userData?.subscription_current_period_end || 
-         new Date(userData.subscription_current_period_end) > new Date())
+      const hasActiveSubscription = subscriptionData?.status === 'active' && 
+        subscriptionData?.plan_type !== 'free' &&
+        (!subscriptionData?.current_period_end || 
+         new Date(subscriptionData.current_period_end) > new Date())
 
       if (hasActiveSubscription) {
         return NextResponse.redirect(new URL('/generate', req.url))
@@ -98,7 +99,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL('/account', req.url))
       }
     } catch (error) {
-      // If user doesn't exist in users table or other error, redirect to account
+      // If user doesn't exist in subscriptions table or other error, redirect to account
       return NextResponse.redirect(new URL('/account', req.url))
     }
   }
@@ -106,19 +107,29 @@ export async function middleware(req: NextRequest) {
   // Check subscription for app routes
   if (isAppRoute && user) {
     try {
-      // Check if user has active subscription by querying users table
-      const { data: userData } = await supabase
-        .from('users')
-        .select('has_paid_subscription, subscription_status, subscription_current_period_end')
-        .eq('id', user.id)
+      // Check if user has active subscription using new subscriptions table
+      const { data: subscriptionData } = await supabase
+        .from('subscriptions')
+        .select('plan_type, status, current_period_end')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
         .single()
 
-      const hasActiveSubscription = userData?.has_paid_subscription && 
-        userData?.subscription_status === 'active' &&
-        (!userData?.subscription_current_period_end || 
-         new Date(userData.subscription_current_period_end) > new Date())
+      console.log('Middleware subscription check:', { 
+        user_id: user.id, 
+        subscriptionData, 
+        path: req.nextUrl.pathname 
+      });
+
+      const hasActiveSubscription = subscriptionData?.status === 'active' && 
+        subscriptionData?.plan_type !== 'free' &&
+        (!subscriptionData?.current_period_end || 
+         new Date(subscriptionData.current_period_end) > new Date())
+
+      console.log('Middleware hasActiveSubscription:', hasActiveSubscription);
 
       if (!hasActiveSubscription) {
+        console.log('Middleware redirecting to pricing due to no subscription');
         // Redirect to marketing page pricing section where they can subscribe
         return NextResponse.redirect(new URL('/#pricing', req.url))
       }

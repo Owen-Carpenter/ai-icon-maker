@@ -143,11 +143,11 @@ function AccountPageContent() {
                       </span>
                     </div>
 
-                    {userData?.total_generations_used !== undefined && (
+                    {userData?.usage?.total_generations !== undefined && (
                       <div className="flex items-center justify-between">
                         <span className="text-gray-300">Total Generated:</span>
                         <span className="text-white font-semibold">
-                          {userData.total_generations_used}
+                          {userData.usage.total_generations}
                         </span>
                       </div>
                     )}
@@ -164,35 +164,35 @@ function AccountPageContent() {
                   </div>
                 )}
 
-                {isPaidPlan && userData?.subscription_current_period_end && (
+                {isPaidPlan && userData?.subscription?.current_period_end && (
                   <div className="flex items-center justify-between">
                     <span className="text-gray-300">
-                      {userData?.subscription_cancel_at_period_end ? 'Expires On:' : 'Renews On:'}
+                      {userData?.subscription?.cancel_at_period_end ? 'Expires On:' : 'Renews On:'}
                     </span>
                     <span className="text-white">
-                      {new Date(userData.subscription_current_period_end).toLocaleDateString()}
+                      {new Date(userData.subscription.current_period_end).toLocaleDateString()}
                     </span>
                   </div>
                 )}
 
-                {userData?.subscription_cancel_at_period_end && (
+                {userData?.subscription?.cancel_at_period_end && (
                   <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3">
                     <p className="text-orange-400 text-sm">
                       <strong>Subscription Canceled</strong><br />
-                      You'll retain access to all features until {userData.subscription_current_period_end ? new Date(userData.subscription_current_period_end).toLocaleDateString() : 'the end of your billing period'}.
+                      You'll retain access to all features until {userData.subscription.current_period_end ? new Date(userData.subscription.current_period_end).toLocaleDateString() : 'the end of your billing period'}.
                     </p>
                   </div>
                 )}
 
                 {/* Show Cancel button for active subscriptions */}
-                {isPaidPlan && !userData?.subscription_cancel_at_period_end && (
+                {isPaidPlan && !userData?.subscription?.cancel_at_period_end && (
                   <div className="pt-4">
                     <CancelSubscriptionButton className="w-full bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors" />
                   </div>
                 )}
 
                 {/* Show Reactivate button for canceled subscriptions still in grace period */}
-                {isPaidPlan && userData?.subscription_cancel_at_period_end && (
+                {isPaidPlan && userData?.subscription?.cancel_at_period_end && (
                   <div className="pt-4">
                     <ReactivateSubscriptionButton className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors" />
                   </div>

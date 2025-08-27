@@ -29,21 +29,21 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Get user's subscription details
-    const { data: user } = await supabase
-      .from('users')
-      .select('stripe_subscription_id, subscription_cancel_at_period_end')
-      .eq('id', session.user.id)
+    // Get user's subscription details from subscriptions table
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('stripe_subscription_id, cancel_at_period_end')
+      .eq('user_id', session.user.id)
       .single()
 
-    if (!user?.stripe_subscription_id) {
+    if (!subscription?.stripe_subscription_id) {
       return NextResponse.json(
         { error: 'No active subscription found' },
         { status: 400 }
       )
     }
 
-    if (!user.subscription_cancel_at_period_end) {
+    if (!subscription.cancel_at_period_end) {
       return NextResponse.json(
         { error: 'Subscription is not canceled' },
         { status: 400 }
@@ -51,17 +51,17 @@ export async function POST(req: NextRequest) {
     }
 
     // Reactivate the subscription in Stripe by removing cancel_at_period_end
-    const reactivatedSubscription = await stripe.subscriptions.update(user.stripe_subscription_id, {
+    const reactivatedSubscription = await stripe.subscriptions.update(subscription.stripe_subscription_id, {
       cancel_at_period_end: false,
     })
 
-    // Update the user's subscription status in our database
+    // Update the subscription status in our database
     await supabase
-      .from('users')
+      .from('subscriptions')
       .update({
-        subscription_cancel_at_period_end: false,
+        cancel_at_period_end: false,
       })
-      .eq('id', session.user.id)
+      .eq('user_id', session.user.id)
 
     return NextResponse.json({
       success: true,

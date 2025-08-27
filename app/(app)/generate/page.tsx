@@ -12,6 +12,7 @@ import { useToast } from '../../../hooks/useToast';
 import { ToastContainer } from '../../../components/ui/Toast';
 import Walkthrough, { useWalkthrough } from '../../../components/Walkthrough';
 import { generatePageSteps } from '../../../lib/walkthrough-steps';
+import SubscriptionGate from '../../../components/SubscriptionGate';
 
 function GeneratePageContent() {
   const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
@@ -30,6 +31,7 @@ function GeneratePageContent() {
   const [showHeroView, setShowHeroView] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [style, setStyle] = useState('modern');
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   
   // Walkthrough state
   const { isActive: isWalkthroughActive, startWalkthrough, completeWalkthrough, skipWalkthrough } = useWalkthrough();
@@ -50,12 +52,26 @@ function GeneratePageContent() {
     }
   }, [searchParams, refreshUserData]);
 
-  // Redirect to pricing section if user doesn't have active subscription
+  // Handle payment success processing
   useEffect(() => {
-    if (!loading && !hasActiveSubscription) {
-      router.replace('/#pricing');
+    const success = searchParams.get('success');
+    
+    if (success === 'true' && !loading) {
+      // User just completed payment, show processing state
+      setIsProcessingPayment(true);
+      
+      // Give webhook time to process, then refresh user data
+      const timeoutId = setTimeout(() => {
+        refreshUserData().then(() => {
+          setIsProcessingPayment(false);
+        });
+      }, 3000);
+      
+      return () => clearTimeout(timeoutId);
     }
-  }, [loading, hasActiveSubscription, router]);
+  }, [searchParams, loading, refreshUserData]);
+
+  // Note: Removed automatic redirect to pricing - let SubscriptionGate handle access control
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -67,9 +83,22 @@ function GeneratePageContent() {
     return <Loading text="Loading your workspace..." />;
   }
 
-  // Show loading or redirect if no subscription
+  // Show payment processing state
+  if (isProcessingPayment) {
+    return <Loading text="Processing your payment... Please wait." />;
+  }
+
+  // Temporary: Log subscription status for debugging
+  console.log('Generate page - hasActiveSubscription:', hasActiveSubscription, 'loading:', loading);
+  
+  // Show subscription gate if user doesn't have active subscription
   if (!hasActiveSubscription) {
-    return <Loading text="Redirecting to pricing..." />;
+    return (
+      <SubscriptionGate 
+        title="Premium Workspace Required"
+        description="Upgrade to start generating amazing AI icons with our advanced tools."
+      />
+    );
   }
 
   const handleGenerate = async (prompt: string, style: string, color: string) => {

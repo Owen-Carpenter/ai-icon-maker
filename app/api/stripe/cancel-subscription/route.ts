@@ -29,14 +29,15 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Get user's subscription details
-    const { data: user } = await supabase
-      .from('users')
-      .select('stripe_subscription_id, stripe_customer_id, subscription_plan')
-      .eq('id', session.user.id)
+    // Get user's subscription details from subscriptions table
+    const { data: subscription } = await supabase
+      .from('subscriptions')
+      .select('stripe_subscription_id, stripe_customer_id, plan_type')
+      .eq('user_id', session.user.id)
+      .eq('status', 'active')
       .single()
 
-    if (!user?.stripe_subscription_id) {
+    if (!subscription?.stripe_subscription_id) {
       return NextResponse.json(
         { error: 'No active subscription found' },
         { status: 400 }
@@ -49,8 +50,8 @@ export async function POST(req: NextRequest) {
 
     // Cancel the subscription in Stripe
     const canceledSubscription = immediate 
-      ? await stripe.subscriptions.cancel(user.stripe_subscription_id)
-      : await stripe.subscriptions.update(user.stripe_subscription_id, {
+      ? await stripe.subscriptions.cancel(subscription.stripe_subscription_id)
+      : await stripe.subscriptions.update(subscription.stripe_subscription_id, {
           cancel_at_period_end: true,
         })
 
@@ -64,7 +65,7 @@ export async function POST(req: NextRequest) {
           canceled_at: new Date().toISOString(),
         })
         .eq('user_id', session.user.id)
-        .eq('stripe_subscription_id', user.stripe_subscription_id)
+        .eq('stripe_subscription_id', subscription.stripe_subscription_id)
     } else {
       await supabase
         .from('subscriptions')
@@ -72,7 +73,7 @@ export async function POST(req: NextRequest) {
           cancel_at_period_end: true,
         })
         .eq('user_id', session.user.id)
-        .eq('stripe_subscription_id', user.stripe_subscription_id)
+        .eq('stripe_subscription_id', subscription.stripe_subscription_id)
     }
 
     return NextResponse.json({

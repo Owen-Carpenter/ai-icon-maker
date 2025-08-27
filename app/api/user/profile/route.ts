@@ -143,9 +143,49 @@ export async function GET(req: NextRequest) {
     }
 
     // Check if user has active subscription using new structure
+    console.log('Subscription check:', {
+      subscription_status: userData.subscription_status,
+      plan_type: userData.plan_type,
+      current_period_end: userData.current_period_end
+    });
+    
     const hasActiveSubscription = userData.subscription_status === 'active' && 
-      userData.plan_type !== 'free' &&
+      userData.plan_type && userData.plan_type !== 'free' &&
       (!userData.current_period_end || new Date(userData.current_period_end) > new Date())
+    
+    console.log('hasActiveSubscription result:', hasActiveSubscription);
+
+    // Fallback: If view doesn't give us subscription data, check subscriptions table directly
+    if (!hasActiveSubscription && (!userData.plan_type || userData.plan_type === 'free')) {
+      console.log('Checking subscriptions table directly as fallback...');
+      const { data: directSubscription } = await supabase
+        .from('subscriptions')
+        .select('plan_type, status, current_period_end')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .single();
+      
+      if (directSubscription) {
+        console.log('Direct subscription found:', directSubscription);
+        // Override the result if we find an active subscription
+        const directHasActive = directSubscription.status === 'active' && 
+          directSubscription.plan_type !== 'free' &&
+          (!directSubscription.current_period_end || new Date(directSubscription.current_period_end) > new Date());
+        
+        if (directHasActive) {
+          console.log('Overriding hasActiveSubscription to true based on direct query');
+          // Update the userData to reflect the correct subscription info
+          userData.subscription_status = directSubscription.status;
+          userData.plan_type = directSubscription.plan_type;
+          userData.current_period_end = directSubscription.current_period_end;
+        }
+      }
+    }
+    
+    // Recalculate after potential override
+    const finalHasActiveSubscription = userData.subscription_status === 'active' && 
+      userData.plan_type && userData.plan_type !== 'free' &&
+      (!userData.current_period_end || new Date(userData.current_period_end) > new Date());
 
     return NextResponse.json({
       user: {
@@ -179,7 +219,7 @@ export async function GET(req: NextRequest) {
           usage_percentage: userData.usage_percentage || 0
         }
       },
-      hasActiveSubscription
+      hasActiveSubscription: finalHasActiveSubscription
     })
 
   } catch (error: any) {
