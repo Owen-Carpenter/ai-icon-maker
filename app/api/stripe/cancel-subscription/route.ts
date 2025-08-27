@@ -54,24 +54,25 @@ export async function POST(req: NextRequest) {
           cancel_at_period_end: true,
         })
 
-    // Update the user's subscription status in our database
+    // Update the subscription status in our database
     if (immediate) {
       await supabase
-        .from('users')
+        .from('subscriptions')
         .update({
-          subscription_status: 'canceled',
-          subscription_plan: 'free',
-          subscription_current_period_end: null,
-          stripe_subscription_id: null,
+          status: 'canceled',
+          cancel_at_period_end: false,
+          canceled_at: new Date().toISOString(),
         })
-        .eq('id', session.user.id)
+        .eq('user_id', session.user.id)
+        .eq('stripe_subscription_id', user.stripe_subscription_id)
     } else {
       await supabase
-        .from('users')
+        .from('subscriptions')
         .update({
-          subscription_cancel_at_period_end: true,
+          cancel_at_period_end: true,
         })
-        .eq('id', session.user.id)
+        .eq('user_id', session.user.id)
+        .eq('stripe_subscription_id', user.stripe_subscription_id)
     }
 
     return NextResponse.json({

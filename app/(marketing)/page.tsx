@@ -731,7 +731,7 @@ export default function HomePage() {
                 </ul>
                 
                 <button 
-                  onClick={() => handleCheckout('unlimited')}
+                  onClick={() => handleCheckout('enterprise')}
                   disabled={isLoading}
                   className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-purple-600 transition-all duration-300 text-center block disabled:opacity-50 disabled:cursor-not-allowed"
                 >

@@ -120,9 +120,9 @@ function AccountPageContent() {
                       : 'bg-red-500/20 text-red-400 border border-red-500/30'
                   }`}>
                     {(() => {
-                      const plan = userData?.subscription_plan || '';
+                      const plan = userData?.subscription?.plan_type || 'free';
                       if (!isPaidPlan) return 'Subscription Required';
-                      if (plan === 'unlimited') return 'Enterprise';
+                      if (plan === 'enterprise') return 'Enterprise';
                       return plan.charAt(0).toUpperCase() + plan.slice(1);
                     })()}
                   </span>
@@ -134,8 +134,8 @@ function AccountPageContent() {
                       <span className="text-gray-300">Credits Remaining:</span>
                       <span className="flex items-center text-white font-semibold">
                         <Logo width={24} height={24} className="mr-2" />
-                        {userData?.credits_remaining || 0}
-                        {userData?.subscription_plan === 'unlimited' && (
+                        {userData?.usage?.tokens_remaining || 0}
+                        {userData?.subscription?.plan_type === 'enterprise' && (
                           <span className="ml-1 text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">
                             Enterprise
                           </span>
@@ -222,9 +222,9 @@ function AccountPageContent() {
           {/* Pricing Section - Show for users without subscriptions or fully expired subscriptions */}
           {!isPaidPlan && (
             <PricingSection 
-              currentPlan={userData?.subscription_plan || ''}
-              title={userData?.subscription_status === 'canceled' ? 'Resubscribe to Continue' : 'Upgrade Your Plan'}
-              subtitle={userData?.subscription_status === 'canceled' ? 'Get back to creating amazing icons with our premium features' : 'Get more credits and unlock premium features'}
+              currentPlan={userData?.subscription?.plan_type || 'free'}
+              title={userData?.subscription?.status === 'canceled' ? 'Resubscribe to Continue' : 'Upgrade Your Plan'}
+              subtitle={userData?.subscription?.status === 'canceled' ? 'Get back to creating amazing icons with our premium features' : 'Get more credits and unlock premium features'}
             />
           )}
         </div>

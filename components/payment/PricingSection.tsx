@@ -30,7 +30,7 @@ export default function PricingSection({
             isPopular={true}
           />
           <PricingCard 
-            plan="unlimited" 
+            plan="enterprise" 
             currentPlan={currentPlan}
           />
         </div>

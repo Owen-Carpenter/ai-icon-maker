@@ -19,14 +19,14 @@ function UsagePageContent() {
   }
 
   const isPaidPlan = hasActiveSubscription;
-  const creditsUsed = (userData?.total_generations_used || 0);
-  const creditsRemaining = userData?.credits_remaining || 0;
-  const totalCredits = creditsUsed + creditsRemaining;
-  const usagePercentage = totalCredits > 0 ? (creditsUsed / totalCredits) * 100 : 0;
+  const creditsUsed = userData?.usage?.tokens_used_this_month || 0;
+  const creditsRemaining = userData?.usage?.tokens_remaining || 0;
+  const totalCredits = userData?.subscription?.monthly_token_limit || 5;
+  const usagePercentage = userData?.usage?.usage_percentage || 0;
 
   // Calculate usage statistics
-  const planType = userData?.subscription_plan || '';
-  const isUnlimited = planType === 'unlimited';
+  const planType = userData?.subscription?.plan_type || 'free';
+  const isUnlimited = planType === 'enterprise';
   
   // Mock data for demonstration - in real app this would come from API
   const usageStats = {
@@ -195,7 +195,7 @@ function UsagePageContent() {
                   }`}>
                     {(() => {
                       if (!isPaidPlan) return 'No Subscription';
-                      if (planType === 'unlimited') return 'Enterprise';
+                      if (planType === 'enterprise') return 'Enterprise';
                       return planType.charAt(0).toUpperCase() + planType.slice(1);
                     })()}
                   </span>

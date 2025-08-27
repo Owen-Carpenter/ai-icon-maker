@@ -95,17 +95,16 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       ? new Date((subscription as any).current_period_end * 1000).toISOString() 
       : null
     
-    // Update user using the database function
-    const { error } = await supabase.rpc('update_user_subscription', {
-      user_id: userId,
-      customer_id: customerId,
-      subscription_id: subscriptionId,
-      status: subscription.status,
-      plan: planType,
-      period_start: periodStart,
-      period_end: periodEnd,
-      credits: getCreditsForPlan(planType || 'free'),
-      cancel_at_period_end: subscription.cancel_at_period_end || false
+    // Use our new subscription upsert function
+    const { error } = await supabase.rpc('upsert_subscription', {
+      p_user_id: userId,
+      p_stripe_customer_id: customerId,
+      p_stripe_subscription_id: subscriptionId,
+      p_plan_type: planType || 'free',
+      p_status: subscription.status,
+      p_current_period_start: periodStart,
+      p_current_period_end: periodEnd,
+      p_cancel_at_period_end: subscription.cancel_at_period_end || false
     })
 
     if (error) {
@@ -125,14 +124,14 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   
   const customerId = subscription.customer as string
   
-  // Find user by customer ID
-  const { data: user } = await supabase
-    .from('users')
-    .select('id')
+  // Find user by customer ID in subscriptions table
+  const { data: existingSubscription } = await supabase
+    .from('subscriptions')
+    .select('user_id')
     .eq('stripe_customer_id', customerId)
     .single()
 
-  if (!user) {
+  if (!existingSubscription) {
     console.error(`No user found for customer ${customerId}`)
     return
   }
@@ -149,17 +148,16 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
     ? new Date((subscription as any).current_period_end * 1000).toISOString() 
     : null
 
-  // Update user using the database function
-  await supabase.rpc('update_user_subscription', {
-    user_id: user.id,
-    customer_id: customerId,
-    subscription_id: subscription.id,
-    status: subscription.status,
-    plan: planType,
-    period_start: periodStart,
-    period_end: periodEnd,
-    credits: getCreditsForPlan(planType),
-    cancel_at_period_end: subscription.cancel_at_period_end || false
+  // Use our new subscription upsert function
+  await supabase.rpc('upsert_subscription', {
+    p_user_id: existingSubscription.user_id,
+    p_stripe_customer_id: customerId,
+    p_stripe_subscription_id: subscription.id,
+    p_plan_type: planType,
+    p_status: subscription.status,
+    p_current_period_start: periodStart,
+    p_current_period_end: periodEnd,
+    p_cancel_at_period_end: subscription.cancel_at_period_end || false
   })
 }
 
@@ -245,28 +243,21 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
 
   if (!subscriptionId) return
 
-  // Find user by customer ID
-  const { data: user } = await supabase
-    .from('users')
-    .select('id, subscription_plan')
-    .eq('stripe_customer_id', customerId)
+  // Find user by subscription (using new database structure)
+  const { data: subscription } = await supabase
+    .from('subscriptions')
+    .select('id, user_id, plan_type, monthly_token_limit')
+    .eq('stripe_subscription_id', subscriptionId)
     .single()
 
-  if (!user) {
-    console.error(`No user found for customer ${customerId}`)
+  if (!subscription) {
+    console.error(`No subscription found for subscription ${subscriptionId}`)
     return
   }
 
-  // Reset credits for the new billing period
-  const credits = getCreditsForPlan(user.subscription_plan || 'free')
-  
-  await supabase
-    .from('users')
-    .update({
-      credits_remaining: credits,
-      updated_at: new Date().toISOString()
-    })
-    .eq('id', user.id)
+  // Note: Token reset is now handled automatically by the usage tracking system
+  // based on billing periods. No need to manually reset tokens here.
+  console.log(`Payment succeeded for user ${subscription.user_id}, plan: ${subscription.plan_type}`)
 }
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
@@ -296,7 +287,7 @@ function getPlanTypeFromPriceId(priceId: string): string {
   const unlimitedPriceId = process.env.STRIPE_UNLIMITED_PRICE_ID
 
   if (priceId === proPriceId) return 'pro'
-  if (priceId === unlimitedPriceId) return 'unlimited'
+  if (priceId === unlimitedPriceId) return 'enterprise'
   return 'free'
 }
 
@@ -305,9 +296,9 @@ function getCreditsForPlan(planType: string): number {
     case 'free':
       return 5
     case 'pro':
-      return 200 // Updated to match new pricing
-    case 'unlimited':
-      return 1000 // Updated to match new Enterprise pricing
+      return 100 // Updated to match new pricing
+    case 'enterprise':
+      return 200 // Updated to match new Enterprise pricing
     default:
       return 5
   }

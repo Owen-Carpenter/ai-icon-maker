@@ -2,12 +2,12 @@
 export const SUBSCRIPTION_PLANS = {
   pro: {
     name: 'Pro',
-    price: 20, // Updated to match marketing page
+    price: 20,
     priceId: 'pro', // Resolved server-side
-    credits: 200, // Updated to match marketing page
+    credits: 100, // Updated: Pro users get 100 tokens
     features: [
-      '200 AI-generated icons per month',
-      'Premium AI models (DALL-E 3, Midjourney, SDXL)',
+      '100 AI-generated icons per month',
+      'Premium AI models (Claude Sonnet 4.0)',
       'Multiple formats (PNG, SVG, ICO)',
       'High-resolution outputs (up to 1024x1024)',
       'Priority AI processing',
@@ -16,13 +16,13 @@ export const SUBSCRIPTION_PLANS = {
       'Email support'
     ]
   },
-  unlimited: {
+  enterprise: {
     name: 'Enterprise',
-    price: 99, // Updated to match marketing page  
-    priceId: 'unlimited', // Resolved server-side
-    credits: 1000, // Updated to match marketing page
+    price: 99,
+    priceId: 'enterprise', // Changed from 'unlimited' to 'enterprise'
+    credits: 200, // Updated: Enterprise users get 200 tokens
     features: [
-      '1,000 AI-generated icons per month',
+      '200 AI-generated icons per month',
       'All premium AI models + experimental models',
       'Ultra-high resolution (up to 2048x2048)',
       'Team collaboration & sharing',

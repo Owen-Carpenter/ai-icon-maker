@@ -15,6 +15,19 @@ export default function PricingCard({ plan, currentPlan, isPopular }: PricingCar
   const planData = SUBSCRIPTION_PLANS[plan];
   const isCurrentPlan = currentPlan === plan;
 
+  // Safety check - if planData is undefined, return error state
+  if (!planData) {
+    console.error(`Invalid plan type: ${plan}. Available plans: ${Object.keys(SUBSCRIPTION_PLANS).join(', ')}`);
+    return (
+      <div className="relative bg-red-500/10 backdrop-blur-sm rounded-2xl shadow-xl border border-red-500/20 p-8">
+        <div className="text-center">
+          <h3 className="text-xl font-bold text-red-400 mb-2">Invalid Plan</h3>
+          <p className="text-red-300 text-sm">Plan '{plan}' not found</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`
       relative bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border p-8 transition-all duration-300 hover:shadow-2xl hover:scale-105
@@ -44,9 +57,9 @@ export default function PricingCard({ plan, currentPlan, isPopular }: PricingCar
           <span className="text-gray-400 text-lg">/month</span>
         </div>
         
-        {plan === 'unlimited' && (
+        {plan === 'enterprise' && (
           <div className="text-orange-400 font-semibold text-sm">
-            Unlimited generations
+            Enterprise Plan
           </div>
         )}
         {plan === 'pro' && (

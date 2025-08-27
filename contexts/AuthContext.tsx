@@ -9,16 +9,30 @@ interface UserData {
   email: string
   full_name?: string
   avatar_url?: string
-  has_paid_subscription: boolean
-  subscription_status: string
-  subscription_plan: string
-  subscription_current_period_start?: string
-  subscription_current_period_end?: string
-  subscription_cancel_at_period_end?: boolean
-  credits_remaining: number
-  total_generations_used: number
+  display_name?: string
+  bio?: string
   created_at: string
   updated_at: string
+  
+  // Subscription info
+  subscription: {
+    id?: string
+    plan_type: string
+    status: string
+    monthly_token_limit: number
+    current_period_start?: string
+    current_period_end?: string
+    cancel_at_period_end?: boolean
+  }
+  
+  // Usage info
+  usage: {
+    tokens_used_this_month: number
+    tokens_remaining: number
+    total_generations: number
+    successful_generations: number
+    usage_percentage: number
+  }
 }
 
 interface AuthContextType {
