@@ -95,8 +95,8 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       ? new Date((subscription as any).current_period_end * 1000).toISOString() 
       : null
     
-    // Use our new subscription upsert function
-    const { error } = await supabase.rpc('upsert_subscription', {
+    // Use our new webhook subscription upsert function
+    const { error } = await supabase.rpc('webhook_upsert_subscription', {
       p_user_id: userId,
       p_stripe_customer_id: customerId,
       p_stripe_subscription_id: subscriptionId,
@@ -148,8 +148,8 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
     ? new Date((subscription as any).current_period_end * 1000).toISOString() 
     : null
 
-  // Use our new subscription upsert function
-  await supabase.rpc('upsert_subscription', {
+  // Use our new webhook subscription upsert function
+  await supabase.rpc('webhook_upsert_subscription', {
     p_user_id: existingSubscription.user_id,
     p_stripe_customer_id: customerId,
     p_stripe_subscription_id: subscription.id,
@@ -164,17 +164,15 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   console.log('Processing subscription updated:', subscription.id)
   
-  const customerId = subscription.customer as string
-  
-  // Find user by customer ID
-  const { data: user } = await supabase
-    .from('users')
-    .select('id')
-    .eq('stripe_customer_id', customerId)
+  // Find subscription record directly
+  const { data: existingSubscription } = await supabase
+    .from('subscriptions')
+    .select('user_id')
+    .eq('stripe_subscription_id', subscription.id)
     .single()
 
-  if (!user) {
-    console.error(`No user found for customer ${customerId}`)
+  if (!existingSubscription) {
+    console.error(`No subscription found for subscription ${subscription.id}`)
     return
   }
 
@@ -190,49 +188,36 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     ? new Date((subscription as any).current_period_end * 1000).toISOString() 
     : null
 
-  // Update user using the database function
-  await supabase.rpc('update_user_subscription', {
-    user_id: user.id,
-    customer_id: customerId,
-    subscription_id: subscription.id,
-    status: subscription.status,
-    plan: planType,
-    period_start: periodStart,
-    period_end: periodEnd,
-    credits: getCreditsForPlan(planType),
-    cancel_at_period_end: subscription.cancel_at_period_end || false
-  })
+  // Update subscription directly
+  await supabase
+    .from('subscriptions')
+    .update({
+      plan_type: planType,
+      status: subscription.status,
+      current_period_start: periodStart,
+      current_period_end: periodEnd,
+      cancel_at_period_end: subscription.cancel_at_period_end || false,
+      monthly_token_limit: getCreditsForPlan(planType),
+      updated_at: new Date().toISOString()
+    })
+    .eq('stripe_subscription_id', subscription.id)
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   console.log('Processing subscription deleted:', subscription.id)
   
-  const customerId = subscription.customer as string
-  
-  // Find user by customer ID
-  const { data: user } = await supabase
-    .from('users')
-    .select('id')
-    .eq('stripe_customer_id', customerId)
-    .single()
+  // Update subscription status to canceled
+  await supabase
+    .from('subscriptions')
+    .update({
+      status: 'canceled',
+      cancel_at_period_end: false,
+      canceled_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    })
+    .eq('stripe_subscription_id', subscription.id)
 
-  if (!user) {
-    console.error(`No user found for customer ${customerId}`)
-    return
-  }
-
-  // Reset to free plan using the database function
-  await supabase.rpc('update_user_subscription', {
-    user_id: user.id,
-    customer_id: customerId,
-    subscription_id: null,
-    status: 'canceled',
-    plan: 'free',
-    period_start: null,
-    period_end: null,
-    credits: getCreditsForPlan('free'),
-    cancel_at_period_end: false
-  })
+  console.log(`Marked subscription ${subscription.id} as canceled`)
 }
 
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {

@@ -56,14 +56,17 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Check if user already has a Stripe customer ID
-    const { data: user } = await supabase
-      .from('users')
+    // Get or create subscription record for user
+    let customerId: string | null = null
+    
+    // Check if user already has a subscription with customer ID
+    const { data: existingSubscription } = await supabase
+      .from('subscriptions')
       .select('stripe_customer_id')
-      .eq('id', session.user.id)
+      .eq('user_id', session.user.id)
       .single()
 
-    let customerId = user?.stripe_customer_id
+    customerId = existingSubscription?.stripe_customer_id
 
     // Create Stripe customer if doesn't exist
     if (!customerId) {
@@ -75,11 +78,11 @@ export async function POST(req: NextRequest) {
       })
       customerId = customer.id
 
-      // Update user with Stripe customer ID
-      await supabase
-        .from('users')
-        .update({ stripe_customer_id: customerId })
-        .eq('id', session.user.id)
+      // Use our helper function to get or create subscription
+      await supabase.rpc('get_or_create_subscription_for_user', {
+        p_user_id: session.user.id,
+        p_stripe_customer_id: customerId
+      })
     }
 
     // Create checkout session
