@@ -27,8 +27,8 @@ function AccountPageContent() {
 
     if (success === 'true') {
       setShowSuccess(true);
-      // Refresh user data after successful payment - now safe with memoized function
-      refreshUserData();
+      // Force refresh user data after successful payment
+      refreshUserData(true);
       setTimeout(() => setShowSuccess(false), 5000);
     }
     

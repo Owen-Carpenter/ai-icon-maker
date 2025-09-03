@@ -3,12 +3,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../../lib/supabase';
+import { useAuth } from '../../../contexts/AuthContext';
 import Loading from '../../../components/ui/Loading';
 import Link from 'next/link';
 
 export default function AuthCallback() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { hasActiveSubscription, userData, loading: authLoading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -26,32 +28,7 @@ export default function AuthCallback() {
 
         if (data.session?.user) {
           console.log('OAuth login successful:', data.session.user.email);
-          
-          // Give a moment for the auth context to update
-          setTimeout(() => {
-            // Check if user has subscription and redirect accordingly
-            const checkUserAndRedirect = async () => {
-              try {
-                const response = await fetch('/api/user/profile');
-                if (response.ok) {
-                  const userData = await response.json();
-                  if (userData.hasActiveSubscription) {
-                    window.location.href = '/generate';
-                  } else {
-                    window.location.href = '/account';
-                  }
-                } else {
-                  // Fallback to account page
-                  window.location.href = '/account';
-                }
-              } catch (err) {
-                console.error('Error checking user profile:', err);
-                window.location.href = '/account';
-              }
-            };
-            
-            checkUserAndRedirect();
-          }, 500);
+          setLoading(false); // Let AuthContext handle the user data fetching
         } else {
           // No session found, redirect to login
           console.log('No session found in callback');
@@ -70,7 +47,18 @@ export default function AuthCallback() {
     return () => clearTimeout(timeoutId);
   }, [router]);
 
-  if (loading) {
+  // Handle redirect after auth context loads user data
+  useEffect(() => {
+    if (!loading && !authLoading && userData) {
+      if (hasActiveSubscription) {
+        window.location.href = '/generate';
+      } else {
+        window.location.href = '/account';
+      }
+    }
+  }, [loading, authLoading, userData, hasActiveSubscription]);
+
+  if (loading || authLoading) {
     return <Loading text="Completing sign in with Google..." size="lg" />;
   }
 

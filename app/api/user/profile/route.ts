@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+// Simple cache for API responses to prevent duplicate processing
+const responseCache = new Map<string, { data: any, timestamp: number }>()
+const RESPONSE_CACHE_DURATION = 5000 // 5 seconds cache for API responses
+
 export async function GET(req: NextRequest) {
   try {
     // Create Supabase client
@@ -26,6 +30,14 @@ export async function GET(req: NextRequest) {
         { error: 'Unauthorized' },
         { status: 401 }
       )
+    }
+
+    // Check cache first to prevent duplicate processing
+    const cacheKey = `user_profile_${user.id}`
+    const cached = responseCache.get(cacheKey)
+    
+    if (cached && (Date.now() - cached.timestamp < RESPONSE_CACHE_DURATION)) {
+      return NextResponse.json(cached.data)
     }
 
     // Try to fetch user data with subscription and usage info using our new view
@@ -143,21 +155,12 @@ export async function GET(req: NextRequest) {
     }
 
     // Check if user has active subscription using new structure
-    console.log('Subscription check:', {
-      subscription_status: userData.subscription_status,
-      plan_type: userData.plan_type,
-      current_period_end: userData.current_period_end
-    });
-    
     const hasActiveSubscription = userData.subscription_status === 'active' && 
       userData.plan_type && userData.plan_type !== 'free' &&
       (!userData.current_period_end || new Date(userData.current_period_end) > new Date())
-    
-    console.log('hasActiveSubscription result:', hasActiveSubscription);
 
     // Fallback: If view doesn't give us subscription data, check subscriptions table directly
     if (!hasActiveSubscription && (!userData.plan_type || userData.plan_type === 'free')) {
-      console.log('Checking subscriptions table directly as fallback...');
       const { data: directSubscription } = await supabase
         .from('subscriptions')
         .select('plan_type, status, current_period_end')
@@ -166,14 +169,12 @@ export async function GET(req: NextRequest) {
         .single();
       
       if (directSubscription) {
-        console.log('Direct subscription found:', directSubscription);
         // Override the result if we find an active subscription
         const directHasActive = directSubscription.status === 'active' && 
           directSubscription.plan_type !== 'free' &&
           (!directSubscription.current_period_end || new Date(directSubscription.current_period_end) > new Date());
         
         if (directHasActive) {
-          console.log('Overriding hasActiveSubscription to true based on direct query');
           // Update the userData to reflect the correct subscription info
           userData.subscription_status = directSubscription.status;
           userData.plan_type = directSubscription.plan_type;
@@ -187,7 +188,7 @@ export async function GET(req: NextRequest) {
       userData.plan_type && userData.plan_type !== 'free' &&
       (!userData.current_period_end || new Date(userData.current_period_end) > new Date());
 
-    return NextResponse.json({
+    const responseData = {
       user: {
         // User profile
         id: userData.id,
@@ -220,7 +221,12 @@ export async function GET(req: NextRequest) {
         }
       },
       hasActiveSubscription: finalHasActiveSubscription
-    })
+    }
+
+    // Cache the response
+    responseCache.set(cacheKey, { data: responseData, timestamp: Date.now() })
+
+    return NextResponse.json(responseData)
 
   } catch (error: any) {
     console.error('Profile API error:', error)

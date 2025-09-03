@@ -46,7 +46,7 @@ interface AuthContextType {
   signInWithGoogle: () => Promise<any>
   signOut: () => Promise<any>
   resetPassword: (email: string) => Promise<any>
-  refreshUserData: () => Promise<void>
+  refreshUserData: (forceRefresh?: boolean) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -58,14 +58,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [hasActiveSubscription, setHasActiveSubscription] = useState(false)
   const [loading, setLoading] = useState(true)
 
+  // Cache for subscription data to avoid excessive API calls
+  const [lastFetchTime, setLastFetchTime] = useState(0)
+  const [isFetching, setIsFetching] = useState(false)
+  const CACHE_DURATION = 60000 // 1 minute cache
+
   // Function to fetch user data from our users table
-  const fetchUserData = useCallback(async (userId: string) => {
+  const fetchUserData = useCallback(async (userId: string, forceRefresh: boolean = false) => {
+    const now = Date.now()
+    
+    // Prevent multiple simultaneous requests
+    if (isFetching) {
+      return
+    }
+    
+    // Use cache unless forced refresh or cache expired
+    if (!forceRefresh && userData && (now - lastFetchTime < CACHE_DURATION)) {
+      return
+    }
+    
+    setIsFetching(true)
+    
     try {
       const response = await fetch('/api/user/profile')
       if (response.ok) {
         const data = await response.json()
         setUserData(data.user)
         setHasActiveSubscription(data.hasActiveSubscription)
+        setLastFetchTime(now)
       } else {
         console.error('Failed to fetch user data')
         setUserData(null)
@@ -75,12 +95,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.error('Error fetching user data:', error)
       setUserData(null)
       setHasActiveSubscription(false)
+    } finally {
+      setIsFetching(false)
     }
-  }, [])
+  }, [userData, lastFetchTime, isFetching])
 
-  const refreshUserData = useCallback(async () => {
+  const refreshUserData = useCallback(async (forceRefresh: boolean = false) => {
     if (user) {
-      await fetchUserData(user.id)
+      await fetchUserData(user.id, forceRefresh)
     }
   }, [user, fetchUserData])
 
@@ -91,7 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(session?.user ?? null)
       
       if (session?.user) {
-        await fetchUserData(session.user.id)
+        await fetchUserData(session.user.id, true) // Force refresh on initial load
       }
       
       setLoading(false)
@@ -105,7 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session?.user ?? null)
         
         if (session?.user) {
-          await fetchUserData(session.user.id)
+          await fetchUserData(session.user.id, true) // Force refresh on auth state change
         } else {
           setUserData(null)
           setHasActiveSubscription(false)

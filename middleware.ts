@@ -2,6 +2,10 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+// Simple in-memory cache for subscription checks
+const subscriptionCache = new Map<string, { data: any, timestamp: number }>()
+const CACHE_DURATION = 30000 // 30 seconds cache for middleware
+
 export async function middleware(req: NextRequest) {
   let response = NextResponse.next({
     request: {
@@ -80,13 +84,25 @@ export async function middleware(req: NextRequest) {
   // If authenticated and trying to access auth pages, redirect based on subscription
   if (isAuthRoute && user) {
     try {
-      // Check if user has active subscription using new subscriptions table
-      const { data: subscriptionData } = await supabase
-        .from('subscriptions')
-        .select('plan_type, status, current_period_end')
-        .eq('user_id', user.id)
-        .eq('status', 'active')
-        .single()
+      // Check cache first
+      const cacheKey = `${user.id}_auth`
+      const cached = subscriptionCache.get(cacheKey)
+      let subscriptionData
+
+      if (cached && (Date.now() - cached.timestamp < CACHE_DURATION)) {
+        subscriptionData = cached.data
+      } else {
+        // Check if user has active subscription using new subscriptions table
+        const { data } = await supabase
+          .from('subscriptions')
+          .select('plan_type, status, current_period_end')
+          .eq('user_id', user.id)
+          .eq('status', 'active')
+          .single()
+        
+        subscriptionData = data
+        subscriptionCache.set(cacheKey, { data: subscriptionData, timestamp: Date.now() })
+      }
 
       const hasActiveSubscription = subscriptionData?.status === 'active' && 
         subscriptionData?.plan_type !== 'free' &&
@@ -107,29 +123,32 @@ export async function middleware(req: NextRequest) {
   // Check subscription for app routes
   if (isAppRoute && user) {
     try {
-      // Check if user has active subscription using new subscriptions table
-      const { data: subscriptionData } = await supabase
-        .from('subscriptions')
-        .select('plan_type, status, current_period_end')
-        .eq('user_id', user.id)
-        .eq('status', 'active')
-        .single()
+      // Check cache first
+      const cacheKey = `${user.id}_app`
+      const cached = subscriptionCache.get(cacheKey)
+      let subscriptionData
 
-      console.log('Middleware subscription check:', { 
-        user_id: user.id, 
-        subscriptionData, 
-        path: req.nextUrl.pathname 
-      });
+      if (cached && (Date.now() - cached.timestamp < CACHE_DURATION)) {
+        subscriptionData = cached.data
+      } else {
+        // Check if user has active subscription using new subscriptions table
+        const { data } = await supabase
+          .from('subscriptions')
+          .select('plan_type, status, current_period_end')
+          .eq('user_id', user.id)
+          .eq('status', 'active')
+          .single()
+        
+        subscriptionData = data
+        subscriptionCache.set(cacheKey, { data: subscriptionData, timestamp: Date.now() })
+      }
 
       const hasActiveSubscription = subscriptionData?.status === 'active' && 
         subscriptionData?.plan_type !== 'free' &&
         (!subscriptionData?.current_period_end || 
          new Date(subscriptionData.current_period_end) > new Date())
 
-      console.log('Middleware hasActiveSubscription:', hasActiveSubscription);
-
       if (!hasActiveSubscription) {
-        console.log('Middleware redirecting to pricing due to no subscription');
         // Redirect to marketing page pricing section where they can subscribe
         return NextResponse.redirect(new URL('/#pricing', req.url))
       }

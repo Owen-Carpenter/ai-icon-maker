@@ -42,8 +42,8 @@ function GeneratePageContent() {
     
     if (success === 'true') {
       setShowSuccess(true);
-      // Refresh user data after successful payment
-      refreshUserData();
+      // Force refresh user data after successful payment
+      refreshUserData(true);
       
       // Auto-hide after 10 seconds
       setTimeout(() => {
@@ -62,7 +62,7 @@ function GeneratePageContent() {
       
       // Give webhook time to process, then refresh user data
       const timeoutId = setTimeout(() => {
-        refreshUserData().then(() => {
+        refreshUserData(true).then(() => {
           setIsProcessingPayment(false);
         });
       }, 3000);
