@@ -71,8 +71,8 @@ export default function IconDisplayPanel({
       });
 
       if (response.ok) {
-        // Show success message
-        alert('Icon saved to library successfully!');
+        // Redirect to library page
+        window.location.href = '/library';
       } else {
         throw new Error('Failed to save icon');
       }
