@@ -141,7 +141,7 @@ export default function Footer() {
           {/* Developer Watermark */}
           <div className="mt-6 pt-6 border-t border-gray-200/10 text-center">
             <p className="text-gray-400/60 text-xs">
-              Developed by <span className="text-sunset-300 font-medium">Owen Carpenter</span>
+              Developed by <span className="text-sunset-300 font-medium"> Carpentech</span>
             </p>
           </div>
         </div>
