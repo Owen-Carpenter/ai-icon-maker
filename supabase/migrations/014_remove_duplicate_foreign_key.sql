@@ -7,7 +7,7 @@ DECLARE
 BEGIN
     -- Get all foreign key constraints on the icons table that reference auth.users
     FOR constraint_record IN 
-        SELECT constraint_name 
+        SELECT tc.constraint_name 
         FROM information_schema.table_constraints tc
         JOIN information_schema.constraint_column_usage ccu ON tc.constraint_name = ccu.constraint_name
         WHERE tc.table_name = 'icons' 

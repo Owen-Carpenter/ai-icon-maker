@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 // DELETE /api/icons/[id] - Delete an icon
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Create Supabase client
@@ -32,7 +32,7 @@ export async function DELETE(
       )
     }
 
-    const iconId = params.id
+    const { id: iconId } = await params
 
     if (!iconId) {
       return NextResponse.json(
@@ -73,7 +73,7 @@ export async function DELETE(
 // PUT /api/icons/[id] - Update an icon (for renaming, adding tags, etc.)
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Create Supabase client
@@ -100,7 +100,7 @@ export async function PUT(
       )
     }
 
-    const iconId = params.id
+    const { id: iconId } = await params
 
     if (!iconId) {
       return NextResponse.json(

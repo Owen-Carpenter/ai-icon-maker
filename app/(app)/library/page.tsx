@@ -231,7 +231,7 @@ export default function LibraryPage() {
                         <h3 className="text-white font-semibold mb-2 truncate">{icon.name}</h3>
                         <div className="flex items-center justify-between text-xs text-sunset-200 mb-4">
                           <span className="bg-midnight-700/50 px-3 py-1 rounded-full">{icon.format}</span>
-                          <span>{new Date(icon.createdAt).toLocaleDateString()}</span>
+                          <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                         </div>
                         <div className="flex gap-2">
                           <button
@@ -259,7 +259,7 @@ export default function LibraryPage() {
                           <h3 className="text-white font-semibold">{icon.name}</h3>
                           <div className="flex items-center gap-4 text-xs text-sunset-200 mt-1">
                             <span className="bg-midnight-700/50 px-3 py-1 rounded-full">{icon.format}</span>
-                            <span>{new Date(icon.createdAt).toLocaleDateString()}</span>
+                            <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                           </div>
                         </div>
                         <div className="flex gap-2">
