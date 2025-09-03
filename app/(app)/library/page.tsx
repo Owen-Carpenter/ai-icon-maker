@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import Sidebar from '../../../components/generate/Sidebar';
 import Link from 'next/link';
@@ -12,10 +12,15 @@ import Footer from '../../../components/Footer';
 interface SavedIcon {
   id: string;
   name: string;
-  imageUrl: string;
-  createdAt: string;
+  image_url: string;
+  svg_code: string;
+  prompt?: string;
+  style?: string;
+  color?: string;
+  created_at: string;
   tags: string[];
   format: 'PNG' | 'SVG' | 'ICO';
+  is_favorite: boolean;
 }
 
 export default function LibraryPage() {
@@ -23,58 +28,65 @@ export default function LibraryPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFormat, setSelectedFormat] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [savedIcons, setSavedIcons] = useState<SavedIcon[]>([]);
+  const [isLoadingIcons, setIsLoadingIcons] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Mock data - in real app, this would come from your database
-  const [savedIcons] = useState<SavedIcon[]>([
-    {
-      id: '1',
-      name: 'AI Icon Maker Logo',
-      imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
-      createdAt: '2024-01-15',
-      tags: ['logo', 'brand', 'ai'],
-      format: 'SVG'
-    },
-    {
-      id: '2',
-      name: 'Heart Icon',
-      imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwLjg0IDQuNjFhNS41IDUuNSAwIDAgMC03Ljc4IDBMMTIgNS42N2wtMS4wNi0xLjA2YTUuNSA1LjUgMCAwIDAtNy43OCA3Ljc4bDEuMDYgMS4wNkwxMiAyMWw3Ljc4LTcuNzggMS4wNi0xLjA2YTUuNSA1LjUgMCAwIDAtNy43OC03Ljc4eiIgZmlsbD0iI0ZGNkM2QyIvPgo8L3N2Zz4K',
-      createdAt: '2024-01-14',
-      tags: ['love', 'like', 'favorite'],
-      format: 'PNG'
-    },
-    {
-      id: '3',
-      name: 'Settings Gear',
-      imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiM2QzZDRkYiLz4KPC9zdmc+Cg==',
-      createdAt: '2024-01-13',
-      tags: ['settings', 'config', 'gear'],
-      format: 'ICO'
-    },
-    {
-      id: '4',
-      name: 'Star Rating',
-      imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJsMy4wOSA2LjI2TDIyIDlsLTUgNC44N0wxOC4xOCAyMkwxMiAxOC4yN0w1LjgyIDIyTDcgMTMuODdMMiA5bDYuOTEtLjc0TDEyIDJ6IiBmaWxsPSIjRkZEODAwIi8+Cjwvc3ZnPgo=',
-      createdAt: '2024-01-12',
-      tags: ['rating', 'star', 'review'],
-      format: 'SVG'
-    },
-    {
-      id: '5',
-      name: 'Shopping Cart',
-      imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNCIgZmlsbD0iIzAwQ0M4OCIvPgo8L3N2Zz4K',
-      createdAt: '2024-01-11',
-      tags: ['cart', 'shopping', 'ecommerce'],
-      format: 'PNG'
-    },
-    {
-      id: '6',
-      name: 'User Profile',
-      imageUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiM4QjVDRjYiLz4KPC9zdmc+Cg==',
-      createdAt: '2024-01-10',
-      tags: ['user', 'profile', 'person'],
-      format: 'SVG'
+  // Fetch icons from database
+  useEffect(() => {
+    if (hasActiveSubscription && user) {
+      fetchIcons();
     }
-  ]);
+  }, [hasActiveSubscription, user, searchTerm, selectedFormat]);
+
+  const fetchIcons = async () => {
+    setIsLoadingIcons(true);
+    setError(null);
+    
+    try {
+      const params = new URLSearchParams();
+      if (searchTerm) params.append('search', searchTerm);
+      if (selectedFormat !== 'all') params.append('format', selectedFormat);
+      
+      const response = await fetch(`/api/icons?${params.toString()}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setSavedIcons(data.icons || []);
+      } else {
+        throw new Error('Failed to fetch icons');
+      }
+    } catch (error) {
+      console.error('Error fetching icons:', error);
+      setError('Failed to load your icons. Please try again.');
+      
+      // Fallback to mock data for demonstration
+      setSavedIcons([
+        {
+          id: '1',
+          name: 'AI Icon Maker Logo',
+          image_url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
+          svg_code: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L13.09 8.26L20 9L13.09 15.74L12 22L10.91 15.74L4 9L10.91 8.26L12 2Z" fill="#FF6C00"/></svg>',
+          created_at: '2024-01-15',
+          tags: ['logo', 'brand', 'ai'],
+          format: 'SVG' as const,
+          is_favorite: false
+        },
+        {
+          id: '2',
+          name: 'Heart Icon',
+          image_url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwLjg0IDQuNjFhNS41IDUuNSAwIDAgMC03Ljc4IDBMMTIgNS42N2wtMS4wNi0xLjA2YTUuNSA1LjUgMCAwIDAtNy43OCA3Ljc4bDEuMDYgMS4wNkwxMiAyMWw3Ljc4LTcuNzggMS4wNi0xLjA2YTUuNSA1LjUgMCAwIDAtNy43OC03Ljc4eiIgZmlsbD0iI0ZGNkM2QyIvPgo8L3N2Zz4K',
+          svg_code: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0-7.78-7.78z" fill="#FF6C6C"/></svg>',
+          created_at: '2024-01-14',
+          tags: ['love', 'like', 'favorite'],
+          format: 'PNG' as const,
+          is_favorite: true
+        }
+      ]);
+    } finally {
+      setIsLoadingIcons(false);
+    }
+  };
 
   const formats = ['all', 'PNG', 'SVG', 'ICO'];
 
@@ -91,9 +103,26 @@ export default function LibraryPage() {
     console.log('Downloading:', icon.name);
   };
 
-  const handleDelete = (iconId: string) => {
-    // In a real app, this would delete from database
-    console.log('Deleting icon:', iconId);
+  const handleDelete = async (iconId: string) => {
+    if (!confirm('Are you sure you want to delete this icon? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/icons/${iconId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        // Remove the icon from the local state
+        setSavedIcons(prevIcons => prevIcons.filter(icon => icon.id !== iconId));
+      } else {
+        throw new Error('Failed to delete icon');
+      }
+    } catch (error) {
+      console.error('Error deleting icon:', error);
+      alert('Failed to delete icon. Please try again.');
+    }
   };
 
   if (loading) {
@@ -197,7 +226,7 @@ export default function LibraryPage() {
                     {viewMode === 'grid' ? (
                       <>
                         <div className="bg-midnight-700/50 rounded-xl p-4 mb-4 flex items-center justify-center h-24 group-hover:bg-midnight-600/50 transition-colors duration-300">
-                          <img src={icon.imageUrl} alt={icon.name} className="w-12 h-12" />
+                          <img src={icon.image_url} alt={icon.name} className="w-12 h-12" />
                         </div>
                         <h3 className="text-white font-semibold mb-2 truncate">{icon.name}</h3>
                         <div className="flex items-center justify-between text-xs text-sunset-200 mb-4">
@@ -224,7 +253,7 @@ export default function LibraryPage() {
                     ) : (
                       <>
                         <div className="bg-midnight-700/50 rounded-xl p-3 mr-4 flex items-center justify-center">
-                          <img src={icon.imageUrl} alt={icon.name} className="w-8 h-8" />
+                          <img src={icon.image_url} alt={icon.name} className="w-8 h-8" />
                         </div>
                         <div className="flex-1">
                           <h3 className="text-white font-semibold">{icon.name}</h3>

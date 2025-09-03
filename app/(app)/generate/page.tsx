@@ -392,6 +392,9 @@ function GeneratePageContent() {
             isImprovementMode={isImprovementMode}
             onExitImprovementMode={handleExitImprovementMode}
             selectedIconUrl={selectedIconUrl}
+            currentPrompt={currentPrompt}
+            currentStyle={style}
+            currentColor="#000000"
           />
         </div>
       </div>

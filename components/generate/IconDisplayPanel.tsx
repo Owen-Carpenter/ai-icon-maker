@@ -12,6 +12,9 @@ interface IconDisplayPanelProps {
   isImprovementMode?: boolean;
   onExitImprovementMode?: () => void;
   selectedIconUrl?: string;
+  currentPrompt?: string;
+  currentStyle?: string;
+  currentColor?: string;
 }
 
 export default function IconDisplayPanel({ 
@@ -23,13 +26,19 @@ export default function IconDisplayPanel({
   onImproveIcon,
   isImprovementMode = false,
   onExitImprovementMode,
-  selectedIconUrl
+  selectedIconUrl,
+  currentPrompt,
+  currentStyle,
+  currentColor
 }: IconDisplayPanelProps) {
   const [animatedCode, setAnimatedCode] = useState('');
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [selectedIconCode, setSelectedIconCode] = useState('');
   const [codeAnimationComplete, setCodeAnimationComplete] = useState(false);
   const [showGeneratedContent, setShowGeneratedContent] = useState(false);
+  const [savingIconId, setSavingIconId] = useState<string | null>(null);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [iconToSave, setIconToSave] = useState<string>('');
 
   // Fake SVG code for demonstration
   const sampleSvgCode = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,6 +47,48 @@ export default function IconDisplayPanel({
   <rect x="8" y="8" width="8" height="8" rx="2" fill="#FF6C00" opacity="0.5"/>
   <path d="M8 12H16M12 8V16" stroke="white" stroke-width="2" stroke-linecap="round"/>
 </svg>`;
+
+  // Function to save icon to library
+  const handleSaveToLibrary = async (imageUrl: string, iconName: string) => {
+    setSavingIconId(imageUrl);
+    
+    try {
+      const response = await fetch('/api/icons/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: iconName,
+          svg_code: sampleSvgCode, // For now using placeholder SVG
+          prompt: currentPrompt,
+          style: currentStyle,
+          color: currentColor,
+          image_url: imageUrl,
+          format: 'SVG',
+          tags: currentPrompt ? [currentPrompt.split(' ')[0]] : []
+        }),
+      });
+
+      if (response.ok) {
+        // Show success message
+        alert('Icon saved to library successfully!');
+      } else {
+        throw new Error('Failed to save icon');
+      }
+    } catch (error) {
+      console.error('Error saving icon:', error);
+      alert('Failed to save icon to library. Please try again.');
+    } finally {
+      setSavingIconId(null);
+      setShowSaveModal(false);
+    }
+  };
+
+  const openSaveModal = (imageUrl: string) => {
+    setIconToSave(imageUrl);
+    setShowSaveModal(true);
+  };
 
   // Animate code writing during generation
   useEffect(() => {
@@ -229,15 +280,19 @@ export default function IconDisplayPanel({
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          // TODO: Implement save to library functionality
-                          console.log('Save to library clicked for:', image);
+                          openSaveModal(image);
                         }}
-                        className="flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-3 rounded-lg text-xs font-medium transition-colors border border-green-500/30 hover:border-green-500/50 flex items-center justify-center gap-1"
+                        disabled={savingIconId === image}
+                        className="flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-3 rounded-lg text-xs font-medium transition-colors border border-green-500/30 hover:border-green-500/50 flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                         title="Save to Library"
                       >
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                        </svg>
+                        {savingIconId === image ? (
+                          <div className="w-3 h-3 border border-green-300 border-t-transparent rounded-full animate-spin"></div>
+                        ) : (
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                          </svg>
+                        )}
                         Save
                       </button>
                       
@@ -362,6 +417,51 @@ export default function IconDisplayPanel({
                 Copy this SVG code to use your icon in any web project or design tool.
               </p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Save to Library Modal */}
+      {showSaveModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-midnight-800 to-midnight-900 rounded-2xl border border-white/20 p-6 w-full max-w-md">
+            <h3 className="text-xl font-bold text-white mb-4">Save to Library</h3>
+            <p className="text-gray-300 mb-4">Give your icon a name to save it to your library.</p>
+            
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target as HTMLFormElement);
+              const iconName = formData.get('iconName') as string;
+              if (iconName.trim()) {
+                handleSaveToLibrary(iconToSave, iconName.trim());
+              }
+            }}>
+              <input
+                type="text"
+                name="iconName"
+                placeholder="Enter icon name..."
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sunset-500 focus:border-transparent mb-4"
+                autoFocus
+                required
+              />
+              
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowSaveModal(false)}
+                  className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingIconId !== null}
+                  className="flex-1 px-4 py-2 bg-sunset-500 hover:bg-sunset-600 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {savingIconId ? 'Saving...' : 'Save'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
