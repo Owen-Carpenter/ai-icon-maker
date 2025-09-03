@@ -15,7 +15,7 @@ import { generatePageSteps } from '../../../lib/walkthrough-steps';
 import SubscriptionGate from '../../../components/SubscriptionGate';
 
 function GeneratePageContent() {
-  const { user, hasActiveSubscription, loading, refreshUserData } = useAuth();
+  const { user, hasActiveSubscription, loading, refreshUserData, invalidateCache } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -42,7 +42,8 @@ function GeneratePageContent() {
     
     if (success === 'true') {
       setShowSuccess(true);
-      // Force refresh user data after successful payment
+      // Invalidate cache and force refresh user data after successful payment
+      invalidateCache();
       refreshUserData(true);
       
       // Auto-hide after 10 seconds
@@ -50,7 +51,7 @@ function GeneratePageContent() {
         setShowSuccess(false);
       }, 10000);
     }
-  }, [searchParams, refreshUserData]);
+  }, [searchParams, refreshUserData, invalidateCache]);
 
   // Handle payment success processing
   useEffect(() => {
@@ -62,6 +63,7 @@ function GeneratePageContent() {
       
       // Give webhook time to process, then refresh user data
       const timeoutId = setTimeout(() => {
+        invalidateCache();
         refreshUserData(true).then(() => {
           setIsProcessingPayment(false);
         });
@@ -69,7 +71,7 @@ function GeneratePageContent() {
       
       return () => clearTimeout(timeoutId);
     }
-  }, [searchParams, loading, refreshUserData]);
+  }, [searchParams, loading, refreshUserData, invalidateCache]);
 
   // Note: Removed automatic redirect to pricing - let SubscriptionGate handle access control
 

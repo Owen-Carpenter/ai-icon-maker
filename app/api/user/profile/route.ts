@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-// Simple cache for API responses to prevent duplicate processing
-const responseCache = new Map<string, { data: any, timestamp: number }>()
-const RESPONSE_CACHE_DURATION = 5000 // 5 seconds cache for API responses
+// Note: Client-side caching is now handled by the global ApiCache singleton
 
 export async function GET(req: NextRequest) {
   try {
@@ -32,13 +30,7 @@ export async function GET(req: NextRequest) {
       )
     }
 
-    // Check cache first to prevent duplicate processing
-    const cacheKey = `user_profile_${user.id}`
-    const cached = responseCache.get(cacheKey)
-    
-    if (cached && (Date.now() - cached.timestamp < RESPONSE_CACHE_DURATION)) {
-      return NextResponse.json(cached.data)
-    }
+    // Note: Caching is now handled client-side for better performance
 
     // Try to fetch user data with subscription and usage info using our new view
     let { data: userData, error } = await supabase
@@ -222,9 +214,6 @@ export async function GET(req: NextRequest) {
       },
       hasActiveSubscription: finalHasActiveSubscription
     }
-
-    // Cache the response
-    responseCache.set(cacheKey, { data: responseData, timestamp: Date.now() })
 
     return NextResponse.json(responseData)
 

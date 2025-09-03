@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { User, Session } from '@supabase/supabase-js'
 import { authService } from '../lib/auth'
+import { apiCache } from '../lib/api-cache'
 
 interface UserData {
   id: string
@@ -47,6 +48,7 @@ interface AuthContextType {
   signOut: () => Promise<any>
   resetPassword: (email: string) => Promise<any>
   refreshUserData: (forceRefresh?: boolean) => Promise<void>
+  invalidateCache: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -58,53 +60,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [hasActiveSubscription, setHasActiveSubscription] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  // Cache for subscription data to avoid excessive API calls
-  const [lastFetchTime, setLastFetchTime] = useState(0)
-  const [isFetching, setIsFetching] = useState(false)
-  const CACHE_DURATION = 60000 // 1 minute cache
-
-  // Function to fetch user data from our users table
+  // Function to fetch user data from our users table using global cache
   const fetchUserData = useCallback(async (userId: string, forceRefresh: boolean = false) => {
-    const now = Date.now()
-    
-    // Prevent multiple simultaneous requests
-    if (isFetching) {
-      return
-    }
-    
-    // Use cache unless forced refresh or cache expired
-    if (!forceRefresh && userData && (now - lastFetchTime < CACHE_DURATION)) {
-      return
-    }
-    
-    setIsFetching(true)
+    const cacheKey = `user_profile_${userId}`
     
     try {
-      const response = await fetch('/api/user/profile')
-      if (response.ok) {
-        const data = await response.json()
-        setUserData(data.user)
-        setHasActiveSubscription(data.hasActiveSubscription)
-        setLastFetchTime(now)
-      } else {
-        console.error('Failed to fetch user data')
-        setUserData(null)
-        setHasActiveSubscription(false)
-      }
+      const data = await apiCache.get(
+        cacheKey,
+        async () => {
+          const response = await fetch('/api/user/profile')
+          if (!response.ok) {
+            throw new Error('Failed to fetch user data')
+          }
+          return response.json()
+        },
+        forceRefresh
+      )
+      
+      setUserData(data.user)
+      setHasActiveSubscription(data.hasActiveSubscription)
     } catch (error) {
       console.error('Error fetching user data:', error)
       setUserData(null)
       setHasActiveSubscription(false)
-    } finally {
-      setIsFetching(false)
     }
-  }, [userData, lastFetchTime, isFetching])
+  }, [])
 
   const refreshUserData = useCallback(async (forceRefresh: boolean = false) => {
     if (user) {
       await fetchUserData(user.id, forceRefresh)
     }
   }, [user, fetchUserData])
+
+  // The global cache and request deduplication will handle rapid calls
 
   useEffect(() => {
     // Get initial session
@@ -185,6 +173,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return await authService.resetPassword(email)
   }
 
+  const invalidateCache = useCallback(() => {
+    if (user) {
+      apiCache.invalidate(`user_profile_${user.id}`)
+    }
+  }, [user])
+
   const value = {
     user,
     session,
@@ -197,6 +191,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signOut,
     resetPassword,
     refreshUserData,
+    invalidateCache,
   }
 
   return (

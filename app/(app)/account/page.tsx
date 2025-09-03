@@ -14,7 +14,7 @@ import ReactivateSubscriptionButton from '../../../components/payment/Reactivate
 import PricingSection from '../../../components/payment/PricingSection';
 
 function AccountPageContent() {
-  const { user, userData, hasActiveSubscription, loading, refreshUserData } = useAuth();
+  const { user, userData, hasActiveSubscription, loading, refreshUserData, invalidateCache } = useAuth();
   const searchParams = useSearchParams();
   const [showSuccess, setShowSuccess] = useState(false);
   const [showSubscriptionRequired, setShowSubscriptionRequired] = useState(false);
@@ -27,7 +27,8 @@ function AccountPageContent() {
 
     if (success === 'true') {
       setShowSuccess(true);
-      // Force refresh user data after successful payment
+      // Invalidate cache and force refresh user data after successful payment
+      invalidateCache();
       refreshUserData(true);
       setTimeout(() => setShowSuccess(false), 5000);
     }
@@ -43,7 +44,7 @@ function AccountPageContent() {
         : 'An error occurred. Please try again.');
       setTimeout(() => setShowError(''), 5000);
     }
-  }, [searchParams, refreshUserData]); // Now safe because refreshUserData is memoized
+  }, [searchParams, refreshUserData, invalidateCache]);
 
   if (loading) {
     return <Loading text="Loading your account..." />;
