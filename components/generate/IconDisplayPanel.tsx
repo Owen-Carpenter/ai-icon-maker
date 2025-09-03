@@ -348,13 +348,20 @@ export default function IconDisplayPanel({
           )}
           {isImprovementMode ? (
             <button
-              onClick={() => {
-                // TODO: Implement save to library functionality
-                console.log('Save to library clicked');
-              }}
-              className="w-full bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-green-500/30 hover:border-green-500/50"
+              onClick={() => selectedIconUrl && openSaveModal(selectedIconUrl)}
+              disabled={savingIconId === selectedIconUrl}
+              className="w-full bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-green-500/30 hover:border-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              💾 Save to Library
+              {savingIconId === selectedIconUrl ? (
+                <>
+                  <div className="w-4 h-4 border border-green-300 border-t-transparent rounded-full animate-spin"></div>
+                  Saving...
+                </>
+              ) : (
+                <>
+                  💾 Save to Library
+                </>
+              )}
             </button>
           ) : (
             <button
