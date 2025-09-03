@@ -43,10 +43,23 @@ export default function IconDisplayPanel({
 
   // Fake SVG code for demonstration - properly sized for 500x500 canvas
   const sampleSvgCode = `<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle to show canvas bounds -->
+  <circle cx="250" cy="250" r="240" stroke="#E0E0E0" stroke-width="2" fill="none" opacity="0.3"/>
+  
+  <!-- Main star icon -->
   <path d="M250 75L268.75 195.83L375 225L268.75 304.17L250 425L231.25 304.17L125 225L231.25 195.83L250 75Z" fill="#FF6C00"/>
-  <circle cx="250" cy="250" r="150" stroke="#FF6C00" stroke-width="6" fill="none"/>
-  <rect x="200" y="200" width="100" height="100" rx="15" fill="#FF6C00" opacity="0.5"/>
-  <path d="M200 250H300M250 200V300" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Inner circle -->
+  <circle cx="250" cy="250" r="80" stroke="#FF6C00" stroke-width="6" fill="none"/>
+  
+  <!-- Center square -->
+  <rect x="220" y="220" width="60" height="60" rx="8" fill="#FF6C00" opacity="0.7"/>
+  
+  <!-- Cross lines -->
+  <path d="M220 250H280M250 220V280" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Test text to verify SVG download -->
+  <text x="250" y="450" text-anchor="middle" fill="#FF6C00" font-family="Arial" font-size="20" font-weight="bold">SVG Download Test</text>
 </svg>`;
 
   // Function to save icon to library
