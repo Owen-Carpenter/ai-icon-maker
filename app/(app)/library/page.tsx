@@ -159,11 +159,11 @@ export default function LibraryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col">
-      <div className="flex flex-1 lg:flex-row relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900">
+      <div className="flex lg:flex-row relative min-h-screen">
         <Sidebar currentPage="library" />
         
-        <div className="flex-1 relative overflow-hidden lg:ml-16">
+        <div className="flex-1 relative lg:ml-16 pb-24">
           {/* Header */}
           <div className="px-6 sm:px-8 lg:px-12 py-8 text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
@@ -237,7 +237,7 @@ export default function LibraryPage() {
           </div>
 
           {/* Icons Grid/List */}
-          <div className="px-6 sm:px-8 lg:px-12 pb-8">
+          <div className="px-6 sm:px-8 lg:px-12 pb-32">
             {filteredIcons.length > 0 ? (
               <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6' : 'space-y-4'}>
                 {filteredIcons.map((icon) => (
@@ -394,8 +394,10 @@ export default function LibraryPage() {
                 </div>
               )}
             </div>
-          </div>
-        </div>
+                  </div>
+      </div>
+      
+      {/* Footer positioned at bottom */}
       <Footer />
 
       {/* Code Modal */}
