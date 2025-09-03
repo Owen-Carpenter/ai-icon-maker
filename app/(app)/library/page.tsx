@@ -248,10 +248,10 @@ export default function LibraryPage() {
             {filteredIcons.length > 0 ? (
               <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6' : 'space-y-4'}>
                 {filteredIcons.map((icon) => (
-                  <div key={icon.id} className={`bg-midnight-800/50 border border-midnight-700 rounded-xl backdrop-blur-sm hover:shadow-xl hover:shadow-sunset-500/20 transition-all duration-300 hover:scale-105 hover:border-sunset-400/50 group ${viewMode === 'list' ? 'flex items-center p-4' : 'p-6'}`}>
+                  <div key={icon.id} className={`bg-midnight-800/50 border border-midnight-700 rounded-xl backdrop-blur-sm hover:shadow-xl hover:shadow-sunset-500/20 transition-all duration-300 hover:scale-105 hover:border-sunset-400/50 ${viewMode === 'list' ? 'flex items-center p-4' : 'p-6'}`}>
                     {viewMode === 'grid' ? (
                       <>
-                        <div className="bg-midnight-700/50 rounded-xl p-4 mb-4 flex items-center justify-center h-24 group-hover:bg-midnight-600/50 transition-colors duration-300">
+                        <div className="bg-midnight-700/50 rounded-xl p-4 mb-4 flex items-center justify-center h-24 hover:bg-midnight-600/50 transition-colors duration-300">
                           <img src={icon.image_url} alt={icon.name} className="w-12 h-12" />
                         </div>
                         <h3 className="text-white font-semibold mb-2 truncate">{icon.name}</h3>
