@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { downloadSVG, downloadImageFromUrl, generateFileName, downloadSVGAsFormat } from '../../lib/download-utils';
 
 interface IconDisplayPanelProps {
   generatedImages: string[];
@@ -40,12 +41,12 @@ export default function IconDisplayPanel({
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [iconToSave, setIconToSave] = useState<string>('');
 
-  // Fake SVG code for demonstration
-  const sampleSvgCode = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M12 2L13.09 8.26L20 9L13.09 15.74L12 22L10.91 15.74L4 9L10.91 8.26L12 2Z" fill="#FF6C00"/>
-  <circle cx="12" cy="12" r="8" stroke="#FF6C00" stroke-width="2" fill="none"/>
-  <rect x="8" y="8" width="8" height="8" rx="2" fill="#FF6C00" opacity="0.5"/>
-  <path d="M8 12H16M12 8V16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  // Fake SVG code for demonstration - properly sized for 500x500 canvas
+  const sampleSvgCode = `<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M250 75L268.75 195.83L375 225L268.75 304.17L250 425L231.25 304.17L125 225L231.25 195.83L250 75Z" fill="#FF6C00"/>
+  <circle cx="250" cy="250" r="150" stroke="#FF6C00" stroke-width="6" fill="none"/>
+  <rect x="200" y="200" width="100" height="100" rx="15" fill="#FF6C00" opacity="0.5"/>
+  <path d="M200 250H300M250 200V300" stroke="white" stroke-width="6" stroke-linecap="round"/>
 </svg>`;
 
   // Function to save icon to library
@@ -88,6 +89,24 @@ export default function IconDisplayPanel({
   const openSaveModal = (imageUrl: string) => {
     setIconToSave(imageUrl);
     setShowSaveModal(true);
+  };
+
+  // Handle downloading the icon in different formats
+  const handleDownload = async (imageUrl: string, format: 'svg' | 'png' | 'jpg', iconName?: string) => {
+    try {
+      // Generate filename based on prompt or generic name
+      const baseName = iconName || currentPrompt || 'generated-icon';
+      
+      // For now, download the placeholder SVG code
+      // In the future, this would use the actual generated SVG
+      await downloadSVGAsFormat(sampleSvgCode, baseName, format);
+      
+      // Call the original onSelectImage callback for any additional functionality
+      onSelectImage(imageUrl);
+    } catch (error) {
+      console.error('Error downloading icon:', error);
+      alert(`Failed to download icon as ${format.toUpperCase()}. Please try again.`);
+    }
   };
 
   // Animate code writing during generation
@@ -232,13 +251,35 @@ export default function IconDisplayPanel({
                     </svg>
                     View Code
                   </button>
-                  <div className="[background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
-                    <button
-                      onClick={() => onSelectImage(selectedIconUrl)}
-                      className="bg-transparent text-white py-2 px-4 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block w-full"
-                    >
+                  <div className="relative group">
+                    <button className="[background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white py-2 px-4 font-semibold hover:scale-105 w-full flex items-center justify-center gap-2">
                       Download
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
                     </button>
+                    
+                    {/* Dropdown Menu */}
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-midnight-800 border border-white/20 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                      <button
+                        onClick={() => handleDownload(selectedIconUrl, 'svg')}
+                        className="w-full px-4 py-2 text-left text-white hover:bg-white/10 rounded-t-lg transition-colors text-sm"
+                      >
+                        Download as SVG
+                      </button>
+                      <button
+                        onClick={() => handleDownload(selectedIconUrl, 'png')}
+                        className="w-full px-4 py-2 text-left text-white hover:bg-white/10 transition-colors text-sm"
+                      >
+                        Download as PNG
+                      </button>
+                      <button
+                        onClick={() => handleDownload(selectedIconUrl, 'jpg')}
+                        className="w-full px-4 py-2 text-left text-white hover:bg-white/10 rounded-b-lg transition-colors text-sm"
+                      >
+                        Download as JPG
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
@@ -296,20 +337,53 @@ export default function IconDisplayPanel({
                         Save
                       </button>
                       
-                      <div className="flex-1 [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onSelectImage(image);
-                          }}
-                          className="w-full bg-transparent text-white py-2 px-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 text-xs flex items-center justify-center gap-1"
-                          title="Download Icon"
-                        >
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                          Download
-                        </button>
+                      <div className="flex-1 relative group">
+                        <div className="[background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
+                          <button
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full bg-transparent text-white py-2 px-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 text-xs flex items-center justify-center gap-1"
+                            title="Download Icon"
+                          >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Download
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+                        </div>
+                        
+                        {/* Dropdown Menu */}
+                        <div className="absolute top-full left-0 right-0 mt-1 bg-midnight-800 border border-white/20 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownload(image, 'svg');
+                            }}
+                            className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-t-lg transition-colors text-xs"
+                          >
+                            SVG
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownload(image, 'png');
+                            }}
+                            className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 transition-colors text-xs"
+                          >
+                            PNG
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownload(image, 'jpg');
+                            }}
+                            className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-b-lg transition-colors text-xs"
+                          >
+                            JPG
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

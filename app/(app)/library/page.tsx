@@ -8,6 +8,7 @@ import Loading from '../../../components/ui/Loading';
 import SubscriptionGate from '../../../components/SubscriptionGate';
 import SmartGenerateLink from '../../../components/SmartGenerateLink';
 import Footer from '../../../components/Footer';
+import { downloadSVG, downloadImageFromUrl, generateFileName, downloadSVGAsFormat } from '../../../lib/download-utils';
 
 interface SavedIcon {
   id: string;
@@ -68,7 +69,7 @@ export default function LibraryPage() {
           id: '1',
           name: 'AI Icon Maker Logo',
           image_url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
-          svg_code: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L13.09 8.26L20 9L13.09 15.74L12 22L10.91 15.74L4 9L10.91 8.26L12 2Z" fill="#FF6C00"/></svg>',
+          svg_code: '<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M250 75L268.75 195.83L375 225L268.75 304.17L250 425L231.25 304.17L125 225L231.25 195.83L250 75Z" fill="#FF6C00"/></svg>',
           created_at: '2024-01-15',
           tags: ['logo', 'brand', 'ai'],
           format: 'SVG' as const,
@@ -78,7 +79,7 @@ export default function LibraryPage() {
           id: '2',
           name: 'Heart Icon',
           image_url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwLjg0IDQuNjFhNS41IDUuNSAwIDAgMC03Ljc4IDBMMTIgNS42N2wtMS4wNi0xLjA2YTUuNSA1LjUgMCAwIDAtNy43OCA3Ljc4bDEuMDYgMS4wNkwxMiAyMWw3Ljc4LTcuNzggMS4wNi0xLjA2YTUuNSA1LjUgMCAwIDAtNy43OC03Ljc4eiIgZmlsbD0iI0ZGNkM2QyIvPgo8L3N2Zz4K',
-          svg_code: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0-7.78-7.78z" fill="#FF6C6C"/></svg>',
+          svg_code: '<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M434.17 96.04a114.58 114.58 0 0 0-162.08 0L250 118.13l-22.09-22.09a114.58 114.58 0 0 0-162.08 162.08l22.09 22.09L250 437.5l162.08-162.08 22.09-22.09a114.58 114.58 0 0 0-162.08-162.08z" fill="#FF6C6C"/></svg>',
           created_at: '2024-01-14',
           tags: ['love', 'like', 'favorite'],
           format: 'PNG' as const,
@@ -100,9 +101,20 @@ export default function LibraryPage() {
     return matchesSearch && matchesFormat;
   });
 
-  const handleDownload = (icon: SavedIcon) => {
-    // In a real app, this would download the actual file
-    console.log('Downloading:', icon.name);
+  const handleDownload = async (icon: SavedIcon, format: 'svg' | 'png' | 'jpg') => {
+    try {
+      // Use SVG code if available, otherwise fallback to image URL
+      if (icon.svg_code) {
+        await downloadSVGAsFormat(icon.svg_code, icon.name, format);
+      } else {
+        // For non-SVG icons, download the original image
+        const fileName = generateFileName(icon.name, format);
+        await downloadImageFromUrl(icon.image_url, fileName);
+      }
+    } catch (error) {
+      console.error('Error downloading icon:', error);
+      alert(`Failed to download icon as ${format.toUpperCase()}. Please try again.`);
+    }
   };
 
   const handleDelete = async (iconId: string) => {
@@ -241,12 +253,36 @@ export default function LibraryPage() {
                           <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                         </div>
                         <div className="flex gap-2">
-                          <button
-                            onClick={() => handleDownload(icon)}
-                            className="flex-1 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-3 rounded-lg transition-all duration-300 font-medium"
-                          >
-                            Download
-                          </button>
+                          <div className="flex-1 relative group">
+                            <button className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-3 rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-1">
+                              Download
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                            
+                            {/* Dropdown Menu */}
+                            <div className="absolute top-full left-0 right-0 mt-1 bg-midnight-800 border border-white/20 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                              <button
+                                onClick={() => handleDownload(icon, 'svg')}
+                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-t-lg transition-colors text-xs"
+                              >
+                                SVG
+                              </button>
+                              <button
+                                onClick={() => handleDownload(icon, 'png')}
+                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 transition-colors text-xs"
+                              >
+                                PNG
+                              </button>
+                              <button
+                                onClick={() => handleDownload(icon, 'jpg')}
+                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-b-lg transition-colors text-xs"
+                              >
+                                JPG
+                              </button>
+                            </div>
+                          </div>
                           <button
                             onClick={() => handleShowCode(icon)}
                             className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-sm py-2 px-3 rounded-lg transition-all duration-300 flex items-center gap-1"
@@ -279,12 +315,36 @@ export default function LibraryPage() {
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          <button
-                            onClick={() => handleDownload(icon)}
-                            className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-4 rounded-lg transition-all duration-300 font-medium"
-                          >
-                            Download
-                          </button>
+                          <div className="relative group">
+                            <button className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-4 rounded-lg transition-all duration-300 font-medium flex items-center gap-1">
+                              Download
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                            
+                            {/* Dropdown Menu */}
+                            <div className="absolute top-full left-0 right-0 mt-1 bg-midnight-800 border border-white/20 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                              <button
+                                onClick={() => handleDownload(icon, 'svg')}
+                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-t-lg transition-colors text-xs"
+                              >
+                                SVG
+                              </button>
+                              <button
+                                onClick={() => handleDownload(icon, 'png')}
+                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 transition-colors text-xs"
+                              >
+                                PNG
+                              </button>
+                              <button
+                                onClick={() => handleDownload(icon, 'jpg')}
+                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-b-lg transition-colors text-xs"
+                              >
+                                JPG
+                              </button>
+                            </div>
+                          </div>
                           <button
                             onClick={() => handleShowCode(icon)}
                             className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-sm py-2 px-3 rounded-lg transition-all duration-300 flex items-center gap-1"
