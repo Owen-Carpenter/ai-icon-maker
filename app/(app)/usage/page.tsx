@@ -14,6 +14,11 @@ function UsagePageContent() {
   const { user, userData, hasActiveSubscription, loading } = useAuth();
   const [showMessage, setShowMessage] = useState('');
   const [savedIconsCount, setSavedIconsCount] = useState(0);
+  const [iconStats, setIconStats] = useState({
+    thisMonth: 0,
+    lastMonth: 0,
+    avgPerDay: 0
+  });
   const [loadingIconCount, setLoadingIconCount] = useState(true);
 
   // Fetch saved icons count
@@ -26,6 +31,11 @@ function UsagePageContent() {
         if (response.ok) {
           const data = await response.json();
           setSavedIconsCount(data.count || 0);
+          setIconStats({
+            thisMonth: data.thisMonth || 0,
+            lastMonth: data.lastMonth || 0,
+            avgPerDay: data.avgPerDay || 0
+          });
         }
       } catch (error) {
         console.error('Error fetching icon count:', error);
@@ -51,12 +61,12 @@ function UsagePageContent() {
   const planType = userData?.subscription?.plan_type || 'free';
   const isUnlimited = planType === 'enterprise';
   
-  // Mock data for demonstration - in real app this would come from API
+  // Real usage statistics from icon creation dates
   const usageStats = {
-    thisMonth: creditsUsed,
-    lastMonth: Math.max(0, creditsUsed - 10),
-    avgPerDay: creditsUsed > 0 ? Math.round(creditsUsed / 30) : 0,
-    peakDay: Math.max(1, Math.round(creditsUsed / 10))
+    thisMonth: iconStats.thisMonth,
+    lastMonth: iconStats.lastMonth,
+    avgPerDay: iconStats.avgPerDay,
+    peakDay: Math.max(1, Math.round(iconStats.thisMonth / 10)) // Estimated peak day
   };
 
   return (
@@ -126,7 +136,9 @@ function UsagePageContent() {
                   <span className="text-purple-400 text-sm font-medium">Monthly</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-2xl font-bold text-white">{usageStats.thisMonth}</h3>
+                  <h3 className="text-2xl font-bold text-white">
+                    {loadingIconCount ? '...' : usageStats.thisMonth}
+                  </h3>
                   <p className="text-sunset-200 text-sm">This Month</p>
                 </div>
               </div>
@@ -140,7 +152,9 @@ function UsagePageContent() {
                   <span className="text-blue-400 text-sm font-medium">Daily Avg</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-2xl font-bold text-white">{usageStats.avgPerDay}</h3>
+                  <h3 className="text-2xl font-bold text-white">
+                    {loadingIconCount ? '...' : usageStats.avgPerDay}
+                  </h3>
                   <p className="text-sunset-200 text-sm">Per Day</p>
                 </div>
               </div>
