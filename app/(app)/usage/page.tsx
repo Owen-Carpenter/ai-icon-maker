@@ -13,6 +13,29 @@ import Loading from '../../../components/ui/Loading';
 function UsagePageContent() {
   const { user, userData, hasActiveSubscription, loading } = useAuth();
   const [showMessage, setShowMessage] = useState('');
+  const [savedIconsCount, setSavedIconsCount] = useState(0);
+  const [loadingIconCount, setLoadingIconCount] = useState(true);
+
+  // Fetch saved icons count
+  useEffect(() => {
+    const fetchIconCount = async () => {
+      if (!user) return;
+      
+      try {
+        const response = await fetch('/api/icons/count');
+        if (response.ok) {
+          const data = await response.json();
+          setSavedIconsCount(data.count || 0);
+        }
+      } catch (error) {
+        console.error('Error fetching icon count:', error);
+      } finally {
+        setLoadingIconCount(false);
+      }
+    };
+
+    fetchIconCount();
+  }, [user]);
 
   if (loading) {
     return <Loading text="Loading usage data..." />;
@@ -76,17 +99,21 @@ function UsagePageContent() {
                 </div>
               </div>
 
-              {/* Credits Used */}
+              {/* Icons in Library */}
               <div className="bg-midnight-800/50 border border-midnight-700 rounded-xl backdrop-blur-sm p-6 hover:shadow-xl hover:shadow-sunset-500/10 transition-all duration-300 hover:scale-105 hover:border-sunset-400/50">
                 <div className="flex items-center justify-between mb-4">
                   <div className="w-12 h-12 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-xl flex items-center justify-center">
-                    <BarChart3 className="h-6 w-6 text-white" />
+                    <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                    </svg>
                   </div>
-                  <span className="text-sunset-400 text-sm font-medium">Used</span>
+                  <span className="text-sunset-400 text-sm font-medium">Library</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-2xl font-bold text-white">{creditsUsed}</h3>
-                  <p className="text-sunset-200 text-sm">Icons Generated</p>
+                  <h3 className="text-2xl font-bold text-white">
+                    {loadingIconCount ? '...' : savedIconsCount}
+                  </h3>
+                  <p className="text-sunset-200 text-sm">Icons Saved</p>
                 </div>
               </div>
 
