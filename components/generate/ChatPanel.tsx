@@ -2,6 +2,14 @@
 
 import { useState } from 'react';
 
+interface ChatMessage {
+  id: string;
+  type: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+  isImprovement?: boolean;
+}
+
 interface ChatPanelProps {
   currentPrompt: string;
   setCurrentPrompt: (prompt: string) => void;
@@ -12,6 +20,7 @@ interface ChatPanelProps {
   selectedIconUrl?: string;
   onExitImprovementMode?: () => void;
   hasUserTakenAction?: boolean;
+  conversationHistory?: ChatMessage[];
 }
 
 export default function ChatPanel({ 
@@ -23,7 +32,8 @@ export default function ChatPanel({
   isImprovementMode = false,
   selectedIconUrl,
   onExitImprovementMode,
-  hasUserTakenAction = true
+  hasUserTakenAction = true,
+  conversationHistory = []
 }: ChatPanelProps) {
   const [style, setStyle] = useState('modern');
 
@@ -75,46 +85,54 @@ export default function ChatPanel({
 
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-64 lg:max-h-none lg:min-h-0">
-        {isImprovementMode ? (
-          // Improvement mode messages
-          <>
-            <div className="flex justify-start">
-              <div className="bg-white/10 border border-white/20 rounded-lg p-3">
-                <p className="text-white text-sm leading-relaxed">
-                  I can see the icon you want to improve! Describe what changes you'd like me to make.
-                </p>
-              </div>
+        {/* Initial assistant message */}
+        {conversationHistory.length === 0 && (
+          <div className="flex justify-start">
+            <div className="bg-white/10 border border-white/20 rounded-lg p-3">
+              <p className="text-white text-sm leading-relaxed">
+                {isImprovementMode 
+                  ? 'I can see the icon you want to improve! Describe what changes you\'d like me to make.'
+                  : 'Hi! Describe the icon you\'d like me to create, and I\'ll generate multiple variations for you.'
+                }
+              </p>
             </div>
-            
-            {/* Show selected icon */}
-            {selectedIconUrl && (
-              <div className="flex justify-start">
-                <div className="bg-white/10 border border-white/20 rounded-lg p-3">
-                  <p className="text-white text-sm mb-2">Selected icon to improve:</p>
-                  <img 
-                    src={selectedIconUrl} 
-                    alt="Icon to improve" 
-                    className="w-16 h-16 object-contain bg-white/5 rounded-lg"
-                  />
-                </div>
-              </div>
-            )}
-          </>
-        ) : (
-          // Normal mode messages
-          <>
-            <div className="flex justify-start">
-              <div className="bg-white/10 border border-white/20 rounded-lg p-3">
-                <p className="text-white text-sm leading-relaxed">
-                  Hi! Describe the icon you'd like me to create, and I'll generate multiple variations for you.
-                </p>
-              </div>
+          </div>
+        )}
+
+        {/* Show selected icon in improvement mode */}
+        {isImprovementMode && selectedIconUrl && conversationHistory.length === 0 && (
+          <div className="flex justify-start">
+            <div className="bg-white/10 border border-white/20 rounded-lg p-3">
+              <p className="text-white text-sm mb-2">Selected icon to improve:</p>
+              <img 
+                src={selectedIconUrl} 
+                alt="Icon to improve" 
+                className="w-16 h-16 object-contain bg-white/5 rounded-lg"
+              />
             </div>
-          </>
+          </div>
         )}
         
-        {/* Generated Messages */}
-        {currentPrompt && (
+        {/* Conversation History */}
+        {conversationHistory.map((message) => (
+          <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`rounded-lg p-3 ${
+              message.type === 'user' 
+                ? 'bg-gradient-to-r from-sunset-500 to-coral-500' 
+                : 'bg-white/10 border border-white/20'
+            }`}>
+              <p className="text-white text-sm">
+                {message.content}
+                {message.isImprovement && (
+                  <span className="text-xs text-sunset-200 ml-2">(improvement)</span>
+                )}
+              </p>
+            </div>
+          </div>
+        ))}
+
+        {/* Current prompt being typed - only show if not empty and not already in history */}
+        {currentPrompt.trim() && !conversationHistory.some(msg => msg.content === currentPrompt.trim()) && (
           <div className="flex justify-end">
             <div className="bg-gradient-to-r from-sunset-500 to-coral-500 rounded-lg p-3">
               <p className="text-white text-sm">{currentPrompt}</p>
@@ -122,6 +140,7 @@ export default function ChatPanel({
           </div>
         )}
 
+        {/* Generating indicator */}
         {isGenerating && (
           <div className="flex justify-start">
             <div className="bg-white/10 border border-white/20 rounded-lg p-3">
@@ -137,17 +156,17 @@ export default function ChatPanel({
           </div>
         )}
 
+        {/* Success message */}
         {generatedImages.length > 0 && !isGenerating && (
           <div className="flex justify-start">
             <div className="bg-white/10 border border-white/20 rounded-lg p-3">
               <p className="text-white text-sm">
-                ✨ {isImprovementMode ? 'Improve your icon!' : `Generated ${generatedImages.length} icons!`} Check them out →
+                ✨ {isImprovementMode ? 'Icon improved!' : `Generated ${generatedImages.length} icons!`} Check them out →
               </p>
               <p className="text-sunset-200 text-xs mt-1">
                 {isImprovementMode ? 'How else would you like to improve it?' : 
                  hasUserTakenAction ? 'Want different variations?' : 'Please choose an action for one of your icons first!'}
               </p>
-
             </div>
           </div>
         )}

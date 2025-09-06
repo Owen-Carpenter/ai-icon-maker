@@ -1,102 +1,173 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { generateIconsWithClaude, IconGenerationRequest } from '../../../lib/claude';
-
-// Rate limiting - simple in-memory store (in production, use Redis or similar)
-const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
-
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const RATE_LIMIT_MAX_REQUESTS = 10; // 10 requests per minute per user
-
-function checkRateLimit(userId: string): boolean {
-  const now = Date.now();
-  const userLimit = rateLimitStore.get(userId);
-
-  if (!userLimit || now > userLimit.resetTime) {
-    // Reset or create new limit
-    rateLimitStore.set(userId, {
-      count: 1,
-      resetTime: now + RATE_LIMIT_WINDOW,
-    });
-    return true;
-  }
-
-  if (userLimit.count >= RATE_LIMIT_MAX_REQUESTS) {
-    return false;
-  }
-
-  userLimit.count += 1;
-  return true;
-}
+import { NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 
 export async function POST(request: NextRequest) {
   try {
+    // Create Supabase client
+    const cookieStore = await cookies()
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return cookieStore.get(name)?.value
+          },
+        },
+      }
+    )
+
+    // Get the current user
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
     // Parse request body
-    const body = await request.json();
-    const { prompt, style, primaryColor }: IconGenerationRequest = body;
+    const body = await request.json()
+    const { prompt, style, primaryColor } = body
 
     // Validate required fields
     if (!prompt || !style || !primaryColor) {
       return NextResponse.json(
         { error: 'Missing required fields: prompt, style, primaryColor' },
         { status: 400 }
-      );
+      )
     }
 
-    // Simple rate limiting using IP address from headers
-    const forwarded = request.headers.get('x-forwarded-for');
-    const ip = forwarded ? forwarded.split(',')[0] : 'unknown';
-    const userId = ip;
-
-    // Check rate limiting
-    if (!checkRateLimit(userId)) {
-      return NextResponse.json(
-        { error: 'Rate limit exceeded. Please wait before making another request.' },
-        { status: 429 }
-      );
-    }
-
-    // Validate inputs
+    // Validate prompt length
     if (prompt.length > 200) {
       return NextResponse.json(
         { error: 'Prompt too long. Maximum 200 characters.' },
         { status: 400 }
-      );
+      )
     }
 
-    // Generate icons with Claude
+    // Check if user can use tokens (has enough credits)
+    const { data: creditCheck, error: creditError } = await supabase
+      .rpc('can_user_use_tokens', {
+        p_user_id: user.id,
+        p_tokens_needed: 1
+      })
+
+    if (creditError) {
+      console.error('Error checking user credits:', creditError)
+      return NextResponse.json(
+        { error: 'Failed to check credit availability' },
+        { status: 500 }
+      )
+    }
+
+    const userCanUse = creditCheck?.[0]
+    if (!userCanUse?.can_use) {
+      return NextResponse.json(
+        { 
+          error: 'Insufficient credits', 
+          remaining_tokens: userCanUse?.remaining_tokens || 0,
+          monthly_limit: userCanUse?.monthly_limit || 0,
+          plan_type: userCanUse?.plan_type || 'free'
+        },
+        { status: 403 }
+      )
+    }
+
+    // Deduct credits using the database function
+    const { data: usageResult, error: usageError } = await supabase
+      .rpc('use_tokens', {
+        p_user_id: user.id,
+        p_tokens_needed: 1,
+        p_usage_type: 'icon_generation',
+        p_prompt_text: prompt.trim(),
+        p_style_selected: style
+      })
+
+    if (usageError) {
+      console.error('Error recording token usage:', usageError)
+      return NextResponse.json(
+        { error: 'Failed to process credit deduction' },
+        { status: 500 }
+      )
+    }
+
+    const tokenUsage = usageResult?.[0]
+    if (!tokenUsage?.success) {
+      return NextResponse.json(
+        { 
+          error: tokenUsage?.error_message || 'Failed to deduct credits',
+          remaining_tokens: tokenUsage?.remaining_tokens || 0
+        },
+        { status: 403 }
+      )
+    }
+
+    // Generate mock icons for testing (not using Claude API yet)
+    const mockIcons = [
+      `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="${primaryColor}" rx="20"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="12">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`,
+      `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="${primaryColor}"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="10">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`,
+      `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 90,75 10,75" fill="${primaryColor}"/><text x="50" y="60" text-anchor="middle" fill="white" font-size="10">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`
+    ]
+
+    // Simulate some processing time
+    await new Promise(resolve => setTimeout(resolve, 1000))
+
+    /* REAL CLAUDE API CALL - Uncomment when ready to use Claude:
+    
     const result = await generateIconsWithClaude({
       prompt: prompt.trim(),
       style,
       primaryColor,
       count: 3,
-    });
+    })
 
+    // If generation failed, we should ideally refund the credit, but for now we'll keep the deduction
+    // as the user still used the service attempt
     if (!result.success) {
+      // Record the failed generation
+      await supabase.rpc('record_token_usage', {
+        p_user_id: user.id,
+        p_tokens_used: 0, // No additional tokens for the failure record
+        p_usage_type: 'icon_generation',
+        p_prompt_text: prompt.trim(),
+        p_style_selected: style,
+        p_generation_successful: false,
+        p_error_message: result.error || 'Unknown generation error'
+      })
+
       return NextResponse.json(
         { error: result.error || 'Failed to generate icons' },
         { status: 500 }
-      );
+      )
     }
 
     return NextResponse.json({
       success: true,
       icons: result.icons,
       message: `Generated ${result.icons.length} icons successfully`,
-    });
+      remaining_tokens: tokenUsage.remaining_tokens,
+      usage_id: tokenUsage.usage_id
+    })
+    
+    */
+
+    return NextResponse.json({
+      success: true,
+      icons: mockIcons,
+      message: `Generated ${mockIcons.length} icons successfully (Mock Mode)`,
+      remaining_tokens: tokenUsage.remaining_tokens,
+      usage_id: tokenUsage.usage_id
+    })
 
   } catch (error) {
-    console.error('Icon generation API error:', error);
+    console.error('Icon generation API error:', error)
     
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
-    );
+    )
   }
-}
-
-export async function GET() {
-  return NextResponse.json(
-    { message: 'Icon generation API is running' },
-    { status: 200 }
-  );
 }

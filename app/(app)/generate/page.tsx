@@ -28,6 +28,13 @@ function GeneratePageContent() {
   const [selectedIconUrl, setSelectedIconUrl] = useState<string>('');
   const [originalImages, setOriginalImages] = useState<string[]>([]);
   const [hasUserTakenAction, setHasUserTakenAction] = useState(true);
+  const [conversationHistory, setConversationHistory] = useState<Array<{
+    id: string;
+    type: 'user' | 'assistant';
+    content: string;
+    timestamp: Date;
+    isImprovement?: boolean;
+  }>>([]);
   const [showHeroView, setShowHeroView] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [style, setStyle] = useState('modern');
@@ -123,31 +130,7 @@ function GeneratePageContent() {
     }
     
     try {
-      // TEMPORARY: Skip API call to demo the code animation while Claude is being set up
-      // Simulate code generation time (4 seconds to see the full animation)
-      await new Promise(resolve => setTimeout(resolve, 4000));
-      
-      // Use mock data for demonstration
-      const mockImages = [
-        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
-        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiIGZpbGw9IiNGRjZDMDAiLz4KPC9zdmc+Cg==',
-        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iMiIgeT0iMiIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByeD0iNCIgZmlsbD0iI0ZGNkMwMCIvPgo8L3N2Zz4K'
-      ];
-      setGeneratedImages(mockImages);
-      if (!isImprovementMode) {
-        setOriginalImages(mockImages);
-        setHasUserTakenAction(true); // Allow continued interaction
-      }
-      
-      success(
-        isImprovementMode ? 'Icon Improved!' : 'Icons Generated!', 
-        isImprovementMode 
-          ? `Successfully improved your icon based on "${prompt}"`
-          : `Successfully created ${mockImages.length} unique icons for "${prompt}" (Demo Mode)`
-      );
-
-      /* REAL API CALL - Uncomment when Claude is set up:
-      
+      // REAL API CALL - Now enabled with credit deduction
       const response = await fetch('/api/generate-icons', {
         method: 'POST',
         headers: {
@@ -156,14 +139,33 @@ function GeneratePageContent() {
         body: JSON.stringify({
           prompt: prompt.trim(),
           style: style,
-          // Color is now described in the prompt instead of separate parameter
+          primaryColor: color
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to generate icons');
+        // Handle specific error cases
+        if (response.status === 403) {
+          // Insufficient credits
+          error(
+            'Insufficient Credits',
+            data.error || 'You do not have enough credits to generate icons. Please upgrade your plan or wait for your monthly reset.',
+            5000
+          );
+          return;
+        } else if (response.status === 401) {
+          // Unauthorized
+          error(
+            'Authentication Required',
+            'Please log in to generate icons.',
+            3000
+          );
+          return;
+        } else {
+          throw new Error(data.error || 'Failed to generate icons');
+        }
       }
 
       if (data.success && data.icons?.length > 0) {
@@ -172,17 +174,45 @@ function GeneratePageContent() {
           setOriginalImages(data.icons);
           setHasUserTakenAction(false); // Reset action flag for new icons
         }
+        
+        // Add user message to conversation history first
+        const userMessage = {
+          id: Date.now().toString() + '_user',
+          type: 'user' as const,
+          content: prompt.trim(),
+          timestamp: new Date(),
+          isImprovement: isImprovementMode
+        };
+        console.log('Adding user message to conversation:', userMessage);
+        handleAddToConversation(userMessage);
+        
+        // Refresh user data to show updated credit count
+        invalidateCache();
+        refreshUserData(true);
+        
+        // Add assistant response to conversation history
+        handleAddToConversation({
+          id: Date.now().toString() + '_assistant',
+          type: 'assistant',
+          content: isImprovementMode 
+            ? `Icon improved! ${data.remaining_tokens} credits remaining.`
+            : `Generated ${data.icons.length} icons! ${data.remaining_tokens} credits remaining.`,
+          timestamp: new Date(),
+          isImprovement: isImprovementMode
+        });
+        
         success(
           isImprovementMode ? 'Icon Improved!' : 'Icons Generated!', 
           isImprovementMode 
-            ? `Successfully improved your icon based on "${prompt}"`
-            : `Successfully created ${data.icons.length} unique icons for "${prompt}"`
+            ? `Successfully improved your icon based on "${prompt}". ${data.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
+            : `Successfully created ${data.icons.length} unique icons for "${prompt}". ${data.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
         );
+        
+        // Clear the prompt for next improvement (after it's been added to conversation history)
+        setCurrentPrompt('');
       } else {
         throw new Error('No icons were generated');
       }
-      
-      */
       
     } catch (err) {
       console.error('Icon generation error:', err);
@@ -232,10 +262,26 @@ function GeneratePageContent() {
     console.log('Improving icon:', imageUrl);
   };
 
+  const handleAddToConversation = (message: {
+    id: string;
+    type: 'user' | 'assistant';
+    content: string;
+    timestamp: Date;
+    isImprovement?: boolean;
+  }) => {
+    console.log('Current conversation history before adding:', conversationHistory);
+    setConversationHistory(prev => {
+      const newHistory = [...prev, message];
+      console.log('New conversation history after adding:', newHistory);
+      return newHistory;
+    });
+  };
+
   const handleExitImprovementMode = () => {
     setIsImprovementMode(false);
     setSelectedIconUrl('');
     setGeneratedImages(originalImages); // Restore original images
+    setConversationHistory([]); // Clear conversation history when exiting improvement mode
   };
 
   // Handle walkthrough trigger from sidebar
@@ -369,17 +415,18 @@ function GeneratePageContent() {
           showHeroView ? 'opacity-0 scale-110' : 'opacity-100 scale-100'
         }`}>
           {/* Chat Panel */}
-          <ChatPanel
-            currentPrompt={currentPrompt}
-            setCurrentPrompt={setCurrentPrompt}
-            isGenerating={isGenerating}
-            generatedImages={generatedImages}
-            onGenerate={handleGenerate}
-            isImprovementMode={isImprovementMode}
-            selectedIconUrl={selectedIconUrl}
-            onExitImprovementMode={handleExitImprovementMode}
-            hasUserTakenAction={hasUserTakenAction}
-          />
+            <ChatPanel
+              currentPrompt={currentPrompt}
+              setCurrentPrompt={setCurrentPrompt}
+              isGenerating={isGenerating}
+              generatedImages={generatedImages}
+              onGenerate={handleGenerate}
+              isImprovementMode={isImprovementMode}
+              selectedIconUrl={selectedIconUrl}
+              onExitImprovementMode={handleExitImprovementMode}
+              hasUserTakenAction={hasUserTakenAction}
+              conversationHistory={conversationHistory}
+            />
 
           {/* Icon Display Panel */}
           <IconDisplayPanel
