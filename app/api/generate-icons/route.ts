@@ -48,62 +48,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user can use tokens (has enough credits)
-    const { data: creditCheck, error: creditError } = await supabase
-      .rpc('can_user_use_tokens', {
-        p_user_id: user.id,
-        p_tokens_needed: 1
-      })
-
-    if (creditError) {
-      console.error('Error checking user credits:', creditError)
-      return NextResponse.json(
-        { error: 'Failed to check credit availability' },
-        { status: 500 }
-      )
-    }
-
-    const userCanUse = creditCheck?.[0]
-    if (!userCanUse?.can_use) {
-      return NextResponse.json(
-        { 
-          error: 'Insufficient credits', 
-          remaining_tokens: userCanUse?.remaining_tokens || 0,
-          monthly_limit: userCanUse?.monthly_limit || 0,
-          plan_type: userCanUse?.plan_type || 'free'
-        },
-        { status: 403 }
-      )
-    }
-
-    // Deduct credits using the database function
-    const { data: usageResult, error: usageError } = await supabase
-      .rpc('use_tokens', {
-        p_user_id: user.id,
-        p_tokens_needed: 1,
-        p_usage_type: 'icon_generation',
-        p_prompt_text: prompt.trim(),
-        p_style_selected: style
-      })
-
-    if (usageError) {
-      console.error('Error recording token usage:', usageError)
-      return NextResponse.json(
-        { error: 'Failed to process credit deduction' },
-        { status: 500 }
-      )
-    }
-
-    const tokenUsage = usageResult?.[0]
-    if (!tokenUsage?.success) {
-      return NextResponse.json(
-        { 
-          error: tokenUsage?.error_message || 'Failed to deduct credits',
-          remaining_tokens: tokenUsage?.remaining_tokens || 0
-        },
-        { status: 403 }
-      )
-    }
+    // Note: Credit deduction is now handled by the /api/deduct-credit endpoint
+    // This API only handles the actual icon generation
 
     // Generate mock icons for testing (not using Claude API yet)
     const mockIcons = [
@@ -157,9 +103,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       icons: mockIcons,
-      message: `Generated ${mockIcons.length} icons successfully (Mock Mode)`,
-      remaining_tokens: tokenUsage.remaining_tokens,
-      usage_id: tokenUsage.usage_id
+      message: `Generated ${mockIcons.length} icons successfully (Mock Mode)`
     })
 
   } catch (error) {

@@ -130,8 +130,15 @@ function GeneratePageContent() {
     }
     
     try {
-      // REAL API CALL - Now enabled with credit deduction
-      const response = await fetch('/api/generate-icons', {
+      // Deduct credit immediately when user submits (before API call)
+      console.log('🔵 [CREDIT DEBUG] Starting credit deduction for:', { 
+        prompt: prompt.trim(), 
+        style, 
+        isImprovement: isImprovementMode,
+        userId: user?.id 
+      });
+      
+      const creditResponse = await fetch('/api/deduct-credit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,34 +146,64 @@ function GeneratePageContent() {
         body: JSON.stringify({
           prompt: prompt.trim(),
           style: style,
-          primaryColor: color
+          isImprovement: isImprovementMode
         }),
       });
 
-      const data = await response.json();
+      const creditData = await creditResponse.json();
+      console.log('🔵 [CREDIT DEBUG] Credit deduction response:', { 
+        status: creditResponse.status, 
+        ok: creditResponse.ok, 
+        data: creditData,
+        remaining_tokens: creditData?.remaining_tokens,
+        success: creditData?.success,
+        error: creditData?.error
+      });
+      
+      // Log the full response data
+      console.log('🔵 [CREDIT DEBUG] Full response data:', JSON.stringify(creditData, null, 2));
 
-      if (!response.ok) {
-        // Handle specific error cases
-        if (response.status === 403) {
-          // Insufficient credits
-          error(
-            'Insufficient Credits',
-            data.error || 'You do not have enough credits to generate icons. Please upgrade your plan or wait for your monthly reset.',
-            5000
-          );
-          return;
-        } else if (response.status === 401) {
-          // Unauthorized
-          error(
-            'Authentication Required',
-            'Please log in to generate icons.',
-            3000
-          );
-          return;
-        } else {
-          throw new Error(data.error || 'Failed to generate icons');
-        }
+      if (!creditResponse.ok || !creditData?.success) {
+        error(
+          'Credit Deduction Failed',
+          creditData?.error || 'Failed to deduct credit. Please try again.',
+          5000
+        );
+        setIsGenerating(false);
+        return;
       }
+
+      // Add user message to conversation history immediately after credit deduction
+      handleAddToConversation({
+        id: Date.now().toString() + '_user',
+        type: 'user',
+        content: prompt.trim(),
+        timestamp: new Date(),
+        isImprovement: isImprovementMode
+      });
+
+      // Refresh user data to show updated credit count (wait for credit deduction to complete)
+      console.log('🔵 [CREDIT DEBUG] Refreshing user data after credit deduction...');
+      await new Promise(resolve => setTimeout(resolve, 100)); // Small delay to ensure DB update
+      invalidateCache();
+      await refreshUserData(true);
+      console.log('🔵 [CREDIT DEBUG] User data refresh completed');
+
+      // Generate mock icons for now (ignore Claude API until setup)
+      const mockIcons = [
+        `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="${color}" rx="20"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="12">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`,
+        `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="${color}"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="10">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`,
+        `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 90,75 10,75" fill="${color}"/><text x="50" y="60" text-anchor="middle" fill="white" font-size="10">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`
+      ];
+
+      // Simulate some processing time
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const data = {
+        success: true,
+        icons: mockIcons,
+        message: `Generated ${mockIcons.length} icons successfully (Mock Mode)`
+      };
 
       if (data.success && data.icons?.length > 0) {
         setGeneratedImages(data.icons);
@@ -175,35 +212,29 @@ function GeneratePageContent() {
           setHasUserTakenAction(false); // Reset action flag for new icons
         }
         
-        // Add user message to conversation history first
-        handleAddToConversation({
-          id: Date.now().toString() + '_user',
-          type: 'user',
-          content: prompt.trim(),
-          timestamp: new Date(),
-          isImprovement: isImprovementMode
-        });
-        
-        // Refresh user data to show updated credit count
-        invalidateCache();
-        refreshUserData(true);
-        
         // Add assistant response to conversation history
         handleAddToConversation({
           id: Date.now().toString() + '_assistant',
           type: 'assistant',
           content: isImprovementMode 
-            ? `Icon improved! ${data.remaining_tokens} credits remaining.`
-            : `Generated ${data.icons.length} icons! ${data.remaining_tokens} credits remaining.`,
+            ? `Icon improved! ${creditData.remaining_tokens} credits remaining.`
+            : `Generated ${data.icons.length} icons! ${creditData.remaining_tokens} credits remaining.`,
           timestamp: new Date(),
           isImprovement: isImprovementMode
         });
         
+        // Final refresh to ensure UI shows correct credit count
+        console.log('🔵 [CREDIT DEBUG] Final refresh after assistant response...');
+        await new Promise(resolve => setTimeout(resolve, 100));
+        invalidateCache();
+        await refreshUserData(true);
+        console.log('🔵 [CREDIT DEBUG] Final refresh completed');
+        
         success(
           isImprovementMode ? 'Icon Improved!' : 'Icons Generated!', 
           isImprovementMode 
-            ? `Successfully improved your icon based on "${prompt}". ${data.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
-            : `Successfully created ${data.icons.length} unique icons for "${prompt}". ${data.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
+            ? `Successfully improved your icon based on "${prompt}". ${creditData.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
+            : `Successfully created ${data.icons.length} unique icons for "${prompt}". ${creditData.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
         );
         
         // Clear the prompt for next improvement (after it's been added to conversation history)

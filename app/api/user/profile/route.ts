@@ -33,11 +33,52 @@ export async function GET(req: NextRequest) {
     // Note: Caching is now handled client-side for better performance
 
     // Try to fetch user data with subscription and usage info using our new view
+    console.log('🟢 [API DEBUG] Fetching user data from user_complete_profile for user:', user.id);
     let { data: userData, error } = await supabase
       .from('user_complete_profile')
       .select('*')
       .eq('id', user.id)
       .single()
+    
+    console.log('🟢 [API DEBUG] user_complete_profile query result:', { userData, error });
+
+    // If the view is not working correctly, calculate usage directly
+    if (userData && userData.tokens_remaining === userData.monthly_token_limit) {
+      console.log('🟢 [API DEBUG] View shows no usage, calculating directly...');
+      
+      // Get user's subscription
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .single()
+      
+      // Calculate usage directly from usage_tracking
+      const { data: usageData } = await supabase
+        .from('usage_tracking')
+        .select('tokens_used, generation_successful')
+        .eq('user_id', user.id)
+        .eq('subscription_id', subscription?.id || null)
+      
+      const totalUsed = usageData?.reduce((sum, record) => sum + record.tokens_used, 0) || 0
+      const monthlyLimit = subscription?.monthly_token_limit || 5
+      const remaining = Math.max(0, monthlyLimit - totalUsed)
+      
+      console.log('🟢 [API DEBUG] Direct calculation result:', { 
+        totalUsed, 
+        monthlyLimit, 
+        remaining, 
+        usageData: usageData?.length || 0 
+      });
+      
+      // Update the userData with correct usage
+      userData.tokens_used_this_month = totalUsed
+      userData.tokens_remaining = remaining
+      userData.total_generations = usageData?.length || 0
+      userData.successful_generations = usageData?.filter(r => r.generation_successful).length || 0
+      userData.usage_percentage = monthlyLimit > 0 ? (totalUsed / monthlyLimit) * 100 : 0
+    }
 
     // If user doesn't exist, try to create them with error handling for duplicate key
     if (error?.code === 'PGRST116' || !userData) {
@@ -214,6 +255,13 @@ export async function GET(req: NextRequest) {
       },
       hasActiveSubscription: finalHasActiveSubscription
     }
+
+    console.log('🟢 [API DEBUG] Final response data:', {
+      tokens_remaining: responseData.user.usage.tokens_remaining,
+      tokens_used_this_month: responseData.user.usage.tokens_used_this_month,
+      monthly_token_limit: responseData.user.subscription.monthly_token_limit,
+      plan_type: responseData.user.subscription.plan_type
+    });
 
     return NextResponse.json(responseData)
 
