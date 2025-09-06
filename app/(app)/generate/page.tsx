@@ -176,15 +176,13 @@ function GeneratePageContent() {
         }
         
         // Add user message to conversation history first
-        const userMessage = {
+        handleAddToConversation({
           id: Date.now().toString() + '_user',
-          type: 'user' as const,
+          type: 'user',
           content: prompt.trim(),
           timestamp: new Date(),
           isImprovement: isImprovementMode
-        };
-        console.log('Adding user message to conversation:', userMessage);
-        handleAddToConversation(userMessage);
+        });
         
         // Refresh user data to show updated credit count
         invalidateCache();
@@ -269,12 +267,7 @@ function GeneratePageContent() {
     timestamp: Date;
     isImprovement?: boolean;
   }) => {
-    console.log('Current conversation history before adding:', conversationHistory);
-    setConversationHistory(prev => {
-      const newHistory = [...prev, message];
-      console.log('New conversation history after adding:', newHistory);
-      return newHistory;
-    });
+    setConversationHistory(prev => [...prev, message]);
   };
 
   const handleExitImprovementMode = () => {
@@ -324,7 +317,7 @@ function GeneratePageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row relative overflow-hidden">
+    <div className="h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row relative overflow-hidden">
       {/* Sidebar Navigation - Responsive */}
               <Sidebar currentPage="generate" onStartWalkthrough={handleStartWalkthrough} />
 

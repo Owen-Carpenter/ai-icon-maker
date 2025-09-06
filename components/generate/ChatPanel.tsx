@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface ChatMessage {
   id: string;
@@ -36,6 +36,12 @@ export default function ChatPanel({
   conversationHistory = []
 }: ChatPanelProps) {
   const [style, setStyle] = useState('modern');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when new messages are added
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [conversationHistory, isGenerating]);
 
   // Helper function to format icon title
   const formatIconTitle = (prompt: string) => {
@@ -55,10 +61,10 @@ export default function ChatPanel({
 
 
   return (
-    <div 
-      data-walkthrough="chat-panel"
-      className="w-full lg:w-96 lg:flex-shrink-0 bg-white/5 backdrop-blur-sm flex flex-col border-r-0 lg:border-r border-b lg:border-b-0 border-white/10 lg:h-full"
-    >
+      <div 
+        data-walkthrough="chat-panel"
+        className="w-full lg:w-96 lg:flex-shrink-0 bg-white/5 backdrop-blur-sm flex flex-col border-r-0 lg:border-r border-b lg:border-b-0 border-white/10 h-full lg:h-full lg:min-h-0"
+      >
       {/* Chat Header */}
       <div className="px-6 py-4 border-b border-white/10 bg-white/5 backdrop-blur-sm">
         <div className="flex items-center space-x-3">
@@ -84,7 +90,9 @@ export default function ChatPanel({
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-64 lg:max-h-none lg:min-h-0">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent relative">
+        {/* Scroll indicator - subtle fade at top */}
+        <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-white/5 to-transparent pointer-events-none z-10"></div>
         {/* Initial assistant message */}
         {conversationHistory.length === 0 && (
           <div className="flex justify-start">
@@ -170,6 +178,12 @@ export default function ChatPanel({
             </div>
           </div>
         )}
+        
+        {/* Scroll indicator - subtle fade at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white/5 to-transparent pointer-events-none"></div>
+        
+        {/* Auto-scroll target */}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input Area */}
