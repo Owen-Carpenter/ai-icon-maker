@@ -64,39 +64,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const fetchUserData = useCallback(async (userId: string, forceRefresh: boolean = false) => {
     const cacheKey = `user_profile_${userId}`
     
-    console.log('🟡 [AUTH DEBUG] Fetching user data:', { userId, forceRefresh, cacheKey });
-    
     try {
       const data = await apiCache.get(
         cacheKey,
         async () => {
-          console.log('🟡 [AUTH DEBUG] Making API call to /api/user/profile');
           const response = await fetch('/api/user/profile')
           if (!response.ok) {
             throw new Error('Failed to fetch user data')
           }
-          const result = await response.json();
-          console.log('🟡 [AUTH DEBUG] API response:', result);
-          return result;
+          return response.json()
         },
         forceRefresh
       )
       
-      console.log('🟡 [AUTH DEBUG] Setting user data:', { 
-        userData: data.user, 
-        hasActiveSubscription: data.hasActiveSubscription,
-        credits: data.user?.usage?.tokens_remaining,
-        usage: data.user?.usage,
-        subscription: data.user?.subscription
-      });
-      
       setUserData(data.user)
       setHasActiveSubscription(data.hasActiveSubscription)
-      
-      // Additional debug to see what gets set in state
-      console.log('🟡 [AUTH DEBUG] State updated - userData.usage.tokens_remaining:', data.user?.usage?.tokens_remaining);
     } catch (error) {
-      console.error('🟡 [AUTH DEBUG] Error fetching user data:', error)
+      console.error('Error fetching user data:', error)
       setUserData(null)
       setHasActiveSubscription(false)
     }

@@ -131,13 +131,6 @@ function GeneratePageContent() {
     
     try {
       // Deduct credit immediately when user submits (before API call)
-      console.log('🔵 [CREDIT DEBUG] Starting credit deduction for:', { 
-        prompt: prompt.trim(), 
-        style, 
-        isImprovement: isImprovementMode,
-        userId: user?.id 
-      });
-      
       const creditResponse = await fetch('/api/deduct-credit', {
         method: 'POST',
         headers: {
@@ -151,17 +144,6 @@ function GeneratePageContent() {
       });
 
       const creditData = await creditResponse.json();
-      console.log('🔵 [CREDIT DEBUG] Credit deduction response:', { 
-        status: creditResponse.status, 
-        ok: creditResponse.ok, 
-        data: creditData,
-        remaining_tokens: creditData?.remaining_tokens,
-        success: creditData?.success,
-        error: creditData?.error
-      });
-      
-      // Log the full response data
-      console.log('🔵 [CREDIT DEBUG] Full response data:', JSON.stringify(creditData, null, 2));
 
       if (!creditResponse.ok || !creditData?.success) {
         error(
@@ -183,11 +165,9 @@ function GeneratePageContent() {
       });
 
       // Refresh user data to show updated credit count (wait for credit deduction to complete)
-      console.log('🔵 [CREDIT DEBUG] Refreshing user data after credit deduction...');
       await new Promise(resolve => setTimeout(resolve, 100)); // Small delay to ensure DB update
       invalidateCache();
       await refreshUserData(true);
-      console.log('🔵 [CREDIT DEBUG] User data refresh completed');
 
       // Generate mock icons for now (ignore Claude API until setup)
       const mockIcons = [
@@ -224,11 +204,9 @@ function GeneratePageContent() {
         });
         
         // Final refresh to ensure UI shows correct credit count
-        console.log('🔵 [CREDIT DEBUG] Final refresh after assistant response...');
         await new Promise(resolve => setTimeout(resolve, 100));
         invalidateCache();
         await refreshUserData(true);
-        console.log('🔵 [CREDIT DEBUG] Final refresh completed');
         
         success(
           isImprovementMode ? 'Icon Improved!' : 'Icons Generated!', 

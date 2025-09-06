@@ -3,7 +3,6 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 export async function POST(request: NextRequest) {
-  console.log('🔴 [CREDIT API DEBUG] API endpoint hit!');
   try {
     // Create Supabase client
     const cookieStore = await cookies()
@@ -32,13 +31,6 @@ export async function POST(request: NextRequest) {
     // Parse request body
     const body = await request.json()
     const { prompt, style, isImprovement } = body
-    
-    console.log('🔴 [CREDIT API DEBUG] Credit deduction request:', { 
-      prompt, 
-      style, 
-      isImprovement, 
-      userId: user.id 
-    });
 
 
     // Validate required fields
@@ -67,14 +59,6 @@ export async function POST(request: NextRequest) {
     const totalUsed = usageData?.reduce((sum, record) => sum + record.tokens_used, 0) || 0
     const monthlyLimit = subscription?.monthly_token_limit || 5
     const remaining = Math.max(0, monthlyLimit - totalUsed)
-
-    console.log('🔴 [CREDIT API DEBUG] Direct usage calculation:', { 
-      totalUsed, 
-      monthlyLimit, 
-      remaining, 
-      tokensNeeded: 1,
-      canUse: remaining >= 1
-    });
     
     if (remaining < 1) {
       return NextResponse.json(
@@ -108,12 +92,6 @@ export async function POST(request: NextRequest) {
     }
 
     const tokenUsage = usageResult?.[0]
-    console.log('🔴 [CREDIT API DEBUG] Token usage result:', { 
-      usageResult, 
-      tokenUsage, 
-      success: tokenUsage?.success,
-      remainingTokens: tokenUsage?.remaining_tokens 
-    });
     
     if (!tokenUsage?.success) {
       return NextResponse.json(
@@ -135,12 +113,10 @@ export async function POST(request: NextRequest) {
       message: `Credit deducted successfully. ${finalRemaining} credits remaining.`
     };
     
-    console.log('🔴 [CREDIT API DEBUG] Final response:', response);
-    
     return NextResponse.json(response)
 
   } catch (error) {
-    console.error('🔴 [CREDIT API DEBUG] Credit deduction API error:', error)
+    console.error('Credit deduction API error:', error)
     
     return NextResponse.json(
       { 

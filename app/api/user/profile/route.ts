@@ -33,19 +33,14 @@ export async function GET(req: NextRequest) {
     // Note: Caching is now handled client-side for better performance
 
     // Try to fetch user data with subscription and usage info using our new view
-    console.log('🟢 [API DEBUG] Fetching user data from user_complete_profile for user:', user.id);
     let { data: userData, error } = await supabase
       .from('user_complete_profile')
       .select('*')
       .eq('id', user.id)
       .single()
-    
-    console.log('🟢 [API DEBUG] user_complete_profile query result:', { userData, error });
 
     // If the view is not working correctly, calculate usage directly
     if (userData && userData.tokens_remaining === userData.monthly_token_limit) {
-      console.log('🟢 [API DEBUG] View shows no usage, calculating directly...');
-      
       // Get user's subscription
       const { data: subscription } = await supabase
         .from('subscriptions')
@@ -64,13 +59,6 @@ export async function GET(req: NextRequest) {
       const totalUsed = usageData?.reduce((sum, record) => sum + record.tokens_used, 0) || 0
       const monthlyLimit = subscription?.monthly_token_limit || 5
       const remaining = Math.max(0, monthlyLimit - totalUsed)
-      
-      console.log('🟢 [API DEBUG] Direct calculation result:', { 
-        totalUsed, 
-        monthlyLimit, 
-        remaining, 
-        usageData: usageData?.length || 0 
-      });
       
       // Update the userData with correct usage
       userData.tokens_used_this_month = totalUsed
@@ -255,13 +243,6 @@ export async function GET(req: NextRequest) {
       },
       hasActiveSubscription: finalHasActiveSubscription
     }
-
-    console.log('🟢 [API DEBUG] Final response data:', {
-      tokens_remaining: responseData.user.usage.tokens_remaining,
-      tokens_used_this_month: responseData.user.usage.tokens_used_this_month,
-      monthly_token_limit: responseData.user.subscription.monthly_token_limit,
-      plan_type: responseData.user.subscription.plan_type
-    });
 
     return NextResponse.json(responseData)
 
