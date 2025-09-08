@@ -121,7 +121,9 @@ function UsagePageContent() {
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-2xl font-bold text-white">
-                    {loadingIconCount ? '...' : savedIconsCount}
+                    {loadingIconCount ? (
+                      <div className="w-8 h-8 border-2 border-sunset-400 border-t-transparent rounded-full animate-spin"></div>
+                    ) : savedIconsCount}
                   </h3>
                   <p className="text-sunset-200 text-sm">Icons Saved</p>
                 </div>
@@ -137,7 +139,9 @@ function UsagePageContent() {
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-2xl font-bold text-white">
-                    {loadingIconCount ? '...' : usageStats.thisMonth}
+                    {loadingIconCount ? (
+                      <div className="w-8 h-8 border-2 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
+                    ) : usageStats.thisMonth}
                   </h3>
                   <p className="text-sunset-200 text-sm">This Month</p>
                 </div>
@@ -153,7 +157,9 @@ function UsagePageContent() {
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-2xl font-bold text-white">
-                    {loadingIconCount ? '...' : usageStats.avgPerDay}
+                    {loadingIconCount ? (
+                      <div className="w-8 h-8 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
+                    ) : usageStats.avgPerDay}
                   </h3>
                   <p className="text-sunset-200 text-sm">Per Day</p>
                 </div>
