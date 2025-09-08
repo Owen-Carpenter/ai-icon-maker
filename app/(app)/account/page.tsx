@@ -53,10 +53,11 @@ function AccountPageContent() {
   const isPaidPlan = hasActiveSubscription;
 
   return (
-    <div className="min-h-screen bg-dark-gradient">
-      <Navbar variant="app" />
-      <div className="container mx-auto px-4 pt-32 pb-20">
-        <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-dark-gradient flex flex-col">
+      <div className="h-screen flex flex-col">
+        <Navbar variant="app" />
+        <div className="flex-1 container mx-auto px-4 pt-8 pb-8 overflow-y-auto flex items-center justify-center">
+        <div className="max-w-6xl mx-auto w-full">
           <h1 className="text-4xl font-bold text-white mb-6 text-center">
             Account Settings
           </h1>
@@ -228,6 +229,7 @@ function AccountPageContent() {
               subtitle={userData?.subscription?.status === 'canceled' ? 'Get back to creating amazing icons with our premium features' : 'Get more credits and unlock premium features'}
             />
           )}
+        </div>
         </div>
       </div>
       <Footer />
