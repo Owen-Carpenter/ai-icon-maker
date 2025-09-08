@@ -197,8 +197,8 @@ function GeneratePageContent() {
           id: Date.now().toString() + '_assistant',
           type: 'assistant',
           content: isImprovementMode 
-            ? `Icon improved! ${creditData.remaining_tokens} credits remaining.`
-            : `Generated ${data.icons.length} icons! ${creditData.remaining_tokens} credits remaining.`,
+            ? `Icon improved!`
+            : `Generated ${data.icons.length} icons!`,
           timestamp: new Date(),
           isImprovement: isImprovementMode
         });

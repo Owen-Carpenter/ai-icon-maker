@@ -51,6 +51,12 @@ export default function ChatPanel({
     return words.slice(0, 3).join(' ') + '...';
   };
 
+  // Helper function to clean message content (remove credit counts)
+  const cleanMessageContent = (content: string) => {
+    // Remove credit count patterns like "68!" or "69!" at the end
+    return content.replace(/\s+\d+!?\s*$/, '').trim();
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (currentPrompt.trim()) {
@@ -130,7 +136,7 @@ export default function ChatPanel({
                 : 'bg-white/10 border border-white/20'
             }`}>
               <p className="text-white text-sm">
-                {message.content}
+                {cleanMessageContent(message.content)}
                 {message.isImprovement && (
                   <span className="text-xs text-sunset-200 ml-2">(improvement)</span>
                 )}
