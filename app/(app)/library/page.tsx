@@ -151,7 +151,7 @@ export default function LibraryPage() {
     setShowCodeModal(true);
   };
 
-  if (loading) {
+  if (loading || isLoadingIcons) {
     return <Loading text="Loading your icon library..." />;
   }
 
