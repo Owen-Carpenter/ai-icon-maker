@@ -331,7 +331,7 @@ function GeneratePageContent() {
               <Sidebar currentPage="generate" onStartWalkthrough={handleStartWalkthrough} />
 
       {/* Main Content Area with Seamless Transition */}
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative overflow-hidden h-screen">
         <ToastContainer toasts={toasts} onClose={removeToast} />
         
         {/* Success Message Overlay */}
@@ -347,7 +347,7 @@ function GeneratePageContent() {
 
         {/* Hero View Overlay - Seamlessly transitions out */}
         {showHeroView && (
-          <div className={`absolute inset-0 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 flex items-center justify-center px-4 z-30 transition-all duration-1000 ease-in-out ${
+          <div className={`fixed inset-0 bg-gradient-radial from-sunset-900 via-midnight-800 to-midnight-900 flex items-center justify-center px-4 z-30 transition-all duration-1000 ease-in-out ${
             isTransitioning ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100 scale-100'
           }`}>
             {/* Gradient overlay for extra depth */}
