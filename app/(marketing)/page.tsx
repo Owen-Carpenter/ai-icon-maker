@@ -790,7 +790,7 @@ export default function HomePage() {
                   </p>
                 </ScrollAnimation>
                 <ScrollAnimation delay={300}>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <div className="flex justify-center">
                     <button 
                       onClick={() => handleCheckout('pro')}
                       disabled={isLoading}
@@ -798,12 +798,6 @@ export default function HomePage() {
                     >
                       {isLoading ? 'Processing...' : 'Start Your Subscription'}
                     </button>
-                    <Link 
-                      href="#contact" 
-                      className="bg-transparent border-2 border-sunset-500 text-sunset-500 px-8 py-3 rounded-full font-semibold hover:bg-sunset-500 hover:text-white transition-all duration-300"
-                    >
-                      Contact Sales
-                    </Link>
                   </div>
                 </ScrollAnimation>
               </div>
@@ -854,46 +848,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Contact Section */}
-      <div id="contact" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-md mx-auto text-center">
-            <ScrollAnimation>
-              <h3 className="text-4xl font-bold text-white mb-4">Contact</h3>
-            </ScrollAnimation>
-            <ScrollAnimation delay={100}>
-              <p className="text-sunset-200 text-xl leading-relaxed mb-8">
-                Have questions or want to get in touch? Email us at{' '}
-                <a href="mailto:support@aiiconmaker.app" className="text-sunset-400 hover:text-sunset-300 transition-colors">
-                  support@aiiconmaker.app
-                </a>
-                , or use the form below.
-              </p>
-            </ScrollAnimation>
-            
-            <ScrollAnimation delay={200}>
-              <form className="space-y-4">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="w-full px-4 py-3 bg-midnight-800/50 border border-white/10 rounded-lg text-white placeholder-sunset-300 focus:outline-none focus:border-sunset-500 transition-colors"
-                />
-                <textarea
-                  placeholder="Your message"
-                  rows={4}
-                  className="w-full px-4 py-3 bg-midnight-800/50 border border-white/10 rounded-lg text-white placeholder-sunset-300 focus:outline-none focus:border-sunset-500 transition-colors resize-none"
-                />
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300"
-                >
-                  Send Message
-                </button>
-              </form>
-            </ScrollAnimation>
-          </div>
-        </div>
-      </div>
 
       {/* Footer */}
       <Footer />
