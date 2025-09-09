@@ -56,7 +56,7 @@ function AccountPageContent() {
     <div className="min-h-screen bg-dark-gradient flex flex-col">
       <div className="min-h-screen flex flex-col">
         <Navbar variant="app" />
-        <div className="flex-1 container mx-auto px-4 pt-8 pb-8">
+        <div className="flex-1 container mx-auto px-4 pt-32 pb-8">
         <div className="max-w-6xl mx-auto w-full">
           <h1 className="text-4xl font-bold text-white mb-6 text-center">
             Account Settings
