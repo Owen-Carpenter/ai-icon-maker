@@ -21,7 +21,7 @@ export default function HomePage() {
     },
     {
       question: "What if I need more icons?",
-      answer: "Our Pro plan (200 icons/month) covers most professional needs. For agencies and high-volume users, our Enterprise plan offers 1,000 icons/month plus advanced features."
+      answer: "Our Pro plan (200 credits/month) covers most professional needs. For agencies and high-volume users, our Enterprise plan offers 500 credits/month plus advanced features."
     },
     {
       question: "Can I cancel anytime?",
@@ -602,7 +602,7 @@ export default function HomePage() {
                 <div className="text-center mb-8 mt-4">
                   <h3 className="text-2xl font-bold text-white mb-2">AI Icon Maker Pro</h3>
                   <div className="text-4xl font-bold text-white mb-4">
-                    $20<span className="text-lg font-normal text-sunset-200">/month</span>
+                    $10<span className="text-lg font-normal text-sunset-200">/month</span>
                   </div>
                   <p className="text-sunset-200">Perfect for professionals and small teams</p>
                 </div>
