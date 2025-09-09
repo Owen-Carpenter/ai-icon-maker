@@ -2,11 +2,11 @@
 export const SUBSCRIPTION_PLANS = {
   pro: {
     name: 'Pro',
-    price: 20,
+    price: 10,
     priceId: 'pro', // Resolved server-side
-    credits: 100, // Updated: Pro users get 100 tokens
+    credits: 200, // Updated: Pro users get 200 tokens
     features: [
-      '100 AI-generated icons per month',
+      '200 AI-generated icons per month',
       'Premium AI models (Claude Sonnet 4.0)',
       'Multiple formats (PNG, SVG, ICO)',
       'High-resolution outputs (up to 1024x1024)',
@@ -18,11 +18,11 @@ export const SUBSCRIPTION_PLANS = {
   },
   enterprise: {
     name: 'Enterprise',
-    price: 99,
+    price: 20,
     priceId: 'enterprise', // Changed from 'unlimited' to 'enterprise'
-    credits: 200, // Updated: Enterprise users get 200 tokens
+    credits: 500, // Updated: Enterprise users get 500 tokens
     features: [
-      '200 AI-generated icons per month',
+      '500 AI-generated icons per month',
       'All premium AI models + experimental models',
       'Ultra-high resolution (up to 2048x2048)',
       'Team collaboration & sharing',
