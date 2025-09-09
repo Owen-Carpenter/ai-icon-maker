@@ -54,9 +54,9 @@ function AccountPageContent() {
 
   return (
     <div className="min-h-screen bg-dark-gradient flex flex-col">
-      <div className="h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <Navbar variant="app" />
-        <div className="flex-1 container mx-auto px-4 pt-8 pb-8 overflow-y-auto flex items-center justify-center">
+        <div className="flex-1 container mx-auto px-4 pt-8 pb-8">
         <div className="max-w-6xl mx-auto w-full">
           <h1 className="text-4xl font-bold text-white mb-6 text-center">
             Account Settings
@@ -87,10 +87,12 @@ function AccountPageContent() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             {/* Profile Information */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-              <h2 className="text-xl font-semibold text-white mb-6 flex items-center">
-                Profile Information
-              </h2>
+            <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-coral-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <h2 className="text-xl font-semibold text-white mb-6 flex items-center">
+                  Profile Information
+                </h2>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
@@ -105,14 +107,17 @@ function AccountPageContent() {
                   </div>
                 </div>
               </div>
+              </div>
             </div>
 
             {/* Subscription Status */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-              <h2 className="text-xl font-semibold text-white mb-6 flex items-center">
-                <Crown className="h-5 w-5 mr-2" />
-                Subscription Status
-              </h2>
+            <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <h2 className="text-xl font-semibold text-white mb-6 flex items-center">
+                  <Crown className="h-5 w-5 mr-2" />
+                  Subscription Status
+                </h2>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-300">Current Plan:</span>
@@ -199,6 +204,7 @@ function AccountPageContent() {
                     <ReactivateSubscriptionButton className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors" />
                   </div>
                 )}
+              </div>
               </div>
             </div>
           </div>
