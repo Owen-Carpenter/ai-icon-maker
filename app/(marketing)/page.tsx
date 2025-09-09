@@ -591,7 +591,7 @@ export default function HomePage() {
             
             {/* Pro Plan */}
             <ScrollAnimation delay={200}>
-              <div className="bg-gradient-to-br from-sunset-500/20 to-coral-500/20 backdrop-blur-md rounded-2xl p-8 border-2 border-sunset-500/50 shadow-2xl hover:shadow-3xl hover:shadow-sunset-500/30 transition-all duration-500 hover:scale-105 relative">
+              <div className="bg-gradient-to-br from-sunset-500/20 to-coral-500/20 backdrop-blur-md rounded-2xl p-8 border-2 border-sunset-500/50 shadow-2xl hover:shadow-3xl hover:shadow-sunset-500/30 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
                 {/* Popular Badge */}
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <div className="bg-[#ff7e5f] text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
@@ -607,7 +607,7 @@ export default function HomePage() {
                   <p className="text-sunset-200">Perfect for professionals and small teams</p>
                 </div>
 
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-4 mb-8 flex-1">
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -618,43 +618,37 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Claude Sonnet 4.0 for SVG generation
+                    AI-powered icon generation
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Advanced prompt-to-icon AI
+                    Multiple style options (Modern, Flat, 3D, etc.)
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Scalable SVG outputs (any size)
+                    Download as SVG, PNG, or JPG
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Priority AI processing
+                    Save icons to your library
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Icon library management
+                    Icon improvement & iteration
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     Commercial usage rights
-                  </li>
-                  <li className="flex items-center text-sunset-200">
-                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Email support
                   </li>
               </ul>
                 
@@ -670,7 +664,7 @@ export default function HomePage() {
 
             {/* Enterprise Plan */}
             <ScrollAnimation delay={300}>
-              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 relative">
+              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
                   <div className="text-4xl font-bold text-white mb-4">
@@ -679,7 +673,7 @@ export default function HomePage() {
                   <p className="text-sunset-200">For agencies and large organizations</p>
             </div>
 
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-4 mb-8 flex-1">
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -690,45 +684,39 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Claude Sonnet 4.0 + experimental models
+                    Everything in Pro plan
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Unlimited SVG scaling (any size)
+                    Advanced AI models & features
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Team collaboration & sharing
+                    Priority processing & faster generation
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Brand style consistency tools
+                    Extended icon library storage
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    API access for integrations
+                    Advanced export options
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    White-label options
+                    Commercial usage rights
                   </li>
-                  <li className="flex items-center text-sunset-200">
-                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Priority support & dedicated account manager
-                  </li>
-                </ul>
+              </ul>
                 
                 <button 
                   onClick={() => handleCheckout('enterprise')}
