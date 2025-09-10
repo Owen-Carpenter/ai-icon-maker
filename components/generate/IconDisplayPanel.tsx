@@ -85,15 +85,35 @@ export default function IconDisplayPanel({
   <text x="250" y="450" text-anchor="middle" fill="#FF6C00" font-family="Arial" font-size="20" font-weight="bold">SVG Download Test</text>
 </svg>`;
 
-  // Extract SVG codes when images change
+  // Extract SVG codes when images change - start animation with first icon immediately
   useEffect(() => {
     if (generatedImages.length > 0) {
       const codes = generatedImages.map(extractSvgFromDataUrl);
       setExtractedSvgCodes(codes);
+      
+      // If we're generating and this is the first real SVG code, start animation immediately
+      if (isGenerating && codes.length > 0 && animatedCode === '') {
+        let currentIndex = 0;
+        const realCode = codes[0]; // Use the first actual SVG code
+        
+        const interval = setInterval(() => {
+          if (currentIndex <= realCode.length) {
+            setAnimatedCode(realCode.slice(0, currentIndex));
+            currentIndex += Math.random() > 0.5 ? 3 : 2; // Faster typing speed
+          } else {
+            clearInterval(interval);
+            setCodeAnimationComplete(true);
+            // Show "Code Complete" message for a moment, then show icons
+            setTimeout(() => {
+              setShowGeneratedContent(true);
+            }, 500);
+          }
+        }, 25);
+      }
     } else {
       setExtractedSvgCodes([]);
     }
-  }, [generatedImages]);
+  }, [generatedImages, isGenerating, animatedCode]);
 
   // Function to save icon to library
   const handleSaveToLibrary = async (imageUrl: string, iconName: string) => {
@@ -165,39 +185,18 @@ export default function IconDisplayPanel({
     }
   };
 
-  // Animate code writing during generation
+  // Reset animation state when generation starts or stops
   useEffect(() => {
     if (isGenerating) {
       setCodeAnimationComplete(false);
       setShowGeneratedContent(false);
-      let currentIndex = 0;
-      
-      // Use the first extracted SVG code if available, otherwise fallback
-      const codeToAnimate = extractedSvgCodes.length > 0 
-        ? extractedSvgCodes[0] 
-        : getFallbackSvgCode();
-      
-      const interval = setInterval(() => {
-        if (currentIndex <= codeToAnimate.length) {
-          setAnimatedCode(codeToAnimate.slice(0, currentIndex));
-          currentIndex += Math.random() > 0.5 ? 3 : 2; // Faster typing speed
-        } else {
-          clearInterval(interval);
-          setCodeAnimationComplete(true);
-          // Show "Code Complete" message for a moment, then show icons
-          setTimeout(() => {
-            setShowGeneratedContent(true);
-          }, 500); // Reduced from 1000ms to 500ms
-        }
-      }, 25); // Reduced from 50ms to 25ms
-
-      return () => clearInterval(interval);
+      setAnimatedCode(''); // Reset animated code
     } else {
       setAnimatedCode('');
       setCodeAnimationComplete(false);
       setShowGeneratedContent(false);
     }
-  }, [isGenerating, extractedSvgCodes]);
+  }, [isGenerating]);
 
   // Show generated content when generation is complete and animation is done
   useEffect(() => {
@@ -253,6 +252,7 @@ export default function IconDisplayPanel({
                 <div className="text-center">
                   <p className="text-white text-lg font-medium">Generating your icons...</p>
                   <p className="text-sunset-200 text-sm mt-2">Claude is writing SVG code</p>
+                  <p className="text-sunset-300/80 text-xs mt-1">This can take up to a minute</p>
                 </div>
               </>
             )}
@@ -276,7 +276,7 @@ export default function IconDisplayPanel({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                 </svg>
                 <span className="text-sunset-400 text-sm font-medium">
-                  {codeAnimationComplete ? 'SVG Code Generated' : 'Generating SVG Code'}
+                  {codeAnimationComplete ? 'SVG Code Generated' : animatedCode ? 'Generating SVG Code' : 'Waiting for Claude...'}
                 </span>
                 {!codeAnimationComplete && <div className="ml-2 w-2 h-4 bg-sunset-400 animate-pulse"></div>}
                 {codeAnimationComplete && (
@@ -286,7 +286,9 @@ export default function IconDisplayPanel({
                 )}
               </div>
               <pre className="text-green-400 text-xs font-mono overflow-hidden min-h-[200px]">
-                <code>{animatedCode}</code>
+                <code>
+                  {animatedCode || (isGenerating ? '// Waiting for Claude to respond...\n// This may take up to a minute\n// Your icons will appear here soon!' : '')}
+                </code>
               </pre>
             </div>
           </div>
