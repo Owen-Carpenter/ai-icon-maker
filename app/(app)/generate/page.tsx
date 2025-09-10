@@ -169,21 +169,25 @@ function GeneratePageContent() {
       invalidateCache();
       await refreshUserData(true);
 
-      // Generate mock icons for now (ignore Claude API until setup)
-      const mockIcons = [
-        `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="${color}" rx="20"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="12">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`,
-        `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="${color}"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="10">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`,
-        `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 90,75 10,75" fill="${color}"/><text x="50" y="60" text-anchor="middle" fill="white" font-size="10">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`
-      ];
+      // Call the real API to generate icons using Claude
+      const response = await fetch('/api/generate-icons', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt,
+          style,
+          primaryColor: color,
+        }),
+      });
 
-      // Simulate some processing time
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to generate icons');
+      }
 
-      const data = {
-        success: true,
-        icons: mockIcons,
-        message: `Generated ${mockIcons.length} icons successfully (Mock Mode)`
-      };
+      const data = await response.json();
 
       if (data.success && data.icons?.length > 0) {
         setGeneratedImages(data.icons);

@@ -21,7 +21,7 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ## Features
 
 ### 🎨 AI-Powered Icon Generation
-- Uses Claude 3.5 Sonnet for intelligent SVG generation
+- Uses Claude Sonnet 4.0 for intelligent SVG generation
 - Supports multiple styles: Modern, Flat, Metallic, Cartoon, etc.
 - Customizable primary colors
 - Generates 3 unique variations per prompt

@@ -1,10 +1,9 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-// TODO: Uncomment when ready to use Claude API
 // Initialize Claude client
-// const anthropic = new Anthropic({
-//   apiKey: process.env.ANTHROPIC_API_KEY,
-// });
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
 
 export interface IconGenerationRequest {
   prompt: string;
@@ -24,25 +23,33 @@ export interface IconGenerationResponse {
  */
 export async function generateIconsWithClaude(request: IconGenerationRequest): Promise<IconGenerationResponse> {
   try {
-    // TODO: Uncomment when ready to use Claude API
-    // if (!process.env.ANTHROPIC_API_KEY) {
-    //   throw new Error('ANTHROPIC_API_KEY is not configured');
-    // }
+    if (!process.env.ANTHROPIC_API_KEY) {
+      throw new Error('ANTHROPIC_API_KEY is not configured');
+    }
 
     const { prompt, style, primaryColor, count = 3 } = request;
 
     // Create a detailed prompt for Claude to generate SVG icons
-    const systemPrompt = `You are an expert SVG icon designer. Your task is to create clean, scalable SVG icons based on user requirements.
+    const systemPrompt = `You are an expert SVG icon designer. Your task is to create clean, scalable SVG icons that accurately represent the user's description.
 
 IMPORTANT RULES:
 1. Always generate EXACTLY ${count} different SVG icons
 2. Each SVG must be complete and valid
 3. Use viewBox="0 0 24 24" for all icons
 4. Keep designs simple and recognizable at small sizes
-5. Use the specified primary color: ${primaryColor}
+5. Use the specified primary color: ${primaryColor} as the main color
 6. Style should be: ${style}
 7. Return ONLY the SVG code, no explanations or markdown
 8. Separate multiple SVGs with "---SVG_SEPARATOR---"
+9. The icons must visually represent the concept described in the prompt
+10. Use appropriate colors - if the object has natural colors (like a red apple), use those colors while incorporating the primary color
+11. Make each icon unique but clearly related to the same concept
+
+Color Guidelines:
+- Primary color (${primaryColor}) should be the dominant color
+- For objects with natural colors, blend the primary color appropriately
+- Use complementary colors sparingly for details
+- Ensure good contrast and readability
 
 Style Guidelines:
 - Modern: Clean lines, minimal details, contemporary feel
@@ -56,58 +63,58 @@ Style Guidelines:
 - Neon: Bright colors with glow effects
 - Hand-drawn: Slightly irregular lines, artistic feel`;
 
-    const userPrompt = `Create ${count} SVG icons for: ${prompt}
+    const userPrompt = `Create ${count} unique SVG icons that represent: "${prompt}"
 
-Style: ${style}
-Primary Color: ${primaryColor}
+Requirements:
+- Style: ${style}
+- Primary Color: ${primaryColor}
+- Each icon should clearly represent the concept "${prompt}"
+- Make each variation unique while maintaining the core concept
+- Ensure they are professional, scalable, and suitable for applications
+- Use colors that make sense for the object while incorporating the primary color
 
-Make each icon unique but related to the same concept. Ensure they are professional, scalable, and suitable for use in applications.`;
+Examples of good icon variations for "shopping cart":
+1. Side view of cart with wheels
+2. Top-down view of cart with items
+3. Simplified cart silhouette
 
-    // TODO: Uncomment when ready to use Claude API
-    // const message = await anthropic.messages.create({
-    //   model: 'claude-3-5-sonnet-20241022',
-    //   max_tokens: 4000,
-    //   temperature: 0.7,
-    //   system: systemPrompt,
-    //   messages: [
-    //     {
-    //       role: 'user',
-    //       content: userPrompt,
-    //   },
-    //   ],
-    // });
+Focus on creating recognizable, distinct representations of "${prompt}" rather than generic shapes.`;
 
-    // const responseText = message.content[0]?.type === 'text' ? message.content[0].text : '';
+    const message = await anthropic.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 4000,
+      temperature: 0.7,
+      system: systemPrompt,
+      messages: [
+        {
+          role: 'user',
+          content: userPrompt,
+        },
+      ],
+    });
+
+    const responseText = message.content[0]?.type === 'text' ? message.content[0].text : '';
     
-    // if (!responseText) {
-    //   throw new Error('No response from Claude');
-    // }
+    if (!responseText) {
+      throw new Error('No response from Claude');
+    }
 
-    // TODO: Uncomment when ready to use Claude API
     // Parse the SVG icons from the response
-    // const svgIcons = parseSVGsFromResponse(responseText);
+    const svgIcons = parseSVGsFromResponse(responseText);
     
-    // if (svgIcons.length === 0) {
-    //   throw new Error('No valid SVG icons generated');
-    // }
+    if (svgIcons.length === 0) {
+      throw new Error('No valid SVG icons generated');
+    }
 
-    // TODO: Uncomment when ready to use Claude API
     // Convert SVGs to base64 data URLs for consistent format
-    // const iconDataUrls = svgIcons.map(svg => {
-    //   const base64 = Buffer.from(svg).toString('base64');
-    //   return `data:image/svg+xml;base64,${base64}`;
-    // });
+    const iconDataUrls = svgIcons.map(svg => {
+      const base64 = Buffer.from(svg).toString('base64');
+      return `data:image/svg+xml;base64,${base64}`;
+    });
 
-    // return {
-    //   success: true,
-    //   icons: iconDataUrls,
-    // };
-
-    // Temporary: Return mock data until Claude API is configured
     return {
-      success: false,
-      icons: [],
-      error: 'Claude API not yet configured. Please set up your ANTHROPIC_API_KEY and uncomment the Claude integration code.',
+      success: true,
+      icons: iconDataUrls,
     };
 
   } catch (error) {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { generateIconsWithClaude } from '../../../lib/claude'
 
 export async function POST(request: NextRequest) {
   try {
@@ -58,11 +59,7 @@ export async function POST(request: NextRequest) {
       `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 90,75 10,75" fill="${primaryColor}"/><text x="50" y="60" text-anchor="middle" fill="white" font-size="10">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`
     ]
 
-    // Simulate some processing time
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
-    /* REAL CLAUDE API CALL - Uncomment when ready to use Claude:
-    
+    // Call Claude API to generate real icons
     const result = await generateIconsWithClaude({
       prompt: prompt.trim(),
       style,
@@ -93,17 +90,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       icons: result.icons,
-      message: `Generated ${result.icons.length} icons successfully`,
-      remaining_tokens: tokenUsage.remaining_tokens,
-      usage_id: tokenUsage.usage_id
-    })
-    
-    */
-
-    return NextResponse.json({
-      success: true,
-      icons: mockIcons,
-      message: `Generated ${mockIcons.length} icons successfully (Mock Mode)`
+      message: `Generated ${result.icons.length} icons successfully`
     })
 
   } catch (error) {
