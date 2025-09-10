@@ -31,12 +31,12 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json()
-    const { prompt, style, primaryColor } = body
+    const { prompt, style } = body
 
     // Validate required fields
-    if (!prompt || !style || !primaryColor) {
+    if (!prompt || !style) {
       return NextResponse.json(
-        { error: 'Missing required fields: prompt, style, primaryColor' },
+        { error: 'Missing required fields: prompt, style' },
         { status: 400 }
       )
     }
@@ -52,18 +52,10 @@ export async function POST(request: NextRequest) {
     // Note: Credit deduction is now handled by the /api/deduct-credit endpoint
     // This API only handles the actual icon generation
 
-    // Generate mock icons for testing (not using Claude API yet)
-    const mockIcons = [
-      `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="${primaryColor}" rx="20"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="12">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`,
-      `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="45" fill="${primaryColor}"/><text x="50" y="55" text-anchor="middle" fill="white" font-size="10">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`,
-      `data:image/svg+xml;base64,${btoa(`<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 90,75 10,75" fill="${primaryColor}"/><text x="50" y="60" text-anchor="middle" fill="white" font-size="10">${prompt.slice(0, 8) || 'Icon'}</text></svg>`)}`
-    ]
-
     // Call Claude API to generate real icons
     const result = await generateIconsWithClaude({
       prompt: prompt.trim(),
       style,
-      primaryColor,
       count: 3,
     })
 

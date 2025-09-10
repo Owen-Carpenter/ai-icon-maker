@@ -178,7 +178,6 @@ function GeneratePageContent() {
         body: JSON.stringify({
           prompt,
           style,
-          primaryColor: color,
         }),
       });
 
