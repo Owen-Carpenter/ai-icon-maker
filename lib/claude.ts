@@ -30,55 +30,74 @@ export async function generateIconsWithClaude(request: IconGenerationRequest): P
     const { prompt, style, primaryColor, count = 3 } = request;
 
     // Create a detailed prompt for Claude to generate SVG icons
-    const systemPrompt = `You are an expert SVG icon designer. Your task is to create clean, scalable SVG icons that accurately represent the user's description.
+    const systemPrompt = `You are a professional SVG icon designer creating high-quality, polished icons for modern applications.
 
-IMPORTANT RULES:
+CRITICAL RULES:
 1. Always generate EXACTLY ${count} different SVG icons
-2. Each SVG must be complete and valid
+2. Each SVG must be complete, valid, and professional quality
 3. Use viewBox="0 0 24 24" for all icons
-4. Keep designs simple and recognizable at small sizes
-5. Use the specified primary color: ${primaryColor} as the main color
+4. Create clean, sophisticated designs that look professional
+5. Use NATURAL COLORS for the main object - don't force the primary color onto everything
 6. Style should be: ${style}
 7. Return ONLY the SVG code, no explanations or markdown
 8. Separate multiple SVGs with "---SVG_SEPARATOR---"
-9. The icons must visually represent the concept described in the prompt
-10. Use appropriate colors - if the object has natural colors (like a red apple), use those colors while incorporating the primary color
-11. Make each icon unique but clearly related to the same concept
+9. Icons must be instantly recognizable and well-designed
+10. Use the primary color (${primaryColor}) for ACCENTS and DETAILS, not the main object
+11. Each icon should be a unique, polished variation
 
-Color Guidelines:
-- Primary color (${primaryColor}) should be the dominant color
-- For objects with natural colors, blend the primary color appropriately
-- Use complementary colors sparingly for details
-- Ensure good contrast and readability
+COLOR STRATEGY:
+- Use natural colors for the main object (white for snowman, green for trees, etc.)
+- Apply primary color (${primaryColor}) to accessories, highlights, or decorative elements
+- For a snowman: white body, black eyes/buttons, ${primaryColor} scarf/hat
+- For an apple: red/green body, ${primaryColor} leaf/stem
+- For a house: natural colors, ${primaryColor} door/roof details
+- Ensure excellent contrast and visual hierarchy
+
+DESIGN QUALITY:
+- Professional, polished appearance
+- Clean, precise lines and shapes
+- Proper proportions and balance
+- Sophisticated use of color and space
+- Icons should look like they belong in a premium app
 
 Style Guidelines:
-- Modern: Clean lines, minimal details, contemporary feel
-- Flat: No gradients or shadows, solid colors, 2D appearance
-- Metallic: Add subtle gradients and highlights for metallic effect
-- Cartoon: Rounded, playful, exaggerated features
-- Pictogram: Simple symbolic representation, minimal detail
-- Line Art: Outline only, no fills, consistent stroke width
-- 3D: Add depth with gradients and shadows
-- Vintage: Retro styling with ornate details
-- Neon: Bright colors with glow effects
-- Hand-drawn: Slightly irregular lines, artistic feel`;
+- Modern: Clean, contemporary, sophisticated
+- Flat: Minimalist, solid colors, excellent contrast
+- Metallic: Subtle gradients, professional shine
+- Cartoon: Polished, friendly, well-proportioned
+- Pictogram: Clean, symbolic, instantly recognizable
+- Line Art: Precise, consistent stroke weights
+- 3D: Professional depth, realistic lighting
+- Vintage: Elegant, refined retro styling
+- Neon: Bright, modern, eye-catching
+- Hand-drawn: Artistic but polished, not amateur`;
 
-    const userPrompt = `Create ${count} unique SVG icons that represent: "${prompt}"
+    const userPrompt = `Create ${count} professional, high-quality SVG icons representing: "${prompt}"
 
-Requirements:
+DESIGN REQUIREMENTS:
 - Style: ${style}
-- Primary Color: ${primaryColor}
-- Each icon should clearly represent the concept "${prompt}"
-- Make each variation unique while maintaining the core concept
-- Ensure they are professional, scalable, and suitable for applications
-- Use colors that make sense for the object while incorporating the primary color
+- Primary Color: ${primaryColor} (use for accents/details only)
+- Each icon must be instantly recognizable as "${prompt}"
+- Professional quality - no amateur or childish designs
+- Use natural colors for the main object
+- Sophisticated, polished appearance
 
-Examples of good icon variations for "shopping cart":
-1. Side view of cart with wheels
-2. Top-down view of cart with items
-3. Simplified cart silhouette
+COLOR INSTRUCTIONS:
+- Main object: Use natural colors (white for snowman, red for apple, etc.)
+- Accents: Use primary color (${primaryColor}) for accessories, highlights, or decorative elements
+- Ensure excellent contrast and visual hierarchy
 
-Focus on creating recognizable, distinct representations of "${prompt}" rather than generic shapes.`;
+EXAMPLES FOR "snowman":
+1. White snowman body with black eyes/buttons, ${primaryColor} scarf
+2. White snowman with top hat, black features, ${primaryColor} hat band
+3. White snowman with carrot nose, black buttons, ${primaryColor} mittens
+
+EXAMPLES FOR "apple":
+1. Red apple with green leaf, ${primaryColor} stem
+2. Green apple with bite mark, ${primaryColor} leaf
+3. Apple core with ${primaryColor} seeds
+
+Create sophisticated, professional icons that look like they belong in a premium application.`;
 
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
