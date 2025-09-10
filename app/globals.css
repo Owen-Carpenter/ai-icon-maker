@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide scrollbars for WebKit browsers */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 :root {
   --background: #111827; /* Deep black-gray instead of purple */
   --foreground: #FFF7ED; /* Light orange-tinted white */
@@ -137,6 +142,20 @@ body {
   content: '';
   flex: 1;
   display: flex;
+}
+
+/* Claude Thoughts Auto-Scroll Animation */
+@keyframes scroll-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.animate-scroll-up {
+  animation: scroll-up 0.3s ease-out forwards;
 }
 
 /* Custom Scrollbar Styles */

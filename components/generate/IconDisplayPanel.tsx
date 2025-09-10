@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { downloadSVG, downloadImageFromUrl, generateFileName, downloadSVGAsFormat } from '../../lib/download-utils';
 
 interface IconDisplayPanelProps {
@@ -46,6 +46,7 @@ export default function IconDisplayPanel({
   const [iconToSave, setIconToSave] = useState<string>('');
   const [extractedSvgCodes, setExtractedSvgCodes] = useState<string[]>([]);
   const [claudeThoughts, setClaudeThoughts] = useState<string>('');
+  const thoughtsContainerRef = useRef<HTMLDivElement>(null);
 
   // Function to extract SVG code from base64 data URL
   const extractSvgFromDataUrl = (dataUrl: string): string => {
@@ -205,8 +206,82 @@ export default function IconDisplayPanel({
     }
   }, [isGenerating]);
 
-  // This component will receive thoughts via prop updates
-  // The streaming callback is handled in the parent component
+  // Auto-scroll to bottom when new content is added
+  useEffect(() => {
+    if (thoughtsContainerRef.current && streamedThoughts) {
+      const container = thoughtsContainerRef.current;
+      
+      // Use requestAnimationFrame to ensure DOM is updated
+      requestAnimationFrame(() => {
+        const scrollHeight = container.scrollHeight;
+        const clientHeight = container.clientHeight;
+        const maxScroll = Math.max(0, scrollHeight - clientHeight);
+        
+        console.log('🔄 Auto-scrolling on new content:', {
+          scrollHeight,
+          clientHeight,
+          maxScroll,
+          currentScrollTop: container.scrollTop,
+          needsScroll: maxScroll > 0
+        });
+        
+        // Always scroll to bottom when new content arrives
+        container.scrollTop = maxScroll;
+      });
+    }
+  }, [streamedThoughts]);
+
+  // Also scroll when isGenerating changes to ensure we're at bottom
+  useEffect(() => {
+    if (thoughtsContainerRef.current && isGenerating) {
+      const container = thoughtsContainerRef.current;
+      
+      requestAnimationFrame(() => {
+        const scrollHeight = container.scrollHeight;
+        const clientHeight = container.clientHeight;
+        const maxScroll = Math.max(0, scrollHeight - clientHeight);
+        
+        console.log('🔄 Initial scroll on generation start:', {
+          scrollHeight,
+          clientHeight,
+          maxScroll,
+          currentScrollTop: container.scrollTop
+        });
+        
+        container.scrollTop = maxScroll;
+      });
+    }
+  }, [isGenerating]);
+
+  // Force scroll to bottom periodically during generation
+  useEffect(() => {
+    if (isGenerating && streamedThoughts) {
+      const interval = setInterval(() => {
+        if (thoughtsContainerRef.current) {
+          const container = thoughtsContainerRef.current;
+          const scrollHeight = container.scrollHeight;
+          const clientHeight = container.clientHeight;
+          const maxScroll = Math.max(0, scrollHeight - clientHeight);
+          const currentScroll = container.scrollTop;
+          
+          // Only scroll if we're not already at the bottom
+          if (maxScroll > 0 && currentScroll < maxScroll - 10) { // 10px buffer
+            console.log('🔄 Periodic scroll:', {
+              scrollHeight,
+              clientHeight,
+              maxScroll,
+              currentScroll,
+              scrolling: true
+            });
+            
+            container.scrollTop = maxScroll;
+          }
+        }
+      }, 50); // Check every 50ms for more responsive scrolling
+      
+      return () => clearInterval(interval);
+    }
+  }, [isGenerating, streamedThoughts]);
 
   // Show generated content when generation is complete and animation is done
   useEffect(() => {
@@ -249,7 +324,7 @@ export default function IconDisplayPanel({
       {/* Results Content */}
       <div className="flex-1 p-4 lg:p-8 lg:min-h-0 relative z-10">
         {isGenerating || (!showGeneratedContent && generatedImages.length > 0) ? (
-          <div className="flex flex-col items-center justify-center h-96 space-y-6">
+          <div className="flex flex-col items-center justify-center min-h-96 space-y-6 py-8">
             {isGenerating && (
               <>
                 <div className="w-10 h-10 animate-spin mt-4">
@@ -280,27 +355,42 @@ export default function IconDisplayPanel({
             )}
             
             {/* Claude's Thoughts Display */}
-            <div className="bg-midnight-800 border border-white/20 rounded-lg p-4 w-full max-w-2xl">
-              <div className="flex items-center mb-3">
-                <svg className="w-4 h-4 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-midnight-800 border border-white/20 rounded-lg p-6 w-full max-w-2xl mt-4">
+              <div className="flex items-center mb-4">
+                <svg className="w-4 h-4 text-sunset-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
-                <span className="text-purple-400 text-sm font-medium">
+                <span className="text-sunset-400 text-sm font-medium">
                   {streamedThoughts ? 'Claude is thinking...' : 'Waiting for Claude\'s thoughts...'}
                 </span>
-                {isGenerating && <div className="ml-2 w-2 h-4 bg-purple-400 animate-pulse"></div>}
+                {isGenerating && <div className="ml-2 w-2 h-4 bg-sunset-400 animate-pulse"></div>}
                 {!isGenerating && streamedThoughts && (
                   <svg className="ml-2 w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 )}
               </div>
-              <div className="text-purple-300 text-sm font-normal leading-relaxed overflow-hidden min-h-[200px] max-h-[400px] overflow-y-auto">
-                <div className="whitespace-pre-wrap">
+              <div 
+                ref={thoughtsContainerRef}
+                className="h-[300px] overflow-y-auto scrollbar-none relative"
+                style={{
+                  scrollbarWidth: 'none', // Firefox
+                  msOverflowStyle: 'none', // IE/Edge
+                }}
+              >
+                <div className="text-sunset-300 text-sm font-normal leading-relaxed whitespace-pre-wrap p-4">
                   {streamedThoughts || (isGenerating ? 'Connecting to Claude Sonnet 4.0...\nWaiting for creative thoughts and design process...\nThis may take up to a minute.' : '')}
+                  {streamedThoughts && isGenerating && (
+                    <span className="inline-block w-2 h-4 bg-sunset-400 animate-pulse ml-1"></span>
+                  )}
                 </div>
-                {streamedThoughts && isGenerating && (
-                  <div className="inline-block w-2 h-4 bg-purple-400 animate-pulse ml-1"></div>
+                {/* Fade gradient at top to create smooth transition */}
+                <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-midnight-800 via-midnight-800/80 to-transparent pointer-events-none z-10"></div>
+                {/* Scroll hint at bottom */}
+                {streamedThoughts && streamedThoughts.length > 500 && (
+                  <div className="absolute bottom-2 right-2 text-xs text-sunset-400/60 pointer-events-none z-10">
+                    ↑ scroll to see more
+                  </div>
                 )}
               </div>
             </div>

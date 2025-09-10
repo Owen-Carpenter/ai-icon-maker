@@ -20,8 +20,38 @@ export async function POST(request: NextRequest) {
 
     // Create a ReadableStream for streaming thoughts
     const encoder = new TextEncoder();
+    let isClosed = false;
+    
     const stream = new ReadableStream({
       start(controller) {
+        
+        const safeEnqueue = (data: string) => {
+          if (!isClosed) {
+            try {
+              // Check if controller is still writable
+              if (controller.desiredSize !== null) {
+                controller.enqueue(encoder.encode(data));
+              } else {
+                isClosed = true;
+              }
+            } catch (error) {
+              console.error('Error enqueueing data:', error);
+              isClosed = true;
+            }
+          }
+        };
+        
+        const safeClose = () => {
+          if (!isClosed) {
+            try {
+              controller.close();
+              isClosed = true;
+            } catch (error) {
+              console.error('Error closing controller:', error);
+            }
+          }
+        };
+        
         // Call Claude API with streaming thoughts
         generateIconsWithClaude({
           prompt: prompt.trim(),
@@ -30,7 +60,7 @@ export async function POST(request: NextRequest) {
           onThought: (thought: string) => {
             // Send thought chunk to client
             const data = JSON.stringify({ type: 'thought', content: thought });
-            controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+            safeEnqueue(`data: ${data}\n\n`);
           },
         }).then((result) => {
           // Send final result
@@ -40,17 +70,21 @@ export async function POST(request: NextRequest) {
             icons: result.icons,
             error: result.error
           });
-          controller.enqueue(encoder.encode(`data: ${data}\n\n`));
-          controller.close();
+          safeEnqueue(`data: ${data}\n\n`);
+          safeClose();
         }).catch((error) => {
           // Send error
           const data = JSON.stringify({ 
             type: 'error', 
             error: error.message 
           });
-          controller.enqueue(encoder.encode(`data: ${data}\n\n`));
-          controller.close();
+          safeEnqueue(`data: ${data}\n\n`);
+          safeClose();
         });
+      },
+      cancel() {
+        // Handle client disconnect
+        isClosed = true;
       }
     });
 
