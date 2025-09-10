@@ -9,6 +9,7 @@ export interface IconGenerationRequest {
   prompt: string;
   style: string;
   count?: number;
+  onThought?: (thought: string) => void; // Callback for streaming thoughts
 }
 
 export interface IconGenerationResponse {
@@ -26,10 +27,12 @@ export async function generateIconsWithClaude(request: IconGenerationRequest): P
       throw new Error('ANTHROPIC_API_KEY is not configured');
     }
 
-    const { prompt, style, count = 3 } = request;
+    const { prompt, style, count = 3, onThought } = request;
 
     // Create a detailed prompt for Claude to generate SVG icons
     const systemPrompt = `You are a MASTER SVG icon designer with 20+ years of experience creating icons for Fortune 500 companies, premium design systems, and award-winning applications. Your icons are known for their exceptional detail, sophistication, and visual impact.
+
+CRITICAL: First, show your creative thinking process in detail. Explain your design decisions, color choices, composition thoughts, and technical approach. Think out loud about how you'll create each icon. Then provide the SVG code.
 
 ABSOLUTE REQUIREMENTS - NO EXCEPTIONS:
 1. Generate EXACTLY ${count} different SVG icons of EXCEPTIONAL quality
@@ -88,6 +91,15 @@ CREATE ICONS THAT WOULD WIN DESIGN AWARDS AND IMPRESS CREATIVE DIRECTORS AT TOP 
 
     const userPrompt = `Create ${count} MASTERPIECE-LEVEL SVG icons representing: "${prompt}"
 
+FIRST: Share your creative thinking process. Explain:
+- Your initial concept and vision for each icon
+- Color palette decisions and why you chose them
+- Technical approach and SVG techniques you'll use
+- Design challenges and how you'll solve them
+- Composition and visual hierarchy thoughts
+
+THEN: Provide the actual SVG code.
+
 DESIGN MISSION:
 Your task is to create icons so sophisticated and detailed that they would be featured in design museums and win international design awards. These icons must be EXTRAORDINARY - not simple, not basic, but INCREDIBLY DETAILED and visually stunning.
 
@@ -135,20 +147,55 @@ CRITICAL DELIVERY REQUIREMENTS:
 
 CREATE ICONS THAT WOULD MAKE PROFESSIONAL DESIGNERS JEALOUS OF YOUR SKILL.`;
 
-    const message = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 8000, // Increased for more detailed SVG code
-      temperature: 0.8, // Slightly higher for more creative detail
-      system: systemPrompt,
-      messages: [
-        {
-          role: 'user',
-          content: userPrompt,
-        },
-      ],
-    });
+    let responseText = '';
 
-    const responseText = message.content[0]?.type === 'text' ? message.content[0].text : '';
+    if (onThought) {
+      // Use streaming to capture thoughts in real-time
+      const stream = await anthropic.messages.create({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 8000,
+        temperature: 0.8,
+        system: systemPrompt,
+        messages: [
+          {
+            role: 'user',
+            content: userPrompt,
+          },
+        ],
+        stream: true,
+      });
+
+      for await (const chunk of stream) {
+        if (chunk.type === 'content_block_delta') {
+          // Handle different delta types
+          if ('text' in chunk.delta) {
+            const text = chunk.delta.text;
+            responseText += text;
+            
+            // Stream thoughts to the callback (everything before SVG code)
+            if (!text.includes('<svg') && onThought) {
+              onThought(text);
+            }
+          }
+        }
+      }
+    } else {
+      // Fallback to regular API call
+      const message = await anthropic.messages.create({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 8000,
+        temperature: 0.8,
+        system: systemPrompt,
+        messages: [
+          {
+            role: 'user',
+            content: userPrompt,
+          },
+        ],
+      });
+
+      responseText = message.content[0]?.type === 'text' ? message.content[0].text : '';
+    }
     
     if (!responseText) {
       throw new Error('No response from Claude');

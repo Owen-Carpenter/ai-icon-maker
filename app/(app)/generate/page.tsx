@@ -35,6 +35,8 @@ function GeneratePageContent() {
     timestamp: Date;
     isImprovement?: boolean;
   }>>([]);
+  const [streamingThoughtsCallback, setStreamingThoughtsCallback] = useState<((thoughts: string) => void) | undefined>();
+  const [streamedThoughts, setStreamedThoughts] = useState<string>('');
   const [showHeroView, setShowHeroView] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [style, setStyle] = useState('modern');
@@ -114,6 +116,7 @@ function GeneratePageContent() {
     if (!prompt.trim()) return;
 
     setCurrentPrompt(prompt);
+    setStreamedThoughts(''); // Reset streamed thoughts for new generation
     setIsGenerating(true);
     
     // Seamless transition from hero view to main interface
@@ -169,8 +172,8 @@ function GeneratePageContent() {
       invalidateCache();
       await refreshUserData(true);
 
-      // Call the real API to generate icons using Claude
-      const response = await fetch('/api/generate-icons', {
+      // Call the streaming API to generate icons using Claude with real-time thoughts
+      const response = await fetch('/api/generate-icons-stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -186,7 +189,42 @@ function GeneratePageContent() {
         throw new Error(errorData.error || 'Failed to generate icons');
       }
 
-      const data = await response.json();
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let data: any = null;
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n');
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              try {
+                const eventData = JSON.parse(line.slice(6));
+                
+                if (eventData.type === 'thought') {
+                  // Update streamed thoughts state
+                  setStreamedThoughts(prev => prev + eventData.content);
+                } else if (eventData.type === 'complete') {
+                  data = eventData;
+                } else if (eventData.type === 'error') {
+                  throw new Error(eventData.error);
+                }
+              } catch (e) {
+                // Ignore parsing errors for incomplete chunks
+              }
+            }
+          }
+        }
+      }
+
+      if (!data) {
+        throw new Error('No response received from streaming API');
+      }
 
       if (data.success && data.icons?.length > 0) {
         setGeneratedImages(data.icons);
@@ -446,6 +484,8 @@ function GeneratePageContent() {
             selectedIconUrl={selectedIconUrl}
             currentPrompt={currentPrompt}
             currentStyle={style}
+            onStreamingThoughts={streamingThoughtsCallback}
+            streamedThoughts={streamedThoughts}
             currentColor="#000000"
           />
         </div>

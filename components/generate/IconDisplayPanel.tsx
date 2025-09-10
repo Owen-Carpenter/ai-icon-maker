@@ -16,6 +16,8 @@ interface IconDisplayPanelProps {
   currentPrompt?: string;
   currentStyle?: string;
   currentColor?: string;
+  onStreamingThoughts?: (thoughts: string) => void;
+  streamedThoughts?: string;
 }
 
 export default function IconDisplayPanel({ 
@@ -30,7 +32,9 @@ export default function IconDisplayPanel({
   selectedIconUrl,
   currentPrompt,
   currentStyle,
-  currentColor
+  currentColor,
+  onStreamingThoughts,
+  streamedThoughts
 }: IconDisplayPanelProps) {
   const [animatedCode, setAnimatedCode] = useState('');
   const [showCodeModal, setShowCodeModal] = useState(false);
@@ -41,6 +45,7 @@ export default function IconDisplayPanel({
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [iconToSave, setIconToSave] = useState<string>('');
   const [extractedSvgCodes, setExtractedSvgCodes] = useState<string[]>([]);
+  const [claudeThoughts, setClaudeThoughts] = useState<string>('');
 
   // Function to extract SVG code from base64 data URL
   const extractSvgFromDataUrl = (dataUrl: string): string => {
@@ -191,12 +196,17 @@ export default function IconDisplayPanel({
       setCodeAnimationComplete(false);
       setShowGeneratedContent(false);
       setAnimatedCode(''); // Reset animated code
+      setClaudeThoughts(''); // Reset Claude thoughts
     } else {
       setAnimatedCode('');
       setCodeAnimationComplete(false);
       setShowGeneratedContent(false);
+      setClaudeThoughts('');
     }
   }, [isGenerating]);
+
+  // This component will receive thoughts via prop updates
+  // The streaming callback is handled in the parent component
 
   // Show generated content when generation is complete and animation is done
   useEffect(() => {
@@ -269,27 +279,30 @@ export default function IconDisplayPanel({
               </div>
             )}
             
-            {/* Animated Code Display */}
+            {/* Claude's Thoughts Display */}
             <div className="bg-midnight-800 border border-white/20 rounded-lg p-4 w-full max-w-2xl">
               <div className="flex items-center mb-3">
-                <svg className="w-4 h-4 text-sunset-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                <svg className="w-4 h-4 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
-                <span className="text-sunset-400 text-sm font-medium">
-                  {codeAnimationComplete ? 'SVG Code Generated' : animatedCode ? 'Generating SVG Code' : 'Waiting for Claude...'}
+                <span className="text-purple-400 text-sm font-medium">
+                  {streamedThoughts ? 'Claude is thinking...' : 'Waiting for Claude\'s thoughts...'}
                 </span>
-                {!codeAnimationComplete && <div className="ml-2 w-2 h-4 bg-sunset-400 animate-pulse"></div>}
-                {codeAnimationComplete && (
+                {isGenerating && <div className="ml-2 w-2 h-4 bg-purple-400 animate-pulse"></div>}
+                {!isGenerating && streamedThoughts && (
                   <svg className="ml-2 w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 )}
               </div>
-              <pre className="text-green-400 text-xs font-mono overflow-hidden min-h-[200px]">
-                <code>
-                  {animatedCode || (isGenerating ? '// Waiting for Claude to respond...\n// This may take up to a minute\n// Your icons will appear here soon!' : '')}
-                </code>
-              </pre>
+              <div className="text-purple-300 text-sm font-normal leading-relaxed overflow-hidden min-h-[200px] max-h-[400px] overflow-y-auto">
+                <div className="whitespace-pre-wrap">
+                  {streamedThoughts || (isGenerating ? 'Connecting to Claude Sonnet 4.0...\nWaiting for creative thoughts and design process...\nThis may take up to a minute.' : '')}
+                </div>
+                {streamedThoughts && isGenerating && (
+                  <div className="inline-block w-2 h-4 bg-purple-400 animate-pulse ml-1"></div>
+                )}
+              </div>
             </div>
           </div>
         ) : generatedImages.length > 0 && showGeneratedContent ? (
