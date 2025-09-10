@@ -40,9 +40,32 @@ export default function IconDisplayPanel({
   const [savingIconId, setSavingIconId] = useState<string | null>(null);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [iconToSave, setIconToSave] = useState<string>('');
+  const [extractedSvgCodes, setExtractedSvgCodes] = useState<string[]>([]);
 
-  // Fake SVG code for demonstration - properly sized for 500x500 canvas
-  const sampleSvgCode = `<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  // Function to extract SVG code from base64 data URL
+  const extractSvgFromDataUrl = (dataUrl: string): string => {
+    if (dataUrl.startsWith('data:image/svg+xml;base64,')) {
+      try {
+        const base64 = dataUrl.split(',')[1];
+        const svgCode = atob(base64);
+        // Ensure the SVG has proper dimensions for 500x500 canvas
+        if (svgCode.includes('viewBox="0 0 24 24"')) {
+          return svgCode.replace(
+            /<svg([^>]*)>/,
+            '<svg width="500" height="500" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">'
+          );
+        }
+        return svgCode;
+      } catch (error) {
+        console.error('Error decoding SVG from data URL:', error);
+        return getFallbackSvgCode();
+      }
+    }
+    return getFallbackSvgCode();
+  };
+
+  // Fallback SVG code for demonstration - properly sized for 500x500 canvas
+  const getFallbackSvgCode = () => `<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- Background circle to show canvas bounds -->
   <circle cx="250" cy="250" r="240" stroke="#E0E0E0" stroke-width="2" fill="none" opacity="0.3"/>
   
@@ -62,11 +85,27 @@ export default function IconDisplayPanel({
   <text x="250" y="450" text-anchor="middle" fill="#FF6C00" font-family="Arial" font-size="20" font-weight="bold">SVG Download Test</text>
 </svg>`;
 
+  // Extract SVG codes when images change
+  useEffect(() => {
+    if (generatedImages.length > 0) {
+      const codes = generatedImages.map(extractSvgFromDataUrl);
+      setExtractedSvgCodes(codes);
+    } else {
+      setExtractedSvgCodes([]);
+    }
+  }, [generatedImages]);
+
   // Function to save icon to library
   const handleSaveToLibrary = async (imageUrl: string, iconName: string) => {
     setSavingIconId(imageUrl);
     
     try {
+      // Find the SVG code for this specific image
+      const imageIndex = generatedImages.indexOf(imageUrl);
+      const svgCode = imageIndex >= 0 && extractedSvgCodes[imageIndex] 
+        ? extractedSvgCodes[imageIndex] 
+        : getFallbackSvgCode();
+
       const response = await fetch('/api/icons/save', {
         method: 'POST',
         headers: {
@@ -74,7 +113,7 @@ export default function IconDisplayPanel({
         },
         body: JSON.stringify({
           name: iconName,
-          svg_code: sampleSvgCode, // For now using placeholder SVG
+          svg_code: svgCode,
           prompt: currentPrompt,
           style: currentStyle,
           color: currentColor,
@@ -110,9 +149,13 @@ export default function IconDisplayPanel({
       // Generate filename based on prompt or generic name
       const baseName = iconName || currentPrompt || 'generated-icon';
       
-      // For now, download the placeholder SVG code
-      // In the future, this would use the actual generated SVG
-      await downloadSVGAsFormat(sampleSvgCode, baseName, format);
+      // Find the SVG code for this specific image
+      const imageIndex = generatedImages.indexOf(imageUrl);
+      const svgCode = imageIndex >= 0 && extractedSvgCodes[imageIndex] 
+        ? extractedSvgCodes[imageIndex] 
+        : getFallbackSvgCode();
+      
+      await downloadSVGAsFormat(svgCode, baseName, format);
       
       // Call the original onSelectImage callback for any additional functionality
       onSelectImage(imageUrl);
@@ -128,9 +171,15 @@ export default function IconDisplayPanel({
       setCodeAnimationComplete(false);
       setShowGeneratedContent(false);
       let currentIndex = 0;
+      
+      // Use the first extracted SVG code if available, otherwise fallback
+      const codeToAnimate = extractedSvgCodes.length > 0 
+        ? extractedSvgCodes[0] 
+        : getFallbackSvgCode();
+      
       const interval = setInterval(() => {
-        if (currentIndex <= sampleSvgCode.length) {
-          setAnimatedCode(sampleSvgCode.slice(0, currentIndex));
+        if (currentIndex <= codeToAnimate.length) {
+          setAnimatedCode(codeToAnimate.slice(0, currentIndex));
           currentIndex += Math.random() > 0.5 ? 3 : 2; // Faster typing speed
         } else {
           clearInterval(interval);
@@ -148,7 +197,7 @@ export default function IconDisplayPanel({
       setCodeAnimationComplete(false);
       setShowGeneratedContent(false);
     }
-  }, [isGenerating]);
+  }, [isGenerating, extractedSvgCodes]);
 
   // Show generated content when generation is complete and animation is done
   useEffect(() => {
@@ -161,7 +210,13 @@ export default function IconDisplayPanel({
   }, [isGenerating, generatedImages.length]);
 
   const handleShowCode = (imageUrl: string) => {
-    setSelectedIconCode(sampleSvgCode); // In real app, this would be the actual SVG code for the specific icon
+    // Find the SVG code for this specific image
+    const imageIndex = generatedImages.indexOf(imageUrl);
+    const svgCode = imageIndex >= 0 && extractedSvgCodes[imageIndex] 
+      ? extractedSvgCodes[imageIndex] 
+      : getFallbackSvgCode();
+    
+    setSelectedIconCode(svgCode);
     setShowCodeModal(true);
   };
 
