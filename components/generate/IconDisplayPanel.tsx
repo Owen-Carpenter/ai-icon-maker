@@ -45,7 +45,7 @@ export default function IconDisplayPanel({
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [iconToSave, setIconToSave] = useState<string>('');
   const [extractedSvgCodes, setExtractedSvgCodes] = useState<string[]>([]);
-  const [claudeThoughts, setClaudeThoughts] = useState<string>('');
+  const [dalleThoughts, setDalleThoughts] = useState<string>('');
   const thoughtsContainerRef = useRef<HTMLDivElement>(null);
 
   // Function to extract SVG code from base64 data URL
@@ -197,12 +197,12 @@ export default function IconDisplayPanel({
       setCodeAnimationComplete(false);
       setShowGeneratedContent(false);
       setAnimatedCode(''); // Reset animated code
-      setClaudeThoughts(''); // Reset Claude thoughts
+      setDalleThoughts(''); // Reset DALL-E thoughts
     } else {
       setAnimatedCode('');
       setCodeAnimationComplete(false);
       setShowGeneratedContent(false);
-      setClaudeThoughts('');
+      setDalleThoughts('');
     }
   }, [isGenerating]);
 
@@ -336,7 +336,7 @@ export default function IconDisplayPanel({
                 </div>
                 <div className="text-center">
                   <p className="text-white text-lg font-medium">Generating your icons...</p>
-                  <p className="text-sunset-200 text-sm mt-2">Claude is writing SVG code</p>
+                  <p className="text-sunset-200 text-sm mt-2">DALL-E 3 is generating images</p>
                   <p className="text-sunset-300/80 text-xs mt-1">This can take up to a minute</p>
                 </div>
               </>
@@ -354,14 +354,14 @@ export default function IconDisplayPanel({
               </div>
             )}
             
-            {/* Claude's Thoughts Display */}
+            {/* DALL-E 3's Thoughts Display */}
             <div className="bg-midnight-800 border border-white/20 rounded-lg p-6 w-full max-w-2xl mt-4">
               <div className="flex items-center mb-4">
                 <svg className="w-4 h-4 text-sunset-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
                 <span className="text-sunset-400 text-sm font-medium">
-                  {streamedThoughts ? 'Claude is thinking...' : 'Waiting for Claude\'s thoughts...'}
+                  {streamedThoughts ? 'DALL-E 3 is thinking...' : 'Waiting for DALL-E 3\'s thoughts...'}
                 </span>
                 {isGenerating && <div className="ml-2 w-2 h-4 bg-sunset-400 animate-pulse"></div>}
                 {!isGenerating && streamedThoughts && (
@@ -379,7 +379,7 @@ export default function IconDisplayPanel({
                 }}
               >
                 <div className="text-sunset-300 text-sm font-normal leading-relaxed whitespace-pre-wrap p-4">
-                  {streamedThoughts || (isGenerating ? 'Connecting to DALL-E 3...\nGenerating high-quality professional icons with AI...\nThis may take up to a minute.' : '')}
+                  {streamedThoughts || (isGenerating ? '🎨 DALL-E 3 is analyzing your request...\n📝 Understanding your icon requirements...\n🔍 Visualizing clean, professional icon concepts...\n🎯 Designing minimalist icons with transparent backgrounds...\n✨ Ensuring high contrast and perfect scalability...\n🖼️ Generating unique icon variations...\n⚡ Processing high-definition images...\n✅ Finalizing professional icon set...' : '')}
                   {streamedThoughts && isGenerating && (
                     <span className="inline-block w-2 h-4 bg-sunset-400 animate-pulse ml-1"></span>
                   )}

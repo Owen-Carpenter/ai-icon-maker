@@ -53,7 +53,7 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
     
     for (let i = 0; i < count; i++) {
       const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
-      const imagePrompt = `A clean, professional icon of ${prompt} in ${style} style. ${variation} variation. Simple, minimalist design with high contrast, solid colors, no background, perfect for use as an app icon or UI element. Icon should be instantly recognizable and work well at small sizes.`;
+      const imagePrompt = `A clean, professional icon of ${prompt} in ${style} style. ${variation} variation. Simple, minimalist design with high contrast, solid colors, TRANSPARENT BACKGROUND, no background elements, perfect for use as an app icon or UI element. Icon should be instantly recognizable and work well at small sizes. The icon must have a completely transparent background with no background colors, shapes, or elements.`;
       imagePrompts.push(imagePrompt);
     }
 
@@ -152,21 +152,21 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
 function generateFallbackIcons(prompt: string, style: string, count: number): string[] {
   const fallbackIcons = [];
   
-  // Create different icon variations based on the prompt
+  // Create different icon variations based on the prompt with transparent backgrounds
   const iconVariations = [
-    // Variation 1: Simple geometric shape
+    // Variation 1: Simple geometric shape with transparent background
     `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
       <circle cx="12" cy="12" r="10" fill="#3b82f6" stroke="#1e40af" stroke-width="2"/>
       <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">${prompt.charAt(0).toUpperCase()}</text>
     </svg>`,
     
-    // Variation 2: Square with rounded corners
+    // Variation 2: Square with rounded corners and transparent background
     `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
       <rect x="2" y="2" width="20" height="20" rx="4" fill="#10b981" stroke="#059669" stroke-width="2"/>
       <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">${prompt.charAt(0).toUpperCase()}</text>
     </svg>`,
     
-    // Variation 3: Diamond shape
+    // Variation 3: Diamond shape with transparent background
     `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
       <path d="M12 2l8 8-8 8-8-8z" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
       <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">${prompt.charAt(0).toUpperCase()}</text>
