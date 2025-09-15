@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { generateIconsWithClaude } from '../../../lib/claude'
+import { generateIconsWithChatGPT } from '../../../lib/chatgpt'
 
 export async function POST(request: NextRequest) {
   try {
