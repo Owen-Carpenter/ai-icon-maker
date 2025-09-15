@@ -379,7 +379,7 @@ export default function IconDisplayPanel({
                 }}
               >
                 <div className="text-sunset-300 text-sm font-normal leading-relaxed whitespace-pre-wrap p-4">
-                  {streamedThoughts || (isGenerating ? '🎨 DALL-E 3 is analyzing your request...\n📝 Understanding your icon requirements...\n🔍 Visualizing clean, professional icon concepts...\n🎯 Designing minimalist icons with transparent backgrounds...\n✨ Ensuring high contrast and perfect scalability...\n🖼️ Generating unique icon variations...\n⚡ Processing high-definition images...\n✅ Finalizing professional icon set...' : '')}
+                  {streamedThoughts || (isGenerating ? '🎨 DALL-E 3 is analyzing your request...\n📝 Generating detailed design reasoning...\n🔍 Preparing professional icon concepts...\n⚡ Processing with AI...' : '')}
                   {streamedThoughts && isGenerating && (
                     <span className="inline-block w-2 h-4 bg-sunset-400 animate-pulse ml-1"></span>
                   )}

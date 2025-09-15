@@ -29,22 +29,61 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
 
     const { prompt, style, count = 3, onThought } = request;
 
-    // Simulate DALL-E 3 reasoning process for streaming
+    // Generate real reasoning text using ChatGPT
     if (onThought) {
-      const thoughts = [
-        "🎨 DALL-E 3 is analyzing your request...",
-        `📝 Understanding: "${prompt}" in ${style} style`,
-        "🔍 Visualizing clean, professional icon concepts...",
-        "🎯 Designing minimalist icons with transparent backgrounds...",
-        "✨ Ensuring high contrast and perfect scalability...",
-        "🖼️ Generating ${count} unique icon variations...",
-        "⚡ Processing high-definition images with DALL-E 3...",
-        "✅ Finalizing professional icon set..."
-      ];
-      
-      for (const thought of thoughts) {
-        onThought(thought + "\n");
-        await new Promise(resolve => setTimeout(resolve, 600)); // Simulate processing time
+      try {
+        const reasoningPrompt = `You are an expert icon designer using DALL-E 3. A user wants to create ${count} professional icons for "${prompt}" in ${style} style. 
+
+CRITICAL: These icons must have COMPLETELY TRANSPARENT backgrounds - only the icon object itself should be visible, no background elements whatsoever.
+
+Please provide a detailed, step-by-step reasoning process explaining:
+1. Your initial analysis of the request and transparent background requirements
+2. Your design approach and visual strategy for clean, isolated icons
+3. Color choices and why you chose them (solid colors only, no gradients)
+4. Technical considerations for icon design with transparent backgrounds
+5. How you'll ensure the icons work at small sizes without background support
+6. Your specific approach to creating completely transparent backgrounds
+7. The specific variations you'll create (different angles, styles, or details)
+8. Final quality checks to ensure no background elements remain
+
+Write this as a natural, flowing reasoning process that shows your creative thinking. Be specific about design decisions and technical choices, especially regarding transparent backgrounds.`;
+
+        const reasoningResponse = await openai.chat.completions.create({
+          model: "gpt-3.5-turbo",
+          messages: [
+            {
+              role: "system",
+              content: "You are an expert icon designer with deep knowledge of design principles, color theory, and technical icon creation. You specialize in creating icons with completely transparent backgrounds - only the icon object itself is visible, with no background elements, shadows, or environmental details. Provide detailed, professional reasoning for your design decisions, especially regarding transparent background requirements."
+            },
+            {
+              role: "user",
+              content: reasoningPrompt
+            }
+          ],
+          temperature: 0.8,
+          max_tokens: 1000,
+          stream: true
+        });
+
+        let reasoningText = "";
+        for await (const chunk of reasoningResponse) {
+          const content = chunk.choices[0]?.delta?.content;
+          if (content) {
+            reasoningText += content;
+            onThought(content);
+          }
+        }
+        
+        // Add a separator before image generation
+        onThought("\n\n🎨 Now generating the actual icons with DALL-E 3...\n");
+        
+      } catch (reasoningError) {
+        console.error('Error generating reasoning:', reasoningError);
+        // Fallback to simple reasoning if ChatGPT fails
+        onThought(`🎨 DALL-E 3 is analyzing your request for "${prompt}" in ${style} style...\n`);
+        onThought("🔍 Designing professional icons with transparent backgrounds...\n");
+        onThought("✨ Ensuring high contrast and perfect scalability...\n");
+        onThought("🖼️ Generating unique icon variations...\n");
       }
     }
 
@@ -53,7 +92,21 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
     
     for (let i = 0; i < count; i++) {
       const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
-      const imagePrompt = `A clean, professional icon of ${prompt} in ${style} style. ${variation} variation. Simple, minimalist design with high contrast, solid colors, TRANSPARENT BACKGROUND, no background elements, perfect for use as an app icon or UI element. Icon should be instantly recognizable and work well at small sizes. The icon must have a completely transparent background with no background colors, shapes, or elements.`;
+      const imagePrompt = `Create a clean, professional icon of ${prompt} in ${style} style. ${variation} variation. 
+
+CRITICAL REQUIREMENTS:
+- COMPLETELY TRANSPARENT BACKGROUND - no background, no backdrop, no surface, no ground
+- ONLY the icon object itself should be visible
+- No shadows, no reflections, no environmental elements
+- No background colors, shapes, or textures
+- The icon should appear to float in empty space
+- Simple, minimalist design with high contrast
+- Solid colors only, no gradients
+- Perfect for use as an app icon or UI element
+- Instantly recognizable at small sizes
+- Clean, sharp edges with no background bleed
+
+The final image should contain ONLY the ${prompt} icon with a completely transparent background.`;
       imagePrompts.push(imagePrompt);
     }
 
@@ -61,7 +114,14 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
     const imageUrls = [];
     let billingError = false;
     
-    for (const imagePrompt of imagePrompts) {
+    for (let i = 0; i < imagePrompts.length; i++) {
+      const imagePrompt = imagePrompts[i];
+      const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
+      
+      if (onThought) {
+        onThought(`\n🖼️ Creating ${variation} variation: ${imagePrompt.split('.')[0]}...\n`);
+      }
+      
       try {
         const response = await openai.images.generate({
           model: "dall-e-3", // Use DALL-E 3 for highest quality
@@ -74,10 +134,17 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
 
         if (response.data && response.data[0]?.url) {
           imageUrls.push(response.data[0].url);
+          if (onThought) {
+            onThought(`✅ ${variation} variation generated successfully!\n`);
+          }
         }
       } catch (imageError: any) {
         console.error(`Error generating image ${imageUrls.length + 1}:`, imageError);
         console.error('Full error details:', JSON.stringify(imageError, null, 2));
+        
+        if (onThought) {
+          onThought(`❌ Error generating ${variation} variation. Continuing with others...\n`);
+        }
         
         // Check for billing hard limit error
         if (imageError?.code === 'billing_hard_limit_reached' || 
@@ -111,6 +178,12 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
     }
 
     console.log(`Generated ${imageUrls.length} images using DALL-E 3`);
+    
+    if (onThought) {
+      onThought(`\n🎉 Successfully generated ${imageUrls.length} professional icons!\n`);
+      onThought("✨ All icons have completely transparent backgrounds with only the icon object visible.\n");
+      onThought("🎯 Perfect for use in any design - no background elements or distractions.\n");
+    }
     
     return {
       success: true,
