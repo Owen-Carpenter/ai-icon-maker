@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateIconsWithClaude } from '../../../lib/claude';
+import { generateIconsWithChatGPT } from '../../../lib/chatgpt';
 
 export async function POST(request: NextRequest) {
   try {
@@ -52,8 +52,8 @@ export async function POST(request: NextRequest) {
           }
         };
         
-        // Call Claude API with streaming thoughts
-        generateIconsWithClaude({
+        // Call ChatGPT API with streaming thoughts
+        generateIconsWithChatGPT({
           prompt: prompt.trim(),
           style,
           count: 3,

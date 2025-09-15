@@ -379,7 +379,7 @@ export default function IconDisplayPanel({
                 }}
               >
                 <div className="text-sunset-300 text-sm font-normal leading-relaxed whitespace-pre-wrap p-4">
-                  {streamedThoughts || (isGenerating ? 'Connecting to GPT Image 1...\nWaiting for creative thoughts and design process...\nThis may take up to a minute.' : '')}
+                  {streamedThoughts || (isGenerating ? 'Connecting to DALL-E 3...\nGenerating high-quality professional icons with AI...\nThis may take up to a minute.' : '')}
                   {streamedThoughts && isGenerating && (
                     <span className="inline-block w-2 h-4 bg-sunset-400 animate-pulse ml-1"></span>
                   )}

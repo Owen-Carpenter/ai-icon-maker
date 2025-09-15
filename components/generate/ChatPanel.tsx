@@ -79,7 +79,7 @@ export default function ChatPanel({
               {formatIconTitle(currentPrompt)}
             </h2>
             <p className="text-sunset-200 text-sm">
-              {isImprovementMode ? 'Describe how to improve this icon' : 'Powered by GPT Image 1'}
+              {isImprovementMode ? 'Describe how to improve this icon' : 'Powered by DALL-E 3'}
             </p>
           </div>
           {isImprovementMode && onExitImprovementMode && (

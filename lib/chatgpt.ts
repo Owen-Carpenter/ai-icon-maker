@@ -19,7 +19,7 @@ export interface IconGenerationResponse {
 }
 
 /**
- * Generate SVG icons using ChatGPT
+ * Generate icons using DALL-E (GPT Image 1)
  */
 export async function generateIconsWithChatGPT(request: IconGenerationRequest): Promise<IconGenerationResponse> {
   try {
@@ -29,260 +29,189 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
 
     const { prompt, style, count = 3, onThought } = request;
 
-    // Create a detailed prompt for ChatGPT to generate SVG icons
-    const systemPrompt = `You are a MASTER icon designer specializing in clean, professional icons for modern applications and design systems. Your icons are known for their clarity, simplicity, and perfect recognition at any size.
-
-CRITICAL: First, show your creative thinking process in detail. Explain your design decisions, color choices, composition thoughts, and technical approach. Think out loud about how you'll create each icon. Then provide the SVG code.
-
-ABSOLUTE REQUIREMENTS - NO EXCEPTIONS:
-1. Generate EXACTLY ${count} different SVG icons of PROFESSIONAL quality
-2. Each SVG must be CLEAN, SIMPLE, and ICON-STYLE - not detailed illustrations
-3. Use viewBox="0 0 24 24" for perfect scalability
-4. Create SILHOUETTE-BASED designs - solid shapes, minimal details, high contrast
-5. Use SIMPLE, BOLD color palettes - 1-2 colors maximum per icon
-6. Style: ${style} - but executed as proper ICONS, not illustrations
-7. Return ONLY the SVG code, no explanations, no markdown formatting
-8. CRITICAL: Separate each SVG with exactly "---SVG_SEPARATOR---" on its own line
-9. Each icon must be INSTANTLY recognizable and CLEAR at small sizes
-10. Use SOLID FILLS and SIMPLE SHAPES - no gradients, textures, or complex details
-11. Focus on SHAPE and FORM - the essence of the object, not realistic details
-12. NO BACKGROUND ELEMENTS - transparent backgrounds only
-
-ICON DESIGN REQUIREMENTS:
-- CLEAN SILHOUETTES: Bold, recognizable shapes that work at 16x16px
-- SIMPLE COLOR PALETTES: 1-2 solid colors maximum, high contrast
-- MINIMAL DETAILS: Only essential elements, no decorative flourishes
-- PROFESSIONAL COMPOSITION: Perfect balance, clear focal points
-- SCALABLE DESIGN: Must be clear and recognizable at any size
-- TRANSPARENT BACKGROUNDS: NO background elements - icons must work on any background
-
-TECHNICAL EXCELLENCE:
-- Use simple <path> elements with solid fills
-- Avoid gradients, filters, or complex effects
-- Focus on clean geometry and perfect curves
-- Use consistent stroke weights (2px or solid fills)
-- Create recognizable symbols, not detailed illustrations
-- CRITICAL: NO background rectangles, circles, or any background elements
-
-STYLE EXECUTION (ICON-FOCUSED):
-- Modern: Clean geometric shapes, minimal details, contemporary aesthetics
-- Flat: Solid colors, simple shapes, no depth or shadows
-- Outline: Line-based icons with consistent stroke weights, filled or outlined
-- Filled: Solid shape icons with bold, recognizable forms
-- Minimal: Ultra-simple designs with only essential elements
-- Rounded: Soft, friendly shapes with rounded corners
-- Sharp: Angular, precise geometric forms
-- Duotone: Two-color icons with high contrast
-- Monochrome: Single color icons with varying opacity
-- Linear: Line-based icons with consistent stroke width
-
-MANDATORY ICON ELEMENTS:
-- SOLID FILLS: Use single colors, no gradients or complex effects
-- CLEAN SHAPES: Simple, recognizable geometric forms
-- HIGH CONTRAST: Bold, clear visibility at small sizes
-- MINIMAL DETAILS: Only essential elements for recognition
-- CONSISTENT STYLE: Uniform approach across all icons
-- SCALABLE DESIGN: Works perfectly at 16x16px and larger
-- TRANSPARENT BACKGROUNDS ONLY - no background shapes or fills
-
-CREATE ICONS THAT ARE CLEAN, PROFESSIONAL, AND INSTANTLY RECOGNIZABLE.`;
-
-    const userPrompt = `Create ${count} CLEAN, PROFESSIONAL SVG icons representing: "${prompt}"
-
-FIRST: Share your creative thinking process. Explain:
-- Your initial concept and vision for each icon
-- Color choices and why you chose them (1-2 colors max)
-- Technical approach and simple SVG techniques you'll use
-- Design challenges and how you'll solve them
-- Composition and visual hierarchy thoughts
-
-THEN: Provide the actual SVG code.
-
-DESIGN MISSION:
-Your task is to create clean, professional icons that are instantly recognizable and work perfectly at any size. These icons must be SIMPLE, CLEAR, and ICON-STYLE - not detailed illustrations.
-
-EXECUTION REQUIREMENTS:
-- Style: ${style} - but executed as proper ICONS, not illustrations
-- Each icon must be INSTANTLY recognizable as "${prompt}" while being CLEAN and SIMPLE
-- Focus on SILHOUETTE and SHAPE - the essence of the object
-- Every element must be ESSENTIAL for recognition
-- Use SIMPLE, BOLD color palettes with solid fills
-
-MANDATORY ICON PRINCIPLES:
-- CLEAN SILHOUETTES: Bold, recognizable shapes that work at 16x16px
-- SIMPLE COLORS: 1-2 solid colors maximum, high contrast
-- MINIMAL DETAILS: Only essential elements, no decorative flourishes
-- SOLID FILLS: No gradients, textures, or complex effects
-- SCALABLE DESIGN: Must be clear and recognizable at any size
-- TRANSPARENT BACKGROUNDS: Absolutely NO background elements - pure transparent backgrounds only
-
-ICON DESIGN EXAMPLES:
-
-FOR "snowman":
-1. Simple white circle for head, larger white circle for body, small black dots for eyes and buttons, orange triangle for nose, black rectangle for hat, simple line for scarf
-2. Clean silhouette with three white circles (head, body, base), minimal facial features, simple hat shape, basic scarf line
-3. Geometric snowman with rounded rectangles, simple facial features, clean hat design, minimal details
-
-FOR "apple":
-1. Simple red circle with small indent at top, green leaf shape, brown stem line
-2. Clean apple silhouette with bite mark cutout, minimal leaf detail, simple stem
-3. Basic apple shape with core visible, simple seed dots, clean outline
-
-TECHNICAL EXECUTION:
-- Use simple <path> elements with solid fills
-- Avoid gradients, filters, or complex effects
-- Focus on clean geometry and perfect curves
-- Use consistent stroke weights (2px or solid fills)
-- Create recognizable symbols, not detailed illustrations
-- TRANSPARENT BACKGROUNDS ONLY - no background rectangles, circles, or fills
-
-CRITICAL DELIVERY REQUIREMENTS:
-- Generate EXACTLY ${count} complete SVG icons
-- Each icon must be separated by "---SVG_SEPARATOR---" 
-- All ${count} icons must be unique and complete
-- NO background elements in any icon
-- Each SVG must be self-contained and complete
-- Use simple, clean designs that work at small sizes
-- Focus on silhouette and essential shapes only
-
-CREATE ICONS THAT ARE CLEAN, PROFESSIONAL, AND PERFECT FOR MODERN APPLICATIONS.`;
-
-    let responseText = '';
-
+    // Simulate DALL-E 3 reasoning process for streaming
     if (onThought) {
-      // Use streaming to capture thoughts in real-time
-      const stream = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt,
-          },
-          {
-            role: 'user',
-            content: userPrompt,
-          },
-        ],
-        stream: true,
-        temperature: 0.8,
-        max_tokens: 8000,
-      });
-
-      for await (const chunk of stream) {
-        const content = chunk.choices[0]?.delta?.content;
-        if (content) {
-          responseText += content;
-          
-          // Stream thoughts to the callback (everything before SVG code)
-          if (!content.includes('<svg') && onThought) {
-            onThought(content);
-          }
-        }
+      const thoughts = [
+        "🎨 DALL-E 3 is analyzing your request...",
+        `📝 Understanding: "${prompt}" in ${style} style`,
+        "🔍 Visualizing clean, professional icon concepts...",
+        "🎯 Designing minimalist icons with transparent backgrounds...",
+        "✨ Ensuring high contrast and perfect scalability...",
+        "🖼️ Generating ${count} unique icon variations...",
+        "⚡ Processing high-definition images with DALL-E 3...",
+        "✅ Finalizing professional icon set..."
+      ];
+      
+      for (const thought of thoughts) {
+        onThought(thought + "\n");
+        await new Promise(resolve => setTimeout(resolve, 600)); // Simulate processing time
       }
-    } else {
-      // Fallback to regular API call
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt,
-          },
-          {
-            role: 'user',
-            content: userPrompt,
-          },
-        ],
-        temperature: 0.8,
-        max_tokens: 8000,
-      });
-
-      responseText = completion.choices[0]?.message?.content || '';
-    }
-    
-    if (!responseText) {
-      throw new Error('No response from ChatGPT');
     }
 
-    // Parse the SVG icons from the response
-    const svgIcons = parseSVGsFromResponse(responseText);
+    // Create detailed prompts for DALL-E image generation
+    const imagePrompts = [];
     
-    console.log(`ChatGPT response length: ${responseText.length}`);
-    console.log(`Parsed ${svgIcons.length} SVG icons`);
-    
-    if (svgIcons.length === 0) {
-      console.error('ChatGPT response:', responseText.substring(0, 500) + '...');
-      throw new Error('No valid SVG icons generated');
+    for (let i = 0; i < count; i++) {
+      const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
+      const imagePrompt = `A clean, professional icon of ${prompt} in ${style} style. ${variation} variation. Simple, minimalist design with high contrast, solid colors, no background, perfect for use as an app icon or UI element. Icon should be instantly recognizable and work well at small sizes.`;
+      imagePrompts.push(imagePrompt);
     }
 
-    // Convert SVGs to base64 data URLs for consistent format
-    const iconDataUrls = svgIcons.map(svg => {
-      const base64 = Buffer.from(svg).toString('base64');
-      return `data:image/svg+xml;base64,${base64}`;
-    });
+    // Generate images using DALL-E
+    const imageUrls = [];
+    let billingError = false;
+    
+    for (const imagePrompt of imagePrompts) {
+      try {
+        const response = await openai.images.generate({
+          model: "dall-e-3", // Use DALL-E 3 for highest quality
+          prompt: imagePrompt,
+          n: 1,
+          size: "1024x1024",
+          quality: "hd", // High definition quality
+          style: "natural" // Natural style for better icons
+        });
 
+        if (response.data && response.data[0]?.url) {
+          imageUrls.push(response.data[0].url);
+        }
+      } catch (imageError: any) {
+        console.error(`Error generating image ${imageUrls.length + 1}:`, imageError);
+        console.error('Full error details:', JSON.stringify(imageError, null, 2));
+        
+        // Check for billing hard limit error
+        if (imageError?.code === 'billing_hard_limit_reached' || 
+            imageError?.message?.includes('Billing hard limit has been reached')) {
+          billingError = true;
+          break; // Stop trying to generate more images
+        }
+        // Continue with other images for other types of errors
+      }
+    }
+
+    // Handle billing hard limit error specifically
+    if (billingError) {
+      console.warn('DALL-E billing limit reached, using fallback icons');
+      const fallbackIcons = generateFallbackIcons(prompt, style, count);
+      return {
+        success: true,
+        icons: fallbackIcons,
+        error: 'OpenAI billing limit reached. Please add more credits to your OpenAI account at https://platform.openai.com/ for full functionality.'
+      };
+    }
+
+    if (imageUrls.length === 0) {
+      console.warn('No DALL-E images generated, using fallback icons');
+      const fallbackIcons = generateFallbackIcons(prompt, style, count);
+      return {
+        success: true,
+        icons: fallbackIcons,
+        error: 'Unable to generate DALL-E images. Showing placeholder icons. Please check your OpenAI account billing.'
+      };
+    }
+
+    console.log(`Generated ${imageUrls.length} images using DALL-E 3`);
+    
     return {
       success: true,
-      icons: iconDataUrls,
+      icons: imageUrls,
     };
 
   } catch (error) {
-    console.error('ChatGPT icon generation error:', error);
+    console.error('DALL-E icon generation error:', error);
+    
+    // Handle specific OpenAI errors
+    let errorMessage = 'Unknown error occurred';
+    if (error instanceof Error) {
+      if (error.message.includes('billing hard limit reached') || error.message.includes('Billing hard limit')) {
+        errorMessage = 'OpenAI billing hard limit reached. Please add credits to your OpenAI account to continue using DALL-E image generation.';
+      } else if (error.message.includes('429') || error.message.includes('quota')) {
+        errorMessage = 'OpenAI API quota exceeded. Please check your billing and add credits to your OpenAI account.';
+      } else if (error.message.includes('401') || error.message.includes('unauthorized')) {
+        errorMessage = 'Invalid OpenAI API key. Please check your OPENAI_API_KEY environment variable.';
+      } else if (error.message.includes('content_policy_violation')) {
+        errorMessage = 'The prompt may contain content that violates OpenAI\'s content policy. Please try a different prompt.';
+      } else if (error.message.includes('rate_limit_exceeded')) {
+        errorMessage = 'Rate limit exceeded. Please wait a moment before trying again.';
+      } else {
+        errorMessage = error.message;
+      }
+    }
+    
     return {
       success: false,
       icons: [],
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
+      error: errorMessage,
     };
   }
 }
 
 /**
- * Parse SVG icons from ChatGPT's response
+ * Generate fallback placeholder icons when DALL-E is unavailable
  */
-function parseSVGsFromResponse(response: string): string[] {
-  const svgs: string[] = [];
+function generateFallbackIcons(prompt: string, style: string, count: number): string[] {
+  const fallbackIcons = [];
   
-  // Split by separator if present
-  const parts = response.split('---SVG_SEPARATOR---');
-  
-  for (const part of parts) {
-    // Extract SVG content using regex
-    const svgMatch = part.match(/<svg[^>]*>[\s\S]*?<\/svg>/gi);
+  // Create different icon variations based on the prompt
+  const iconVariations = [
+    // Variation 1: Simple geometric shape
+    `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+      <circle cx="12" cy="12" r="10" fill="#3b82f6" stroke="#1e40af" stroke-width="2"/>
+      <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">${prompt.charAt(0).toUpperCase()}</text>
+    </svg>`,
     
-    if (svgMatch) {
-      svgs.push(...svgMatch);
-    }
+    // Variation 2: Square with rounded corners
+    `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+      <rect x="2" y="2" width="20" height="20" rx="4" fill="#10b981" stroke="#059669" stroke-width="2"/>
+      <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">${prompt.charAt(0).toUpperCase()}</text>
+    </svg>`,
+    
+    // Variation 3: Diamond shape
+    `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+      <path d="M12 2l8 8-8 8-8-8z" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+      <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">${prompt.charAt(0).toUpperCase()}</text>
+    </svg>`
+  ];
+  
+  for (let i = 0; i < count; i++) {
+    const svgIcon = iconVariations[i % iconVariations.length];
+    
+    // Convert to data URL
+    const base64 = Buffer.from(svgIcon).toString('base64');
+    fallbackIcons.push(`data:image/svg+xml;base64,${base64}`);
   }
   
-  // If no separator found, try to extract all SVGs from the full response
-  if (svgs.length === 0) {
-    const allSvgMatches = response.match(/<svg[^>]*>[\s\S]*?<\/svg>/gi);
-    if (allSvgMatches) {
-      svgs.push(...allSvgMatches);
-    }
-  }
-  
-  // Validate and clean SVGs
-  return svgs
-    .map(svg => svg.trim())
-    .filter(svg => svg.startsWith('<svg') && svg.endsWith('</svg>'))
-    .slice(0, 3); // Limit to 3 icons max
+  return fallbackIcons;
 }
 
 /**
- * Validate SVG content
+ * Test OpenAI API key
  */
-export function validateSVG(svgContent: string): boolean {
+export async function testOpenAIKey(): Promise<{success: boolean, error?: string}> {
   try {
-    // Basic validation
-    if (!svgContent.includes('<svg') || !svgContent.includes('</svg>')) {
-      return false;
+    if (!process.env.OPENAI_API_KEY) {
+      return { success: false, error: 'OPENAI_API_KEY is not configured' };
     }
-    
-    // Check for basic SVG structure
-    const hasValidStructure = svgContent.includes('viewBox') || svgContent.includes('width');
-    
-    return hasValidStructure;
+
+    // Try a simple API call to test the key
+    const response = await openai.models.list();
+    return { success: true };
+  } catch (error: any) {
+    console.error('OpenAI API key test failed:', error);
+    return { 
+      success: false, 
+      error: error.message || 'Unknown error testing API key' 
+    };
+  }
+}
+
+/**
+ * Validate image URL
+ */
+export function validateImageUrl(url: string): boolean {
+  try {
+    // Basic validation for image URLs
+    return url.startsWith('https://') && (url.includes('.png') || url.includes('.jpg') || url.includes('.jpeg') || url.includes('.webp'));
   } catch {
     return false;
   }

@@ -52,8 +52,8 @@ export async function POST(request: NextRequest) {
     // Note: Credit deduction is now handled by the /api/deduct-credit endpoint
     // This API only handles the actual icon generation
 
-    // Call Claude API to generate real icons
-    const result = await generateIconsWithClaude({
+    // Call ChatGPT API to generate real icons
+    const result = await generateIconsWithChatGPT({
       prompt: prompt.trim(),
       style,
       count: 3,
