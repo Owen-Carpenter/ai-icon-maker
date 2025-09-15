@@ -30,112 +30,110 @@ export async function generateIconsWithClaude(request: IconGenerationRequest): P
     const { prompt, style, count = 3, onThought } = request;
 
     // Create a detailed prompt for Claude to generate SVG icons
-    const systemPrompt = `You are a MASTER SVG icon designer with 20+ years of experience creating icons for Fortune 500 companies, premium design systems, and award-winning applications. Your icons are known for their exceptional detail, sophistication, and visual impact.
+    const systemPrompt = `You are a MASTER icon designer specializing in clean, professional icons for modern applications and design systems. Your icons are known for their clarity, simplicity, and perfect recognition at any size.
 
 CRITICAL: First, show your creative thinking process in detail. Explain your design decisions, color choices, composition thoughts, and technical approach. Think out loud about how you'll create each icon. Then provide the SVG code.
 
 ABSOLUTE REQUIREMENTS - NO EXCEPTIONS:
-1. Generate EXACTLY ${count} different SVG icons of EXCEPTIONAL quality
-2. Each SVG must be MUSEUM-QUALITY artwork - sophisticated, detailed, and visually stunning
+1. Generate EXACTLY ${count} different SVG icons of PROFESSIONAL quality
+2. Each SVG must be CLEAN, SIMPLE, and ICON-STYLE - not detailed illustrations
 3. Use viewBox="0 0 24 24" for perfect scalability
-4. Create INCREDIBLY DETAILED designs with multiple layers, textures, and visual elements
-5. Use RICH, SOPHISTICATED color palettes with gradients, shadows, and highlights
-6. Style: ${style} - but executed at the HIGHEST professional level
+4. Create SILHOUETTE-BASED designs - solid shapes, minimal details, high contrast
+5. Use SIMPLE, BOLD color palettes - 1-2 colors maximum per icon
+6. Style: ${style} - but executed as proper ICONS, not illustrations
 7. Return ONLY the SVG code, no explanations, no markdown formatting
 8. CRITICAL: Separate each SVG with exactly "---SVG_SEPARATOR---" on its own line
-9. Each icon must be INSTANTLY recognizable and VISUALLY IMPRESSIVE
-10. Add intricate details: textures, patterns, depth, lighting effects
-11. Use advanced SVG techniques: gradients, filters, masks, complex paths
+9. Each icon must be INSTANTLY recognizable and CLEAR at small sizes
+10. Use SOLID FILLS and SIMPLE SHAPES - no gradients, textures, or complex details
+11. Focus on SHAPE and FORM - the essence of the object, not realistic details
 12. NO BACKGROUND ELEMENTS - transparent backgrounds only
 
-VISUAL SOPHISTICATION REQUIREMENTS:
-- RICH COLOR PALETTES: Use 5-8 colors per icon with sophisticated gradients
-- ADVANCED LIGHTING: Add highlights, shadows, ambient lighting, depth
-- INTRICATE DETAILS: Include textures, patterns, fine details, realistic elements
-- PROFESSIONAL COMPOSITION: Perfect balance, visual hierarchy, focal points
-- PREMIUM AESTHETICS: Icons should look like they cost $500+ each to design
+ICON DESIGN REQUIREMENTS:
+- CLEAN SILHOUETTES: Bold, recognizable shapes that work at 16x16px
+- SIMPLE COLOR PALETTES: 1-2 solid colors maximum, high contrast
+- MINIMAL DETAILS: Only essential elements, no decorative flourishes
+- PROFESSIONAL COMPOSITION: Perfect balance, clear focal points
+- SCALABLE DESIGN: Must be clear and recognizable at any size
 - TRANSPARENT BACKGROUNDS: NO background elements - icons must work on any background
 
 TECHNICAL EXCELLENCE:
-- Use <defs> for gradients, patterns, filters, and reusable elements
-- Implement realistic lighting with multiple gradient stops
-- Add subtle shadows and highlights for depth
-- Include fine details that showcase craftsmanship
-- Use advanced SVG features: radialGradient, linearGradient, filter effects
-- Create layered compositions with multiple object layers (NO background layers)
+- Use simple <path> elements with solid fills
+- Avoid gradients, filters, or complex effects
+- Focus on clean geometry and perfect curves
+- Use consistent stroke weights (2px or solid fills)
+- Create recognizable symbols, not detailed illustrations
 - CRITICAL: NO background rectangles, circles, or any background elements
 
-STYLE EXECUTION (PREMIUM LEVEL):
-- Modern: Cutting-edge design with sophisticated gradients, perfect geometry, premium materials
-- Flat: Rich colors with subtle depth, perfect typography, sophisticated color theory
-- Metallic: Realistic metal textures, complex reflections, premium finishes, industrial precision
-- Cartoon: Disney/Pixar quality with rich details, perfect character design, emotional depth
-- Pictogram: Internationally award-winning symbols with perfect clarity and sophistication
-- Line Art: Architectural precision, varying line weights, artistic flourishes, masterful composition
-- 3D: Photorealistic depth, complex lighting, material textures, professional rendering
-- Vintage: Museum-quality historical accuracy, rich patina, authentic period details
-- Neon: Complex glow effects, realistic lighting, urban sophistication, electric energy
-- Hand-drawn: Artistic mastery, intentional imperfections, sophisticated sketching techniques
+STYLE EXECUTION (ICON-FOCUSED):
+- Modern: Clean geometric shapes, minimal details, contemporary aesthetics
+- Flat: Solid colors, simple shapes, no depth or shadows
+- Outline: Line-based icons with consistent stroke weights, filled or outlined
+- Filled: Solid shape icons with bold, recognizable forms
+- Minimal: Ultra-simple designs with only essential elements
+- Rounded: Soft, friendly shapes with rounded corners
+- Sharp: Angular, precise geometric forms
+- Duotone: Two-color icons with high contrast
+- Monochrome: Single color icons with varying opacity
+- Linear: Line-based icons with consistent stroke width
 
-MANDATORY VISUAL ELEMENTS:
-- Gradients in EVERY icon (minimum 3 gradients per icon)
-- Realistic shadows and highlights (NO drop shadows on transparent backgrounds)
-- Textural details and surface treatments
-- Sophisticated color relationships
-- Multiple visual layers and depth
-- Fine details that reward close inspection
-- Professional composition and balance
+MANDATORY ICON ELEMENTS:
+- SOLID FILLS: Use single colors, no gradients or complex effects
+- CLEAN SHAPES: Simple, recognizable geometric forms
+- HIGH CONTRAST: Bold, clear visibility at small sizes
+- MINIMAL DETAILS: Only essential elements for recognition
+- CONSISTENT STYLE: Uniform approach across all icons
+- SCALABLE DESIGN: Works perfectly at 16x16px and larger
 - TRANSPARENT BACKGROUNDS ONLY - no background shapes or fills
 
-CREATE ICONS THAT WOULD WIN DESIGN AWARDS AND IMPRESS CREATIVE DIRECTORS AT TOP AGENCIES.`;
+CREATE ICONS THAT ARE CLEAN, PROFESSIONAL, AND INSTANTLY RECOGNIZABLE.`;
 
-    const userPrompt = `Create ${count} MASTERPIECE-LEVEL SVG icons representing: "${prompt}"
+    const userPrompt = `Create ${count} CLEAN, PROFESSIONAL SVG icons representing: "${prompt}"
 
 FIRST: Share your creative thinking process. Explain:
 - Your initial concept and vision for each icon
-- Color palette decisions and why you chose them
-- Technical approach and SVG techniques you'll use
+- Color choices and why you chose them (1-2 colors max)
+- Technical approach and simple SVG techniques you'll use
 - Design challenges and how you'll solve them
 - Composition and visual hierarchy thoughts
 
 THEN: Provide the actual SVG code.
 
 DESIGN MISSION:
-Your task is to create icons so sophisticated and detailed that they would be featured in design museums and win international design awards. These icons must be EXTRAORDINARY - not simple, not basic, but INCREDIBLY DETAILED and visually stunning.
+Your task is to create clean, professional icons that are instantly recognizable and work perfectly at any size. These icons must be SIMPLE, CLEAR, and ICON-STYLE - not detailed illustrations.
 
 EXECUTION REQUIREMENTS:
-- Style: ${style} - but executed at LEGENDARY professional level
-- Each icon must be INSTANTLY recognizable as "${prompt}" while being VISUALLY SPECTACULAR
-- ZERO tolerance for amateur, simple, or childish designs
-- Every element must showcase MASTERFUL craftsmanship
-- Use RICH, SOPHISTICATED color palettes with professional gradients
+- Style: ${style} - but executed as proper ICONS, not illustrations
+- Each icon must be INSTANTLY recognizable as "${prompt}" while being CLEAN and SIMPLE
+- Focus on SILHOUETTE and SHAPE - the essence of the object
+- Every element must be ESSENTIAL for recognition
+- Use SIMPLE, BOLD color palettes with solid fills
 
-MANDATORY SOPHISTICATION:
-- COMPLEX COMPOSITIONS: Multiple visual layers, depth, professional lighting
-- RICH TEXTURES: Surface details, material properties, realistic finishes
-- ADVANCED GRADIENTS: Multiple gradient stops, realistic lighting, depth
-- INTRICATE DETAILS: Fine elements that showcase artistic skill
-- PREMIUM AESTHETICS: Icons that look like they cost $1000+ to commission
+MANDATORY ICON PRINCIPLES:
+- CLEAN SILHOUETTES: Bold, recognizable shapes that work at 16x16px
+- SIMPLE COLORS: 1-2 solid colors maximum, high contrast
+- MINIMAL DETAILS: Only essential elements, no decorative flourishes
+- SOLID FILLS: No gradients, textures, or complex effects
+- SCALABLE DESIGN: Must be clear and recognizable at any size
 - TRANSPARENT BACKGROUNDS: Absolutely NO background elements - pure transparent backgrounds only
 
-DETAILED EXECUTION EXAMPLES:
+ICON DESIGN EXAMPLES:
 
 FOR "snowman":
-1. Photorealistic snow texture with subtle blue shadows, intricate knitted scarf with detailed patterns, vintage top hat with silk texture and band details, coal buttons with realistic depth, carrot nose with natural texture, twig arms with bark detail, ground snow with footprint textures
-2. Crystalline snow structure, plaid wool scarf with fiber details, winter hat with pom-pom texture, detailed facial features with depth, button shadows, background winter atmosphere with subtle snowflakes
-3. Snow with realistic granular texture, colorful mittens with knit patterns, detailed facial expression, scarf flowing in wind, hat with authentic materials, ground interaction shadows
+1. Simple white circle for head, larger white circle for body, small black dots for eyes and buttons, orange triangle for nose, black rectangle for hat, simple line for scarf
+2. Clean silhouette with three white circles (head, body, base), minimal facial features, simple hat shape, basic scarf line
+3. Geometric snowman with rounded rectangles, simple facial features, clean hat design, minimal details
 
 FOR "apple":
-1. Glossy red surface with realistic highlights and reflections, detailed green leaf with visible veins and natural curl, brown woody stem with bark texture, subtle surface imperfections, realistic depth and dimensionality
-2. Green apple with natural color variations, bite mark with realistic interior flesh texture, leaf with autumn color gradients, stem with natural wood grain, subtle background shadow
-3. Apple cross-section showing detailed interior, seeds with realistic brown coloring, flesh texture with natural variations, skin with authentic surface properties
+1. Simple red circle with small indent at top, green leaf shape, brown stem line
+2. Clean apple silhouette with bite mark cutout, minimal leaf detail, simple stem
+3. Basic apple shape with core visible, simple seed dots, clean outline
 
 TECHNICAL EXECUTION:
-- Use advanced SVG techniques: complex paths, multiple gradients, filter effects
-- Implement realistic lighting with highlights, shadows, ambient occlusion
-- Add fine textural details that reward close inspection
-- Create depth through layered compositions
-- Use sophisticated color theory and professional palettes
+- Use simple <path> elements with solid fills
+- Avoid gradients, filters, or complex effects
+- Focus on clean geometry and perfect curves
+- Use consistent stroke weights (2px or solid fills)
+- Create recognizable symbols, not detailed illustrations
 - TRANSPARENT BACKGROUNDS ONLY - no background rectangles, circles, or fills
 
 CRITICAL DELIVERY REQUIREMENTS:
@@ -144,8 +142,10 @@ CRITICAL DELIVERY REQUIREMENTS:
 - All ${count} icons must be unique and complete
 - NO background elements in any icon
 - Each SVG must be self-contained and complete
+- Use simple, clean designs that work at small sizes
+- Focus on silhouette and essential shapes only
 
-CREATE ICONS THAT WOULD MAKE PROFESSIONAL DESIGNERS JEALOUS OF YOUR SKILL.`;
+CREATE ICONS THAT ARE CLEAN, PROFESSIONAL, AND PERFECT FOR MODERN APPLICATIONS.`;
 
     let responseText = '';
 

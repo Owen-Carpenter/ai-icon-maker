@@ -17,7 +17,7 @@ export default function HomePage() {
   const faqData = [
     {
       question: "What AI models do you use?",
-      answer: "We use Claude Sonnet 4.0 for generating high-quality SVG code and advanced prompt-to-icon technology to convert your descriptions into precise icons. This ensures scalable, professional-grade icons."
+      answer: "We use GPT Image 1 for generating high-quality SVG code and advanced prompt-to-icon technology to convert your descriptions into precise icons. This ensures scalable, professional-grade icons."
     },
     {
       question: "What if I need more icons?",
@@ -581,7 +581,7 @@ export default function HomePage() {
             </ScrollAnimation>
             <ScrollAnimation delay={150}>
               <p className="text-xl text-sunset-200 mb-8 max-w-3xl mx-auto">
-                High-quality AI-powered SVG icon creation using Claude Sonnet 4.0 and advanced prompt-to-icon technology. Professional tools deserve professional pricing.
+                High-quality AI-powered SVG icon creation using GPT Image 1 and advanced prompt-to-icon technology. Professional tools deserve professional pricing.
             </p>
             </ScrollAnimation>
           </div>
