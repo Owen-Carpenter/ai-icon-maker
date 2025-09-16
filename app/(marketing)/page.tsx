@@ -602,7 +602,7 @@ export default function HomePage() {
                 <div className="text-center mb-8 mt-4">
                   <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
                   <div className="text-4xl font-bold text-white mb-4">
-                    $10<span className="text-lg font-normal text-sunset-200">/month</span>
+                    $15<span className="text-lg font-normal text-sunset-200">/month</span>
                   </div>
                   <p className="text-sunset-200">Perfect for professionals and small teams</p>
                 </div>
@@ -618,7 +618,7 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    AI-powered icon generation
+                    DALL-E 3 powered icon generation
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -668,7 +668,7 @@ export default function HomePage() {
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
                   <div className="text-4xl font-bold text-white mb-4">
-                    $20<span className="text-lg font-normal text-sunset-200">/month</span>
+                    $30<span className="text-lg font-normal text-sunset-200">/month</span>
                   </div>
                   <p className="text-sunset-200">For agencies and large organizations</p>
             </div>
@@ -690,7 +690,7 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Advanced AI models & features
+                    DALL-E 3 HD quality generation
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

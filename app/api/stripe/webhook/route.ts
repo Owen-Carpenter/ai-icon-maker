@@ -281,9 +281,9 @@ function getCreditsForPlan(planType: string): number {
     case 'free':
       return 5
     case 'pro':
-      return 100 // Updated to match new pricing
+      return 200 // Updated to match new Pro pricing
     case 'enterprise':
-      return 200 // Updated to match new Enterprise pricing
+      return 500 // Updated to match new Enterprise pricing
     default:
       return 5
   }
