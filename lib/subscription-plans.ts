@@ -7,7 +7,7 @@ export const SUBSCRIPTION_PLANS = {
     credits: 200, // Updated: Pro users get 200 tokens
     features: [
       '200 credits per month',
-      'DALL-E 3 powered icon generation',
+      'GPT Image 1 powered icon generation',
       'Multiple style options (Modern, Flat, 3D, etc.)',
       'Download as SVG, PNG, or JPG',
       'Save icons to your library',
@@ -24,7 +24,7 @@ export const SUBSCRIPTION_PLANS = {
     features: [
       '500 credits per month',
       'Everything in Pro plan',
-      'DALL-E 3 HD quality generation',
+      'GPT Image 1 HD quality generation',
       'Priority processing & faster generation',
       'Extended icon library storage',
       'Advanced export options',

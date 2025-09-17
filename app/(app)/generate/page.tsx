@@ -172,7 +172,7 @@ function GeneratePageContent() {
       invalidateCache();
       await refreshUserData(true);
 
-      // Call the streaming API to generate icons using DALL-E 3 with real-time thoughts
+      // Call the streaming API to generate icons using GPT Image 1 with real-time thoughts
       const response = await fetch('/api/generate-icons-stream', {
         method: 'POST',
         headers: {
@@ -281,7 +281,7 @@ function GeneratePageContent() {
       
       error(
         'Generation Failed', 
-        `${errorMessage}. Showing demo icons instead. Please check your DALL-E 3 API configuration.`,
+        `${errorMessage}. Showing demo icons instead. Please check your GPT Image 1 API configuration.`,
         8000
       );
     } finally {

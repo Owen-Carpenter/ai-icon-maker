@@ -87,7 +87,7 @@ Keep this concise and focused on transparency and minimalism.`;
       }
     }
 
-    // Create detailed prompts for DALL-E image generation
+    // Create detailed prompts for GPT Image 1 generation
     const imagePrompts = [];
     
     for (let i = 0; i < count; i++) {
@@ -96,7 +96,7 @@ Keep this concise and focused on transparency and minimalism.`;
       imagePrompts.push(imagePrompt);
     }
 
-    // Generate images using DALL-E
+    // Generate images using GPT Image 1
     const imageUrls = [];
     let billingError = false;
     
@@ -205,7 +205,7 @@ Keep this concise and focused on transparency and minimalism.`;
 }
 
 /**
- * Generate fallback placeholder icons when DALL-E is unavailable
+ * Generate fallback placeholder icons when GPT Image 1 is unavailable
  */
 function generateFallbackIcons(prompt: string, style: string, count: number): string[] {
   const fallbackIcons = [];

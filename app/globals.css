@@ -144,7 +144,7 @@ body {
   display: flex;
 }
 
-/* DALL-E 3 Thoughts Auto-Scroll Animation */
+/* GPT Image 1 Thoughts Auto-Scroll Animation */
 @keyframes scroll-up {
   from {
     transform: translateY(0);
