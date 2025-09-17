@@ -19,7 +19,7 @@ export interface IconGenerationResponse {
 }
 
 /**
- * Generate icons using DALL-E (GPT Image 1)
+ * Generate icons using GPT Image 1
  */
 export async function generateIconsWithChatGPT(request: IconGenerationRequest): Promise<IconGenerationResponse> {
   try {
@@ -32,28 +32,28 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
     // Generate real reasoning text using ChatGPT
     if (onThought) {
       try {
-        const reasoningPrompt = `You are an expert icon designer using DALL-E 3. A user wants to create ${count} professional icons for "${prompt}" in ${style} style. 
+        const reasoningPrompt = `You are an expert icon designer using GPT Image 1. A user wants to create ${count} clean, minimal icons for "${prompt}" in ${style} style.
 
-CRITICAL: These icons must have COMPLETELY TRANSPARENT backgrounds - only the icon object itself should be visible, no background elements whatsoever.
+CRITICAL REQUIREMENTS:
+- TRANSPARENT PNG BACKGROUND - completely transparent, no background elements
+- MINIMAL DESIGN - just the essential icon shape, no extra details
+- SOLID COLORS ONLY - no gradients, shadows, or effects
+- HIGH CONTRAST - clear visibility at small sizes
 
-Please provide a detailed, step-by-step reasoning process explaining:
-1. Your initial analysis of the request and transparent background requirements
-2. Your design approach and visual strategy for clean, isolated icons
-3. Color choices and why you chose them (solid colors only, no gradients)
-4. Technical considerations for icon design with transparent backgrounds
-5. How you'll ensure the icons work at small sizes without background support
-6. Your specific approach to creating completely transparent backgrounds
-7. The specific variations you'll create (different angles, styles, or details)
-8. Final quality checks to ensure no background elements remain
+Please provide a brief reasoning process explaining:
+1. How you'll create a clean, minimal version of "${prompt}"
+2. Your approach to ensuring completely transparent backgrounds
+3. Color choices for maximum contrast and clarity
+4. How you'll keep the design simple and recognizable
 
-Write this as a natural, flowing reasoning process that shows your creative thinking. Be specific about design decisions and technical choices, especially regarding transparent backgrounds.`;
+Keep this concise and focused on transparency and minimalism.`;
 
         const reasoningResponse = await openai.chat.completions.create({
           model: "gpt-3.5-turbo",
           messages: [
             {
               role: "system",
-              content: "You are an expert icon designer with deep knowledge of design principles, color theory, and technical icon creation. You specialize in creating icons with completely transparent backgrounds - only the icon object itself is visible, with no background elements, shadows, or environmental details. Provide detailed, professional reasoning for your design decisions, especially regarding transparent background requirements."
+              content: "You are an expert icon designer specializing in clean, minimal icons with transparent PNG backgrounds. You create simple, recognizable icons with no background elements, shadows, or extra details. Focus on essential shapes and solid colors for maximum clarity."
             },
             {
               role: "user",
@@ -75,15 +75,15 @@ Write this as a natural, flowing reasoning process that shows your creative thin
         }
         
         // Add a separator before image generation
-        onThought("\n\n🎨 Now generating the actual icons with DALL-E 3...\n");
+        onThought("\n\n🎨 Now generating the actual icons with GPT Image 1...\n");
         
       } catch (reasoningError) {
         console.error('Error generating reasoning:', reasoningError);
         // Fallback to simple reasoning if ChatGPT fails
-        onThought(`🎨 DALL-E 3 is analyzing your request for "${prompt}" in ${style} style...\n`);
-        onThought("🔍 Designing professional icons with transparent backgrounds...\n");
-        onThought("✨ Ensuring high contrast and perfect scalability...\n");
-        onThought("🖼️ Generating unique icon variations...\n");
+        onThought(`🎨 GPT Image 1 is creating minimal "${prompt}" icons in ${style} style...\n`);
+        onThought("🔍 Designing clean icons with transparent PNG backgrounds...\n");
+        onThought("✨ Using solid colors and simple shapes for maximum clarity...\n");
+        onThought("🖼️ Generating clean icon variations...\n");
       }
     }
 
@@ -92,21 +92,7 @@ Write this as a natural, flowing reasoning process that shows your creative thin
     
     for (let i = 0; i < count; i++) {
       const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
-      const imagePrompt = `Create a clean, professional icon of ${prompt} in ${style} style. ${variation} variation. 
-
-CRITICAL REQUIREMENTS:
-- COMPLETELY TRANSPARENT BACKGROUND - no background, no backdrop, no surface, no ground
-- ONLY the icon object itself should be visible
-- No shadows, no reflections, no environmental elements
-- No background colors, shapes, or textures
-- The icon should appear to float in empty space
-- Simple, minimalist design with high contrast
-- Solid colors only, no gradients
-- Perfect for use as an app icon or UI element
-- Instantly recognizable at small sizes
-- Clean, sharp edges with no background bleed
-
-The final image should contain ONLY the ${prompt} icon with a completely transparent background.`;
+      const imagePrompt = `Minimal ${prompt} icon, ${style} style, ${variation} version. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
       imagePrompts.push(imagePrompt);
     }
 
@@ -124,12 +110,11 @@ The final image should contain ONLY the ${prompt} icon with a completely transpa
       
       try {
         const response = await openai.images.generate({
-          model: "dall-e-3", // Use DALL-E 3 for highest quality
+          model: "gpt-image-1", // Use GPT Image 1 model
           prompt: imagePrompt,
           n: 1,
           size: "1024x1024",
-          quality: "hd", // High definition quality
-          style: "natural" // Natural style for better icons
+          quality: "medium" // High definition quality
         });
 
         if (response.data && response.data[0]?.url) {
@@ -158,7 +143,7 @@ The final image should contain ONLY the ${prompt} icon with a completely transpa
 
     // Handle billing hard limit error specifically
     if (billingError) {
-      console.warn('DALL-E billing limit reached, using fallback icons');
+      console.warn('GPT Image 1 billing limit reached, using fallback icons');
       const fallbackIcons = generateFallbackIcons(prompt, style, count);
       return {
         success: true,
@@ -168,21 +153,21 @@ The final image should contain ONLY the ${prompt} icon with a completely transpa
     }
 
     if (imageUrls.length === 0) {
-      console.warn('No DALL-E images generated, using fallback icons');
+      console.warn('No GPT Image 1 images generated, using fallback icons');
       const fallbackIcons = generateFallbackIcons(prompt, style, count);
       return {
         success: true,
         icons: fallbackIcons,
-        error: 'Unable to generate DALL-E images. Showing placeholder icons. Please check your OpenAI account billing.'
+        error: 'Unable to generate GPT Image 1 images. Showing placeholder icons. Please check your OpenAI account billing.'
       };
     }
 
-    console.log(`Generated ${imageUrls.length} images using DALL-E 3`);
+    console.log(`Generated ${imageUrls.length} images using GPT Image 1`);
     
     if (onThought) {
-      onThought(`\n🎉 Successfully generated ${imageUrls.length} professional icons!\n`);
-      onThought("✨ All icons have completely transparent backgrounds with only the icon object visible.\n");
-      onThought("🎯 Perfect for use in any design - no background elements or distractions.\n");
+      onThought(`\n🎉 Successfully generated ${imageUrls.length} clean, minimal icons!\n`);
+      onThought("✨ All icons have transparent PNG backgrounds with simple, solid color designs.\n");
+      onThought("🎯 Perfect for app icons and UI elements - no extra details or distractions.\n");
     }
     
     return {
@@ -191,13 +176,13 @@ The final image should contain ONLY the ${prompt} icon with a completely transpa
     };
 
   } catch (error) {
-    console.error('DALL-E icon generation error:', error);
+    console.error('GPT Image 1 icon generation error:', error);
     
     // Handle specific OpenAI errors
     let errorMessage = 'Unknown error occurred';
     if (error instanceof Error) {
       if (error.message.includes('billing hard limit reached') || error.message.includes('Billing hard limit')) {
-        errorMessage = 'OpenAI billing hard limit reached. Please add credits to your OpenAI account to continue using DALL-E image generation.';
+        errorMessage = 'OpenAI billing hard limit reached. Please add credits to your OpenAI account to continue using GPT Image 1 generation.';
       } else if (error.message.includes('429') || error.message.includes('quota')) {
         errorMessage = 'OpenAI API quota exceeded. Please check your billing and add credits to your OpenAI account.';
       } else if (error.message.includes('401') || error.message.includes('unauthorized')) {
@@ -228,19 +213,19 @@ function generateFallbackIcons(prompt: string, style: string, count: number): st
   // Create different icon variations based on the prompt with transparent backgrounds
   const iconVariations = [
     // Variation 1: Simple geometric shape with transparent background
-    `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+    `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="512" height="512">
       <circle cx="12" cy="12" r="10" fill="#3b82f6" stroke="#1e40af" stroke-width="2"/>
       <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">${prompt.charAt(0).toUpperCase()}</text>
     </svg>`,
     
     // Variation 2: Square with rounded corners and transparent background
-    `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+    `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="512" height="512">
       <rect x="2" y="2" width="20" height="20" rx="4" fill="#10b981" stroke="#059669" stroke-width="2"/>
       <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">${prompt.charAt(0).toUpperCase()}</text>
     </svg>`,
     
     // Variation 3: Diamond shape with transparent background
-    `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+    `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="512" height="512">
       <path d="M12 2l8 8-8 8-8-8z" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
       <text x="12" y="16" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">${prompt.charAt(0).toUpperCase()}</text>
     </svg>`
