@@ -52,32 +52,76 @@ export async function POST(request: NextRequest) {
           }
         };
         
+        // Send initial response to confirm stream is working
+        const initialData = JSON.stringify({ 
+          type: 'start', 
+          message: 'Starting GPT Image 1 generation...' 
+        });
+        safeEnqueue(`data: ${initialData}\n\n`);
+        
         // Call ChatGPT API with streaming thoughts
+        console.log('🚀 Starting GPT Image 1 generation with streaming...');
+        console.log('Prompt:', prompt.trim());
+        console.log('Style:', style);
+        
+        // Add timeout to prevent hanging
+        const timeoutId = setTimeout(() => {
+          console.error('⏰ GPT Image 1 generation timeout after 60 seconds');
+          const data = JSON.stringify({ 
+            type: 'error', 
+            error: 'Generation timeout - please try again' 
+          });
+          safeEnqueue(`data: ${data}\n\n`);
+          safeClose();
+        }, 60000); // 60 second timeout
+        
         generateIconsWithChatGPT({
           prompt: prompt.trim(),
           style,
           count: 3,
           onThought: (thought: string) => {
+            console.log('💭 Streaming thought:', thought);
             // Send thought chunk to client
             const data = JSON.stringify({ type: 'thought', content: thought });
             safeEnqueue(`data: ${data}\n\n`);
           },
         }).then((result) => {
-          // Send final result
-          const data = JSON.stringify({ 
-            type: 'complete', 
-            success: result.success,
-            icons: result.icons,
-            error: result.error
-          });
-          safeEnqueue(`data: ${data}\n\n`);
+          clearTimeout(timeoutId); // Clear timeout on success
+          console.log('✅ GPT Image 1 generation completed:', result);
+          console.log('Result success:', result.success);
+          console.log('Result icons length:', result.icons?.length);
+          console.log('Result error:', result.error);
+          
+          // Ensure we have valid icons before sending
+          if (result.success && result.icons && result.icons.length > 0) {
+            console.log('📤 Sending successful result with icons');
+            const data = JSON.stringify({ 
+              type: 'complete', 
+              success: true,
+              icons: result.icons,
+              error: null
+            });
+            safeEnqueue(`data: ${data}\n\n`);
+          } else {
+            console.log('📤 Sending error result - no valid icons');
+            const data = JSON.stringify({ 
+              type: 'complete', 
+              success: false,
+              icons: [],
+              error: result.error || 'No icons generated'
+            });
+            safeEnqueue(`data: ${data}\n\n`);
+          }
           safeClose();
         }).catch((error) => {
+          clearTimeout(timeoutId); // Clear timeout on error
+          console.error('❌ GPT Image 1 generation failed:', error);
           // Send error
           const data = JSON.stringify({ 
             type: 'error', 
             error: error.message 
           });
+          console.log('📤 Sending error to client:', data);
           safeEnqueue(`data: ${data}\n\n`);
           safeClose();
         });

@@ -104,6 +104,10 @@ Keep this concise and focused on transparency and minimalism.`;
       const imagePrompt = imagePrompts[i];
       const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
       
+      console.log(`\n🖼️ Processing ${variation} variation (${i + 1}/${imagePrompts.length})`);
+      console.log(`Image prompt: ${imagePrompt}`);
+      console.log(`Current imageUrls length before processing: ${imageUrls.length}`);
+      
       if (onThought) {
         onThought(`\n🖼️ Creating ${variation} variation: ${imagePrompt.split('.')[0]}...\n`);
       }
@@ -113,19 +117,86 @@ Keep this concise and focused on transparency and minimalism.`;
           model: "gpt-image-1", // Use GPT Image 1 model
           prompt: imagePrompt,
           n: 1,
-          size: "1024x1024",
-          quality: "medium" // High definition quality
+          size: "1024x1024"
         });
 
-        if (response.data && response.data[0]?.url) {
-          imageUrls.push(response.data[0].url);
+        console.log(`GPT Image 1 response for ${variation} variation:`, JSON.stringify(response, null, 2));
+
+        // Check for base64 in response.data[0].b64_json (GPT Image 1 format)
+        if (response.data && response.data[0]?.b64_json) {
+          const dataUrl = `data:image/png;base64,${response.data[0].b64_json}`;
+          imageUrls.push(dataUrl);
+          console.log(`✅ Successfully added ${variation} variation base64 data`);
+          console.log(`imageUrls length after adding base64: ${imageUrls.length}`);
           if (onThought) {
             onThought(`✅ ${variation} variation generated successfully!\n`);
+          }
+        }
+        // Check for URL in response.data[0].url (DALL-E format)
+        else if (response.data && response.data[0]?.url) {
+          imageUrls.push(response.data[0].url);
+          console.log(`✅ Successfully added ${variation} variation URL:`, response.data[0].url);
+          console.log(`imageUrls length after adding URL: ${imageUrls.length}`);
+          if (onThought) {
+            onThought(`✅ ${variation} variation generated successfully!\n`);
+          }
+        }
+        // Check for direct URL in response (fallback)
+        else if (response.url) {
+          imageUrls.push(response.url);
+          console.log(`✅ Successfully added ${variation} variation direct URL:`, response.url);
+          console.log(`imageUrls length after adding direct URL: ${imageUrls.length}`);
+          if (onThought) {
+            onThought(`✅ ${variation} variation generated successfully (direct URL)!\n`);
+          }
+        }
+        // Check for any other possible response structure
+        else if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+          const firstItem = response.data[0];
+          console.log(`🔍 Checking alternative response structure for ${variation}:`, firstItem);
+          
+          // Look for any URL-like property
+          const possibleUrlKeys = ['url', 'image_url', 'src', 'href', 'link'];
+          let foundUrl = null;
+          
+          for (const key of possibleUrlKeys) {
+            if (firstItem[key] && typeof firstItem[key] === 'string' && firstItem[key].startsWith('http')) {
+              foundUrl = firstItem[key];
+              break;
+            }
+          }
+          
+          if (foundUrl) {
+            imageUrls.push(foundUrl);
+            console.log(`✅ Successfully added ${variation} variation from alternative structure:`, foundUrl);
+            console.log(`imageUrls length after adding alternative URL: ${imageUrls.length}`);
+            if (onThought) {
+              onThought(`✅ ${variation} variation generated successfully (alternative format)!\n`);
+            }
+          } else {
+            console.error(`❌ No recognizable URL found in alternative response structure for ${variation}:`, firstItem);
+            if (onThought) {
+              onThought(`❌ No URL found in response for ${variation} variation\n`);
+            }
+          }
+        }
+        else {
+          console.error(`❌ No URL or b64_json found in GPT Image 1 response for ${variation} variation:`, response);
+          console.error('Response structure:', {
+            hasData: !!response.data,
+            dataLength: response.data?.length,
+            firstItem: response.data?.[0],
+            responseKeys: Object.keys(response),
+            fullResponse: response
+          });
+          if (onThought) {
+            onThought(`❌ No URL found in response for ${variation} variation\n`);
           }
         }
       } catch (imageError: any) {
         console.error(`Error generating image ${imageUrls.length + 1}:`, imageError);
         console.error('Full error details:', JSON.stringify(imageError, null, 2));
+        console.error(`imageUrls length after error: ${imageUrls.length}`);
         
         if (onThought) {
           onThought(`❌ Error generating ${variation} variation. Continuing with others...\n`);
@@ -139,7 +210,16 @@ Keep this concise and focused on transparency and minimalism.`;
         }
         // Continue with other images for other types of errors
       }
+      
+      console.log(`End of loop iteration ${i + 1}, imageUrls length: ${imageUrls.length}`);
     }
+
+    console.log(`\n🔍 FINAL CHECK - After all iterations:`);
+    console.log(`imageUrls array:`, imageUrls);
+    console.log(`imageUrls length:`, imageUrls.length);
+    console.log(`imageUrls type:`, typeof imageUrls);
+    console.log(`imageUrls is array:`, Array.isArray(imageUrls));
+    console.log(`billingError:`, billingError);
 
     // Handle billing hard limit error specifically
     if (billingError) {
@@ -154,6 +234,8 @@ Keep this concise and focused on transparency and minimalism.`;
 
     if (imageUrls.length === 0) {
       console.warn('No GPT Image 1 images generated, using fallback icons');
+      console.warn('imageUrls array is empty:', imageUrls);
+      console.warn('imageUrls length:', imageUrls.length);
       const fallbackIcons = generateFallbackIcons(prompt, style, count);
       return {
         success: true,
@@ -163,6 +245,10 @@ Keep this concise and focused on transparency and minimalism.`;
     }
 
     console.log(`Generated ${imageUrls.length} images using GPT Image 1`);
+    console.log('Final imageUrls array:', imageUrls);
+    console.log('imageUrls length:', imageUrls.length);
+    console.log('imageUrls type:', typeof imageUrls);
+    console.log('imageUrls is array:', Array.isArray(imageUrls));
     
     if (onThought) {
       onThought(`\n🎉 Successfully generated ${imageUrls.length} clean, minimal icons!\n`);
