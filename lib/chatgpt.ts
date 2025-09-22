@@ -151,8 +151,9 @@ Keep this concise and focused on transparency and minimalism.`;
           let foundUrl = null;
           
           for (const key of possibleUrlKeys) {
-            if (firstItem[key] && typeof firstItem[key] === 'string' && firstItem[key].startsWith('http')) {
-              foundUrl = firstItem[key];
+            const value = (firstItem as any)[key];
+            if (value && typeof value === 'string' && value.startsWith('http')) {
+              foundUrl = value;
               break;
             }
           }
