@@ -141,15 +141,6 @@ Keep this concise and focused on transparency and minimalism.`;
             onThought(`✅ ${variation} variation generated successfully!\n`);
           }
         }
-        // Check for direct URL in response (fallback)
-        else if (response.url) {
-          imageUrls.push(response.url);
-          console.log(`✅ Successfully added ${variation} variation direct URL:`, response.url);
-          console.log(`imageUrls length after adding direct URL: ${imageUrls.length}`);
-          if (onThought) {
-            onThought(`✅ ${variation} variation generated successfully (direct URL)!\n`);
-          }
-        }
         // Check for any other possible response structure
         else if (response.data && Array.isArray(response.data) && response.data.length > 0) {
           const firstItem = response.data[0];
