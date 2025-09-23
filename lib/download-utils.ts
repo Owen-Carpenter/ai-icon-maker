@@ -95,6 +95,40 @@ export const downloadImageFromUrl = async (imageUrl: string, fileName: string) =
   }
 };
 
+// Download PNG image directly from URL or base64 data
+export const downloadPNGImage = async (imageUrl: string, fileName: string) => {
+  try {
+    // Ensure the filename has .png extension
+    const pngFileName = fileName.endsWith('.png') ? fileName : `${fileName}.png`;
+    
+    // If it's a data URL, use direct download
+    if (imageUrl.startsWith('data:')) {
+      downloadImageFromBase64(imageUrl, pngFileName);
+      return;
+    }
+    
+    // For external URLs, fetch and create blob
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    
+    // Create temporary URL and download
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = pngFileName;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Clean up
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Error downloading PNG image:', error);
+    throw new Error('Failed to download PNG image');
+  }
+};
+
 // Convert SVG to different image formats
 export const svgToCanvas = (svgCode: string, width: number = 500, height: number = 500): Promise<HTMLCanvasElement> => {
   return new Promise((resolve, reject) => {

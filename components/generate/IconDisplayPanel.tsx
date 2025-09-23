@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { downloadSVG, downloadImageFromUrl, generateFileName, downloadSVGAsFormat } from '../../lib/download-utils';
+import { downloadPNGImage, generateFileName } from '../../lib/download-utils';
 
 interface IconDisplayPanelProps {
   generatedImages: string[];
@@ -169,25 +169,20 @@ export default function IconDisplayPanel({
     setShowSaveModal(true);
   };
 
-  // Handle downloading the icon in different formats
-  const handleDownload = async (imageUrl: string, format: 'svg' | 'png' | 'jpg', iconName?: string) => {
+  // Handle downloading the PNG icon
+  const handleDownload = async (imageUrl: string, iconName?: string) => {
     try {
       // Generate filename based on prompt or generic name
       const baseName = iconName || currentPrompt || 'generated-icon';
       
-      // Find the SVG code for this specific image
-      const imageIndex = generatedImages.indexOf(imageUrl);
-      const svgCode = imageIndex >= 0 && extractedSvgCodes[imageIndex] 
-        ? extractedSvgCodes[imageIndex] 
-        : getFallbackSvgCode();
-      
-      await downloadSVGAsFormat(svgCode, baseName, format);
+      // Download the actual PNG image that was generated
+      await downloadPNGImage(imageUrl, baseName);
       
       // Call the original onSelectImage callback for any additional functionality
       onSelectImage(imageUrl);
     } catch (error) {
-      console.error('Error downloading icon:', error);
-      alert(`Failed to download icon as ${format.toUpperCase()}. Please try again.`);
+      console.error('Error downloading PNG icon:', error);
+      alert('Failed to download PNG icon. Please try again.');
     }
   };
 
@@ -436,22 +431,10 @@ export default function IconDisplayPanel({
                       {/* Dropdown Menu */}
                       <div className="absolute top-full left-0 right-0 mt-1 bg-midnight-800 border border-white/20 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                       <button
-                        onClick={() => handleDownload(selectedIconUrl, 'svg')}
-                        className="w-full px-4 py-2 text-left text-white hover:bg-white/10 rounded-t-lg transition-colors text-sm"
-                      >
-                        Download as SVG
-                      </button>
-                      <button
-                        onClick={() => handleDownload(selectedIconUrl, 'png')}
-                        className="w-full px-4 py-2 text-left text-white hover:bg-white/10 transition-colors text-sm"
+                        onClick={() => handleDownload(selectedIconUrl)}
+                        className="w-full px-4 py-2 text-left text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
                       >
                         Download as PNG
-                      </button>
-                      <button
-                        onClick={() => handleDownload(selectedIconUrl, 'jpg')}
-                        className="w-full px-4 py-2 text-left text-white hover:bg-white/10 rounded-b-lg transition-colors text-sm"
-                      >
-                        Download as JPG
                       </button>
                       </div>
                     </div>
@@ -525,29 +508,11 @@ export default function IconDisplayPanel({
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleDownload(image, 'svg');
+                              handleDownload(image);
                             }}
-                            className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-t-lg transition-colors text-xs"
-                          >
-                            SVG
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDownload(image, 'png');
-                            }}
-                            className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 transition-colors text-xs"
+                            className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-lg transition-colors text-xs"
                           >
                             PNG
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDownload(image, 'jpg');
-                            }}
-                            className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-b-lg transition-colors text-xs"
-                          >
-                            JPG
                           </button>
                           </div>
                         </div>
