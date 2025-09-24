@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
           count: isImprovement ? 1 : 3, // Generate 1 for improvements, 3 for new icons
           isImprovement: isImprovement,
           onThought: (thought: string) => {
-            console.log('💭 Streaming thought:', thought);
+            // Streaming thought to client
             // Send thought chunk to client
             const data = JSON.stringify({ type: 'thought', content: thought });
             safeEnqueue(`data: ${data}\n\n`);
