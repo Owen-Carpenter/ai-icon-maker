@@ -108,13 +108,17 @@ Keep this concise and focused on transparency and minimalism.`;
     const imagePrompts = [];
     const actualCount = isImprovement ? 1 : count; // Force 1 icon for improvements
     
+    console.log(`🎯 Generating ${actualCount} icon(s) - Improvement mode: ${isImprovement}`);
+    console.log(`🎯 Original prompt: "${prompt}"`);
+    
     for (let i = 0; i < actualCount; i++) {
       const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
       let imagePrompt;
       
       if (isImprovement) {
-        // For improvements, use the full prompt as it already contains the original + improvements
-        imagePrompt = `Minimal ${prompt} icon, ${style} style, improved version. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+        // For improvements, create a more specific prompt that emphasizes the changes
+        imagePrompt = `${prompt}, ${style} style icon. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+        console.log(`🎯 Improvement prompt: "${imagePrompt}"`);
       } else {
         // For new icons, use the standard format
         imagePrompt = `Minimal ${prompt} icon, ${style} style, ${variation} version. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;

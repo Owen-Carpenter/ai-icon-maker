@@ -123,13 +123,16 @@ function GeneratePageContent() {
       const originalUserMessage = conversationHistory.find(msg => msg.type === 'user' && !msg.isImprovement);
       const originalPrompt = originalUserMessage?.content || currentPrompt;
       
+      // Clean the original prompt (remove " - " parts if they exist)
+      const cleanOriginalPrompt = originalPrompt.split(' - ')[0].split(', but')[0];
+      
       // Create a contextual improvement prompt
       if (prompt.trim().toLowerCase().includes('make') || prompt.trim().toLowerCase().includes('change') || prompt.trim().toLowerCase().includes('improve')) {
-        // User is giving specific improvement instructions
-        finalPrompt = `${originalPrompt} - ${prompt.trim()}`;
+        // User is giving specific improvement instructions - be more direct
+        finalPrompt = `${cleanOriginalPrompt}, ${prompt.trim()}`;
       } else {
         // User is describing what they want the icon to be/look like
-        finalPrompt = `${originalPrompt}, but ${prompt.trim()}`;
+        finalPrompt = `${cleanOriginalPrompt}, ${prompt.trim()}`;
       }
     }
 
@@ -273,7 +276,7 @@ function GeneratePageContent() {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              prompt,
+              prompt: finalPrompt,
               style,
             }),
           });
@@ -292,8 +295,12 @@ function GeneratePageContent() {
       }
 
       if (data.success && data.icons?.length > 0) {
-        setGeneratedImages(data.icons);
-        if (!isImprovementMode) {
+        if (isImprovementMode) {
+          // For improvements, only show the improved icon
+          setGeneratedImages(data.icons);
+        } else {
+          // For new icons, show all generated icons
+          setGeneratedImages(data.icons);
           setOriginalImages(data.icons);
           setHasUserTakenAction(false); // Reset action flag for new icons
         }

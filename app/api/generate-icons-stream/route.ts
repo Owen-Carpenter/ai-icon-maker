@@ -75,11 +75,16 @@ export async function POST(request: NextRequest) {
           safeClose();
         }, 60000); // 60 second timeout
         
+        const isImprovement = prompt.includes(' - ');
+        console.log('🔍 Detected improvement mode:', isImprovement);
+        console.log('🔍 Prompt contains " - ":', prompt.includes(' - '));
+        console.log('🔍 Full prompt:', prompt);
+        
         generateIconsWithChatGPT({
           prompt: prompt.trim(),
           style,
-          count: 1, // Always generate 1 icon for improvement mode
-          isImprovement: prompt.includes(' - '), // Detect improvement mode from prompt
+          count: isImprovement ? 1 : 3, // Generate 1 for improvements, 3 for new icons
+          isImprovement: isImprovement,
           onThought: (thought: string) => {
             console.log('💭 Streaming thought:', thought);
             // Send thought chunk to client

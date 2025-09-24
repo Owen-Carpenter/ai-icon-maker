@@ -419,26 +419,15 @@ export default function IconDisplayPanel({
                     </svg>
                     View Code
                   </button>
-                  <div className="relative">
-                    <div className="group">
-                      <button className="[background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white py-2 px-4 font-semibold hover:scale-105 w-full flex items-center justify-center gap-2">
-                        Download
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-                      
-                      {/* Dropdown Menu */}
-                      <div className="absolute top-full left-0 right-0 mt-1 bg-midnight-800 border border-white/20 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                      <button
-                        onClick={() => handleDownload(selectedIconUrl)}
-                        className="w-full px-4 py-2 text-left text-white hover:bg-white/10 rounded-lg transition-colors text-sm"
-                      >
-                        Download as PNG
-                      </button>
-                      </div>
-                    </div>
-                  </div>
+                  <button 
+                    onClick={() => handleDownload(selectedIconUrl)}
+                    className="[background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white py-2 px-4 font-semibold hover:scale-105 w-full flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Download PNG
+                  </button>
                 </div>
                 
                 <div className="text-center">
@@ -487,36 +476,19 @@ export default function IconDisplayPanel({
                         Save
                       </button>
                       
-                      <div className="flex-1 relative">
-                        <div className="[background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 group">
-                          <button
-                            onClick={(e) => e.stopPropagation()}
-                            className="w-full bg-transparent text-white py-2 px-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 text-xs flex items-center justify-center gap-1"
-                            title="Download Icon"
-                          >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            Download
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                          </button>
-                        
-                          {/* Dropdown Menu */}
-                          <div className="absolute top-full left-0 right-0 mt-1 bg-midnight-800 border border-white/20 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDownload(image);
-                            }}
-                            className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-lg transition-colors text-xs"
-                          >
-                            PNG
-                          </button>
-                          </div>
-                        </div>
-                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDownload(image);
+                        }}
+                        className="flex-1 [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white py-2 px-3 font-semibold hover:scale-105 text-xs flex items-center justify-center gap-1"
+                        title="Download PNG"
+                      >
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        PNG
+                      </button>
                     </div>
                   </div>
                 ))}
