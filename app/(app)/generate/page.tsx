@@ -41,6 +41,7 @@ function GeneratePageContent() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [style, setStyle] = useState('modern');
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [resetConversation, setResetConversation] = useState(false);
   
   // Walkthrough state
   const { isActive: isWalkthroughActive, startWalkthrough, completeWalkthrough, skipWalkthrough } = useWalkthrough();
@@ -115,7 +116,24 @@ function GeneratePageContent() {
   const handleGenerate = async (prompt: string, style: string, color: string) => {
     if (!prompt.trim()) return;
 
-    setCurrentPrompt(prompt);
+    // For improvement mode, build upon the existing prompt and conversation context
+    let finalPrompt = prompt.trim();
+    if (isImprovementMode && currentPrompt) {
+      // Get the original prompt from conversation history (first user message)
+      const originalUserMessage = conversationHistory.find(msg => msg.type === 'user' && !msg.isImprovement);
+      const originalPrompt = originalUserMessage?.content || currentPrompt;
+      
+      // Create a contextual improvement prompt
+      if (prompt.trim().toLowerCase().includes('make') || prompt.trim().toLowerCase().includes('change') || prompt.trim().toLowerCase().includes('improve')) {
+        // User is giving specific improvement instructions
+        finalPrompt = `${originalPrompt} - ${prompt.trim()}`;
+      } else {
+        // User is describing what they want the icon to be/look like
+        finalPrompt = `${originalPrompt}, but ${prompt.trim()}`;
+      }
+    }
+
+    setCurrentPrompt(finalPrompt);
     setStreamedThoughts(''); // Reset streamed thoughts for new generation
     setIsGenerating(true);
     
@@ -140,7 +158,7 @@ function GeneratePageContent() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: prompt.trim(),
+          prompt: finalPrompt,
           style: style,
           isImprovement: isImprovementMode
         }),
@@ -162,7 +180,7 @@ function GeneratePageContent() {
       handleAddToConversation({
         id: Date.now().toString() + '_user',
         type: 'user',
-        content: prompt.trim(),
+        content: finalPrompt,
         timestamp: new Date(),
         isImprovement: isImprovementMode
       });
@@ -180,7 +198,7 @@ function GeneratePageContent() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt,
+          prompt: finalPrompt,
           style,
         }),
       });
@@ -372,6 +390,10 @@ function GeneratePageContent() {
     setSelectedIconUrl('');
     setGeneratedImages(originalImages); // Restore original images
     setConversationHistory([]); // Clear conversation history when exiting improvement mode
+    setResetConversation(true); // Trigger conversation reset in ChatPanel
+    setTimeout(() => {
+      setResetConversation(false); // Reset the flag after a brief delay
+    }, 100);
   };
 
   // Handle walkthrough trigger from sidebar
@@ -406,9 +428,12 @@ function GeneratePageContent() {
       setSelectedIconUrl('');
       setOriginalImages([]);
       setHasUserTakenAction(true); // Reset to allow new chat
+      setConversationHistory([]); // Clear conversation history
+      setResetConversation(true); // Trigger conversation reset in ChatPanel
       setShowHeroView(true); // Go back to hero view
       setTimeout(() => {
         setIsTransitioning(false);
+        setResetConversation(false); // Reset the flag after a brief delay
       }, 500); // Reset transition state after animation
     }, 100);
   };
@@ -516,6 +541,7 @@ function GeneratePageContent() {
               onExitImprovementMode={handleExitImprovementMode}
               hasUserTakenAction={hasUserTakenAction}
               conversationHistory={conversationHistory}
+              resetConversation={resetConversation}
             />
 
           {/* Icon Display Panel */}

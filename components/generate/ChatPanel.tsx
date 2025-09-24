@@ -21,6 +21,7 @@ interface ChatPanelProps {
   onExitImprovementMode?: () => void;
   hasUserTakenAction?: boolean;
   conversationHistory?: ChatMessage[];
+  resetConversation?: boolean; // New prop to trigger conversation reset
 }
 
 export default function ChatPanel({ 
@@ -33,7 +34,8 @@ export default function ChatPanel({
   selectedIconUrl,
   onExitImprovementMode,
   hasUserTakenAction = true,
-  conversationHistory = []
+  conversationHistory = [],
+  resetConversation = false
 }: ChatPanelProps) {
   const [style, setStyle] = useState('modern');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -42,6 +44,15 @@ export default function ChatPanel({
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [conversationHistory, isGenerating]);
+
+  // Reset conversation when resetConversation prop changes
+  useEffect(() => {
+    if (resetConversation) {
+      setCurrentPrompt('');
+      // Note: We can't directly reset conversationHistory here since it's controlled by parent
+      // The parent component should handle clearing the conversation history
+    }
+  }, [resetConversation, setCurrentPrompt]);
 
   // Helper function to format icon title
   const formatIconTitle = (prompt: string) => {

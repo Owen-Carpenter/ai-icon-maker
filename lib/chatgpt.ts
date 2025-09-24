@@ -10,6 +10,7 @@ export interface IconGenerationRequest {
   style: string;
   count?: number;
   onThought?: (thought: string) => void; // Callback for streaming thoughts
+  isImprovement?: boolean; // Flag to indicate if this is an improvement request
 }
 
 export interface IconGenerationResponse {
@@ -27,12 +28,28 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
       throw new Error('OPENAI_API_KEY is not configured');
     }
 
-    const { prompt, style, count = 3, onThought } = request;
+    const { prompt, style, count = 3, onThought, isImprovement = false } = request;
 
     // Generate real reasoning text using ChatGPT
     if (onThought) {
       try {
-        const reasoningPrompt = `You are an expert icon designer using GPT Image 1. A user wants to create ${count} clean, minimal icons for "${prompt}" in ${style} style.
+        const reasoningPrompt = isImprovement 
+          ? `You are an expert icon designer using GPT Image 1. A user wants to improve an existing icon based on their feedback: "${prompt}" in ${style} style.
+
+CRITICAL REQUIREMENTS:
+- TRANSPARENT PNG BACKGROUND - completely transparent, no background elements
+- MINIMAL DESIGN - just the essential icon shape, no extra details
+- SOLID COLORS ONLY - no gradients, shadows, or effects
+- HIGH CONTRAST - clear visibility at small sizes
+
+Please provide a brief reasoning process explaining:
+1. How you'll improve the existing icon based on the feedback
+2. Your approach to ensuring completely transparent backgrounds
+3. Color choices for maximum contrast and clarity
+4. How you'll keep the improved design simple and recognizable
+
+Keep this concise and focused on the improvements requested.`
+          : `You are an expert icon designer using GPT Image 1. A user wants to create ${count} clean, minimal icons for "${prompt}" in ${style} style.
 
 CRITICAL REQUIREMENTS:
 - TRANSPARENT PNG BACKGROUND - completely transparent, no background elements
@@ -89,10 +106,20 @@ Keep this concise and focused on transparency and minimalism.`;
 
     // Create detailed prompts for GPT Image 1 generation
     const imagePrompts = [];
+    const actualCount = isImprovement ? 1 : count; // Force 1 icon for improvements
     
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < actualCount; i++) {
       const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
-      const imagePrompt = `Minimal ${prompt} icon, ${style} style, ${variation} version. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+      let imagePrompt;
+      
+      if (isImprovement) {
+        // For improvements, use the full prompt as it already contains the original + improvements
+        imagePrompt = `Minimal ${prompt} icon, ${style} style, improved version. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+      } else {
+        // For new icons, use the standard format
+        imagePrompt = `Minimal ${prompt} icon, ${style} style, ${variation} version. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+      }
+      
       imagePrompts.push(imagePrompt);
     }
 

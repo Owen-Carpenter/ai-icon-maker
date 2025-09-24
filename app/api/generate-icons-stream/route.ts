@@ -78,7 +78,8 @@ export async function POST(request: NextRequest) {
         generateIconsWithChatGPT({
           prompt: prompt.trim(),
           style,
-          count: 3,
+          count: 1, // Always generate 1 icon for improvement mode
+          isImprovement: prompt.includes(' - '), // Detect improvement mode from prompt
           onThought: (thought: string) => {
             console.log('💭 Streaming thought:', thought);
             // Send thought chunk to client
