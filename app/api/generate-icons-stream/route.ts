@@ -59,27 +59,34 @@ export async function POST(request: NextRequest) {
         });
         safeEnqueue(`data: ${initialData}\n\n`);
         
+        // Detect improvement mode by checking if the request body has isImprovement flag
+        const isImprovement = body.isImprovement || false;
+        console.log('🔍 Detected improvement mode:', isImprovement);
+        console.log('🔍 Full prompt:', prompt);
+        console.log('🔍 Request body:', JSON.stringify(body, null, 2));
+        
         // Call ChatGPT API with streaming thoughts
         console.log('🚀 Starting GPT Image 1 generation with streaming...');
         console.log('Prompt:', prompt.trim());
         console.log('Style:', style);
         
-        // Add timeout to prevent hanging
+        // Add timeout to prevent hanging (longer timeout for improvements)
+        const timeoutDuration = isImprovement ? 120000 : 90000; // 120s for improvements, 90s for new icons
         const timeoutId = setTimeout(() => {
-          console.error('⏰ GPT Image 1 generation timeout after 60 seconds');
+          console.error(`⏰ GPT Image 1 generation timeout after ${timeoutDuration/1000} seconds`);
           const data = JSON.stringify({ 
             type: 'error', 
             error: 'Generation timeout - please try again' 
           });
           safeEnqueue(`data: ${data}\n\n`);
+          safeEnqueue(`data: [DONE]\n\n`);
           safeClose();
-        }, 60000); // 60 second timeout
+        }, timeoutDuration);
         
-        // Detect improvement mode by checking if the request body has isImprovement flag
-        const isImprovement = body.isImprovement || false;
-        console.log('🔍 Detected improvement mode:', isImprovement);
-        console.log('🔍 Full prompt:', prompt);
+        console.log(`🎯 Starting generation: ${isImprovement ? 'Improvement' : 'New icons'} mode`);
+        console.log(`🎯 Count: ${isImprovement ? 1 : 3} icons`);
         
+        // First, generate the reasoning/thoughts using streaming
         generateIconsWithChatGPT({
           prompt: prompt.trim(),
           style,
@@ -93,43 +100,43 @@ export async function POST(request: NextRequest) {
           },
         }).then((result) => {
           clearTimeout(timeoutId); // Clear timeout on success
-          console.log('✅ GPT Image 1 generation completed:', result);
+          console.log('✅ GPT Image 1 generation completed');
           console.log('Result success:', result.success);
           console.log('Result icons length:', result.icons?.length);
-          console.log('Result error:', result.error);
           
-          // Ensure we have valid icons before sending
-          if (result.success && result.icons && result.icons.length > 0) {
-            console.log('📤 Sending successful result with icons');
-            const data = JSON.stringify({ 
-              type: 'complete', 
-              success: true,
-              icons: result.icons,
-              error: null
-            });
-            safeEnqueue(`data: ${data}\n\n`);
-          } else {
-            console.log('📤 Sending error result - no valid icons');
-            const data = JSON.stringify({ 
-              type: 'complete', 
-              success: false,
-              icons: [],
-              error: result.error || 'No icons generated'
-            });
-            safeEnqueue(`data: ${data}\n\n`);
-          }
-          safeClose();
+          // Send completion status without icons (just the status)
+          const completionData = JSON.stringify({ 
+            type: 'complete', 
+            success: result.success,
+            icons: [], // Empty array - icons will be fetched separately
+            error: result.error || null
+          });
+          console.log(`📤 Sending completion status: ${result.success}`);
+          safeEnqueue(`data: ${completionData}\n\n`);
+          
+          // Add a small delay before closing to ensure data is sent
+          setTimeout(() => {
+            // Send stream end marker
+            safeEnqueue(`data: [DONE]\n\n`);
+            safeClose();
+          }, 100);
         }).catch((error) => {
           clearTimeout(timeoutId); // Clear timeout on error
           console.error('❌ GPT Image 1 generation failed:', error);
           // Send error
           const data = JSON.stringify({ 
             type: 'error', 
-            error: error.message 
+            error: error.message || 'Unknown generation error'
           });
           console.log('📤 Sending error to client:', data);
           safeEnqueue(`data: ${data}\n\n`);
-          safeClose();
+          
+          // Add a small delay before closing to ensure error is sent
+          setTimeout(() => {
+            // Send stream end marker
+            safeEnqueue(`data: [DONE]\n\n`);
+            safeClose();
+          }, 100);
         });
       },
       cancel() {

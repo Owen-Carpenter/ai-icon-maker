@@ -43,12 +43,12 @@ CRITICAL REQUIREMENTS:
 - HIGH CONTRAST - clear visibility at small sizes
 
 Please provide a brief reasoning process explaining:
-1. How you'll improve the existing icon based on the feedback
+1. How you'll modify the existing icon based on the specific feedback: "${prompt.split(',')[1]?.trim() || 'general improvement'}"
 2. Your approach to ensuring completely transparent backgrounds
 3. Color choices for maximum contrast and clarity
-4. How you'll keep the improved design simple and recognizable
+4. How you'll keep the improved design simple and recognizable while implementing the requested changes
 
-Keep this concise and focused on the improvements requested.`
+Focus on the specific improvements requested and how they will change the visual appearance.`
           : `You are an expert icon designer using GPT Image 1. A user wants to create ${count} clean, minimal icons for "${prompt}" in ${style} style.
 
 CRITICAL REQUIREMENTS:
@@ -110,6 +110,7 @@ Keep this concise and focused on transparency and minimalism.`;
     
     console.log(`🎯 Generating ${actualCount} icon(s) - Improvement mode: ${isImprovement}`);
     console.log(`🎯 Original prompt: "${prompt}"`);
+    console.log(`🎯 Full request params:`, { prompt, style, count, isImprovement, actualCount });
     
     for (let i = 0; i < actualCount; i++) {
       const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
@@ -117,7 +118,17 @@ Keep this concise and focused on transparency and minimalism.`;
       
       if (isImprovement) {
         // For improvements, create a more specific prompt that emphasizes the changes
-        imagePrompt = `${prompt}, ${style} style icon. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+        // Extract the improvement instruction from the prompt
+        const improvementPart = prompt.includes(',') ? prompt.split(',').slice(1).join(',').trim() : '';
+        const basePrompt = prompt.includes(',') ? prompt.split(',')[0].trim() : prompt;
+        
+        if (improvementPart) {
+          // More specific improvement prompt
+          imagePrompt = `Create a ${basePrompt} icon, ${style} style, but ${improvementPart}. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+        } else {
+          // Fallback for general improvements
+          imagePrompt = `${prompt}, ${style} style icon. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+        }
         console.log(`🎯 Improvement prompt: "${imagePrompt}"`);
       } else {
         // For new icons, use the standard format
@@ -137,7 +148,7 @@ Keep this concise and focused on transparency and minimalism.`;
       
       console.log(`\n🖼️ Processing ${variation} variation (${i + 1}/${imagePrompts.length})`);
       console.log(`Image prompt: ${imagePrompt}`);
-      console.log(`Current imageUrls length before processing: ${imageUrls.length}`);
+      // Processing image variation
       
       if (onThought) {
         onThought(`\n🖼️ Creating ${variation} variation: ${imagePrompt.split('.')[0]}...\n`);
@@ -151,14 +162,13 @@ Keep this concise and focused on transparency and minimalism.`;
           size: "1024x1024"
         });
 
-        console.log(`GPT Image 1 response for ${variation} variation:`, JSON.stringify(response, null, 2));
+        // GPT Image 1 response received
 
         // Check for base64 in response.data[0].b64_json (GPT Image 1 format)
         if (response.data && response.data[0]?.b64_json) {
           const dataUrl = `data:image/png;base64,${response.data[0].b64_json}`;
           imageUrls.push(dataUrl);
-          console.log(`✅ Successfully added ${variation} variation base64 data`);
-          console.log(`imageUrls length after adding base64: ${imageUrls.length}`);
+          // Base64 data added successfully
           if (onThought) {
             onThought(`✅ ${variation} variation generated successfully!\n`);
           }
@@ -166,8 +176,7 @@ Keep this concise and focused on transparency and minimalism.`;
         // Check for URL in response.data[0].url (DALL-E format)
         else if (response.data && response.data[0]?.url) {
           imageUrls.push(response.data[0].url);
-          console.log(`✅ Successfully added ${variation} variation URL:`, response.data[0].url);
-          console.log(`imageUrls length after adding URL: ${imageUrls.length}`);
+          // URL added successfully
           if (onThought) {
             onThought(`✅ ${variation} variation generated successfully!\n`);
           }
@@ -175,7 +184,7 @@ Keep this concise and focused on transparency and minimalism.`;
         // Check for any other possible response structure
         else if (response.data && Array.isArray(response.data) && response.data.length > 0) {
           const firstItem = response.data[0];
-          console.log(`🔍 Checking alternative response structure for ${variation}:`, firstItem);
+          // Checking alternative response structure
           
           // Look for any URL-like property
           const possibleUrlKeys = ['url', 'image_url', 'src', 'href', 'link'];
@@ -192,7 +201,7 @@ Keep this concise and focused on transparency and minimalism.`;
           if (foundUrl) {
             imageUrls.push(foundUrl);
             console.log(`✅ Successfully added ${variation} variation from alternative structure:`, foundUrl);
-            console.log(`imageUrls length after adding alternative URL: ${imageUrls.length}`);
+            // Alternative URL added successfully
             if (onThought) {
               onThought(`✅ ${variation} variation generated successfully (alternative format)!\n`);
             }
@@ -234,14 +243,11 @@ Keep this concise and focused on transparency and minimalism.`;
         // Continue with other images for other types of errors
       }
       
-      console.log(`End of loop iteration ${i + 1}, imageUrls length: ${imageUrls.length}`);
+      // End of loop iteration
     }
 
     console.log(`\n🔍 FINAL CHECK - After all iterations:`);
-    console.log(`imageUrls array:`, imageUrls);
     console.log(`imageUrls length:`, imageUrls.length);
-    console.log(`imageUrls type:`, typeof imageUrls);
-    console.log(`imageUrls is array:`, Array.isArray(imageUrls));
     console.log(`billingError:`, billingError);
 
     // Handle billing hard limit error specifically
@@ -268,10 +274,6 @@ Keep this concise and focused on transparency and minimalism.`;
     }
 
     console.log(`Generated ${imageUrls.length} images using GPT Image 1`);
-    console.log('Final imageUrls array:', imageUrls);
-    console.log('imageUrls length:', imageUrls.length);
-    console.log('imageUrls type:', typeof imageUrls);
-    console.log('imageUrls is array:', Array.isArray(imageUrls));
     
     if (onThought) {
       onThought(`\n🎉 Successfully generated ${imageUrls.length} clean, minimal icons!\n`);

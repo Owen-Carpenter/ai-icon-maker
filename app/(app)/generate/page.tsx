@@ -236,8 +236,16 @@ function GeneratePageContent() {
 
           for (const line of lines) {
             if (line.startsWith('data: ')) {
+              const dataContent = line.slice(6);
+              
+              // Check for stream end marker
+              if (dataContent.trim() === '[DONE]') {
+                console.log('🏁 Stream completed');
+                break;
+              }
+              
               try {
-                const eventData = JSON.parse(line.slice(6));
+                const eventData = JSON.parse(dataContent);
                 console.log('📨 Parsed event data:', eventData);
                 
                 if (eventData.type === 'start') {
@@ -248,13 +256,25 @@ function GeneratePageContent() {
                   setStreamedThoughts(prev => prev + eventData.content);
                 } else if (eventData.type === 'complete') {
                   console.log('✅ Received complete event:', eventData);
+                  console.log('✅ Complete event success:', eventData.success);
+                  console.log('✅ Complete event icons length:', eventData.icons?.length);
                   data = eventData;
                 } else if (eventData.type === 'error') {
                   console.error('❌ Received error event:', eventData);
-                  throw new Error(eventData.error);
+                  
+                  // Handle timeout errors specifically
+                  if (eventData.error?.includes('timeout')) {
+                    throw new Error('Generation is taking longer than expected. Please try again.');
+                  } else {
+                    throw new Error(eventData.error);
+                  }
                 }
               } catch (e) {
                 console.log('⚠️ Failed to parse line:', line, 'Error:', e);
+                // If it's a JSON parsing error, try to handle it gracefully
+                if (e instanceof SyntaxError) {
+                  console.warn('⚠️ JSON syntax error - likely due to large payload');
+                }
                 // Ignore parsing errors for incomplete chunks
               }
             }
@@ -265,6 +285,10 @@ function GeneratePageContent() {
       }
 
       console.log('🔍 Final data received:', data);
+      console.log('🔍 Data type:', typeof data);
+      console.log('🔍 Data success:', data?.success);
+      console.log('🔍 Data icons:', data?.icons?.length);
+      
       if (!data) {
         console.error('❌ No data received from streaming API, trying fallback...');
         
@@ -293,6 +317,38 @@ function GeneratePageContent() {
         } catch (fallbackError) {
           console.error('❌ Fallback API also failed:', fallbackError);
           throw new Error('No response received from streaming API and fallback failed');
+        }
+      } else if (data.success && data.icons.length === 0) {
+        // Streaming API succeeded but no icons were sent (new approach)
+        console.log('🔄 Streaming API succeeded, fetching icons from regular API...');
+        try {
+          const iconResponse = await fetch('/api/generate-icons', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              prompt: finalPrompt,
+              style,
+              isImprovement: isImprovementMode,
+            }),
+          });
+
+          const iconData = await iconResponse.json();
+          console.log('✅ Icon API succeeded:', iconData);
+          
+          if (iconData.success && iconData.icons && iconData.icons.length > 0) {
+            // Merge the streaming thoughts with the icon data
+            data = {
+              ...data,
+              icons: iconData.icons
+            };
+          } else {
+            throw new Error(iconData.error || 'Icon API failed');
+          }
+        } catch (iconError) {
+          console.error('❌ Icon API failed:', iconError);
+          throw new Error('Failed to fetch generated icons. Please try again.');
         }
       }
 
