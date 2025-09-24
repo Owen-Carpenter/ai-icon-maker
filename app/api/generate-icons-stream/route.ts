@@ -75,9 +75,9 @@ export async function POST(request: NextRequest) {
           safeClose();
         }, 60000); // 60 second timeout
         
-        const isImprovement = prompt.includes(' - ');
+        // Detect improvement mode by checking if the request body has isImprovement flag
+        const isImprovement = body.isImprovement || false;
         console.log('🔍 Detected improvement mode:', isImprovement);
-        console.log('🔍 Prompt contains " - ":', prompt.includes(' - '));
         console.log('🔍 Full prompt:', prompt);
         
         generateIconsWithChatGPT({

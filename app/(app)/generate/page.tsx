@@ -203,6 +203,7 @@ function GeneratePageContent() {
         body: JSON.stringify({
           prompt: finalPrompt,
           style,
+          isImprovement: isImprovementMode,
         }),
       });
 
@@ -278,6 +279,7 @@ function GeneratePageContent() {
             body: JSON.stringify({
               prompt: finalPrompt,
               style,
+              isImprovement: isImprovementMode,
             }),
           });
           

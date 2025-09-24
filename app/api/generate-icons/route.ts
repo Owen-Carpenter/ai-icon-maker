@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json()
-    const { prompt, style } = body
+    const { prompt, style, isImprovement = false } = body
 
     // Validate required fields
     if (!prompt || !style) {
@@ -56,7 +56,8 @@ export async function POST(request: NextRequest) {
     const result = await generateIconsWithChatGPT({
       prompt: prompt.trim(),
       style,
-      count: 3,
+      count: isImprovement ? 1 : 3,
+      isImprovement: isImprovement,
     })
 
     // If generation failed, we should ideally refund the credit, but for now we'll keep the deduction
