@@ -8,7 +8,7 @@ import Loading from '../../../components/ui/Loading';
 import SubscriptionGate from '../../../components/SubscriptionGate';
 import SmartGenerateLink from '../../../components/SmartGenerateLink';
 import Footer from '../../../components/Footer';
-import { downloadSVG, downloadImageFromUrl, generateFileName, downloadSVGAsFormat, downloadPNGImage } from '../../../lib/download-utils';
+import { generateFileName, downloadPNGImage } from '../../../lib/download-utils';
 
 interface SavedIcon {
   id: string;
@@ -34,6 +34,8 @@ export default function LibraryPage() {
   const [error, setError] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [iconToDelete, setIconToDelete] = useState<SavedIcon | null>(null);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState<SavedIcon | null>(null);
 
   // Fetch icons from database
   useEffect(() => {
@@ -103,16 +105,9 @@ export default function LibraryPage() {
 
   const handleDownload = async (icon: SavedIcon) => {
     try {
-      // Always download as PNG
+      // Always download as PNG from the image URL
       const fileName = generateFileName(icon.name, 'png');
-      
-      if (icon.svg_code) {
-        // Convert SVG to PNG
-        await downloadSVGAsFormat(icon.svg_code, icon.name, 'png');
-      } else {
-        // For non-SVG icons, download the image as PNG
-        await downloadPNGImage(icon.image_url, fileName);
-      }
+      await downloadPNGImage(icon.image_url, fileName);
     } catch (error) {
       console.error('Error downloading icon:', error);
       alert('Failed to download icon as PNG. Please try again.');
@@ -122,6 +117,11 @@ export default function LibraryPage() {
   const openDeleteModal = (icon: SavedIcon) => {
     setIconToDelete(icon);
     setShowDeleteModal(true);
+  };
+
+  const openImageModal = (icon: SavedIcon) => {
+    setSelectedIcon(icon);
+    setShowImageModal(true);
   };
 
   const handleDelete = async () => {
@@ -247,12 +247,14 @@ export default function LibraryPage() {
                   <div key={icon.id} className={`bg-midnight-800/50 border border-midnight-700 rounded-xl backdrop-blur-sm hover:shadow-xl hover:shadow-sunset-500/20 transition-all duration-300 hover:scale-105 hover:border-sunset-400/50 ${viewMode === 'list' ? 'flex items-center p-4' : 'p-6 flex flex-col'}`}>
                     {viewMode === 'grid' ? (
                       <>
-                        <div className="bg-midnight-700/50 rounded-xl p-4 mb-4 flex items-center justify-center h-24 hover:bg-midnight-600/50 transition-colors duration-300">
-                          <img src={icon.image_url} alt={icon.name} className="w-12 h-12" />
+                        <div 
+                          className="bg-midnight-700/50 rounded-xl p-4 mb-4 flex items-center justify-center h-24 hover:bg-midnight-600/50 transition-colors duration-300 cursor-pointer group"
+                          onClick={() => openImageModal(icon)}
+                        >
+                          <img src={icon.image_url} alt={icon.name} className="w-12 h-12 group-hover:scale-110 transition-transform duration-300" />
                         </div>
                         <h3 className="text-white font-semibold mb-2 truncate">{icon.name}</h3>
-                        <div className="flex items-center justify-between text-xs text-sunset-200 mb-4">
-                          <span className="bg-midnight-700/50 px-3 py-1 rounded-full">{icon.format}</span>
+                        <div className="flex items-center justify-end text-xs text-sunset-200 mb-4">
                           <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                         </div>
                         <div className="flex gap-2 mt-auto">
@@ -278,13 +280,15 @@ export default function LibraryPage() {
                       </>
                     ) : (
                       <>
-                        <div className="bg-midnight-700/50 rounded-xl p-3 mr-4 flex items-center justify-center">
-                          <img src={icon.image_url} alt={icon.name} className="w-8 h-8" />
+                        <div 
+                          className="bg-midnight-700/50 rounded-xl p-3 mr-4 flex items-center justify-center cursor-pointer group hover:bg-midnight-600/50 transition-colors duration-300"
+                          onClick={() => openImageModal(icon)}
+                        >
+                          <img src={icon.image_url} alt={icon.name} className="w-8 h-8 group-hover:scale-110 transition-transform duration-300" />
                         </div>
                         <div className="flex-1">
                           <h3 className="text-white font-semibold">{icon.name}</h3>
                           <div className="flex items-center gap-4 text-xs text-sunset-200 mt-1">
-                            <span className="bg-midnight-700/50 px-3 py-1 rounded-full">{icon.format}</span>
                             <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                           </div>
                         </div>
@@ -344,6 +348,67 @@ export default function LibraryPage() {
       {/* Footer positioned at bottom */}
       <Footer />
 
+
+      {/* Image Preview Modal */}
+      {showImageModal && selectedIcon && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-midnight-800 to-midnight-900 rounded-2xl border border-white/20 p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-sunset-500/20 to-coral-500/20 rounded-full flex items-center justify-center mr-4">
+                  <svg className="w-6 h-6 text-sunset-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">{selectedIcon.name}</h3>
+                  <p className="text-sunset-200 text-sm">Created {new Date(selectedIcon.created_at).toLocaleDateString()}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setShowImageModal(false);
+                  setSelectedIcon(null);
+                }}
+                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="bg-midnight-700/50 rounded-xl p-8 mb-6 flex items-center justify-center min-h-[300px]">
+              <img 
+                src={selectedIcon.image_url} 
+                alt={selectedIcon.name} 
+                className="max-w-full max-h-[400px] object-contain"
+              />
+            </div>
+            
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={() => handleDownload(selectedIcon)}
+                className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download PNG
+              </button>
+              <button
+                onClick={() => openDeleteModal(selectedIcon)}
+                className="bg-red-500/20 hover:bg-red-500/30 text-red-400 hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && iconToDelete && (
