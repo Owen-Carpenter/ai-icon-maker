@@ -103,19 +103,19 @@ export default function LibraryPage() {
     return matchesSearch && matchesFormat;
   });
 
-  const handleDownload = async (icon: SavedIcon, format: 'svg' | 'png' | 'jpg') => {
+  const handleDownload = async (icon: SavedIcon) => {
     try {
-      // Use SVG code if available, otherwise fallback to image URL
+      // Always download as PNG
       if (icon.svg_code) {
-        await downloadSVGAsFormat(icon.svg_code, icon.name, format);
+        await downloadSVGAsFormat(icon.svg_code, icon.name, 'png');
       } else {
-        // For non-SVG icons, download the original image
-        const fileName = generateFileName(icon.name, format);
+        // For non-SVG icons, download the original image as PNG
+        const fileName = generateFileName(icon.name, 'png');
         await downloadImageFromUrl(icon.image_url, fileName);
       }
     } catch (error) {
       console.error('Error downloading icon:', error);
-      alert(`Failed to download icon as ${format.toUpperCase()}. Please try again.`);
+      alert('Failed to download icon as PNG. Please try again.');
     }
   };
 
@@ -248,7 +248,7 @@ export default function LibraryPage() {
             {filteredIcons.length > 0 ? (
               <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6' : 'space-y-4'}>
                 {filteredIcons.map((icon) => (
-                  <div key={icon.id} className={`bg-midnight-800/50 border border-midnight-700 rounded-xl backdrop-blur-sm hover:shadow-xl hover:shadow-sunset-500/20 transition-all duration-300 hover:scale-105 hover:border-sunset-400/50 ${viewMode === 'list' ? 'flex items-center p-4' : 'p-6'}`}>
+                  <div key={icon.id} className={`bg-midnight-800/50 border border-midnight-700 rounded-xl backdrop-blur-sm hover:shadow-xl hover:shadow-sunset-500/20 transition-all duration-300 hover:scale-105 hover:border-sunset-400/50 ${viewMode === 'list' ? 'flex items-center p-4' : 'p-6 flex flex-col'}`}>
                     {viewMode === 'grid' ? (
                       <>
                         <div className="bg-midnight-700/50 rounded-xl p-4 mb-4 flex items-center justify-center h-24 hover:bg-midnight-600/50 transition-colors duration-300">
@@ -259,37 +259,16 @@ export default function LibraryPage() {
                           <span className="bg-midnight-700/50 px-3 py-1 rounded-full">{icon.format}</span>
                           <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                         </div>
-                        <div className="flex gap-2">
-                          <div className="flex-1 relative group">
-                            <button className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-3 rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-1">
-                              Download
-                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                              </svg>
-                            </button>
-                            
-                            {/* Dropdown Menu */}
-                            <div className="absolute top-full left-0 right-0 mt-1 bg-midnight-800 border border-white/20 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                              <button
-                                onClick={() => handleDownload(icon, 'svg')}
-                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-t-lg transition-colors text-xs"
-                              >
-                                SVG
-                              </button>
-                              <button
-                                onClick={() => handleDownload(icon, 'png')}
-                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 transition-colors text-xs"
-                              >
-                                PNG
-                              </button>
-                              <button
-                                onClick={() => handleDownload(icon, 'jpg')}
-                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-b-lg transition-colors text-xs"
-                              >
-                                JPG
-                              </button>
-                            </div>
-                          </div>
+                        <div className="flex gap-2 mt-auto">
+                          <button
+                            onClick={() => handleDownload(icon)}
+                            className="flex-1 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-3 rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-1"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Download PNG
+                          </button>
                           <button
                             onClick={() => handleShowCode(icon)}
                             className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-sm py-2 px-3 rounded-lg transition-all duration-300 flex items-center gap-1"
@@ -322,36 +301,15 @@ export default function LibraryPage() {
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          <div className="relative group">
-                            <button className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-4 rounded-lg transition-all duration-300 font-medium flex items-center gap-1">
-                              Download
-                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                              </svg>
-                            </button>
-                            
-                            {/* Dropdown Menu */}
-                            <div className="absolute top-full left-0 right-0 mt-1 bg-midnight-800 border border-white/20 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                              <button
-                                onClick={() => handleDownload(icon, 'svg')}
-                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-t-lg transition-colors text-xs"
-                              >
-                                SVG
-                              </button>
-                              <button
-                                onClick={() => handleDownload(icon, 'png')}
-                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 transition-colors text-xs"
-                              >
-                                PNG
-                              </button>
-                              <button
-                                onClick={() => handleDownload(icon, 'jpg')}
-                                className="w-full px-3 py-1.5 text-left text-white hover:bg-white/10 rounded-b-lg transition-colors text-xs"
-                              >
-                                JPG
-                              </button>
-                            </div>
-                          </div>
+                          <button
+                            onClick={() => handleDownload(icon)}
+                            className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-4 rounded-lg transition-all duration-300 font-medium flex items-center gap-1"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Download PNG
+                          </button>
                           <button
                             onClick={() => handleShowCode(icon)}
                             className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-sm py-2 px-3 rounded-lg transition-all duration-300 flex items-center gap-1"
