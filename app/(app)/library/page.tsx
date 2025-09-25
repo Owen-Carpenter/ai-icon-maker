@@ -257,19 +257,20 @@ export default function LibraryPage() {
                         <div className="flex items-center justify-end text-xs text-sunset-200 mb-4">
                           <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                         </div>
-                        <div className="flex gap-2 mt-auto">
+                        <div className="flex gap-1 mt-auto">
                           <button
                             onClick={() => handleDownload(icon)}
-                            className="flex-1 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-xs py-2 px-3 rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-1 min-w-0"
+                            className="flex-1 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-xs py-1.5 px-2 rounded-md transition-all duration-300 font-medium flex items-center justify-center gap-1 min-w-0 sm:py-2 sm:px-3 sm:rounded-lg"
                           >
                             <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <span className="truncate">Download PNG</span>
+                            <span className="truncate hidden sm:inline">Download PNG</span>
+                            <span className="truncate sm:hidden">PNG</span>
                           </button>
                           <button
                             onClick={() => openDeleteModal(icon)}
-                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-xs py-2 px-3 rounded-lg transition-all duration-300 flex items-center justify-center flex-shrink-0"
+                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-xs py-1.5 px-2 rounded-md transition-all duration-300 flex items-center justify-center flex-shrink-0 sm:py-2 sm:px-3 sm:rounded-lg"
                             title="Delete Icon"
                           >
                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -292,22 +293,23 @@ export default function LibraryPage() {
                             <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                           </div>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-1">
                           <button
                             onClick={() => handleDownload(icon)}
-                            className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-4 rounded-lg transition-all duration-300 font-medium flex items-center gap-1"
+                            className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-xs py-1.5 px-2 rounded-md transition-all duration-300 font-medium flex items-center gap-1 sm:text-sm sm:py-2 sm:px-4 sm:rounded-lg"
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            Download PNG
+                            <span className="hidden sm:inline">Download PNG</span>
+                            <span className="sm:hidden">PNG</span>
                           </button>
                           <button
                             onClick={() => openDeleteModal(icon)}
-                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-sm py-2 px-3 rounded-lg transition-all duration-300 flex items-center justify-center"
+                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-xs py-1.5 px-2 rounded-md transition-all duration-300 flex items-center justify-center sm:text-sm sm:py-2 sm:px-3 sm:rounded-lg"
                             title="Delete Icon"
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                           </button>
