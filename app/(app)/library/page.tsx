@@ -27,7 +27,6 @@ interface SavedIcon {
 export default function LibraryPage() {
   const { user, hasActiveSubscription, loading } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedFormat, setSelectedFormat] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [savedIcons, setSavedIcons] = useState<SavedIcon[]>([]);
   const [isLoadingIcons, setIsLoadingIcons] = useState(false);
@@ -42,7 +41,7 @@ export default function LibraryPage() {
     if (hasActiveSubscription && user) {
       fetchIcons();
     }
-  }, [hasActiveSubscription, user, searchTerm, selectedFormat]);
+  }, [hasActiveSubscription, user, searchTerm]);
 
   const fetchIcons = async () => {
     setIsLoadingIcons(true);
@@ -51,7 +50,6 @@ export default function LibraryPage() {
     try {
       const params = new URLSearchParams();
       if (searchTerm) params.append('search', searchTerm);
-      if (selectedFormat !== 'all') params.append('format', selectedFormat);
       
       const response = await fetch(`/api/icons?${params.toString()}`);
       
@@ -93,14 +91,11 @@ export default function LibraryPage() {
     }
   };
 
-  const formats = ['all', 'PNG', 'SVG', 'ICO'];
-
   const filteredIcons = savedIcons.filter(icon => {
     const matchesSearch = icon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          icon.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesFormat = selectedFormat === 'all' || icon.format === selectedFormat;
     
-    return matchesSearch && matchesFormat;
+    return matchesSearch;
   });
 
   const handleDownload = async (icon: SavedIcon) => {
@@ -181,45 +176,54 @@ export default function LibraryPage() {
             </p>
           </div>
 
-          {/* Search and Filters */}
+          {/* Search and Controls */}
           <div className="px-6 sm:px-8 lg:px-12 mb-8">
-            <div className="bg-midnight-800/90 border border-midnight-700 rounded-2xl p-6 backdrop-blur-sm">
-              <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-                {/* Search */}
-                <div className="flex-1 max-w-md">
-                  <div className="relative">
-                    <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-sunset-300/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <input
-                      type="text"
-                      placeholder="Search your icons..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-midnight-700/50 border border-midnight-600 rounded-xl text-white placeholder-sunset-300/70 focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300"
-                    />
+            <div className="bg-gradient-to-r from-midnight-800/95 via-midnight-700/90 to-midnight-800/95 border border-midnight-600/50 rounded-3xl p-8 backdrop-blur-sm shadow-2xl shadow-black/20">
+              <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
+                {/* Search Section */}
+                <div className="flex-1 w-full lg:max-w-2xl">
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/20 to-coral-500/20 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>
+                    <div className="relative">
+                      <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-sunset-400/80 group-hover:text-sunset-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <input
+                        type="text"
+                        placeholder="Search your icon collection..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-14 pr-6 py-4 bg-midnight-800/80 border border-midnight-500/50 rounded-2xl text-white placeholder-sunset-300/60 focus:outline-none focus:border-sunset-400/60 focus:ring-4 focus:ring-sunset-400/10 transition-all duration-300 text-lg backdrop-blur-sm hover:bg-midnight-800/90"
+                      />
+                      {searchTerm && (
+                        <button
+                          onClick={() => setSearchTerm('')}
+                          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sunset-300/60 hover:text-sunset-400 transition-colors duration-200"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
 
-                {/* Filters */}
-                <div className="flex gap-3 items-center">
-                  <select
-                    value={selectedFormat}
-                    onChange={(e) => setSelectedFormat(e.target.value)}
-                    className="px-4 py-3 bg-midnight-700/50 border border-midnight-600 rounded-xl text-white focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300"
-                  >
-                    {formats.map(format => (
-                      <option key={format} value={format} className="bg-midnight-800 text-white">
-                        {format === 'all' ? 'All Formats' : format}
-                      </option>
-                    ))}
-                  </select>
-
+                {/* View Controls */}
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 text-sunset-200/80">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span className="text-sm font-medium">View:</span>
+                  </div>
+                  
                   {/* View Mode Toggle */}
-                  <div className="flex bg-midnight-700/50 rounded-xl border border-midnight-600">
+                  <div className="flex bg-midnight-800/60 rounded-2xl border border-midnight-500/50 p-1 backdrop-blur-sm">
                     <button
                       onClick={() => setViewMode('grid')}
-                      className={`p-3 rounded-l-xl transition-all duration-300 ${viewMode === 'grid' ? 'bg-gradient-to-r from-sunset-500 to-coral-500 text-white' : 'text-sunset-300/70 hover:text-white'}`}
+                      className={`p-3 rounded-xl transition-all duration-300 ${viewMode === 'grid' ? 'bg-gradient-to-r from-sunset-500 to-coral-500 text-white shadow-lg shadow-sunset-500/25' : 'text-sunset-300/70 hover:text-sunset-200 hover:bg-midnight-700/50'}`}
+                      title="Grid View"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -227,12 +231,38 @@ export default function LibraryPage() {
                     </button>
                     <button
                       onClick={() => setViewMode('list')}
-                      className={`p-3 rounded-r-xl transition-all duration-300 ${viewMode === 'list' ? 'bg-gradient-to-r from-sunset-500 to-coral-500 text-white' : 'text-sunset-300/70 hover:text-white'}`}
+                      className={`p-3 rounded-xl transition-all duration-300 ${viewMode === 'list' ? 'bg-gradient-to-r from-sunset-500 to-coral-500 text-white shadow-lg shadow-sunset-500/25' : 'text-sunset-300/70 hover:text-sunset-200 hover:bg-midnight-700/50'}`}
+                      title="List View"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                       </svg>
                     </button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Stats Bar */}
+              <div className="mt-6 pt-6 border-t border-midnight-600/30">
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-2 text-sunset-200/80">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                      </svg>
+                      <span className="font-medium">{filteredIcons.length} {filteredIcons.length === 1 ? 'Icon' : 'Icons'}</span>
+                    </div>
+                    {searchTerm && (
+                      <div className="flex items-center gap-2 text-sunset-400/80">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <span className="font-medium">Filtered by "{searchTerm}"</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-sunset-300/60 text-xs">
+                    All icons are PNG format
                   </div>
                 </div>
               </div>
@@ -329,8 +359,8 @@ export default function LibraryPage() {
                   </div>
                   <h3 className="text-white text-xl font-semibold mb-3">No icons found</h3>
                   <p className="text-sunset-200 mb-8 leading-relaxed">
-                    {searchTerm || selectedFormat !== 'all' 
-                      ? 'Try adjusting your search or filters to find what you\'re looking for'
+                    {searchTerm 
+                      ? 'Try adjusting your search to find what you\'re looking for'
                       : 'Start creating icons to build your personal library'
                     }
                   </p>
