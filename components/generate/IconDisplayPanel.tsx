@@ -212,13 +212,6 @@ export default function IconDisplayPanel({
         const clientHeight = container.clientHeight;
         const maxScroll = Math.max(0, scrollHeight - clientHeight);
         
-        console.log('🔄 Auto-scrolling on new content:', {
-          scrollHeight,
-          clientHeight,
-          maxScroll,
-          currentScrollTop: container.scrollTop,
-          needsScroll: maxScroll > 0
-        });
         
         // Always scroll to bottom when new content arrives
         container.scrollTop = maxScroll;
@@ -236,12 +229,6 @@ export default function IconDisplayPanel({
         const clientHeight = container.clientHeight;
         const maxScroll = Math.max(0, scrollHeight - clientHeight);
         
-        console.log('🔄 Initial scroll on generation start:', {
-          scrollHeight,
-          clientHeight,
-          maxScroll,
-          currentScrollTop: container.scrollTop
-        });
         
         container.scrollTop = maxScroll;
       });
@@ -261,13 +248,6 @@ export default function IconDisplayPanel({
           
           // Only scroll if we're not already at the bottom
           if (maxScroll > 0 && currentScroll < maxScroll - 10) { // 10px buffer
-            console.log('🔄 Periodic scroll:', {
-              scrollHeight,
-              clientHeight,
-              maxScroll,
-              currentScroll,
-              scrolling: true
-            });
             
             container.scrollTop = maxScroll;
           }
@@ -393,16 +373,23 @@ export default function IconDisplayPanel({
         ) : generatedImages.length > 0 && showGeneratedContent ? (
           <div className="flex justify-center items-center w-full min-h-96">
             {isImprovementMode && selectedIconUrl ? (
-              // Show only the selected icon for improvement
+              // Show the improved icon if available, otherwise show the original icon to improve
               <div className="flex flex-col items-center space-y-6">
                 <div className="text-center mb-4">
-                  <h4 className="text-lg font-medium text-white mb-2">Icon to Improve</h4>
-                  <p className="text-sunset-200 text-sm">Describe how you'd like to improve this icon</p>
+                  <h4 className="text-lg font-medium text-white mb-2">
+                    {generatedImages.length > 0 ? "Improved Icon" : "Icon to Improve"}
+                  </h4>
+                  <p className="text-sunset-200 text-sm">
+                    {generatedImages.length > 0 
+                      ? "Here's your improved icon!" 
+                      : "Describe how you'd like to improve this icon"
+                    }
+                  </p>
                 </div>
                 <div className="w-64 h-64 lg:w-80 lg:h-80 bg-white/10 border border-white/20 rounded-xl p-8 lg:p-12 hover:bg-white/20 transition-all duration-200 flex flex-col items-center justify-center group">
                   <img
-                    src={selectedIconUrl}
-                    alt="Icon to improve"
+                    src={generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl}
+                    alt={generatedImages.length > 0 ? "Improved icon" : "Icon to improve"}
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
                   />
                 </div>
@@ -410,7 +397,7 @@ export default function IconDisplayPanel({
                 {/* Action Buttons for Improvement Mode */}
                 <div className="flex gap-3">
                   <button
-                    onClick={() => handleShowCode(selectedIconUrl)}
+                    onClick={() => handleShowCode(generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl)}
                     className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
                     title="View SVG Code"
                   >
@@ -420,7 +407,7 @@ export default function IconDisplayPanel({
                     View Code
                   </button>
                   <button 
-                    onClick={() => handleDownload(selectedIconUrl)}
+                    onClick={() => handleDownload(generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl)}
                     className="[background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white py-2 px-4 font-semibold hover:scale-105 w-full flex items-center justify-center gap-2"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -526,11 +513,14 @@ export default function IconDisplayPanel({
           )}
           {isImprovementMode ? (
             <button
-              onClick={() => selectedIconUrl && openSaveModal(selectedIconUrl)}
-              disabled={savingIconId === selectedIconUrl}
+              onClick={() => {
+                const iconToSave = generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl;
+                iconToSave && openSaveModal(iconToSave);
+              }}
+              disabled={savingIconId === (generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl)}
               className="w-full bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-green-500/30 hover:border-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {savingIconId === selectedIconUrl ? (
+              {savingIconId === (generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl) ? (
                 <>
                   <div className="w-4 h-4 border border-green-300 border-t-transparent rounded-full animate-spin"></div>
                   Saving...

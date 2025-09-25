@@ -100,8 +100,7 @@ function GeneratePageContent() {
     return <Loading text="Processing your payment... Please wait." />;
   }
 
-  // Temporary: Log subscription status for debugging
-  console.log('Generate page - hasActiveSubscription:', hasActiveSubscription, 'loading:', loading);
+  // Subscription status checked
   
   // Show subscription gate if user doesn't have active subscription
   if (!hasActiveSubscription) {
@@ -119,6 +118,10 @@ function GeneratePageContent() {
     // For improvement mode, build upon the existing prompt and conversation context
     let finalPrompt = prompt.trim();
     if (isImprovementMode && currentPrompt) {
+      console.log('🎯 Improvement mode detected');
+      console.log('🎯 Current prompt:', currentPrompt);
+      console.log('🎯 User input:', prompt.trim());
+      
       // Get the original prompt from conversation history (first user message)
       const originalUserMessage = conversationHistory.find(msg => msg.type === 'user' && !msg.isImprovement);
       const originalPrompt = originalUserMessage?.content || currentPrompt;
@@ -134,6 +137,8 @@ function GeneratePageContent() {
         // User is describing what they want the icon to be/look like
         finalPrompt = `${cleanOriginalPrompt}, ${prompt.trim()}`;
       }
+      
+      console.log('🎯 Final improvement prompt:', finalPrompt);
     }
 
     setCurrentPrompt(finalPrompt);

@@ -43,7 +43,7 @@ export default function ChatPanel({
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [conversationHistory, isGenerating]);
+  }, [conversationHistory]);
 
   // Reset conversation when resetConversation prop changes
   useEffect(() => {
