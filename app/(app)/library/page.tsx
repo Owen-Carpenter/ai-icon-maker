@@ -32,8 +32,6 @@ export default function LibraryPage() {
   const [savedIcons, setSavedIcons] = useState<SavedIcon[]>([]);
   const [isLoadingIcons, setIsLoadingIcons] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showCodeModal, setShowCodeModal] = useState(false);
-  const [selectedIconCode, setSelectedIconCode] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [iconToDelete, setIconToDelete] = useState<SavedIcon | null>(null);
 
@@ -148,10 +146,6 @@ export default function LibraryPage() {
     }
   };
 
-  const handleShowCode = (icon: SavedIcon) => {
-    setSelectedIconCode(icon.svg_code);
-    setShowCodeModal(true);
-  };
 
   if (loading || isLoadingIcons) {
     return <Loading text="Loading your icon library..." />;
@@ -261,28 +255,19 @@ export default function LibraryPage() {
                           <span className="bg-midnight-700/50 px-3 py-1 rounded-full">{icon.format}</span>
                           <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                         </div>
-                        <div className="flex gap-1 mt-auto">
+                        <div className="flex gap-2 mt-auto">
                           <button
                             onClick={() => handleDownload(icon)}
-                            className="flex-1 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-xs py-2 px-2 rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-1 min-w-0"
+                            className="flex-1 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-xs py-2 px-3 rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-1 min-w-0"
                           >
                             <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <span className="truncate">PNG</span>
-                          </button>
-                          <button
-                            onClick={() => handleShowCode(icon)}
-                            className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-xs py-2 px-2 rounded-lg transition-all duration-300 flex items-center justify-center flex-shrink-0"
-                            title="View SVG Code"
-                          >
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
+                            <span className="truncate">Download PNG</span>
                           </button>
                           <button
                             onClick={() => openDeleteModal(icon)}
-                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-xs py-2 px-2 rounded-lg transition-all duration-300 flex items-center justify-center flex-shrink-0"
+                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-xs py-2 px-3 rounded-lg transition-all duration-300 flex items-center justify-center flex-shrink-0"
                             title="Delete Icon"
                           >
                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -314,18 +299,9 @@ export default function LibraryPage() {
                             Download PNG
                           </button>
                           <button
-                            onClick={() => handleShowCode(icon)}
-                            className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-sm py-2 px-3 rounded-lg transition-all duration-300 flex items-center gap-1"
-                            title="View SVG Code"
-                          >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                            Code
-                          </button>
-                          <button
                             onClick={() => openDeleteModal(icon)}
-                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-sm py-2 px-3 rounded-lg transition-all duration-300"
+                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-sm py-2 px-3 rounded-lg transition-all duration-300 flex items-center justify-center"
+                            title="Delete Icon"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -368,50 +344,6 @@ export default function LibraryPage() {
       {/* Footer positioned at bottom */}
       <Footer />
 
-      {/* Code Modal */}
-      {showCodeModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-midnight-800 border border-white/20 rounded-xl p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center">
-                <svg className="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-                <h3 className="text-lg font-semibold text-white">SVG Code</h3>
-              </div>
-              <button
-                onClick={() => setShowCodeModal(false)}
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            
-            <div className="bg-midnight-900 border border-white/10 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-gray-400 text-sm">SVG Code</span>
-                <button
-                  onClick={() => navigator.clipboard.writeText(selectedIconCode)}
-                  className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 px-3 py-1 rounded text-xs font-medium transition-colors border border-purple-500/30"
-                >
-                  Copy Code
-                </button>
-              </div>
-              <pre className="text-green-400 text-sm font-mono overflow-x-auto whitespace-pre-wrap">
-                <code>{selectedIconCode}</code>
-              </pre>
-            </div>
-            
-            <div className="mt-4 text-center">
-              <p className="text-gray-400 text-sm">
-                Copy this SVG code to use your icon in any web project or design tool.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && iconToDelete && (
