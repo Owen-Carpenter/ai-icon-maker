@@ -351,8 +351,17 @@ export default function LibraryPage() {
 
       {/* Image Preview Modal */}
       {showImageModal && selectedIcon && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-gradient-to-br from-midnight-800 to-midnight-900 rounded-2xl border border-white/20 p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div 
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={() => {
+            setShowImageModal(false);
+            setSelectedIcon(null);
+          }}
+        >
+          <div 
+            className="bg-gradient-to-br from-midnight-800 to-midnight-900 rounded-2xl border border-white/20 p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-sunset-500/20 to-coral-500/20 rounded-full flex items-center justify-center mr-4">
