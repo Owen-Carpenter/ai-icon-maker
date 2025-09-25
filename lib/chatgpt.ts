@@ -34,7 +34,7 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
     if (onThought) {
       try {
         const reasoningPrompt = isImprovement 
-          ? `You are an expert icon designer using GPT Image 1. A user wants to improve an existing icon based on their feedback: "${prompt}" in ${style} style.
+          ? `You are an expert icon designer using GPT Image 1. A user wants to restyle an existing icon based on their feedback: "${prompt}" in ${style} style.
 
 CRITICAL REQUIREMENTS:
 - TRANSPARENT PNG BACKGROUND - completely transparent, no background elements
@@ -46,9 +46,9 @@ Please provide a brief reasoning process explaining:
 1. How you'll modify the existing icon based on the specific feedback: "${prompt.split(',')[1]?.trim() || 'general improvement'}"
 2. Your approach to ensuring completely transparent backgrounds
 3. Color choices for maximum contrast and clarity - ${prompt.split(',')[1]?.trim().includes('blue') || prompt.split(',')[1]?.trim().includes('color') ? 'CRITICAL: You MUST use the specific color requested in the feedback' : 'Choose appropriate colors for the design'}
-4. How you'll keep the improved design simple and recognizable while implementing the requested changes
+4. How you'll keep the same basic concept and recognizable shape while applying the requested changes
 
-Focus on the specific improvements requested and how they will change the visual appearance. ${prompt.split(',')[1]?.trim().includes('blue') || prompt.split(',')[1]?.trim().includes('color') ? 'IMPORTANT: The color change must be visually obvious and match exactly what was requested.' : ''}`
+IMPORTANT: You are RESTYLING an existing icon, not creating a new one. Keep the same core concept and recognizable shape, only apply the requested modifications (color, style adjustments, etc.). ${prompt.split(',')[1]?.trim().includes('blue') || prompt.split(',')[1]?.trim().includes('color') ? 'IMPORTANT: The color change must be visually obvious and match exactly what was requested.' : ''}`
           : `You are an expert icon designer using GPT Image 1. A user wants to create ${count} clean, minimal icons for "${prompt}" in ${style} style.
 
 CRITICAL REQUIREMENTS:
@@ -113,7 +113,7 @@ Keep this concise and focused on transparency and minimalism.`;
     console.log(`🎯 Full request params:`, { prompt, style, count, isImprovement, actualCount });
     
     if (isImprovement) {
-      console.log('🎯 IMPROVEMENT MODE: Creating improved version of existing icon');
+      console.log('🎯 IMPROVEMENT MODE: Restyling existing icon with requested changes');
     } else {
       console.log('🎯 NEW ICON MODE: Creating new icons from scratch');
     }
@@ -142,15 +142,15 @@ Keep this concise and focused on transparency and minimalism.`;
                                improvementPart.toLowerCase().includes('white');
           
           if (isColorChange) {
-            // Extra emphasis for color changes
-            imagePrompt = `Create a ${basePrompt} icon, ${style} style, but ${improvementPart}. CRITICAL: The icon must be ${improvementPart} as specifically requested. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+            // For color changes, modify the existing icon
+            imagePrompt = `Modify the existing ${basePrompt} icon to be ${improvementPart}. Keep the same basic shape and structure, only change the color to ${improvementPart}. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
           } else {
-            // More specific improvement prompt
-            imagePrompt = `Create a ${basePrompt} icon, ${style} style, but ${improvementPart}. IMPORTANT: Apply the requested changes visually. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+            // For other improvements, modify the existing icon
+            imagePrompt = `Modify the existing ${basePrompt} icon by ${improvementPart}. Keep the same basic concept and recognizable shape, only apply the requested changes: ${improvementPart}. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
           }
         } else {
           // Fallback for general improvements
-          imagePrompt = `${prompt}, ${style} style icon. IMPORTANT: Apply the requested changes visually. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+          imagePrompt = `Modify the existing ${basePrompt} icon with ${style} style improvements. Keep the same basic concept, only apply ${style} styling. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
         }
         console.log(`🎯 Improvement prompt: "${imagePrompt}"`);
       } else {
