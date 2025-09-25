@@ -8,7 +8,7 @@ import Loading from '../../../components/ui/Loading';
 import SubscriptionGate from '../../../components/SubscriptionGate';
 import SmartGenerateLink from '../../../components/SmartGenerateLink';
 import Footer from '../../../components/Footer';
-import { downloadSVG, downloadImageFromUrl, generateFileName, downloadSVGAsFormat } from '../../../lib/download-utils';
+import { downloadSVG, downloadImageFromUrl, generateFileName, downloadSVGAsFormat, downloadPNGImage } from '../../../lib/download-utils';
 
 interface SavedIcon {
   id: string;
@@ -106,12 +106,14 @@ export default function LibraryPage() {
   const handleDownload = async (icon: SavedIcon) => {
     try {
       // Always download as PNG
+      const fileName = generateFileName(icon.name, 'png');
+      
       if (icon.svg_code) {
+        // Convert SVG to PNG
         await downloadSVGAsFormat(icon.svg_code, icon.name, 'png');
       } else {
-        // For non-SVG icons, download the original image as PNG
-        const fileName = generateFileName(icon.name, 'png');
-        await downloadImageFromUrl(icon.image_url, fileName);
+        // For non-SVG icons, download the image as PNG
+        await downloadPNGImage(icon.image_url, fileName);
       }
     } catch (error) {
       console.error('Error downloading icon:', error);
@@ -259,30 +261,31 @@ export default function LibraryPage() {
                           <span className="bg-midnight-700/50 px-3 py-1 rounded-full">{icon.format}</span>
                           <span>{new Date(icon.created_at).toLocaleDateString()}</span>
                         </div>
-                        <div className="flex gap-2 mt-auto">
+                        <div className="flex gap-1 mt-auto">
                           <button
                             onClick={() => handleDownload(icon)}
-                            className="flex-1 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-sm py-2 px-3 rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-1"
+                            className="flex-1 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white text-xs py-2 px-2 rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-1 min-w-0"
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            Download PNG
+                            <span className="truncate">PNG</span>
                           </button>
                           <button
                             onClick={() => handleShowCode(icon)}
-                            className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-sm py-2 px-3 rounded-lg transition-all duration-300 flex items-center gap-1"
+                            className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-xs py-2 px-2 rounded-lg transition-all duration-300 flex items-center justify-center flex-shrink-0"
                             title="View SVG Code"
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                             </svg>
                           </button>
                           <button
                             onClick={() => openDeleteModal(icon)}
-                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-sm py-2 px-3 rounded-lg transition-all duration-300"
+                            className="bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white text-xs py-2 px-2 rounded-lg transition-all duration-300 flex items-center justify-center flex-shrink-0"
+                            title="Delete Icon"
                           >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                           </button>
