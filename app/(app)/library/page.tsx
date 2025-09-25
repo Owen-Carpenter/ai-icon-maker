@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import Sidebar from '../../../components/generate/Sidebar';
 import Link from 'next/link';
@@ -27,6 +27,7 @@ interface SavedIcon {
 export default function LibraryPage() {
   const { user, hasActiveSubscription, loading } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [savedIcons, setSavedIcons] = useState<SavedIcon[]>([]);
   const [isLoadingIcons, setIsLoadingIcons] = useState(false);
@@ -36,22 +37,28 @@ export default function LibraryPage() {
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState<SavedIcon | null>(null);
 
-  // Fetch icons from database
+  // Debounce search term
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300); // 300ms delay
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  // Fetch icons from database (only once on mount)
   useEffect(() => {
     if (hasActiveSubscription && user) {
       fetchIcons();
     }
-  }, [hasActiveSubscription, user, searchTerm]);
+  }, [hasActiveSubscription, user]);
 
   const fetchIcons = async () => {
     setIsLoadingIcons(true);
     setError(null);
     
     try {
-      const params = new URLSearchParams();
-      if (searchTerm) params.append('search', searchTerm);
-      
-      const response = await fetch(`/api/icons?${params.toString()}`);
+      const response = await fetch('/api/icons');
       
       if (response.ok) {
         const data = await response.json();
