@@ -36,11 +36,8 @@ export default function IconDisplayPanel({
   onStreamingThoughts,
   streamedThoughts
 }: IconDisplayPanelProps) {
-  const [animatedCode, setAnimatedCode] = useState('');
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [selectedIconCode, setSelectedIconCode] = useState('');
-  const [codeAnimationComplete, setCodeAnimationComplete] = useState(false);
-  const [showGeneratedContent, setShowGeneratedContent] = useState(false);
   const [savingIconId, setSavingIconId] = useState<string | null>(null);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [iconToSave, setIconToSave] = useState<string>('');
@@ -48,59 +45,18 @@ export default function IconDisplayPanel({
   const [dalleThoughts, setDalleThoughts] = useState<string>('');
   const thoughtsContainerRef = useRef<HTMLDivElement>(null);
 
-  // Function to extract SVG code from base64 data URL
-  const extractSvgFromDataUrl = (dataUrl: string): string => {
-    if (dataUrl.startsWith('data:image/svg+xml;base64,')) {
-      try {
-        const base64 = dataUrl.split(',')[1];
-        const svgCode = atob(base64);
-        // Ensure the SVG has proper dimensions for 500x500 canvas
-        if (svgCode.includes('viewBox="0 0 24 24"')) {
-          return svgCode.replace(
-            /<svg([^>]*)>/,
-            '<svg width="500" height="500" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">'
-          );
-        }
-        return svgCode;
-      } catch (error) {
-        console.error('Error decoding SVG from data URL:', error);
-        return getFallbackSvgCode();
-      }
-    }
-    return getFallbackSvgCode();
-  };
+  // Since we're only using PNG images now, we don't need SVG extraction logic
 
   // Since we're only using PNG images now, we don't need SVG fallback functions
 
-  // Extract SVG codes when images change - start animation with first icon immediately
+  // Since we're only using PNG images now, set a simple message for code display
   useEffect(() => {
     if (generatedImages.length > 0) {
-      const codes = generatedImages.map(extractSvgFromDataUrl);
-      setExtractedSvgCodes(codes);
-      
-      // If we're generating and this is the first real SVG code, start animation immediately
-      if (isGenerating && codes.length > 0 && animatedCode === '') {
-        let currentIndex = 0;
-        const realCode = codes[0]; // Use the first actual SVG code
-        
-        const interval = setInterval(() => {
-          if (currentIndex <= realCode.length) {
-            setAnimatedCode(realCode.slice(0, currentIndex));
-            currentIndex += Math.random() > 0.5 ? 3 : 2; // Faster typing speed
-          } else {
-            clearInterval(interval);
-            setCodeAnimationComplete(true);
-            // Show "Code Complete" message for a moment, then show icons
-            setTimeout(() => {
-              setShowGeneratedContent(true);
-            }, 500);
-          }
-        }, 25);
-      }
+      setExtractedSvgCodes(['SVG code not available - this icon is stored as PNG']);
     } else {
       setExtractedSvgCodes([]);
     }
-  }, [generatedImages, isGenerating, animatedCode]);
+  }, [generatedImages]);
 
   // Function to save icon to library
   const handleSaveToLibrary = async (imageUrl: string, iconName: string) => {
@@ -162,17 +118,11 @@ export default function IconDisplayPanel({
     }
   };
 
-  // Reset animation state when generation starts or stops
+  // Reset thoughts when generation starts or stops
   useEffect(() => {
     if (isGenerating) {
-      setCodeAnimationComplete(false);
-      setShowGeneratedContent(false);
-      setAnimatedCode(''); // Reset animated code
       setDalleThoughts(''); // Reset GPT Image 1 thoughts
     } else {
-      setAnimatedCode('');
-      setCodeAnimationComplete(false);
-      setShowGeneratedContent(false);
       setDalleThoughts('');
     }
   }, [isGenerating]);
@@ -236,12 +186,7 @@ export default function IconDisplayPanel({
 
   // Show generated content when generation is complete and animation is done
   useEffect(() => {
-    if (!isGenerating && generatedImages.length > 0) {
-      const timer = setTimeout(() => {
-        setShowGeneratedContent(true);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
+    // No longer needed since we removed SVG animation
   }, [isGenerating, generatedImages.length]);
 
   const handleShowCode = (imageUrl: string) => {
@@ -269,7 +214,7 @@ export default function IconDisplayPanel({
 
       {/* Results Content */}
       <div className="flex-1 p-4 lg:p-8 lg:min-h-0 relative z-10">
-        {isGenerating || (!showGeneratedContent && generatedImages.length > 0) ? (
+        {isGenerating ? (
           <div className="flex flex-col items-center justify-center min-h-96 space-y-6 py-8">
             {isGenerating && (
               <>
@@ -288,7 +233,7 @@ export default function IconDisplayPanel({
               </>
             )}
             
-            {!isGenerating && !showGeneratedContent && (
+            {!isGenerating && (
               <div className="text-center">
                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -341,7 +286,7 @@ export default function IconDisplayPanel({
               </div>
             </div>
           </div>
-        ) : generatedImages.length > 0 && showGeneratedContent ? (
+        ) : generatedImages.length > 0 ? (
           <div className="flex justify-center items-center w-full min-h-96">
             {isImprovementMode && selectedIconUrl ? (
               // Show the improved icon if available, otherwise show the original icon to improve
