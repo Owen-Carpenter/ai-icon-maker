@@ -23,7 +23,7 @@ export default function Sidebar({ currentPage = 'generate', onStartWalkthrough }
       <div className="lg:hidden fixed top-4 right-4 z-[10000]">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="w-10 h-10 bg-white/75 backdrop-blur-sm border border-white/10 rounded-lg flex items-center justify-center text-white hover:bg-white/90 transition-colors"
+          className="w-10 h-10 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl flex items-center justify-center text-white/90 hover:text-white hover:bg-white/30 transition-all duration-300 shadow-lg shadow-black/10 ring-1 ring-white/20"
         >
           {isMobileMenuOpen ? (
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,7 +40,7 @@ export default function Sidebar({ currentPage = 'generate', onStartWalkthrough }
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div 
-          className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998]"
+          className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-md z-[9998]"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -52,13 +52,14 @@ export default function Sidebar({ currentPage = 'generate', onStartWalkthrough }
           fixed
           w-64 lg:w-16 
           h-full
-          bg-white/75 backdrop-blur-sm
-          border-r border-white/10 
+          bg-white/20 backdrop-blur-xl
+          border-r border-white/30 
           flex flex-col 
           py-6 
           z-[9999]
           transition-transform duration-300 ease-in-out
-          shadow-lg shadow-sunset-500/20
+          shadow-2xl shadow-black/20
+          ring-1 ring-white/20
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
@@ -87,57 +88,57 @@ export default function Sidebar({ currentPage = 'generate', onStartWalkthrough }
           {/* Generate */}
           <div 
             onClick={() => handleNavigation('/generate')}
-            className={`lg:w-10 lg:h-10 w-full rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-colors ${
+            className={`lg:w-10 lg:h-10 w-full rounded-2xl flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-all duration-300 ${
               currentPage === 'generate' 
-                ? 'bg-sunset-500/20 border-sunset-500/30' 
-                : 'bg-white/10 border-sunset-500/30 hover:bg-white/20'
+                ? 'bg-white/30 border-white/40 backdrop-blur-md' 
+                : 'bg-white/10 border-white/30 hover:bg-white/20 hover:backdrop-blur-md hover:border-white/40'
             }`}>
-            <svg className="w-5 h-5 text-sunset-600 lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-white/90 group-hover:text-white transition-colors lg:mr-0 mr-3 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            <span className="text-sunset-600 font-semibold lg:hidden drop-shadow-md">Generate Icons</span>
+            <span className="text-white/90 group-hover:text-white font-semibold lg:hidden drop-shadow-sm transition-colors">Generate Icons</span>
             {/* Desktop Tooltip */}
-            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
+            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl text-white/90 text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-[99999] shadow-lg shadow-black/20 ring-1 ring-white/20">
               Generate Icons
-              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
+              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white/20"></div>
             </div>
           </div>
 
           {/* Library */}
           <div 
             onClick={() => handleNavigation('/library')}
-            className={`lg:w-10 lg:h-10 w-full rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-colors ${
+            className={`lg:w-10 lg:h-10 w-full rounded-2xl flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-all duration-300 ${
               currentPage === 'library' 
-                ? 'bg-sunset-500/20 border-sunset-500/30' 
-                : 'bg-white/10 border-sunset-500/30 hover:bg-white/20'
+                ? 'bg-white/30 border-white/40 backdrop-blur-md' 
+                : 'bg-white/10 border-white/30 hover:bg-white/20 hover:backdrop-blur-md hover:border-white/40'
             }`}>
-            <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-white/80 group-hover:text-white transition-colors lg:mr-0 mr-3 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
-            <span className="text-sunset-600/80 group-hover:text-sunset-600 font-medium lg:hidden drop-shadow-md">Icon Library</span>
+            <span className="text-white/80 group-hover:text-white font-medium lg:hidden drop-shadow-sm transition-colors">Icon Library</span>
             {/* Desktop Tooltip */}
-            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
+            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl text-white/90 text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-[99999] shadow-lg shadow-black/20 ring-1 ring-white/20">
               Icon Library
-              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
+              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white/20"></div>
             </div>
           </div>
 
           {/* Usage */}
           <div 
             onClick={() => handleNavigation('/usage')}
-            className={`lg:w-10 lg:h-10 w-full rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-colors ${
+            className={`lg:w-10 lg:h-10 w-full rounded-2xl flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer group relative border transition-all duration-300 ${
               currentPage === 'usage' 
-                ? 'bg-sunset-500/20 border-sunset-500/30' 
-                : 'bg-white/10 border-sunset-500/30 hover:bg-white/20'
+                ? 'bg-white/30 border-white/40 backdrop-blur-md' 
+                : 'bg-white/10 border-white/30 hover:bg-white/20 hover:backdrop-blur-md hover:border-white/40'
             }`}>
-            <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-white/80 group-hover:text-white transition-colors lg:mr-0 mr-3 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
-            <span className="text-sunset-600/80 group-hover:text-sunset-600 font-medium lg:hidden drop-shadow-md">Usage & Limits</span>
+            <span className="text-white/80 group-hover:text-white font-medium lg:hidden drop-shadow-sm transition-colors">Usage & Limits</span>
             {/* Desktop Tooltip */}
-            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
+            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl text-white/90 text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-[99999] shadow-lg shadow-black/20 ring-1 ring-white/20">
               Usage & Limits
-              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
+              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white/20"></div>
             </div>
           </div>
 
@@ -150,16 +151,16 @@ export default function Sidebar({ currentPage = 'generate', onStartWalkthrough }
                       console.log('Walkthrough handler not provided');
                     }
                   }}
-            className="lg:w-10 lg:h-10 w-full bg-white/10 rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer hover:bg-white/20 transition-colors group relative border border-sunset-500/30"
+            className="lg:w-10 lg:h-10 w-full bg-white/10 rounded-2xl flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer hover:bg-white/20 hover:backdrop-blur-md transition-all duration-300 group relative border border-white/30 hover:border-white/40"
           >
-            <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-white/80 group-hover:text-white transition-colors lg:mr-0 mr-3 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span className="text-sunset-600/80 group-hover:text-sunset-600 font-medium lg:hidden drop-shadow-md">Help & Tips</span>
+            <span className="text-white/80 group-hover:text-white font-medium lg:hidden drop-shadow-sm transition-colors">Help & Tips</span>
             {/* Desktop Tooltip */}
-            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
+            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl text-white/90 text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-[99999] shadow-lg shadow-black/20 ring-1 ring-white/20">
               Help & Tips
-              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
+              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white/20"></div>
             </div>
           </div>
         </div>
@@ -169,16 +170,16 @@ export default function Sidebar({ currentPage = 'generate', onStartWalkthrough }
           {/* Account */}
           <div 
             onClick={() => handleNavigation('/account')}
-            className="lg:w-10 lg:h-10 w-full bg-white/10 rounded-lg flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer hover:bg-white/20 transition-colors group relative border border-sunset-500/30"
+            className="lg:w-10 lg:h-10 w-full bg-white/10 rounded-2xl flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer hover:bg-white/20 hover:backdrop-blur-md transition-all duration-300 group relative border border-white/30 hover:border-white/40"
           >
-            <svg className="w-5 h-5 text-sunset-600/80 group-hover:text-sunset-600 transition-colors lg:mr-0 mr-3 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-white/80 group-hover:text-white transition-colors lg:mr-0 mr-3 drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            <span className="text-sunset-600/80 group-hover:text-sunset-600 font-medium lg:hidden drop-shadow-md">Account & Settings</span>
+            <span className="text-white/80 group-hover:text-white font-medium lg:hidden drop-shadow-sm transition-colors">Account & Settings</span>
             {/* Desktop Tooltip */}
-            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-midnight-800 border border-white/20 rounded-lg text-white text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-[99999]">
+            <div className="hidden lg:block absolute left-full ml-3 px-3 py-2 bg-white/20 backdrop-blur-xl border border-white/30 rounded-2xl text-white/90 text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-[99999] shadow-lg shadow-black/20 ring-1 ring-white/20">
               Account & Settings
-              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-midnight-800"></div>
+              <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white/20"></div>
             </div>
           </div>
         </div>

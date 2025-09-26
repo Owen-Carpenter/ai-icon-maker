@@ -158,11 +158,11 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
       <div className="w-full px-6 py-4">
         <div className="flex items-center justify-center">
           {/* Centered Navigation Container */}
-          <div className="flex items-center bg-white/75 backdrop-blur-sm rounded-full shadow-sm border border-gray-200 px-6 py-3">
+          <div className="flex items-center bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl shadow-black/10 border border-white/30 px-8 py-4 ring-1 ring-white/20">
             {/* Logo - Clickable to go home */}
             <Link href="/" className="flex items-center space-x-2 group mr-8">
               <Logo width={32} height={32} className="group-hover:scale-105 transition-transform duration-200" />
-              <span className="text-lg font-semibold text-gray-800">AI Icon Maker</span>
+              <span className="text-lg font-semibold text-white/90 drop-shadow-sm">AI Icon Maker</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -171,7 +171,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                 link.isSmartLink ? (
                   <SmartGenerateLink
                     key={link.href}
-                    className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-3 py-2 rounded-full hover:bg-gray-100"
+                    className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-2.5 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30"
                     fallbackHref="/register"
                   >
                     {link.label}
@@ -181,7 +181,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                     key={link.href}
                     href={link.href} 
                     onClick={(e) => handleLinkClick(link, e)}
-                    className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-3 py-2 rounded-full hover:bg-gray-100"
+                    className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-2.5 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30"
                   >
                     {link.label}
                   </Link>
@@ -195,19 +195,19 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                 <div className="relative" ref={dropdownRef}>
                   <button 
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100"
+                    className="flex items-center space-x-2 text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-2.5 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30"
                   >
                     <span className="text-sm">{user.email}</span>
-                    <svg className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
                   
                   {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    <div className="absolute right-0 mt-2 w-48 bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/20 border border-white/30 py-2 z-50 ring-1 ring-white/20">
                       <Link 
                         href="/account" 
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                        className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/20 transition-all duration-300 mx-2 rounded-xl"
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         Account Settings
@@ -215,7 +215,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                       <button 
                         onClick={handleSignOut}
                         disabled={loading}
-                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50"
+                        className="w-full text-left px-4 py-3 text-white/90 hover:text-white hover:bg-white/20 transition-all duration-300 disabled:opacity-50 mx-2 rounded-xl"
                       >
                         {loading ? 'Signing out...' : 'Sign out'}
                       </button>
@@ -224,12 +224,12 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                 </div>
               ) : (
                 <>
-                  <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-2 rounded-full hover:bg-gray-100">
+                  <Link href="/login" className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-2.5 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30">
                     Login
                   </Link>
                   <Link 
                     href="/register" 
-                    className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-2 rounded-full font-medium hover:from-orange-600 hover:to-pink-600 transition-all duration-200 shadow-sm hover:shadow-md"
+                    className="bg-gradient-to-r from-orange-500/90 to-pink-500/90 backdrop-blur-md text-white px-6 py-2.5 rounded-2xl font-medium hover:from-orange-500 hover:to-pink-500 transition-all duration-300 shadow-lg hover:shadow-xl border border-white/20 hover:border-white/40"
                   >
                     Sign up
                   </Link>
@@ -240,7 +240,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
             {/* Mobile Menu Button */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-gray-600 hover:text-gray-900 transition-colors duration-200 ml-4 p-2 rounded-full hover:bg-gray-100"
+              className="md:hidden text-white/80 hover:text-white transition-all duration-300 ml-4 p-2 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMenuOpen ? (
@@ -256,13 +256,13 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 flex justify-center">
-            <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 p-6 w-full max-w-sm">
+            <div className="bg-white/20 backdrop-blur-xl rounded-3xl shadow-2xl shadow-black/20 border border-white/30 p-6 w-full max-w-sm ring-1 ring-white/20">
               <div className="flex flex-col space-y-3">
                 {navigationLinks.map((link) => (
                   link.isSmartLink ? (
                     <SmartGenerateLink
                       key={link.href}
-                      className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100"
+                      className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-3 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30"
                       fallbackHref="/register"
                     >
                       {link.label}
@@ -272,20 +272,20 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                       key={link.href}
                       href={link.href} 
                       onClick={(e) => handleLinkClick(link, e)}
-                      className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100"
+                      className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-3 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30"
                     >
                       {link.label}
                     </Link>
                   )
                 ))}
-                <div className="pt-4 border-t border-gray-200">
+                <div className="pt-4 border-t border-white/20">
                   <div className="flex flex-col space-y-3">
                     {user ? (
                       <>
-                        <div className="text-gray-600 text-sm px-4 py-3 text-center font-medium">{user.email}</div>
+                        <div className="text-white/70 text-sm px-4 py-3 text-center font-medium">{user.email}</div>
                         <Link 
                           href="/account" 
-                          className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100 text-center"
+                          className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-3 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30 text-center"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           Account Settings
@@ -293,19 +293,19 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                         <button 
                           onClick={handleSignOut}
                           disabled={loading}
-                          className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100 text-center disabled:opacity-50"
+                          className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-3 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30 text-center disabled:opacity-50"
                         >
                           {loading ? 'Signing out...' : 'Sign out'}
                         </button>
                       </>
                     ) : (
                       <>
-                        <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors duration-200 font-medium px-4 py-3 rounded-full hover:bg-gray-100 text-center">
+                        <Link href="/login" className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-3 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30 text-center">
                           Login
                         </Link>
                         <Link 
                           href="/register" 
-                          className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-full font-medium hover:from-orange-600 hover:to-pink-600 transition-all duration-200 shadow-sm hover:shadow-md text-center"
+                          className="bg-gradient-to-r from-orange-500/90 to-pink-500/90 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-medium hover:from-orange-500 hover:to-pink-500 transition-all duration-300 shadow-lg hover:shadow-xl border border-white/20 hover:border-white/40 text-center"
                         >
                           Sign up
                         </Link>
