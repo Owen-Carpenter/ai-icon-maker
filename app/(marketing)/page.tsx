@@ -587,24 +587,17 @@ export default function HomePage() {
           </div>
           
           {/* Pricing Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
             
-            {/* Pro Plan */}
+            {/* Base Plan */}
             <ScrollAnimation delay={200}>
-              <div className="bg-gradient-to-br from-sunset-500/20 to-coral-500/20 backdrop-blur-md rounded-2xl p-8 border-2 border-sunset-500/50 shadow-2xl hover:shadow-3xl hover:shadow-sunset-500/30 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
-                {/* Popular Badge */}
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-[#ff7e5f] text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
-                    Most Popular
-                  </div>
-                </div>
-                
-                <div className="text-center mb-8 mt-4">
-                  <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
+              <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-white mb-2">Base</h3>
                   <div className="text-4xl font-bold text-white mb-4">
-                    $15<span className="text-lg font-normal text-sunset-200">/month</span>
+                    $5<span className="text-lg font-normal text-sunset-200">/month</span>
                   </div>
-                  <p className="text-sunset-200">Perfect for professionals and small teams</p>
+                  <p className="text-sunset-200">Perfect for getting started</p>
                 </div>
 
                 <ul className="space-y-4 mb-8 flex-1">
@@ -612,7 +605,7 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    200 credits per month
+                    25 credits per month
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -624,13 +617,80 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Multiple style options (Modern, Flat, 3D, etc.)
+                    Multiple style options
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Download as SVG, PNG, or JPG
+                    Download as PNG
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Save icons to your library
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Commercial usage rights
+                  </li>
+              </ul>
+                
+                <button 
+                  onClick={() => handleCheckout('base')}
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 px-6 rounded-full font-semibold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? 'Processing...' : 'Get Started'}
+                </button>
+              </div>
+            </ScrollAnimation>
+
+            {/* Pro Plan */}
+            <ScrollAnimation delay={250}>
+              <div className="bg-gradient-to-br from-sunset-500/20 to-coral-500/20 backdrop-blur-md rounded-2xl p-8 border-2 border-sunset-500/50 shadow-2xl hover:shadow-3xl hover:shadow-sunset-500/30 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
+                {/* Popular Badge */}
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-[#ff7e5f] text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+                    Most Popular
+                  </div>
+                </div>
+                
+                <div className="text-center mb-8 mt-4">
+                  <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
+                  <div className="text-4xl font-bold text-white mb-4">
+                    $10<span className="text-lg font-normal text-sunset-200">/month</span>
+                  </div>
+                  <p className="text-sunset-200">Perfect for professionals</p>
+                </div>
+
+                <ul className="space-y-4 mb-8 flex-1">
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    100 credits per month
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    GPT Image 1 powered icon generation
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Multiple style options
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Download as PNG
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -643,6 +703,12 @@ export default function HomePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     Icon improvement & iteration
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Priority support
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -662,23 +728,23 @@ export default function HomePage() {
               </div>
             </ScrollAnimation>
 
-            {/* Enterprise Plan */}
+            {/* Pro+ Plan */}
             <ScrollAnimation delay={300}>
               <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
                 <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-2">Enterprise</h3>
+                  <h3 className="text-2xl font-bold text-white mb-2">Pro+</h3>
                   <div className="text-4xl font-bold text-white mb-4">
-                    $30<span className="text-lg font-normal text-sunset-200">/month</span>
+                    $15<span className="text-lg font-normal text-sunset-200">/month</span>
                   </div>
-                  <p className="text-sunset-200">For agencies and large organizations</p>
-            </div>
+                  <p className="text-sunset-200">For power users and teams</p>
+                </div>
 
                 <ul className="space-y-4 mb-8 flex-1">
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    500 credits per month
+                    200 credits per month
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -690,19 +756,13 @@ export default function HomePage() {
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    GPT Image 1 HD quality generation
-                  </li>
-                  <li className="flex items-center text-sunset-200">
-                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Priority processing & faster generation
-                  </li>
-                  <li className="flex items-center text-sunset-200">
-                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
                     Extended icon library storage
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Priority processing
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -716,12 +776,18 @@ export default function HomePage() {
                     </svg>
                     Commercial usage rights
                   </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Premium support
+                  </li>
               </ul>
                 
                 <button 
-                  onClick={() => handleCheckout('enterprise')}
+                  onClick={() => handleCheckout('proPlus')}
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-purple-600 transition-all duration-300 text-center block disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Processing...' : 'Start Creating Icons'}
                 </button>

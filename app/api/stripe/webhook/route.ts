@@ -268,23 +268,31 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
 }
 
 function getPlanTypeFromPriceId(priceId: string): string {
+  const basePriceId = process.env.STRIPE_BASE_PRICE_ID
   const proPriceId = process.env.STRIPE_PRO_PRICE_ID
-  const unlimitedPriceId = process.env.STRIPE_UNLIMITED_PRICE_ID
+  const proPlusPriceId = process.env.STRIPE_PRO_PLUS_PRICE_ID
+  const enterprisePriceId = process.env.STRIPE_UNLIMITED_PRICE_ID // Legacy support
 
+  if (priceId === basePriceId) return 'base'
   if (priceId === proPriceId) return 'pro'
-  if (priceId === unlimitedPriceId) return 'enterprise'
+  if (priceId === proPlusPriceId) return 'proPlus'
+  if (priceId === enterprisePriceId) return 'proPlus' // Legacy enterprise maps to pro+
   return 'free'
 }
 
 function getCreditsForPlan(planType: string): number {
   switch (planType) {
     case 'free':
-      return 5
+      return 0 // Free tier has no credits
+    case 'base':
+      return 25 // Base tier: $5 for 25 credits
     case 'pro':
-      return 200 // Updated to match new Pro pricing
+      return 100 // Pro tier: $10 for 100 credits
+    case 'proPlus':
+      return 200 // Pro+ tier: $15 for 200 credits
     case 'enterprise':
-      return 500 // Updated to match new Enterprise pricing
+      return 200 // Legacy enterprise maps to pro+
     default:
-      return 5
+      return 0
   }
 } 

@@ -14,7 +14,6 @@ interface SavedIcon {
   id: string;
   name: string;
   image_url: string;
-  svg_code: string;
   prompt?: string;
   style?: string;
   color?: string;
@@ -76,17 +75,15 @@ export default function LibraryPage() {
           id: '1',
           name: 'AI Icon Maker Logo',
           image_url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QzAwIi8+Cjwvc3ZnPgo=',
-          svg_code: '<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M250 75L268.75 195.83L375 225L268.75 304.17L250 425L231.25 304.17L125 225L231.25 195.83L250 75Z" fill="#FF6C00"/></svg>',
           created_at: '2024-01-15',
           tags: ['logo', 'brand', 'ai'],
-          format: 'SVG' as const,
+          format: 'PNG' as const,
           is_favorite: false
         },
         {
           id: '2',
           name: 'Heart Icon',
           image_url: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwLjg0IDQuNjFhNS41IDUuNSAwIDAgMC03Ljc4IDBMMTIgNS42N2wtMS4wNi0xLjA2YTUuNSA1LjUgMCAwIDAtNy43OCA3Ljc4bDEuMDYgMS4wNkwxMiAyMWw3Ljc4LTcuNzggMS4wNi0xLjA2YTUuNSA1LjUgMCAwIDAtNy43OC03Ljc4eiIgZmlsbD0iI0ZGNkM2QyIvPgo8L3N2Zz4K',
-          svg_code: '<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M434.17 96.04a114.58 114.58 0 0 0-162.08 0L250 118.13l-22.09-22.09a114.58 114.58 0 0 0-162.08 162.08l22.09 22.09L250 437.5l162.08-162.08 22.09-22.09a114.58 114.58 0 0 0-162.08-162.08z" fill="#FF6C6C"/></svg>',
           created_at: '2024-01-14',
           tags: ['love', 'like', 'favorite'],
           format: 'PNG' as const,

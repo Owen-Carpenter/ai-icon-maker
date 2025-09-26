@@ -28,10 +28,14 @@ export const STRIPE_CONFIG = {
 // Server-side function to get actual Stripe price IDs
 export const getStripePriceId = (plan: string): string | null => {
   switch (plan) {
+    case 'base':
+      return process.env.STRIPE_BASE_PRICE_ID || null;
     case 'pro':
       return process.env.STRIPE_PRO_PRICE_ID || null;
-    case 'unlimited':
-      return process.env.STRIPE_UNLIMITED_PRICE_ID || null;
+    case 'proPlus':
+      return process.env.STRIPE_PRO_PLUS_PRICE_ID || null;
+    case 'enterprise':
+      return process.env.STRIPE_UNLIMITED_PRICE_ID || null; // Legacy support
     default:
       return null;
   }

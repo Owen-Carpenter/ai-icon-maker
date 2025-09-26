@@ -1,35 +1,54 @@
 // Subscription plans configuration (client-safe - no environment variables)
 export const SUBSCRIPTION_PLANS = {
-  pro: {
-    name: 'Pro',
-    price: 15,
-    priceId: 'pro', // Resolved server-side
-    credits: 200, // Updated: Pro users get 200 tokens
+  base: {
+    name: 'Base',
+    price: 5,
+    priceId: 'base', // Resolved server-side
+    credits: 25,
     features: [
-      '200 credits per month',
+      '25 credits per month',
       'GPT Image 1 powered icon generation',
       'Multiple style options (Modern, Flat, 3D, etc.)',
-      'Download as SVG, PNG, or JPG',
+      'Download as PNG',
       'Save icons to your library',
       'Icon improvement & iteration',
       'Commercial usage rights',
       'Transparent background icons'
     ]
   },
-  enterprise: {
-    name: 'Enterprise',
-    price: 30,
-    priceId: 'enterprise', // Changed from 'unlimited' to 'enterprise'
-    credits: 500, // Updated: Enterprise users get 500 tokens
+  pro: {
+    name: 'Pro',
+    price: 10,
+    priceId: 'pro', // Resolved server-side
+    credits: 100,
     features: [
-      '500 credits per month',
-      'Everything in Pro plan',
-      'GPT Image 1 HD quality generation',
-      'Priority processing & faster generation',
-      'Extended icon library storage',
-      'Advanced export options',
+      '100 credits per month',
+      'GPT Image 1 powered icon generation',
+      'Multiple style options (Modern, Flat, 3D, etc.)',
+      'Download as PNG',
+      'Save icons to your library',
+      'Icon improvement & iteration',
       'Commercial usage rights',
-      'Premium transparent background icons'
+      'Transparent background icons',
+      'Priority support'
+    ]
+  },
+  proPlus: {
+    name: 'Pro+',
+    price: 15,
+    priceId: 'proPlus', // Resolved server-side
+    credits: 200,
+    features: [
+      '200 credits per month',
+      'GPT Image 1 powered icon generation',
+      'Multiple style options (Modern, Flat, 3D, etc.)',
+      'Download as PNG',
+      'Save icons to your library',
+      'Icon improvement & iteration',
+      'Commercial usage rights',
+      'Transparent background icons',
+      'Priority support',
+      'Extended icon library storage'
     ]
   }
 } as const

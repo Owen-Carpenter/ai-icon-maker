@@ -32,25 +32,24 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const { 
       name, 
-      svg_code, 
       prompt, 
       style, 
       color, 
       tags = [], 
-      format = 'SVG',
+      format = 'PNG',
       image_url 
     } = body
 
     // Validate required fields
-    if (!name || !svg_code) {
+    if (!name || !image_url) {
       return NextResponse.json(
-        { error: 'Name and SVG code are required' },
+        { error: 'Name and image URL are required' },
         { status: 400 }
       )
     }
 
-    // Calculate approximate file size (SVG code length as rough estimate)
-    const file_size = svg_code.length
+    // Calculate approximate file size (image URL length as rough estimate)
+    const file_size = image_url.length
 
     // Insert icon into database
     const { data: icon, error } = await supabase
@@ -58,7 +57,6 @@ export async function POST(req: NextRequest) {
       .insert({
         user_id: user.id,
         name: name.trim(),
-        svg_code,
         prompt,
         style,
         color,

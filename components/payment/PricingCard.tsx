@@ -57,14 +57,19 @@ export default function PricingCard({ plan, currentPlan, isPopular }: PricingCar
           <span className="text-gray-400 text-lg">/month</span>
         </div>
         
-        {plan === 'enterprise' && (
-          <div className="text-orange-400 font-semibold text-sm">
-            Enterprise Plan
+        {plan === 'base' && (
+          <div className="text-green-400 font-semibold text-sm">
+            {planData.credits} credits/month
           </div>
         )}
         {plan === 'pro' && (
           <div className="text-blue-400 font-semibold text-sm">
-            {planData.credits} generations/month
+            {planData.credits} credits/month
+          </div>
+        )}
+        {plan === 'proPlus' && (
+          <div className="text-orange-400 font-semibold text-sm">
+            {planData.credits} credits/month
           </div>
         )}
       </div>

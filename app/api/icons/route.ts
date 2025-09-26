@@ -43,7 +43,6 @@ export async function GET(req: NextRequest) {
       .select(`
         id,
         name,
-        svg_code,
         prompt,
         style,
         color,

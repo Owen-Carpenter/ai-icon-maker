@@ -15,15 +15,20 @@ This guide will walk you through setting up Stripe payments for your AI Icon Mak
 1. **Navigate to Products** in your Stripe Dashboard
 2. **Create the following products:**
 
+#### Base Plan Product
+- **Name:** Base Plan
+- **Description:** 25 AI generations per month
+- **Pricing:** $5.00/month recurring
+
 #### Pro Plan Product
 - **Name:** Pro Plan
-- **Description:** 100 AI generations per month with HD downloads
-- **Pricing:** $9.99/month recurring
+- **Description:** 100 AI generations per month with priority support
+- **Pricing:** $10.00/month recurring
 
-#### Unlimited Plan Product  
-- **Name:** Unlimited Plan
-- **Description:** Unlimited AI generations with premium features
-- **Pricing:** $19.99/month recurring
+#### Pro+ Plan Product  
+- **Name:** Pro+ Plan
+- **Description:** 200 AI generations per month with extended storage
+- **Pricing:** $15.00/month recurring
 
 3. **Copy the Price IDs** for each plan - you'll need these for environment variables
 
@@ -62,8 +67,10 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
 STRIPE_WEBHOOK_SECRET=whsec_your_webhook_signing_secret
 
 # Stripe Price IDs
+STRIPE_BASE_PRICE_ID=price_your_base_monthly_price_id
 STRIPE_PRO_PRICE_ID=price_your_pro_monthly_price_id
-STRIPE_UNLIMITED_PRICE_ID=price_your_unlimited_monthly_price_id
+STRIPE_PRO_PLUS_PRICE_ID=price_your_pro_plus_monthly_price_id
+STRIPE_UNLIMITED_PRICE_ID=price_your_legacy_enterprise_price_id
 ```
 
 ### How to Find Your Keys:
