@@ -182,7 +182,8 @@ Keep this concise and focused on transparency and minimalism.`;
           model: "gpt-image-1", // Use GPT Image 1 model
           prompt: imagePrompt,
           n: 1,
-          size: "1024x1024"
+          size: "1024x1024",
+          quality: "low"
         });
 
         // GPT Image 1 response received
