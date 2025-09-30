@@ -311,25 +311,38 @@ export default function IconDisplayPanel({
                 </div>
                 
                 {/* Action Buttons for Improvement Mode */}
-                <div className="flex gap-3">
+                <div className="flex gap-2 w-full">
                   <button
-                    onClick={() => handleShowCode(selectedIconUrl)}
-                    className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2"
-                    title="View SVG Code"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openSaveModal(selectedIconUrl);
+                    }}
+                    disabled={savingIconId === selectedIconUrl}
+                    className="flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-3 rounded-lg text-xs font-medium transition-colors border border-green-500/30 hover:border-green-500/50 flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                    title="Save to Library"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                    </svg>
-                    View Code
+                    {savingIconId === selectedIconUrl ? (
+                      <div className="w-3 h-3 border border-green-300 border-t-transparent rounded-full animate-spin"></div>
+                    ) : (
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
+                    )}
+                    Save
                   </button>
+                  
                   <button 
-                    onClick={() => handleDownload(selectedIconUrl)}
-                    className="[background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white py-2 px-4 font-semibold hover:scale-105 w-full flex items-center justify-center gap-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDownload(selectedIconUrl);
+                    }}
+                    className="flex-1 [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white py-2 px-3 font-semibold hover:scale-105 text-xs flex items-center justify-center gap-1"
+                    title="Download PNG"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    Download PNG
+                    PNG
                   </button>
                 </div>
                 
@@ -427,26 +440,7 @@ export default function IconDisplayPanel({
               ← Back to Original Icons
             </button>
           )}
-          {isImprovementMode ? (
-            <button
-              onClick={() => {
-                selectedIconUrl && openSaveModal(selectedIconUrl);
-              }}
-              disabled={savingIconId === selectedIconUrl}
-              className="w-full bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-green-500/30 hover:border-green-500/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {savingIconId === selectedIconUrl ? (
-                <>
-                  <div className="w-4 h-4 border border-green-300 border-t-transparent rounded-full animate-spin"></div>
-                  Saving...
-                </>
-              ) : (
-                <>
-                  💾 Save to Library
-                </>
-              )}
-            </button>
-          ) : (
+          {isImprovementMode ? null : (
             <button
               onClick={onRegenerate}
               className="w-full bg-sunset-500/20 hover:bg-sunset-500/30 text-sunset-300 py-2 px-4 rounded-lg font-semibold transition-colors border border-sunset-500/30 hover:border-sunset-500/50"
