@@ -189,7 +189,7 @@ export default function LibraryPage() {
                   <div className="relative group">
                     <div className="absolute inset-0 bg-gradient-to-r from-sunset-500/20 to-coral-500/20 rounded-2xl blur-sm group-hover:blur-md transition-all duration-300"></div>
                     <div className="relative">
-                      <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-sunset-400/80 group-hover:text-sunset-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-sunset-400/80 group-hover:text-sunset-400 transition-colors duration-300 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                       </svg>
                       <input
@@ -202,7 +202,7 @@ export default function LibraryPage() {
                       {searchTerm && (
                         <button
                           onClick={() => setSearchTerm('')}
-                          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sunset-300/60 hover:text-sunset-400 transition-colors duration-200"
+                          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sunset-300/60 hover:text-sunset-400 transition-colors duration-200 z-10"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

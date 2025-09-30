@@ -183,7 +183,7 @@ Keep this concise and focused on transparency and minimalism.`;
           prompt: imagePrompt,
           n: 1,
           size: "1024x1024",
-          quality: "low"
+          quality: "low" //for development mode
         });
 
         // GPT Image 1 response received
