@@ -18,6 +18,7 @@ interface IconDisplayPanelProps {
   currentColor?: string;
   onStreamingThoughts?: (thoughts: string) => void;
   streamedThoughts?: string;
+  mobileCompactMode?: boolean;
 }
 
 export default function IconDisplayPanel({ 
@@ -34,7 +35,8 @@ export default function IconDisplayPanel({
   currentStyle,
   currentColor,
   onStreamingThoughts,
-  streamedThoughts
+  streamedThoughts,
+  mobileCompactMode = false
 }: IconDisplayPanelProps) {
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [selectedIconCode, setSelectedIconCode] = useState('');
@@ -290,19 +292,21 @@ export default function IconDisplayPanel({
           <div className="flex justify-center items-center w-full min-h-96">
             {isImprovementMode && selectedIconUrl ? (
               // Show the original icon that was chosen to improve
-              <div className="flex flex-col items-center space-y-6">
-                <div className="text-center mb-4">
-                  <h4 className="text-lg font-medium text-white mb-2">
-                    {generatedImages.length > 0 ? "Improved Icon" : "Icon to Improve"}
-                  </h4>
-                  <p className="text-sunset-200 text-sm">
-                    {generatedImages.length > 0 
-                      ? "Here's your improved icon!" 
-                      : "Describe how you'd like to improve this icon"
-                    }
-                  </p>
-                </div>
-                <div className="w-64 h-64 lg:w-80 lg:h-80 bg-white/10 border border-white/20 rounded-xl p-8 lg:p-12 hover:bg-white/20 transition-all duration-200 flex flex-col items-center justify-center group">
+              <div className={`flex flex-col items-center ${mobileCompactMode ? 'space-y-3' : 'space-y-6'}`}>
+                {!mobileCompactMode && (
+                  <div className="text-center mb-4">
+                    <h4 className="text-lg font-medium text-white mb-2">
+                      {generatedImages.length > 0 ? "Improved Icon" : "Icon to Improve"}
+                    </h4>
+                    <p className="text-sunset-200 text-sm">
+                      {generatedImages.length > 0 
+                        ? "Here's your improved icon!" 
+                        : "Describe how you'd like to improve this icon"
+                      }
+                    </p>
+                  </div>
+                )}
+                <div className={`${mobileCompactMode ? 'w-32 h-32' : 'w-64 h-64 lg:w-80 lg:h-80'} bg-white/10 border border-white/20 rounded-xl ${mobileCompactMode ? 'p-4' : 'p-8 lg:p-12'} hover:bg-white/20 transition-all duration-200 flex flex-col items-center justify-center group`}>
                   <img
                     src={selectedIconUrl}
                     alt="Icon to improve"
@@ -311,24 +315,24 @@ export default function IconDisplayPanel({
                 </div>
                 
                 {/* Action Buttons for Improvement Mode */}
-                <div className="flex gap-2 w-full">
+                <div className={`flex gap-2 ${mobileCompactMode ? 'w-32' : 'w-full'}`}>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       openSaveModal(selectedIconUrl);
                     }}
                     disabled={savingIconId === selectedIconUrl}
-                    className="flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-300 py-2 px-3 rounded-lg text-xs font-medium transition-colors border border-green-500/30 hover:border-green-500/50 flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className={`flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-300 ${mobileCompactMode ? 'py-1 px-2' : 'py-2 px-3'} rounded-lg ${mobileCompactMode ? 'text-xs' : 'text-xs'} font-medium transition-colors border border-green-500/30 hover:border-green-500/50 flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed`}
                     title="Save to Library"
                   >
                     {savingIconId === selectedIconUrl ? (
-                      <div className="w-3 h-3 border border-green-300 border-t-transparent rounded-full animate-spin"></div>
+                      <div className={`${mobileCompactMode ? 'w-2 h-2' : 'w-3 h-3'} border border-green-300 border-t-transparent rounded-full animate-spin`}></div>
                     ) : (
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className={`${mobileCompactMode ? 'w-2 h-2' : 'w-3 h-3'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                       </svg>
                     )}
-                    Save
+                    {!mobileCompactMode && 'Save'}
                   </button>
                   
                   <button 
@@ -336,19 +340,21 @@ export default function IconDisplayPanel({
                       e.stopPropagation();
                       handleDownload(selectedIconUrl);
                     }}
-                    className="flex-1 [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white py-2 px-3 font-semibold hover:scale-105 text-xs flex items-center justify-center gap-1"
+                    className={`flex-1 [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white ${mobileCompactMode ? 'py-1 px-2' : 'py-2 px-3'} font-semibold hover:scale-105 ${mobileCompactMode ? 'text-xs' : 'text-xs'} flex items-center justify-center gap-1`}
                     title="Download PNG"
                   >
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`${mobileCompactMode ? 'w-2 h-2' : 'w-3 h-3'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    PNG
+                    {!mobileCompactMode && 'PNG'}
                   </button>
                 </div>
                 
-                <div className="text-center">
-                  <p className="text-sunset-200 text-sm">Use the chat panel on the left to describe your improvements</p>
-                </div>
+                {!mobileCompactMode && (
+                  <div className="text-center">
+                    <p className="text-sunset-200 text-sm">Use the chat panel on the left to describe your improvements</p>
+                  </div>
+                )}
               </div>
             ) : (
               // Show all generated icons in grid

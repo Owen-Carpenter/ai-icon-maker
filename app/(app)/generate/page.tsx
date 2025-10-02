@@ -599,7 +599,124 @@ function GeneratePageContent() {
         <div className={`flex flex-col lg:flex-row h-auto lg:h-full min-h-0 lg:ml-16 transition-all duration-1000 ease-in-out ${
           showHeroView ? 'opacity-0 scale-110' : 'opacity-100 scale-100'
         }`}>
-          {/* Chat Panel */}
+          {/* Mobile Layout: Different views based on state */}
+          <div className="lg:hidden w-full h-full">
+            {isGenerating ? (
+              // Mobile: Show only IconDisplayPanel during generation
+              <IconDisplayPanel
+                generatedImages={generatedImages}
+                isGenerating={isGenerating}
+                onRegenerate={handleRegenerateVariations}
+                onReset={handleReset}
+                onSelectImage={handleSelectImage}
+                onImproveIcon={handleImproveIcon}
+                isImprovementMode={isImprovementMode}
+                onExitImprovementMode={handleExitImprovementMode}
+                selectedIconUrl={selectedIconUrl}
+                currentPrompt={currentPrompt}
+                currentStyle={style}
+                onStreamingThoughts={streamingThoughtsCallback}
+                streamedThoughts={streamedThoughts}
+                currentColor="#000000"
+              />
+            ) : isImprovementMode ? (
+              // Mobile: Show small IconDisplayPanel + ChatPanel in improvement mode
+              <div className="flex flex-col h-full">
+                <div className="h-64 flex-shrink-0">
+                  <IconDisplayPanel
+                    generatedImages={generatedImages}
+                    isGenerating={isGenerating}
+                    onRegenerate={handleRegenerateVariations}
+                    onReset={handleReset}
+                    onSelectImage={handleSelectImage}
+                    onImproveIcon={handleImproveIcon}
+                    isImprovementMode={isImprovementMode}
+                    onExitImprovementMode={handleExitImprovementMode}
+                    selectedIconUrl={selectedIconUrl}
+                    currentPrompt={currentPrompt}
+                    currentStyle={style}
+                    onStreamingThoughts={streamingThoughtsCallback}
+                    streamedThoughts={streamedThoughts}
+                    currentColor="#000000"
+                    mobileCompactMode={true}
+                  />
+                </div>
+                <div className="flex-1 flex flex-col min-h-0">
+                  <ChatPanel
+                    currentPrompt={currentPrompt}
+                    setCurrentPrompt={setCurrentPrompt}
+                    isGenerating={isGenerating}
+                    generatedImages={generatedImages}
+                    onGenerate={handleGenerate}
+                    isImprovementMode={isImprovementMode}
+                    selectedIconUrl={selectedIconUrl}
+                    onExitImprovementMode={handleExitImprovementMode}
+                    hasUserTakenAction={hasUserTakenAction}
+                    conversationHistory={conversationHistory}
+                    resetConversation={resetConversation}
+                  />
+                </div>
+              </div>
+            ) : generatedImages.length > 0 && !isImprovementMode ? (
+              // Mobile: Show only IconDisplayPanel when user needs to select an icon to improve
+              <IconDisplayPanel
+                generatedImages={generatedImages}
+                isGenerating={isGenerating}
+                onRegenerate={handleRegenerateVariations}
+                onReset={handleReset}
+                onSelectImage={handleSelectImage}
+                onImproveIcon={handleImproveIcon}
+                isImprovementMode={isImprovementMode}
+                onExitImprovementMode={handleExitImprovementMode}
+                selectedIconUrl={selectedIconUrl}
+                currentPrompt={currentPrompt}
+                currentStyle={style}
+                onStreamingThoughts={streamingThoughtsCallback}
+                streamedThoughts={streamedThoughts}
+                currentColor="#000000"
+              />
+            ) : (
+              // Mobile: Show IconDisplayPanel + ChatPanel when user can interact freely
+              <div className="flex flex-col h-full">
+                <div className="flex-1 flex flex-col min-h-0">
+                  <IconDisplayPanel
+                    generatedImages={generatedImages}
+                    isGenerating={isGenerating}
+                    onRegenerate={handleRegenerateVariations}
+                    onReset={handleReset}
+                    onSelectImage={handleSelectImage}
+                    onImproveIcon={handleImproveIcon}
+                    isImprovementMode={isImprovementMode}
+                    onExitImprovementMode={handleExitImprovementMode}
+                    selectedIconUrl={selectedIconUrl}
+                    currentPrompt={currentPrompt}
+                    currentStyle={style}
+                    onStreamingThoughts={streamingThoughtsCallback}
+                    streamedThoughts={streamedThoughts}
+                    currentColor="#000000"
+                  />
+                </div>
+                <div className="h-80 flex-shrink-0">
+                  <ChatPanel
+                    currentPrompt={currentPrompt}
+                    setCurrentPrompt={setCurrentPrompt}
+                    isGenerating={isGenerating}
+                    generatedImages={generatedImages}
+                    onGenerate={handleGenerate}
+                    isImprovementMode={isImprovementMode}
+                    selectedIconUrl={selectedIconUrl}
+                    onExitImprovementMode={handleExitImprovementMode}
+                    hasUserTakenAction={hasUserTakenAction}
+                    conversationHistory={conversationHistory}
+                    resetConversation={resetConversation}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Layout: Keep original side-by-side layout */}
+          <div className="hidden lg:flex lg:flex-row lg:w-full">
             <ChatPanel
               currentPrompt={currentPrompt}
               setCurrentPrompt={setCurrentPrompt}
@@ -614,23 +731,23 @@ function GeneratePageContent() {
               resetConversation={resetConversation}
             />
 
-          {/* Icon Display Panel */}
-          <IconDisplayPanel
-            generatedImages={generatedImages}
-            isGenerating={isGenerating}
-            onRegenerate={handleRegenerateVariations}
-            onReset={handleReset}
-            onSelectImage={handleSelectImage}
-            onImproveIcon={handleImproveIcon}
-            isImprovementMode={isImprovementMode}
-            onExitImprovementMode={handleExitImprovementMode}
-            selectedIconUrl={selectedIconUrl}
-            currentPrompt={currentPrompt}
-            currentStyle={style}
-            onStreamingThoughts={streamingThoughtsCallback}
-            streamedThoughts={streamedThoughts}
-            currentColor="#000000"
-          />
+            <IconDisplayPanel
+              generatedImages={generatedImages}
+              isGenerating={isGenerating}
+              onRegenerate={handleRegenerateVariations}
+              onReset={handleReset}
+              onSelectImage={handleSelectImage}
+              onImproveIcon={handleImproveIcon}
+              isImprovementMode={isImprovementMode}
+              onExitImprovementMode={handleExitImprovementMode}
+              selectedIconUrl={selectedIconUrl}
+              currentPrompt={currentPrompt}
+              currentStyle={style}
+              onStreamingThoughts={streamingThoughtsCallback}
+              streamedThoughts={streamedThoughts}
+              currentColor="#000000"
+            />
+          </div>
         </div>
       </div>
 
