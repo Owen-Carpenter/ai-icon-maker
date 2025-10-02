@@ -620,9 +620,9 @@ function GeneratePageContent() {
                 currentColor="#000000"
               />
             ) : isImprovementMode ? (
-              // Mobile: Show small IconDisplayPanel + ChatPanel in improvement mode
+              // Mobile: Show compact IconDisplayPanel at top, ChatPanel takes remaining space
               <div className="flex flex-col h-full">
-                <div className="h-64 flex-shrink-0">
+                <div className="h-auto flex-shrink-0 py-4">
                   <IconDisplayPanel
                     generatedImages={generatedImages}
                     isGenerating={isGenerating}
@@ -654,6 +654,7 @@ function GeneratePageContent() {
                     hasUserTakenAction={hasUserTakenAction}
                     conversationHistory={conversationHistory}
                     resetConversation={resetConversation}
+                    mobileCompactMode={true}
                   />
                 </div>
               </div>

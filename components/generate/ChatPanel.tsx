@@ -22,6 +22,7 @@ interface ChatPanelProps {
   hasUserTakenAction?: boolean;
   conversationHistory?: ChatMessage[];
   resetConversation?: boolean; // New prop to trigger conversation reset
+  mobileCompactMode?: boolean; // New prop for mobile compact mode
 }
 
 export default function ChatPanel({ 
@@ -35,7 +36,8 @@ export default function ChatPanel({
   onExitImprovementMode,
   hasUserTakenAction = true,
   conversationHistory = [],
-  resetConversation = false
+  resetConversation = false,
+  mobileCompactMode = false
 }: ChatPanelProps) {
   const [style, setStyle] = useState('modern');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -124,8 +126,8 @@ export default function ChatPanel({
           </div>
         )}
 
-        {/* Show selected icon in improvement mode */}
-        {isImprovementMode && selectedIconUrl && conversationHistory.length === 0 && (
+        {/* Show selected icon in improvement mode - hide in mobile compact mode */}
+        {isImprovementMode && selectedIconUrl && conversationHistory.length === 0 && !mobileCompactMode && (
           <div className="flex justify-start">
             <div className="bg-white/10 border border-white/20 rounded-lg p-3">
               <p className="text-white text-sm mb-2">Selected icon to improve:</p>

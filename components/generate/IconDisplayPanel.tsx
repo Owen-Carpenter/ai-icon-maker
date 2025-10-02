@@ -292,7 +292,7 @@ export default function IconDisplayPanel({
           <div className="flex justify-center items-center w-full min-h-96">
             {isImprovementMode && selectedIconUrl ? (
               // Show the original icon that was chosen to improve
-              <div className={`flex flex-col items-center ${mobileCompactMode ? 'space-y-3' : 'space-y-6'}`}>
+              <div className={`flex flex-col items-center ${mobileCompactMode ? 'space-y-2' : 'space-y-6'}`}>
                 {!mobileCompactMode && (
                   <div className="text-center mb-4">
                     <h4 className="text-lg font-medium text-white mb-2">
