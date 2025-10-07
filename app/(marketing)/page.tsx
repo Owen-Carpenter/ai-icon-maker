@@ -67,12 +67,12 @@ export default function HomePage() {
     }
   };
   return (
-    <div className="min-h-screen bg-dark-gradient mx-4 sm:mx-6 md:mx-8 lg:mx-12 xl:mx-16">
+    <div className="min-h-screen bg-dark-gradient">
       {/* Navigation */}
       <Navbar variant="marketing" />
 
       {/* Hero Section */}
-      <div className="w-full h-screen px-4 bg-gradient-radial from-sunset-800 via-midnight-700 to-midnight-800 relative overflow-visible animate-fade-in flex items-center">
+      <div className="w-full h-screen px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 bg-gradient-radial from-sunset-800 via-midnight-700 to-midnight-800 relative overflow-visible animate-fade-in flex items-center">
 
         
         {/* Floating Emoji Icons - Clean and well-positioned */}
@@ -215,8 +215,8 @@ export default function HomePage() {
       </div>
 
       {/* Demo Section - Now with title/subtitle below the video */}
-      <div className="pt-[32rem] pb-20" style={{background: 'radial-gradient(ellipse at top, rgb(154, 52, 18), rgb(55, 65, 81), rgb(31, 41, 55))'}}>
-        <div className="container mx-auto px-4 text-center">
+      <div className="pt-[32rem] pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16" style={{background: 'radial-gradient(ellipse at top, rgb(154, 52, 18), rgb(55, 65, 81), rgb(31, 41, 55))'}}>
+        <div className="container mx-auto text-center">
           {/* Title and subtitle positioned below the video */}
           <ScrollAnimation delay={300}>
             <h2 className="text-4xl font-bold text-white mb-4">See AI Icon Maker in action!</h2>
@@ -266,8 +266,8 @@ export default function HomePage() {
       </div>
 
       {/* How It Works Section */}
-      <div className="bg-midnight-900/30 py-20">
-        <div className="container mx-auto px-4">
+      <div className="bg-midnight-900/30 py-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
             <ScrollAnimation>
             <h2 className="text-4xl font-bold text-white mb-4">How It Works</h2>
@@ -432,8 +432,8 @@ export default function HomePage() {
       </div>
 
       {/* Benefits Section */}
-      <div id="features" className="py-20">
-        <div className="container mx-auto px-4">
+      <div id="features" className="py-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
             <ScrollAnimation>
             <h2 className="text-4xl font-bold text-white mb-4">Powerful Benefits</h2>
@@ -550,8 +550,8 @@ export default function HomePage() {
 
 
       {/* CTA Section */}
-      <div className="py-20">
-        <div className="container mx-auto px-4 text-center">
+      <div className="py-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+        <div className="container mx-auto text-center">
           <ScrollAnimation>
             <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-12 border border-midnight-800 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
               <ScrollAnimation delay={100}>
@@ -579,8 +579,8 @@ export default function HomePage() {
       </div>
 
       {/* Pricing Section */}
-      <div id="pricing" className="py-20 bg-midnight-900/30">
-        <div className="container mx-auto px-4">
+      <div id="pricing" className="py-20 bg-midnight-900/30 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
             <ScrollAnimation>
               <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
@@ -881,8 +881,8 @@ export default function HomePage() {
       </div>
 
       {/* Testimonials Section */}
-      <div className="py-20">
-        <div className="container mx-auto px-4">
+      <div className="py-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+        <div className="container mx-auto">
           <div className="text-center mb-16">
             <ScrollAnimation>
               <div className="flex justify-center items-center mb-6">
