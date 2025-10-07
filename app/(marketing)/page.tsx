@@ -67,7 +67,7 @@ export default function HomePage() {
     }
   };
   return (
-    <div className="min-h-screen bg-dark-gradient">
+    <div className="min-h-screen bg-dark-gradient mx-4 sm:mx-6 md:mx-8 lg:mx-12 xl:mx-16">
       {/* Navigation */}
       <Navbar variant="marketing" />
 
