@@ -75,45 +75,124 @@ export default function HomePage() {
       <div className="w-full h-screen px-4 bg-gradient-radial from-sunset-800 via-midnight-700 to-midnight-800 relative overflow-visible animate-fade-in flex items-center">
 
         
-        {/* Floating Emoji Icons */}
-        <div className="absolute top-20 left-10 text-3xl animate-float opacity-20" style={{animationDuration: '6s', animationDelay: '0s'}}>
+        {/* Ultra Dynamic Floating Emoji Icons - Maximum movement and interactivity */}
+        <div className="absolute top-20 left-10 text-3xl animate-float opacity-20 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '2.8s', animationDelay: '0s'}}>
           🎨
         </div>
         
-        <div className="absolute top-32 right-20 text-2xl animate-float opacity-10" style={{animationDuration: '8s', animationDelay: '1s'}}>
+        <div className="absolute top-32 right-20 text-2xl animate-float opacity-10 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.2s', animationDelay: '0.3s'}}>
           ⭐
         </div>
         
-        <div className="absolute top-40 left-1/4 text-4xl animate-float opacity-25" style={{animationDuration: '10s', animationDelay: '2s'}}>
+        <div className="absolute top-40 left-1/4 text-4xl animate-float opacity-25 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '2.5s', animationDelay: '0.6s'}}>
           ✨
         </div>
         
-        <div className="absolute bottom-32 left-16 text-2xl animate-float opacity-20" style={{animationDuration: '7s', animationDelay: '3s'}}>
+        <div className="absolute bottom-32 left-16 text-2xl animate-float opacity-20 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.8s', animationDelay: '0.9s'}}>
           🚀
         </div>
         
-        <div className="absolute bottom-20 right-1/3 text-3xl animate-float opacity-10" style={{animationDuration: '9s', animationDelay: '4s'}}>
+        <div className="absolute bottom-20 right-1/3 text-3xl animate-float opacity-10 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.1s', animationDelay: '1.2s'}}>
           💡
         </div>
         
-        <div className="absolute top-1/3 right-10 text-2xl animate-float opacity-20" style={{animationDuration: '11s', animationDelay: '5s'}}>
+        <div className="absolute top-1/3 right-10 text-2xl animate-float opacity-20 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.5s', animationDelay: '1.5s'}}>
           🔥
         </div>
         
-        <div className="absolute top-1/2 left-8 text-4xl animate-float opacity-25" style={{animationDuration: '12s', animationDelay: '6s'}}>
+        <div className="absolute top-1/2 left-8 text-4xl animate-float opacity-25 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '2.9s', animationDelay: '1.8s'}}>
           🎯
         </div>
         
-        <div className="absolute top-16 right-1/4 text-2xl animate-float opacity-10" style={{animationDuration: '13s', animationDelay: '7s'}}>
+        <div className="absolute top-16 right-1/4 text-2xl animate-float opacity-10 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '4.1s', animationDelay: '2.1s'}}>
           🌟
         </div>
         
-        <div className="absolute bottom-40 right-16 text-2xl animate-float opacity-20" style={{animationDuration: '14s', animationDelay: '8s'}}>
+        <div className="absolute bottom-40 right-16 text-2xl animate-float opacity-20 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.3s', animationDelay: '2.4s'}}>
           🎪
         </div>
         
-        <div className="absolute top-2/3 left-1/3 text-3xl animate-float opacity-10" style={{animationDuration: '15s', animationDelay: '9s'}}>
+        <div className="absolute top-2/3 left-1/3 text-3xl animate-float opacity-10 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.7s', animationDelay: '2.7s'}}>
           🎭
+        </div>
+
+        {/* Wave 2 - Additional floating icons with different patterns */}
+        <div className="absolute top-1/4 right-1/2 text-2xl animate-float opacity-15 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '4.2s', animationDelay: '3s'}}>
+          🎨
+        </div>
+        
+        <div className="absolute bottom-1/4 left-1/2 text-3xl animate-float opacity-12 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.6s', animationDelay: '3.3s'}}>
+          ✨
+        </div>
+        
+        <div className="absolute top-3/4 right-1/5 text-2xl animate-float opacity-18 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.9s', animationDelay: '3.6s'}}>
+          🚀
+        </div>
+        
+        <div className="absolute bottom-1/3 left-1/5 text-2xl animate-float opacity-14 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.4s', animationDelay: '3.9s'}}>
+          💡
+        </div>
+        
+        <div className="absolute top-1/6 left-2/3 text-3xl animate-float opacity-16 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.8s', animationDelay: '4.2s'}}>
+          🔥
+        </div>
+
+        {/* Wave 3 - Even more dynamic icons with varied sizes and movements */}
+        <div className="absolute top-1/8 right-1/3 text-xl animate-float opacity-8 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '2.7s', animationDelay: '4.5s'}}>
+          🎨
+        </div>
+        
+        <div className="absolute bottom-1/8 left-1/3 text-5xl animate-float opacity-22 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '4.5s', animationDelay: '4.8s'}}>
+          ✨
+        </div>
+        
+        <div className="absolute top-5/6 right-2/3 text-xl animate-float opacity-13 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.2s', animationDelay: '5.1s'}}>
+          🚀
+        </div>
+        
+        <div className="absolute bottom-2/3 left-2/3 text-2xl animate-float opacity-17 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.7s', animationDelay: '5.4s'}}>
+          💡
+        </div>
+        
+        <div className="absolute top-1/5 left-1/6 text-4xl animate-float opacity-19 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '2.8s', animationDelay: '5.7s'}}>
+          🔥
+        </div>
+        
+        <div className="absolute bottom-1/5 right-1/6 text-3xl animate-float opacity-11 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '4.1s', animationDelay: '6s'}}>
+          🎯
+        </div>
+        
+        <div className="absolute top-4/5 left-4/5 text-2xl animate-float opacity-15 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.3s', animationDelay: '6.3s'}}>
+          🌟
+        </div>
+        
+        <div className="absolute bottom-4/5 right-4/5 text-3xl animate-float opacity-9 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.9s', animationDelay: '6.6s'}}>
+          🎪
+        </div>
+        
+        <div className="absolute top-2/5 right-1/8 text-4xl animate-float opacity-21 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '2.9s', animationDelay: '6.9s'}}>
+          🎭
+        </div>
+        
+        <div className="absolute bottom-2/5 left-1/8 text-2xl animate-float opacity-14 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '4.3s', animationDelay: '7.2s'}}>
+          ⭐
+        </div>
+
+        {/* Micro floating particles for extra dynamism */}
+        <div className="absolute top-1/12 left-1/12 text-lg animate-float opacity-6 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '2.3s', animationDelay: '7.5s'}}>
+          ✨
+        </div>
+        
+        <div className="absolute top-1/12 right-1/12 text-lg animate-float opacity-6 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '2.8s', animationDelay: '7.8s'}}>
+          🎨
+        </div>
+        
+        <div className="absolute bottom-1/12 left-1/12 text-lg animate-float opacity-6 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '3.1s', animationDelay: '8.1s'}}>
+          🚀
+        </div>
+        
+        <div className="absolute bottom-1/12 right-1/12 text-lg animate-float opacity-6 hover:scale-150 hover:rotate-12 transition-all duration-500 cursor-pointer" style={{animationDuration: '2.6s', animationDelay: '8.4s'}}>
+          💡
         </div>
         <div className="flex flex-col items-center justify-center text-center w-full relative z-10 animate-fade-in" style={{animationDelay: '0.5s'}}>
           <ScrollAnimation>
