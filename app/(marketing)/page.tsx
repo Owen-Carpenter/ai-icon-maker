@@ -392,7 +392,7 @@ export default function HomePage() {
                     Download & Use
                   </h3>
                   <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
-                    Choose your favorite icon from the generated variations and download it in multiple formats including SVG, PNG, and more for immediate use.
+                    Choose your favorite icon from the generated variations, give it a name, and either download it as a PNG or save it to your personal library for future use.
                   </p>
                   <div className="pt-4">
                     <div className="inline-flex items-center gap-2 text-purple-400 font-medium">
