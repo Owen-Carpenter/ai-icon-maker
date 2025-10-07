@@ -195,16 +195,18 @@ export default function HomePage() {
           <ScrollAnimation delay={200}>
             <div className="w-full max-w-[95vw] mx-auto px-2">
               <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-3 shadow-2xl border border-midnight-800 hover:shadow-3xl transition-all duration-500 hover:scale-105">
-                <div className="bg-coral-gradient rounded-lg aspect-video w-full min-h-[60vh] flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 animate-spin">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.01M15 10h1.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <p className="text-white">Demo Video Placeholder</p>
-                    <p className="text-white/80 text-sm mt-2">Interactive AI Icon Generation</p>
-                  </div>
+                <div className="bg-coral-gradient rounded-lg aspect-video w-full min-h-[60vh] overflow-hidden">
+                  <video
+                    className="w-full h-full object-cover rounded-lg"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    poster="/videos/demo-poster.jpg"
+                  >
+                    <source src="/videos/demo.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
               </div>
             </div>
@@ -303,16 +305,18 @@ export default function HomePage() {
                 {/* Visual - Right */}
                 <div className="order-1 lg:order-2">
                   <div className="relative">
-                    <div className="bg-coral-gradient rounded-3xl p-12 shadow-2xl">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 min-h-[300px] flex items-center justify-center">
-                        <div className="text-center space-y-4">
-                          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto">
-                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                          </div>
-                          <p className="text-white/90 font-medium">Type your icon idea</p>
-                        </div>
+                    <div className="bg-coral-gradient rounded-3xl p-4 shadow-2xl">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden min-h-[300px]">
+                        <video
+                          className="w-full h-full object-cover rounded-2xl"
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        >
+                          <source src="/videos/Step1-1.mp4" type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
                       </div>
                     </div>
                     <div className="absolute -top-4 -right-4 w-8 h-8 bg-coral-400 rounded-full"></div>
@@ -328,16 +332,18 @@ export default function HomePage() {
                 {/* Visual - Left */}
                 <div className="order-1">
                   <div className="relative">
-                    <div className="bg-sunset-gradient rounded-3xl p-12 shadow-2xl">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 min-h-[300px] flex items-center justify-center">
-                        <div className="text-center space-y-4">
-                          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto animate-pulse">
-                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                          </div>
-                          <p className="text-white/90 font-medium">AI processing...</p>
-                        </div>
+                    <div className="bg-sunset-gradient rounded-3xl p-4 shadow-2xl">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden min-h-[300px]">
+                        <video
+                          className="w-full h-full object-cover rounded-2xl"
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        >
+                          <source src="/videos/Step2-1.mp4" type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
                       </div>
                     </div>
                     <div className="absolute -top-4 -left-4 w-8 h-8 bg-sunset-400 rounded-full"></div>
@@ -401,16 +407,18 @@ export default function HomePage() {
                 {/* Visual - Right */}
                 <div className="order-1 lg:order-2">
                   <div className="relative">
-                    <div className="bg-aurora-gradient rounded-3xl p-12 shadow-2xl">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 min-h-[300px] flex items-center justify-center">
-                        <div className="text-center space-y-4">
-                          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto">
-                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                          </div>
-                          <p className="text-white/90 font-medium">Ready to download</p>
-                        </div>
+                    <div className="bg-aurora-gradient rounded-3xl p-4 shadow-2xl">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden min-h-[300px]">
+                        <video
+                          className="w-full h-full object-cover rounded-2xl"
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        >
+                          <source src="/videos/DemoTest-1.mp4" type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
                       </div>
                     </div>
                     <div className="absolute -top-4 -right-4 w-8 h-8 bg-purple-400 rounded-full"></div>
