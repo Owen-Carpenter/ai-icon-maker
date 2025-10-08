@@ -204,7 +204,7 @@ export default function HomePage() {
                     playsInline
                     poster="/videos/demo-poster.jpg"
                   >
-                    <source src="/videos/demo.mp4" type="video/mp4" />
+                    <source src="/videos/DemonstrationVideo.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 </div>
@@ -314,7 +314,7 @@ export default function HomePage() {
                           loop
                           playsInline
                         >
-                          <source src="/videos/Step1-1.mp4" type="video/mp4" />
+                          <source src="/videos/Step1.mp4" type="video/mp4" />
                           Your browser does not support the video tag.
                         </video>
                       </div>
@@ -341,7 +341,7 @@ export default function HomePage() {
                           loop
                           playsInline
                         >
-                          <source src="/videos/Step2-1.mp4" type="video/mp4" />
+                          <source src="/videos/Step2.mp4" type="video/mp4" />
                           Your browser does not support the video tag.
                         </video>
                       </div>
@@ -416,7 +416,7 @@ export default function HomePage() {
                           loop
                           playsInline
                         >
-                          <source src="/videos/DemoTest-1.mp4" type="video/mp4" />
+                          <source src="/videos/Step3.mp4" type="video/mp4" />
                           Your browser does not support the video tag.
                         </video>
                       </div>
