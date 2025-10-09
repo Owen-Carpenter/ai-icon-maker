@@ -59,7 +59,7 @@ function UsagePageContent() {
 
   // Calculate usage statistics
   const planType = userData?.subscription?.plan_type || 'free';
-  const isUnlimited = planType === 'enterprise';
+  const isUnlimited = false; // No unlimited plan in current pricing structure
   
   // Real usage statistics from icon creation dates
   const usageStats = {
@@ -251,7 +251,9 @@ function UsagePageContent() {
                     }`}>
                       {(() => {
                         if (!isPaidPlan) return 'No Subscription';
-                        if (planType === 'enterprise') return 'Enterprise';
+                        if (planType === 'base') return 'Base';
+                        if (planType === 'pro') return 'Pro';
+                        if (planType === 'proPlus') return 'Pro+';
                         return planType.charAt(0).toUpperCase() + planType.slice(1);
                       })()}
                     </span>
@@ -294,12 +296,16 @@ function UsagePageContent() {
                       <div className="text-sunset-200 text-sm">Available Plans:</div>
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
-                          <span className="text-sunset-200">Pro</span>
-                          <span className="text-white">100 icons/month</span>
+                          <span className="text-sunset-200">Base</span>
+                          <span className="text-white">25 credits/month</span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-sunset-200">Enterprise</span>
-                          <span className="text-white">200 icons/month</span>
+                          <span className="text-sunset-200">Pro</span>
+                          <span className="text-white">100 credits/month</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-sunset-200">Pro+</span>
+                          <span className="text-white">200 credits/month</span>
                         </div>
                       </div>
                     </div>
@@ -365,19 +371,19 @@ function UsagePageContent() {
                   <ul className="space-y-3 text-sunset-200 text-sm">
                     <li className="flex items-start">
                       <span className="text-sunset-400 mr-2">•</span>
-                      Upgrade to Pro for 100 icons per month
+                      Base plan: 25 credits/month ($5)
                     </li>
                     <li className="flex items-start">
                       <span className="text-sunset-400 mr-2">•</span>
-                      Enterprise plan offers 200 icons per month
+                      Pro plan: 100 credits/month ($10)
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-sunset-400 mr-2">•</span>
+                      Pro+ plan: 200 credits/month ($15)
                     </li>
                     <li className="flex items-start">
                       <span className="text-sunset-400 mr-2">•</span>
                       Credits reset monthly on your renewal date
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-sunset-400 mr-2">•</span>
-                      Unused credits don't roll over to the next month
                     </li>
                   </ul>
                 </div>
