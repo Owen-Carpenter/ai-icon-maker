@@ -90,6 +90,23 @@ function GeneratePageContent() {
     window.scrollTo(0, 0);
   }, []);
 
+  // Prevent accidental navigation away while generating (browser tab/window close)
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isGenerating) {
+        e.preventDefault();
+        e.returnValue = ''; // Chrome requires returnValue to be set
+        return ''; // Some browsers display this message
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [isGenerating]);
+
   // Show loading state
   if (loading) {
     return <Loading text="Loading your workspace..." />;
@@ -511,7 +528,7 @@ function GeneratePageContent() {
   return (
     <div className="min-h-screen h-auto lg:h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row relative overflow-auto lg:overflow-hidden">
       {/* Sidebar Navigation - Responsive */}
-              <Sidebar currentPage="generate" onStartWalkthrough={handleStartWalkthrough} />
+              <Sidebar currentPage="generate" onStartWalkthrough={handleStartWalkthrough} isGenerating={isGenerating} />
 
       {/* Main Content Area with Seamless Transition */}
       <div className="flex-1 relative overflow-auto lg:overflow-hidden h-auto lg:h-screen">

@@ -2,19 +2,42 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface SidebarProps {
   currentPage?: string;
   onStartWalkthrough?: () => void;
+  isGenerating?: boolean;
 }
 
-export default function Sidebar({ currentPage = 'generate', onStartWalkthrough }: SidebarProps) {
+export default function Sidebar({ currentPage = 'generate', onStartWalkthrough, isGenerating = false }: SidebarProps) {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [pendingNavigation, setPendingNavigation] = useState<string>('');
 
   const handleNavigation = (path: string) => {
+    // Prevent navigation if generating
+    if (isGenerating) {
+      setPendingNavigation(path);
+      setShowConfirmDialog(true);
+      return;
+    }
+    
     router.push(path);
     setIsMobileMenuOpen(false); // Close mobile menu after navigation
+  };
+
+  const handleConfirmNavigation = () => {
+    setShowConfirmDialog(false);
+    router.push(pendingNavigation);
+    setIsMobileMenuOpen(false);
+    setPendingNavigation('');
+  };
+
+  const handleCancelNavigation = () => {
+    setShowConfirmDialog(false);
+    setPendingNavigation('');
   };
 
   return (
@@ -184,6 +207,18 @@ export default function Sidebar({ currentPage = 'generate', onStartWalkthrough }
           </div>
         </div>
       </div>
+
+      {/* Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={showConfirmDialog}
+        title="Generation in Progress"
+        message="Your icon is still being generated. If you leave now, your progress will be lost. Are you sure you want to continue?"
+        confirmText="Leave Anyway"
+        cancelText="Stay on Page"
+        onConfirm={handleConfirmNavigation}
+        onCancel={handleCancelNavigation}
+        variant="warning"
+      />
     </>
   );
 }
