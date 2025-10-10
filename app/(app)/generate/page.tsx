@@ -471,6 +471,7 @@ function GeneratePageContent() {
     setSelectedIconUrl(imageUrl);
     setIsImprovementMode(true);
     setHasUserTakenAction(true);
+    setGeneratedImages([]); // Clear previous improvements when starting a new improvement
     console.log('Improving icon:', imageUrl);
   };
 

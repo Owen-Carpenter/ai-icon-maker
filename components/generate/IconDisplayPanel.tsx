@@ -288,7 +288,7 @@ export default function IconDisplayPanel({
               </div>
             </div>
           </div>
-        ) : generatedImages.length > 0 ? (
+        ) : generatedImages.length > 0 || (isImprovementMode && selectedIconUrl) ? (
           <div className="flex justify-center items-center w-full min-h-96">
             {isImprovementMode && selectedIconUrl ? (
               // Show the improved icon if available, otherwise show the original icon being improved
