@@ -159,7 +159,7 @@ export default function ChatPanel({
         ))}
 
         {/* Current prompt being typed - only show if not empty and not already in history */}
-        {currentPrompt.trim() && !conversationHistory.some(msg => msg.content === currentPrompt.trim()) && (
+        {currentPrompt.trim() && !conversationHistory.some(msg => msg.content.includes(currentPrompt.trim())) && (
           <div className="flex justify-end">
             <div className="bg-gradient-to-r from-sunset-500 to-coral-500 rounded-lg p-3">
               <p className="text-white text-sm">{currentPrompt}</p>

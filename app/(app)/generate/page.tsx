@@ -134,28 +134,37 @@ function GeneratePageContent() {
 
     // For improvement mode, build upon the existing prompt and conversation context
     let finalPrompt = prompt.trim();
-    if (isImprovementMode && currentPrompt) {
+    if (isImprovementMode) {
       console.log('🎯 Improvement mode detected');
-      console.log('🎯 Current prompt:', currentPrompt);
       console.log('🎯 User input:', prompt.trim());
+      console.log('🎯 Conversation history:', conversationHistory);
       
       // Get the original prompt from conversation history (first user message)
       const originalUserMessage = conversationHistory.find(msg => msg.type === 'user' && !msg.isImprovement);
-      const originalPrompt = originalUserMessage?.content || currentPrompt;
+      const originalPrompt = originalUserMessage?.content || '';
       
-      // Clean the original prompt (remove " - " parts if they exist)
-      const cleanOriginalPrompt = originalPrompt.split(' - ')[0].split(', but')[0];
+      // Get all improvement requests from conversation history
+      const improvementMessages = conversationHistory.filter(msg => msg.type === 'user' && msg.isImprovement);
       
-      // Create a contextual improvement prompt
-      if (prompt.trim().toLowerCase().includes('make') || prompt.trim().toLowerCase().includes('change') || prompt.trim().toLowerCase().includes('improve')) {
-        // User is giving specific improvement instructions - be more direct
-        finalPrompt = `${cleanOriginalPrompt}, ${prompt.trim()}`;
+      // Build cumulative context
+      if (originalPrompt) {
+        // Clean the original prompt (remove " - " parts if they exist)
+        const cleanOriginalPrompt = originalPrompt.split(' - ')[0].split(', but')[0];
+        
+        // Combine all previous improvements with the new one
+        const allImprovements = [...improvementMessages.map(msg => msg.content), prompt.trim()];
+        
+        // Create a contextual improvement prompt that includes all previous improvements
+        finalPrompt = `${cleanOriginalPrompt}, ${allImprovements.join(', and ')}`;
+        
+        console.log('🎯 Original prompt:', cleanOriginalPrompt);
+        console.log('🎯 All improvements:', allImprovements);
+        console.log('🎯 Final cumulative prompt:', finalPrompt);
       } else {
-        // User is describing what they want the icon to be/look like
-        finalPrompt = `${cleanOriginalPrompt}, ${prompt.trim()}`;
+        // Fallback if no original prompt found
+        finalPrompt = prompt.trim();
+        console.log('🎯 No original prompt found, using current input:', finalPrompt);
       }
-      
-      console.log('🎯 Final improvement prompt:', finalPrompt);
     }
 
     setCurrentPrompt(finalPrompt);
@@ -202,10 +211,11 @@ function GeneratePageContent() {
       }
 
       // Add user message to conversation history immediately after credit deduction
+      // For improvements, only add the current user input, not the full cumulative prompt
       handleAddToConversation({
         id: Date.now().toString() + '_user',
         type: 'user',
-        content: finalPrompt,
+        content: isImprovementMode ? prompt.trim() : finalPrompt,
         timestamp: new Date(),
         isImprovement: isImprovementMode
       });

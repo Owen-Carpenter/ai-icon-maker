@@ -41,7 +41,12 @@ Keep this concise and focused on transparency and minimalism.`;
 export function getImprovementReasoningPrompt(context: PromptContext): string {
   const { prompt, style, improvementInstruction = 'general improvement', basePrompt = prompt } = context;
   
-  const hasColorRequest = /blue|color|red|green|yellow|orange|purple|pink|black|white/i.test(improvementInstruction);
+  // Extract all improvements from the full prompt if it contains cumulative changes
+  const allImprovements = prompt.includes(', and ') 
+    ? prompt.split(', ').slice(1).join(', ') // Remove base prompt, keep all improvements
+    : improvementInstruction;
+  
+  const hasColorRequest = /blue|color|red|green|yellow|orange|purple|pink|black|white/i.test(allImprovements);
   const colorNote = hasColorRequest 
     ? 'CRITICAL: You MUST use the specific color requested in the feedback' 
     : 'Choose appropriate colors for the design';
@@ -49,7 +54,7 @@ export function getImprovementReasoningPrompt(context: PromptContext): string {
     ? 'IMPORTANT: The color change must be visually obvious and match exactly what was requested.'
     : '';
   
-  return `You are an expert icon designer using GPT Image 1. A user wants to restyle an existing icon based on their feedback: "${prompt}" in ${style} style.
+  return `You are an expert icon designer using GPT Image 1. A user wants to restyle an existing icon based on their cumulative feedback: "${prompt}" in ${style} style.
 
 CRITICAL REQUIREMENTS:
 - TRANSPARENT PNG BACKGROUND - completely transparent, no background elements
@@ -58,12 +63,12 @@ CRITICAL REQUIREMENTS:
 - HIGH CONTRAST - clear visibility at small sizes
 
 Please provide a brief reasoning process explaining:
-1. How you'll modify the existing icon based on the specific feedback: "${improvementInstruction}"
+1. How you'll modify the existing icon based on ALL the feedback: "${allImprovements}"
 2. Your approach to ensuring completely transparent backgrounds
 3. Color choices for maximum contrast and clarity - ${colorNote}
-4. How you'll keep the same basic concept and recognizable shape while applying the requested changes
+4. How you'll keep the same basic concept and recognizable shape while applying ALL the requested changes cumulatively
 
-IMPORTANT: You are RESTYLING an existing icon, not creating a new one. Keep the same core concept and recognizable shape, only apply the requested modifications (color, style adjustments, etc.). ${colorImportance}`;
+IMPORTANT: You are RESTYLING an existing icon with CUMULATIVE improvements, not creating a new one. Keep the same core concept and recognizable shape, but apply ALL the requested modifications together (color, style adjustments, etc.). ${colorImportance}`;
 }
 
 /**
@@ -89,16 +94,21 @@ export function getInitialImagePrompt(context: PromptContext, variationIndex: nu
 export function getImprovementImagePrompt(context: PromptContext): string {
   const { prompt, improvementInstruction = '', basePrompt = prompt } = context;
   
-  // Check if this is a color change request
-  const isColorChange = /blue|color|red|green|yellow|orange|purple|pink|black|white/i.test(improvementInstruction);
+  // Extract all improvements from the full prompt if it contains cumulative changes
+  const allImprovements = prompt.includes(', and ') 
+    ? prompt.split(', ').slice(1).join(', ') // Remove base prompt, keep all improvements
+    : improvementInstruction;
   
-  if (improvementInstruction) {
+  // Check if this is a color change request in any of the improvements
+  const isColorChange = /blue|color|red|green|yellow|orange|purple|pink|black|white/i.test(allImprovements);
+  
+  if (allImprovements) {
     if (isColorChange) {
-      // For color changes, modify the existing icon
-      return `Modify the existing ${basePrompt} icon to be ${improvementInstruction}. Keep the same basic shape and structure, only change the color to ${improvementInstruction}. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+      // For color changes, modify the existing icon with all cumulative changes
+      return `Modify the existing ${basePrompt} icon with ALL these cumulative changes: ${allImprovements}. Keep the same basic shape and structure, but apply ALL the requested modifications together. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
     } else {
-      // For other improvements, modify the existing icon
-      return `Modify the existing ${basePrompt} icon by ${improvementInstruction}. Keep the same basic concept and recognizable shape, only apply the requested changes: ${improvementInstruction}. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
+      // For other improvements, modify the existing icon with all cumulative changes
+      return `Modify the existing ${basePrompt} icon with ALL these cumulative changes: ${allImprovements}. Keep the same basic concept and recognizable shape, but apply ALL the requested changes together: ${allImprovements}. TRANSPARENT PNG BACKGROUND. Simple solid color shape, no details, no background, no shadows, no effects. Clean edges, high contrast.`;
     }
   } else {
     // Fallback for general improvements
