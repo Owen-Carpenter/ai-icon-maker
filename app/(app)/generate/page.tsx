@@ -378,6 +378,8 @@ function GeneratePageContent() {
         if (isImprovementMode) {
           // For improvements, only show the improved icon
           setGeneratedImages(data.icons);
+          // Update the selectedIconUrl to the new improved icon so further improvements build on this one
+          setSelectedIconUrl(data.icons[0]);
         } else {
           // For new icons, show all generated icons
           setGeneratedImages(data.icons);

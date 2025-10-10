@@ -291,7 +291,7 @@ export default function IconDisplayPanel({
         ) : generatedImages.length > 0 ? (
           <div className="flex justify-center items-center w-full min-h-96">
             {isImprovementMode && selectedIconUrl ? (
-              // Show the original icon that was chosen to improve
+              // Show the improved icon if available, otherwise show the original icon being improved
               <div className={`flex flex-col items-center ${mobileCompactMode ? 'space-y-2' : 'space-y-6'}`}>
                 {!mobileCompactMode && (
                   <div className="text-center mb-4">
@@ -308,8 +308,8 @@ export default function IconDisplayPanel({
                 )}
                 <div className={`${mobileCompactMode ? 'w-32 h-32' : 'w-64 h-64 lg:w-80 lg:h-80'} bg-white/10 border border-white/20 rounded-xl ${mobileCompactMode ? 'p-4' : 'p-8 lg:p-12'} hover:bg-white/20 transition-all duration-200 flex flex-col items-center justify-center group`}>
                   <img
-                    src={selectedIconUrl}
-                    alt="Icon to improve"
+                    src={generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl}
+                    alt={generatedImages.length > 0 ? "Improved icon" : "Icon to improve"}
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
                   />
                 </div>
@@ -319,13 +319,14 @@ export default function IconDisplayPanel({
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      openSaveModal(selectedIconUrl);
+                      const iconToSave = generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl;
+                      openSaveModal(iconToSave);
                     }}
-                    disabled={savingIconId === selectedIconUrl}
+                    disabled={savingIconId === (generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl)}
                     className={`flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-300 ${mobileCompactMode ? 'py-1 px-2' : 'py-2 px-3'} rounded-lg ${mobileCompactMode ? 'text-xs' : 'text-xs'} font-medium transition-colors border border-green-500/30 hover:border-green-500/50 flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed`}
                     title="Save to Library"
                   >
-                    {savingIconId === selectedIconUrl ? (
+                    {savingIconId === (generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl) ? (
                       <div className={`${mobileCompactMode ? 'w-2 h-2' : 'w-3 h-3'} border border-green-300 border-t-transparent rounded-full animate-spin`}></div>
                     ) : (
                       <svg className={`${mobileCompactMode ? 'w-2 h-2' : 'w-3 h-3'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -338,7 +339,8 @@ export default function IconDisplayPanel({
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDownload(selectedIconUrl);
+                      const iconToDownload = generatedImages.length > 0 ? generatedImages[0] : selectedIconUrl;
+                      handleDownload(iconToDownload);
                     }}
                     className={`flex-1 [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300 bg-transparent text-white ${mobileCompactMode ? 'py-1 px-2' : 'py-2 px-3'} font-semibold hover:scale-105 ${mobileCompactMode ? 'text-xs' : 'text-xs'} flex items-center justify-center gap-1`}
                     title="Download PNG"
