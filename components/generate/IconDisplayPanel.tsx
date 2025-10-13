@@ -200,7 +200,7 @@ export default function IconDisplayPanel({
   return (
     <div 
       data-walkthrough="results-panel"
-      className="flex-1 flex flex-col lg:h-full lg:min-h-0 relative"
+      className="flex-1 flex flex-col h-full min-h-0 relative"
     >
       {/* Gradient Background - positioned behind content */}
       <div className="absolute inset-0 bg-gradient-to-r from-sunset-900/40 via-midnight-800/20 to-midnight-900/10 z-0"></div>

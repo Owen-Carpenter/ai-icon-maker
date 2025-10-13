@@ -539,12 +539,12 @@ function GeneratePageContent() {
   };
 
   return (
-    <div className="min-h-screen h-auto lg:h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row relative overflow-auto lg:overflow-hidden">
+    <div className="min-h-screen h-screen bg-gradient-to-br from-midnight-900 via-midnight-800 to-midnight-900 flex flex-col lg:flex-row relative overflow-auto lg:overflow-hidden">
       {/* Sidebar Navigation - Responsive */}
               <Sidebar currentPage="generate" onStartWalkthrough={handleStartWalkthrough} isGenerating={isGenerating} />
 
       {/* Main Content Area with Seamless Transition */}
-      <div className="flex-1 relative overflow-auto lg:overflow-hidden h-auto lg:h-screen">
+      <div className="flex-1 relative overflow-auto lg:overflow-hidden h-full">
         <ToastContainer toasts={toasts} onClose={removeToast} />
         
         {/* Success Message Overlay */}
@@ -626,7 +626,7 @@ function GeneratePageContent() {
         )}
 
         {/* Main Interface - Seamlessly transitions in */}
-        <div className={`flex flex-col lg:flex-row h-auto lg:h-full min-h-0 lg:ml-16 transition-all duration-1000 ease-in-out ${
+        <div className={`flex flex-col lg:flex-row h-full min-h-0 lg:ml-16 transition-all duration-1000 ease-in-out ${
           showHeroView ? 'opacity-0 scale-110' : 'opacity-100 scale-100'
         }`}>
           {/* Mobile Layout: Different views based on state */}
