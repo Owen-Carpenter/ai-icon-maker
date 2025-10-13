@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json();
-    const { prompt, style } = body;
+    const { prompt, style, sourceImageUrl } = body;
 
     // Validate required fields
     if (!prompt || !style) {
@@ -92,6 +92,7 @@ export async function POST(request: NextRequest) {
           style,
           count: isImprovement ? 1 : 3, // Generate 1 for improvements, 3 for new icons
           isImprovement: isImprovement,
+          sourceImageUrl: sourceImageUrl, // Pass the source image for editing
           onThought: (thought: string) => {
             // Streaming thought to client
             // Send thought chunk to client

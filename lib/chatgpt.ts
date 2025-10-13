@@ -13,12 +13,39 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+/**
+ * Convert image URL or data URL to File object for API upload
+ */
+async function urlToFile(url: string, filename: string = 'icon.png'): Promise<File> {
+  try {
+    let blob: Blob;
+    
+    if (url.startsWith('data:')) {
+      // Handle data URLs (base64)
+      const base64Data = url.split(',')[1];
+      const mimeType = url.match(/data:(.*?);/)?.[1] || 'image/png';
+      const binaryData = Buffer.from(base64Data, 'base64');
+      blob = new Blob([binaryData], { type: mimeType });
+    } else {
+      // Handle HTTP URLs
+      const response = await fetch(url);
+      blob = await response.blob();
+    }
+    
+    return new File([blob], filename, { type: blob.type });
+  } catch (error) {
+    console.error('Error converting URL to File:', error);
+    throw new Error('Failed to process source image');
+  }
+}
+
 export interface IconGenerationRequest {
   prompt: string;
   style: string;
   count?: number;
   onThought?: (thought: string) => void; // Callback for streaming thoughts
   isImprovement?: boolean; // Flag to indicate if this is an improvement request
+  sourceImageUrl?: string; // URL of the image to edit (for improvement mode)
 }
 
 export interface IconGenerationResponse {
@@ -36,7 +63,7 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
       throw new Error('OPENAI_API_KEY is not configured');
     }
 
-    const { prompt, style, count = 3, onThought, isImprovement = false } = request;
+    const { prompt, style, count = 3, onThought, isImprovement = false, sourceImageUrl } = request;
 
     // Generate real reasoning text using ChatGPT
     if (onThought) {
@@ -154,13 +181,32 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
       }
       
       try {
-        const response = await openai.images.generate({
-          model: "gpt-image-1", // Use GPT Image 1 model
-          prompt: imagePrompt,
-          n: 1,
-          size: "1024x1024",
-          quality: "medium" //for development mode
-        });
+        let response;
+        
+        // Use image edit endpoint if we have a source image (improvement mode)
+        if (isImprovement && sourceImageUrl) {
+          console.log('🎨 Using image edit endpoint with source image:', sourceImageUrl.substring(0, 50) + '...');
+          
+          // Convert the source image URL to a File object
+          const imageFile = await urlToFile(sourceImageUrl, 'source-icon.png');
+          
+          response = await openai.images.edit({
+            model: "gpt-image-1", // Use GPT Image 1 model
+            image: imageFile,
+            prompt: imagePrompt,
+            n: 1,
+            size: "1024x1024"
+          });
+        } else {
+          // Use standard generation endpoint for new icons
+          response = await openai.images.generate({
+            model: "gpt-image-1", // Use GPT Image 1 model
+            prompt: imagePrompt,
+            n: 1,
+            size: "1024x1024",
+            quality: "medium" //for development mode
+          });
+        }
 
         // GPT Image 1 response received
 

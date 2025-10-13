@@ -236,6 +236,7 @@ function GeneratePageContent() {
           prompt: finalPrompt,
           style,
           isImprovement: isImprovementMode,
+          sourceImageUrl: isImprovementMode ? selectedIconUrl : undefined, // Pass the icon to edit
         }),
       });
 
@@ -336,6 +337,7 @@ function GeneratePageContent() {
               prompt: finalPrompt,
               style,
               isImprovement: isImprovementMode,
+              sourceImageUrl: isImprovementMode ? selectedIconUrl : undefined,
             }),
           });
           
@@ -363,6 +365,7 @@ function GeneratePageContent() {
               prompt: finalPrompt,
               style,
               isImprovement: isImprovementMode,
+              sourceImageUrl: isImprovementMode ? selectedIconUrl : undefined,
             }),
           });
 

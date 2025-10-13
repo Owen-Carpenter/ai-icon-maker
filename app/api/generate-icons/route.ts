@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json()
-    const { prompt, style, isImprovement = false } = body
+    const { prompt, style, isImprovement = false, sourceImageUrl } = body
 
     // Validate required fields
     if (!prompt || !style) {
@@ -58,6 +58,7 @@ export async function POST(request: NextRequest) {
       style,
       count: isImprovement ? 1 : 3,
       isImprovement: isImprovement,
+      sourceImageUrl: sourceImageUrl, // Pass the source image for editing
     })
 
     // If generation failed, we should ideally refund the credit, but for now we'll keep the deduction
