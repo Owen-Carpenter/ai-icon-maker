@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ScrollAnimation from '../../components/ScrollAnimation';
 import Navbar from '../../components/Navbar';
 
@@ -13,6 +13,65 @@ import Logo from '../../components/ui/Logo';
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  
+  // Typing animation effect
+  useEffect(() => {
+    const examples = [
+      "Ask AI Icon Maker to create an icon for my...",
+      "Create a shopping cart icon with modern flat design",
+      "Design an AI icon maker logo for a productivity app", 
+      "Generate a heart icon with gradient colors",
+      "Build a settings gear icon with minimal style",
+      "Make a star rating icon with golden color"
+    ];
+    
+    let currentExample = 0;
+    let currentChar = 0;
+    let isDeleting = false;
+    let timeoutId: NodeJS.Timeout;
+    
+    function typeWriter() {
+      const typedTextElement = document.getElementById('typed-text');
+      const textareaElement = document.getElementById('ai-prompt');
+      
+      if (!typedTextElement || !textareaElement) return;
+      
+      const currentText = examples[currentExample];
+      
+      if (isDeleting) {
+        typedTextElement.textContent = currentText.substring(0, currentChar - 1);
+        currentChar--;
+      } else {
+        typedTextElement.textContent = currentText.substring(0, currentChar + 1);
+        currentChar++;
+      }
+      
+      let typeSpeed = isDeleting ? 30 : 50;
+      
+      if (!isDeleting && currentChar === currentText.length) {
+        timeoutId = setTimeout(() => {
+          isDeleting = true;
+          typeWriter();
+        }, 1000);
+        return;
+      } else if (isDeleting && currentChar === 0) {
+        isDeleting = false;
+        currentExample = (currentExample + 1) % examples.length;
+        typeSpeed = 500;
+      }
+      
+      timeoutId = setTimeout(typeWriter, typeSpeed);
+    }
+    
+    // Start typing animation after a short delay
+    const initialTimeout = setTimeout(typeWriter, 1000);
+    
+    // Cleanup function
+    return () => {
+      clearTimeout(initialTimeout);
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   const faqData = [
     {
@@ -912,123 +971,6 @@ export default function HomePage() {
 
       {/* Footer */}
       <Footer />
-
-      {/* Typing Animation & Icon Demo Script */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function() {
-              const examples = [
-                "Ask AI Icon Maker to create an icon for my...",
-                "Create a shopping cart icon with modern flat design",
-                "Design an AI icon maker logo for a productivity app", 
-                "Generate a heart icon with gradient colors",
-                "Build a settings gear icon with minimal style",
-                "Make a star rating icon with golden color"
-              ];
-              
-              let currentExample = 0;
-              let currentChar = 0;
-              let isDeleting = false;
-              
-              function typeWriter() {
-                const typedTextElement = document.getElementById('typed-text');
-                const cursorElement = document.getElementById('cursor');
-                const textareaElement = document.getElementById('ai-prompt');
-                
-                if (!typedTextElement || !cursorElement || !textareaElement) return;
-                
-                const currentText = examples[currentExample];
-                
-                if (isDeleting) {
-                  typedTextElement.textContent = currentText.substring(0, currentChar - 1);
-                  currentChar--;
-                } else {
-                  typedTextElement.textContent = currentText.substring(0, currentChar + 1);
-                  currentChar++;
-                }
-                
-                let typeSpeed = isDeleting ? 30 : 50;
-                
-                if (!isDeleting && currentChar === currentText.length) {
-                  // Pause for 1 second after completing the sentence, then start deleting
-                  setTimeout(() => {
-                    isDeleting = true;
-                    typeWriter();
-                  }, 1000);
-                  return; // Don't continue with the current cycle
-                } else if (isDeleting && currentChar === 0) {
-                  isDeleting = false;
-                  currentExample = (currentExample + 1) % examples.length;
-                  typeSpeed = 500;
-                }
-                
-                // Hide placeholder when user starts typing
-                textareaElement.addEventListener('input', function() {
-                  const placeholderElement = document.getElementById('typing-placeholder');
-                  if (placeholderElement) {
-                    placeholderElement.style.display = this.value ? 'none' : 'block';
-                  }
-                });
-                
-                // Show placeholder when textarea is empty
-                textareaElement.addEventListener('blur', function() {
-                  const placeholderElement = document.getElementById('typing-placeholder');
-                  if (placeholderElement && !this.value) {
-                    placeholderElement.style.display = 'block';
-                  }
-                });
-                
-                setTimeout(typeWriter, typeSpeed);
-              }
-              
-              // Simple Icon Generation Demo
-              function initIconDemo() {
-                const demoStatus = document.getElementById('demo-status');
-                if (!demoStatus) return;
-                
-                const statuses = [
-                  'Processing prompt...',
-                  'Generating icon...',
-                  'Optimizing design...',
-                  'Icon ready!'
-                ];
-                
-                let currentStatus = 0;
-                
-                function updateStatus() {
-                  if (demoStatus) {
-                    demoStatus.textContent = statuses[currentStatus];
-                    currentStatus = (currentStatus + 1) % statuses.length;
-                  }
-                  
-                  setTimeout(updateStatus, 2000);
-                }
-                
-                // Start the demo
-                setTimeout(updateStatus, 2000);
-              }
-              
-              // Initialize everything when DOM is ready
-              document.addEventListener('DOMContentLoaded', function() {
-                setTimeout(typeWriter, 1000);
-                initIconDemo();
-              });
-              
-              // Also start if DOM is already loaded
-              if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function() {
-                  setTimeout(typeWriter, 1000);
-                  initIconDemo();
-                });
-              } else {
-                setTimeout(typeWriter, 1000);
-                initIconDemo();
-              }
-            })();
-          `,
-        }}
-      />
     </div>
   );
 } 
