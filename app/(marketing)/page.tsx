@@ -938,13 +938,13 @@ export default function HomePage() {
             <ScrollAnimation>
               <div className="flex justify-center items-center mb-6">
                 <div className="flex -space-x-2">
-                  <div className="w-10 h-10 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">D</div>
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">S</div>
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">M</div>
-                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">A</div>
-                  <div className="w-10 h-10 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">K</div>
-                  <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">L</div>
-                  <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white">T</div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-sunset-500 to-coral-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">D</div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">S</div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">M</div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">A</div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">K</div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">L</div>
+                  <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-red-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">T</div>
                 </div>
               </div>
               <p className="text-sunset-200 mb-4">500+ Designers & developers trust AI Icon Maker</p>

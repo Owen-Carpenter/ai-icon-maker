@@ -16,7 +16,7 @@ const topRowTestimonials: Testimonial[] = [
     name: "@designerdave",
     title: "Mobile App Developer",
     avatar: "D",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-sunset-500 to-coral-500"
   },
   {
     id: '2',
@@ -24,7 +24,7 @@ const topRowTestimonials: Testimonial[] = [
     name: "@sarahcreates",
     title: "UI/UX Designer",
     avatar: "S",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-purple-500 to-pink-500"
   },
   {
     id: '3',
@@ -32,7 +32,7 @@ const topRowTestimonials: Testimonial[] = [
     name: "@mikepixel",
     title: "Startup Founder",
     avatar: "M",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-blue-500 to-cyan-500"
   },
   {
     id: '4',
@@ -40,7 +40,7 @@ const topRowTestimonials: Testimonial[] = [
     name: "@jenna_ui",
     title: "Freelance Designer",
     avatar: "J",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-green-500 to-emerald-500"
   },
   {
     id: '5',
@@ -48,7 +48,7 @@ const topRowTestimonials: Testimonial[] = [
     name: "@ryan_freelance",
     title: "Product Designer",
     avatar: "R",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-yellow-500 to-orange-500"
   }
 ];
 
@@ -59,7 +59,7 @@ const bottomRowTestimonials: Testimonial[] = [
     name: "@alexbrand",
     title: "App Developer",
     avatar: "A",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-red-500 to-pink-500"
   },
   {
     id: '7',
@@ -67,7 +67,7 @@ const bottomRowTestimonials: Testimonial[] = [
     name: "@kyle_dev",
     title: "Design Consultant",
     avatar: "K",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-indigo-500 to-purple-500"
   },
   {
     id: '8',
@@ -75,7 +75,7 @@ const bottomRowTestimonials: Testimonial[] = [
     name: "@lisadesigns",
     title: "Senior Product Designer",
     avatar: "L",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-teal-500 to-cyan-500"
   },
   {
     id: '9',
@@ -83,7 +83,7 @@ const bottomRowTestimonials: Testimonial[] = [
     name: "@emma_designs",
     title: "Web Designer",
     avatar: "E",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-fuchsia-500 to-pink-500"
   },
   {
     id: '10',
@@ -91,7 +91,7 @@ const bottomRowTestimonials: Testimonial[] = [
     name: "@tomcreative",
     title: "Creative Director",
     avatar: "T",
-    avatarBg: "bg-[#ff7e5f]"
+    avatarBg: "bg-gradient-to-br from-amber-500 to-red-500"
   }
 ];
 
