@@ -46,6 +46,7 @@ export default function IconDisplayPanel({
   const [extractedSvgCodes, setExtractedSvgCodes] = useState<string[]>([]);
   const [dalleThoughts, setDalleThoughts] = useState<string>('');
   const thoughtsContainerRef = useRef<HTMLDivElement>(null);
+  const [userHasScrolledUp, setUserHasScrolledUp] = useState(false);
 
   // Since we're only using PNG images now, we don't need SVG extraction logic
 
@@ -129,9 +130,9 @@ export default function IconDisplayPanel({
     }
   }, [isGenerating]);
 
-  // Auto-scroll to bottom when new content is added
+  // Auto-scroll to bottom when new content is added (only if user hasn't scrolled up)
   useEffect(() => {
-    if (thoughtsContainerRef.current && streamedThoughts) {
+    if (thoughtsContainerRef.current && streamedThoughts && !userHasScrolledUp) {
       const container = thoughtsContainerRef.current;
       
       // Use requestAnimationFrame to ensure DOM is updated
@@ -140,51 +141,42 @@ export default function IconDisplayPanel({
         const clientHeight = container.clientHeight;
         const maxScroll = Math.max(0, scrollHeight - clientHeight);
         
-        
-        // Always scroll to bottom when new content arrives
+        // Only scroll to bottom if user hasn't manually scrolled up
         container.scrollTop = maxScroll;
       });
     }
-  }, [streamedThoughts]);
+  }, [streamedThoughts, userHasScrolledUp]);
 
-  // Also scroll when isGenerating changes to ensure we're at bottom
+  // Reset scroll state when generation starts
   useEffect(() => {
-    if (thoughtsContainerRef.current && isGenerating) {
-      const container = thoughtsContainerRef.current;
-      
-      requestAnimationFrame(() => {
-        const scrollHeight = container.scrollHeight;
-        const clientHeight = container.clientHeight;
-        const maxScroll = Math.max(0, scrollHeight - clientHeight);
-        
-        
-        container.scrollTop = maxScroll;
-      });
+    if (isGenerating) {
+      setUserHasScrolledUp(false);
     }
   }, [isGenerating]);
 
-  // Force scroll to bottom periodically during generation
+  // Detect when user manually scrolls
   useEffect(() => {
-    if (isGenerating && streamedThoughts) {
-      const interval = setInterval(() => {
-        if (thoughtsContainerRef.current) {
-          const container = thoughtsContainerRef.current;
-          const scrollHeight = container.scrollHeight;
-          const clientHeight = container.clientHeight;
-          const maxScroll = Math.max(0, scrollHeight - clientHeight);
-          const currentScroll = container.scrollTop;
-          
-          // Only scroll if we're not already at the bottom
-          if (maxScroll > 0 && currentScroll < maxScroll - 10) { // 10px buffer
-            
-            container.scrollTop = maxScroll;
-          }
-        }
-      }, 50); // Check every 50ms for more responsive scrolling
+    const container = thoughtsContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollHeight = container.scrollHeight;
+      const clientHeight = container.clientHeight;
+      const currentScroll = container.scrollTop;
+      const maxScroll = Math.max(0, scrollHeight - clientHeight);
       
-      return () => clearInterval(interval);
-    }
-  }, [isGenerating, streamedThoughts]);
+      // User is near bottom (within 50px) - enable auto-scroll
+      if (maxScroll - currentScroll < 50) {
+        setUserHasScrolledUp(false);
+      } else {
+        // User has scrolled up significantly - disable auto-scroll
+        setUserHasScrolledUp(true);
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Show generated content when generation is complete and animation is done
   useEffect(() => {
@@ -265,11 +257,7 @@ export default function IconDisplayPanel({
               </div>
               <div 
                 ref={thoughtsContainerRef}
-                className="h-[300px] overflow-y-auto scrollbar-none relative"
-                style={{
-                  scrollbarWidth: 'none', // Firefox
-                  msOverflowStyle: 'none', // IE/Edge
-                }}
+                className="h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-sunset-500/50 scrollbar-track-midnight-900/50 relative"
               >
                 <div className="text-sunset-300 text-sm font-normal leading-relaxed whitespace-pre-wrap p-4">
                   {streamedThoughts || (isGenerating ? '🎨 GPT Image 1 is analyzing your request...\n📝 Generating detailed design reasoning...\n🔍 Preparing professional icon concepts...\n⚡ Processing with AI...' : '')}
@@ -279,10 +267,10 @@ export default function IconDisplayPanel({
                 </div>
                 {/* Fade gradient at top to create smooth transition */}
                 <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-midnight-800 via-midnight-800/80 to-transparent pointer-events-none z-10"></div>
-                {/* Scroll hint at bottom */}
-                {streamedThoughts && streamedThoughts.length > 500 && (
-                  <div className="absolute bottom-2 right-2 text-xs text-sunset-400/60 pointer-events-none z-10">
-                    ↑ scroll to see more
+                {/* Scroll hint when user has scrolled up */}
+                {userHasScrolledUp && isGenerating && (
+                  <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-sunset-400 bg-midnight-900/90 px-3 py-1 rounded-full border border-sunset-500/30 pointer-events-none z-10 animate-pulse">
+                    ↓ Auto-scroll paused - scroll to bottom to resume
                   </div>
                 )}
               </div>
