@@ -12,41 +12,41 @@ interface Testimonial {
 const topRowTestimonials: Testimonial[] = [
   {
     id: '1',
-    quote: "Wow, this is absolutely incredible – huge props to the @ai_icon_maker team for bringing these amazing AI superpowers to more designers and developers!",
+    quote: "Just typed 'shopping cart icon' and got 3 perfect variations in seconds. The PNG downloads are crystal clear and the transparent backgrounds work perfectly in my app!",
     name: "@designerdave",
-    title: "Co-founder & CEO @designstudio",
+    title: "Mobile App Developer",
     avatar: "D",
     avatarBg: "bg-[#ff7e5f]"
   },
   {
     id: '2',
-    quote: "Finally an AI tool that I will ACTUALLY include as part of my workflow. I love how seamless it is from start to finish.",
+    quote: "The improvement feature is insane! I generated an icon, asked it to 'make it blue', and it kept the same design but changed just the color. Exactly what I needed.",
     name: "@sarahcreates",
-    title: "Designer & Creative developer",
+    title: "UI/UX Designer",
     avatar: "S",
     avatarBg: "bg-[#ff7e5f]"
   },
   {
     id: '3',
-    quote: "This is pure magic. ✨ → Icons in seconds → Perfect styles in minutes → Full icon sets with AI → @ai_icon_maker saving the day for designers!",
+    quote: "GPT Image 1 quality is no joke. Generated a logo icon for my startup in 3 different styles, picked one, refined it twice, and now it's our official brand icon!",
     name: "@mikepixel",
-    title: "Designer & Content Creator",
+    title: "Startup Founder",
     avatar: "M",
     avatarBg: "bg-[#ff7e5f]"
   },
   {
     id: '4',
-    quote: "The AI understands exactly what I need! Creating icon sets has never been this fast and consistent. Absolutely game-changing for my design process.",
+    quote: "The library feature saves me so much time. I generate icons for client projects, save them, and can access them later. No more hunting through folders!",
     name: "@jenna_ui",
-    title: "UI/UX Designer @techstartup",
+    title: "Freelance Designer",
     avatar: "J",
     avatarBg: "bg-[#ff7e5f]"
   },
   {
     id: '5',
-    quote: "As a freelancer, this tool has literally 10x'd my productivity. I can deliver icon sets to clients in hours instead of days. Mind-blowing quality!",
+    quote: "I love how I can iterate on icons just by chatting. 'Make it rounder', 'add more detail', 'make it minimalist' - it understands everything and the results are professional.",
     name: "@ryan_freelance",
-    title: "Freelance Designer",
+    title: "Product Designer",
     avatar: "R",
     avatarBg: "bg-[#ff7e5f]"
   }
@@ -55,23 +55,23 @@ const topRowTestimonials: Testimonial[] = [
 const bottomRowTestimonials: Testimonial[] = [
   {
     id: '6',
-    quote: "Very excited for @ai_icon_maker's new AI-powered icon generator. I love the messaging and positioning 'to empower you, not replace you'. Strategic language to get even skeptical designers to jump in.",
+    quote: "Needed icons for 12 different app features. Described each one, got multiple options, saved my favorites to the library. Entire icon set done in under an hour. 🤯",
     name: "@alexbrand",
-    title: "Designer",
+    title: "App Developer",
     avatar: "A",
     avatarBg: "bg-[#ff7e5f]"
   },
   {
     id: '7',
-    quote: "Yooooooooo, this is 🔥 @ai_icon_maker has been one of my favorite tools I've seen evolve in the design space. They're carving out a tremendous groove that designers and developers can vibe in.",
+    quote: "The style options are perfect. I can generate the same icon in modern, flat, 3D, and minimalist styles instantly. Client presentations have never looked better!",
     name: "@kyle_dev",
-    title: "Designer & Developer",
+    title: "Design Consultant",
     avatar: "K",
     avatarBg: "bg-[#ff7e5f]"
   },
   {
     id: '8',
-    quote: "This is the most exciting AI design product I've seen – great work AI Icon Maker team!!! Looks especially powerful for serious designers looking to build icons at scale.",
+    quote: "Best part? The AI reasoning before generation. It explains its design choices, then creates exactly what I envisioned. It's like having a designer that reads your mind.",
     name: "@lisadesigns",
     title: "Senior Product Designer",
     avatar: "L",
@@ -79,17 +79,17 @@ const bottomRowTestimonials: Testimonial[] = [
   },
   {
     id: '9',
-    quote: "I've tried every icon tool out there, and this is hands down the best. The AI suggestions are spot-on and save me hours of iteration time.",
+    quote: "PNG exports with transparent backgrounds saved me countless hours. No more manual background removal or dealing with file conversions. Just download and use!",
     name: "@emma_designs",
-    title: "Product Designer @startup",
+    title: "Web Designer",
     avatar: "E",
     avatarBg: "bg-[#ff7e5f]"
   },
   {
     id: '10',
-    quote: "Our entire design team switched to AI Icon Maker last month. The consistency across projects is incredible, and clients love the quality!",
+    quote: "I can create, iterate, and refine icons all through natural conversation. It's the most intuitive design tool I've ever used. My team is obsessed with it.",
     name: "@tomcreative",
-    title: "Creative Director @agency",
+    title: "Creative Director",
     avatar: "T",
     avatarBg: "bg-[#ff7e5f]"
   }
