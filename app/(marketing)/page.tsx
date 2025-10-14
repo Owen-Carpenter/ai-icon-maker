@@ -174,30 +174,25 @@ export default function HomePage() {
         <div className="absolute top-2/3 left-1/3 text-3xl animate-float opacity-10 hover:scale-125 transition-transform duration-300" style={{animationDuration: '4.6s', animationDelay: '9s'}}>
           🎭
         </div>
-        <div className="flex flex-col items-center justify-center text-center w-full relative z-10 animate-fade-in" style={{animationDelay: '0.5s'}}>
-          <ScrollAnimation>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-              Make something 
-              <span className="inline-flex items-center mx-1 sm:mx-2">
-                <span className="text-2xl sm:text-3xl lg:text-4xl">🎨</span>
-              </span>
-              <span className="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent">Iconic</span>
-            </h1>
-          </ScrollAnimation>
+        <div className="flex flex-col items-center justify-center text-center w-full relative z-10">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+            Make something 
+            <span className="inline-flex items-center mx-1 sm:mx-2">
+              <span className="text-2xl sm:text-3xl lg:text-4xl">🎨</span>
+            </span>
+            <span className="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent">Iconic</span>
+          </h1>
           
-          <ScrollAnimation delay={100}>
-            <p className="text-base sm:text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl px-4">
-              Create stunning icons and designs by chatting with AI
-            </p>
-          </ScrollAnimation>
+          <p className="text-base sm:text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl px-4">
+            Create stunning icons and designs by chatting with AI
+          </p>
           
-          <ScrollAnimation delay={100}>
-            {/* Main Input Field */}
-            <div className="w-full mb-8">
+          {/* Main Input Field */}
+          <div className="w-full max-w-4xl mb-8 mx-auto px-4">
               <div className="relative">
                 <textarea
                   id="ai-prompt"
-                  className="w-full min-w-[300px] sm:min-w-[500px] md:min-w-[700px] lg:min-w-[900px] xl:min-w-[900px] max-w-[95vw] bg-midnight-800/90 border border-midnight-700 rounded-2xl p-4 sm:p-6 pr-12 sm:pr-16 text-white placeholder-transparent focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300 resize-none text-base sm:text-lg backdrop-blur-sm min-h-[100px] sm:min-h-[120px] max-h-[200px]"
+                  className="w-full bg-midnight-800/90 border border-midnight-700 rounded-2xl p-4 sm:p-6 pr-12 sm:pr-16 text-white placeholder-transparent focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300 resize-none text-base sm:text-lg backdrop-blur-sm min-h-[100px] sm:min-h-[120px] max-h-[200px]"
                   rows={4}
                   placeholder=""
                   disabled
@@ -234,19 +229,16 @@ export default function HomePage() {
                 </button>
               </div>
             </div>
-          </ScrollAnimation>
           
-          <ScrollAnimation delay={150}>
-            {/* CTA Button */}
-            <div className="inline-block [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
-              <SmartGenerateLink 
-                className="bg-transparent text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block"
-                fallbackHref="/register"
-              >
-                Start Creating Icons
-              </SmartGenerateLink>
-            </div>
-          </ScrollAnimation>
+          {/* CTA Button */}
+          <div className="inline-block [background:linear-gradient(45deg,#111827,theme(colors.midnight.800)_50%,#111827)_padding-box,conic-gradient(from_var(--border-angle),#FF8A65,#CE93D8,#FFF7ED,#FF8A65)_border-box] rounded-lg border-4 border-transparent animate-border shadow-lg shadow-sunset-500/50 hover:shadow-xl hover:shadow-sunset-500/70 transition-all duration-300">
+            <SmartGenerateLink 
+              className="bg-transparent text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block"
+              fallbackHref="/register"
+            >
+              Start Creating Icons
+            </SmartGenerateLink>
+          </div>
         </div>
 
         {/* Demo Video Preview - Positioned at bottom of hero, extending into next section */}
