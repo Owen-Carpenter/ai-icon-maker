@@ -21,7 +21,7 @@ export default function HomePage() {
     },
     {
       question: "What if I need more icons?",
-      answer: "Our Pro plan (200 credits/month) covers most professional needs. For agencies and high-volume users, our Enterprise plan offers 500 credits/month plus advanced features."
+      answer: "Our Pro plan (100 credits/month) covers most professional needs. For agencies and high-volume users, our Profession Plus plan offers 200 credits/month plus advanced features."
     },
     {
       question: "Can I cancel anytime?",
