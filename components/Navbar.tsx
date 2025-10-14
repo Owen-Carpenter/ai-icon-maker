@@ -204,10 +204,10 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                   </button>
                   
                   {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/20 border border-white/30 py-2 z-50 ring-1 ring-white/20">
+                    <div className="absolute right-0 mt-2 w-48 bg-white/20 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/20 border border-white/30 py-1 px-2 z-50 ring-1 ring-white/20">
                       <Link 
                         href="/account" 
-                        className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/20 transition-all duration-300 mx-2 rounded-xl"
+                        className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/20 transition-all duration-300 rounded-xl"
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         Account Settings
@@ -215,7 +215,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                       <button 
                         onClick={handleSignOut}
                         disabled={loading}
-                        className="w-full text-left px-4 py-3 text-white/90 hover:text-white hover:bg-white/20 transition-all duration-300 disabled:opacity-50 mx-2 rounded-xl"
+                        className="w-full text-left px-4 py-3 text-white/90 hover:text-white hover:bg-white/20 transition-all duration-300 disabled:opacity-50 rounded-xl"
                       >
                         {loading ? 'Signing out...' : 'Sign out'}
                       </button>
