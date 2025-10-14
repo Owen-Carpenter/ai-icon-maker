@@ -60,11 +60,15 @@ export async function POST(request: NextRequest) {
     const monthlyLimit = subscription?.monthly_token_limit || 5
     const remaining = Math.max(0, monthlyLimit - totalUsed)
     
-    if (remaining < 1) {
+    // Icon improvements cost 3 credits (because we pass image as input), new generations cost 1 credit
+    const creditsNeeded = isImprovement ? 3 : 1
+    
+    if (remaining < creditsNeeded) {
       return NextResponse.json(
         { 
           error: 'Insufficient credits', 
           remaining_tokens: remaining,
+          credits_needed: creditsNeeded,
           monthly_limit: monthlyLimit,
           plan_type: subscription?.plan_type || 'free'
         },
@@ -76,7 +80,7 @@ export async function POST(request: NextRequest) {
     const { data: usageResult, error: usageError } = await supabase
       .rpc('use_tokens', {
         p_user_id: user.id,
-        p_tokens_needed: 1,
+        p_tokens_needed: creditsNeeded,
         p_usage_type: isImprovement ? 'icon_improvement' : 'icon_generation',
         p_prompt_text: prompt.trim(),
         p_style_selected: style
@@ -104,13 +108,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Calculate final remaining tokens (after deduction)
-    const finalRemaining = Math.max(0, remaining - 1)
+    const finalRemaining = Math.max(0, remaining - creditsNeeded)
     
     const response = {
       success: true,
       remaining_tokens: finalRemaining,
       usage_id: tokenUsage.usage_id,
-      message: `Credit deducted successfully. ${finalRemaining} credits remaining.`
+      credits_deducted: creditsNeeded,
+      message: `${creditsNeeded} credit${creditsNeeded > 1 ? 's' : ''} deducted successfully. ${finalRemaining} credits remaining.`
     };
     
     return NextResponse.json(response)

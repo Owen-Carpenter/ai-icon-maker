@@ -201,9 +201,13 @@ function GeneratePageContent() {
       const creditData = await creditResponse.json();
 
       if (!creditResponse.ok || !creditData?.success) {
+        const creditsNeeded = isImprovementMode ? 3 : 1;
+        const errorMsg = creditData?.error?.includes('Insufficient credits') 
+          ? `You need ${creditsNeeded} credits but only have ${creditData?.remaining_tokens || 0}. ${isImprovementMode ? 'Icon improvements cost 3 credits.' : ''}`
+          : creditData?.error || 'Failed to deduct credit. Please try again.';
         error(
           'Credit Deduction Failed',
-          creditData?.error || 'Failed to deduct credit. Please try again.',
+          errorMsg,
           5000
         );
         setIsGenerating(false);
@@ -416,11 +420,12 @@ function GeneratePageContent() {
         invalidateCache();
         await refreshUserData(true);
         
+        const creditsUsed = creditData.credits_deducted || (isImprovementMode ? 3 : 1);
         success(
           isImprovementMode ? 'Icon Improved!' : 'Icons Generated!', 
           isImprovementMode 
-            ? `Successfully improved your icon based on "${prompt}". ${creditData.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
-            : `Successfully created ${data.icons.length} unique icons for "${prompt}". ${creditData.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
+            ? `Successfully improved your icon based on "${prompt}". Used ${creditsUsed} credits. ${creditData.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
+            : `Successfully created ${data.icons.length} unique icons for "${prompt}". Used ${creditsUsed} credit. ${creditData.remaining_tokens} credits remaining. ${data.message?.includes('Mock Mode') ? '(Mock Mode)' : ''}`
         );
         
         // Clear the prompt for next improvement (after it's been added to conversation history)
