@@ -258,7 +258,7 @@ export default function HomePage() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">Professional Export</h3>
-                <p className="text-sunset-200 text-sm">Download as SVG, PNG, or copy code directly</p>
+                <p className="text-sunset-200 text-sm">Download your AI generated icons as a PNG file</p>
               </div>
             </div>
           </ScrollAnimation>
