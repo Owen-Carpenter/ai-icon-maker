@@ -11,7 +11,7 @@ import SmartGenerateLink from '../../components/SmartGenerateLink';
 import Logo from '../../components/ui/Logo';
 
 export default function HomePage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   
   // Typing animation effect
@@ -97,9 +97,9 @@ export default function HomePage() {
   };
 
   const handleCheckout = async (planType: string) => {
-    if (isLoading) return;
+    if (loadingPlan) return;
     
-    setIsLoading(true);
+    setLoadingPlan(planType);
     try {
       const response = await fetch('/api/stripe/checkout', {
         method: 'POST',
@@ -122,7 +122,7 @@ export default function HomePage() {
       // Fallback to registration
       window.location.href = '/register';
     } finally {
-      setIsLoading(false);
+      setLoadingPlan(null);
     }
   };
   return (
@@ -700,10 +700,10 @@ export default function HomePage() {
                 
                 <button 
                   onClick={() => handleCheckout('base')}
-                  disabled={isLoading}
+                  disabled={loadingPlan !== null}
                   className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 px-6 rounded-full font-semibold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? 'Processing...' : 'Get Started'}
+                  {loadingPlan === 'base' ? 'Processing...' : 'Get Started'}
                 </button>
               </div>
             </ScrollAnimation>
@@ -779,10 +779,10 @@ export default function HomePage() {
                 
                 <button 
                   onClick={() => handleCheckout('pro')}
-                  disabled={isLoading}
+                  disabled={loadingPlan !== null}
                   className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? 'Processing...' : 'Start Creating Icons'}
+                  {loadingPlan === 'pro' ? 'Processing...' : 'Start Creating Icons'}
                 </button>
               </div>
             </ScrollAnimation>
@@ -845,10 +845,10 @@ export default function HomePage() {
                 
                 <button 
                   onClick={() => handleCheckout('proPlus')}
-                  disabled={isLoading}
+                  disabled={loadingPlan !== null}
                   className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? 'Processing...' : 'Start Creating Icons'}
+                  {loadingPlan === 'proPlus' ? 'Processing...' : 'Start Creating Icons'}
                 </button>
               </div>
             </ScrollAnimation>
@@ -918,10 +918,10 @@ export default function HomePage() {
                   <div className="flex justify-center">
                     <button 
                       onClick={() => handleCheckout('pro')}
-                      disabled={isLoading}
+                      disabled={loadingPlan !== null}
                       className="bg-gradient-to-r from-sunset-500 to-coral-500 text-white px-8 py-3 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {isLoading ? 'Processing...' : 'Start Your Subscription'}
+                      {loadingPlan === 'pro' ? 'Processing...' : 'Start Your Subscription'}
                     </button>
                   </div>
                 </ScrollAnimation>
