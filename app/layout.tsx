@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   authors: [{ name: 'AI Icon Maker' }],
   creator: 'AI Icon Maker',
   publisher: 'AI Icon Maker',
+  verification: {
+    google: 'gEFS5qxq_vRGUABjbt4LNQPlrLjtGyolIolAmwfMgGzw',
+  },
   robots: {
     index: true,
     follow: true,
