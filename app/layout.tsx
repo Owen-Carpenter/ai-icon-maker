@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   creator: 'AI Icon Maker',
   publisher: 'AI Icon Maker',
   verification: {
-    google: 'gEFS5qxq_vRGUABjbt4LNQPlrLjtGyolIolAmwfMgGzw',
+    google: 'EFS5qxq_vRGUABjbt4LNQPlrLjtGyolIolAmwfMgGzw',
   },
   robots: {
     index: true,
