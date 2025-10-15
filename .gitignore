@@ -131,3 +131,7 @@ temp/
 
 # Sentry
 .sentryclirc
+
+# Supabase (keep migrations but ignore local config)
+supabase/.branches
+supabase/.temp
