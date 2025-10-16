@@ -40,6 +40,19 @@ export const authService = {
   // Sign in with Google OAuth
   async signInWithGoogle() {
     const baseUrl = getBaseUrl()
+    
+    // Debug logging to help diagnose redirect issues
+    console.log('=== OAuth Debug Info ===')
+    console.log('Base URL:', baseUrl)
+    console.log('OAuth redirect URL:', `${baseUrl}/auth/callback`)
+    console.log('Environment URL:', process.env.NEXT_PUBLIC_APP_URL)
+    console.log('NEXTAUTH_URL:', process.env.NEXTAUTH_URL)
+    if (typeof window !== 'undefined') {
+      console.log('Window origin:', window.location.origin)
+      console.log('Current URL:', window.location.href)
+    }
+    console.log('========================')
+    
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
