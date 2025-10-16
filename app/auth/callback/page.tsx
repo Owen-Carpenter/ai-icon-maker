@@ -13,10 +13,28 @@ export default function AuthCallback() {
   const { hasActiveSubscription, userData, loading: authLoading } = useAuth();
   const router = useRouter();
 
+  // Timeout mechanism to prevent hanging
   useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (loading) {
+        console.error('OAuth callback timeout after 60 seconds - redirecting to login');
+        setError('Authentication timed out. Please try again.');
+        setLoading(false);
+      }
+    }, 60000); // 60 second timeout (increased from 30)
+
+    return () => clearTimeout(timeoutId);
+  }, [loading]);
+
+  useEffect(() => {
+    let retryCount = 0;
+    const maxRetries = 20; // Max 10 seconds of retries (20 * 500ms)
+    
     const handleAuthCallback = async () => {
       try {
-        // Handle the OAuth callback
+        console.log('OAuth callback processing...', { retryCount, url: window.location.href });
+        
+        // Handle the OAuth callback - get session from URL params
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
@@ -28,12 +46,40 @@ export default function AuthCallback() {
 
         if (data.session?.user) {
           console.log('OAuth login successful:', data.session.user.email);
-          setLoading(false); // Let AuthContext handle the user data fetching
-        } else {
-          // No session found, redirect to login
-          console.log('No session found in callback');
-          router.push('/login?error=authentication_failed');
+          // Success! Let the AuthContext handle user data fetching
+          setLoading(false);
+          return;
         }
+
+        // Check if we're in the middle of an OAuth flow
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasOAuthParams = urlParams.has('code') || urlParams.has('state');
+        
+        console.log('OAuth status check:', { 
+          hasSession: !!data.session, 
+          hasOAuthParams, 
+          urlParams: Object.fromEntries(urlParams.entries()) 
+        });
+        
+        if (hasOAuthParams) {
+          retryCount++;
+          if (retryCount < maxRetries) {
+            // Still processing OAuth, wait a bit more
+            console.log(`OAuth processing... retry ${retryCount}/${maxRetries}`);
+            setTimeout(handleAuthCallback, 500);
+            return;
+          } else {
+            // Max retries reached, but still have OAuth params - this might be a real issue
+            console.error('OAuth callback max retries reached');
+            setError('Authentication is taking longer than expected. Please try again.');
+            setLoading(false);
+            return;
+          }
+        }
+        
+        // No session found and no OAuth params, redirect to login
+        console.log('No session found in callback, redirecting to login');
+        router.push('/login?error=authentication_failed');
       } catch (err) {
         console.error('Unexpected error during auth callback:', err);
         setError('An unexpected error occurred. Please try again.');
@@ -41,22 +87,25 @@ export default function AuthCallback() {
       }
     };
 
-    // Small delay to ensure URL params are processed
-    const timeoutId = setTimeout(handleAuthCallback, 100);
-    
-    return () => clearTimeout(timeoutId);
+    // Start processing immediately
+    handleAuthCallback();
   }, [router]);
 
   // Handle redirect after auth context loads user data
   useEffect(() => {
     if (!loading && !authLoading && userData) {
-      if (hasActiveSubscription) {
-        window.location.href = '/generate';
-      } else {
-        window.location.href = '/account';
-      }
+      // Add a small delay to ensure all state is properly set
+      const redirectTimeout = setTimeout(() => {
+        if (hasActiveSubscription) {
+          router.push('/generate');
+        } else {
+          router.push('/account');
+        }
+      }, 200);
+      
+      return () => clearTimeout(redirectTimeout);
     }
-  }, [loading, authLoading, userData, hasActiveSubscription]);
+  }, [loading, authLoading, userData, hasActiveSubscription, router]);
 
   if (loading || authLoading) {
     return <Loading text="Completing sign in with Google..." size="lg" />;

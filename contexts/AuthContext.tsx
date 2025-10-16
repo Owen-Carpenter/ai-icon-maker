@@ -123,13 +123,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         setLoading(false)
         
-        // Only reload if we're not on the OAuth callback page
-        // and not already on a protected route
+        // Only redirect for regular sign-ins, not OAuth flows
+        // OAuth flows are handled by the callback page
         if (event === 'SIGNED_IN' && 
             !window.location.pathname.includes('/auth/callback') &&
             !window.location.pathname.includes('/generate') &&
             !window.location.pathname.includes('/library') &&
-            !window.location.pathname.includes('/account')) {
+            !window.location.pathname.includes('/account') &&
+            !window.location.search.includes('code=') && // Don't redirect during OAuth callback
+            !window.location.search.includes('state=')) { // Don't redirect during OAuth callback
           // Small delay to ensure state is updated
           setTimeout(() => {
             window.location.href = '/generate'
