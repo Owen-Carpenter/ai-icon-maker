@@ -129,13 +129,23 @@ export async function POST(req: NextRequest) {
 
         // Use our helper function to get or create subscription
         const { error: rpcError } = await supabase.rpc('get_or_create_subscription_for_user', {
-          p_user_id: session.user.id,
-          p_stripe_customer_id: customerId
+          p_user_id: session.user.id
         })
         
         if (rpcError) {
           console.error('Error creating subscription record:', rpcError)
           throw rpcError
+        }
+
+        // Update the subscription with the Stripe customer ID
+        const { error: updateError } = await supabase
+          .from('subscriptions')
+          .update({ stripe_customer_id: customerId })
+          .eq('user_id', session.user.id)
+        
+        if (updateError) {
+          console.error('Error updating subscription with customer ID:', updateError)
+          throw updateError
         }
       }
     } catch (dbError) {
