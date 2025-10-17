@@ -6,6 +6,25 @@ import { cookies } from 'next/headers'
 
 export async function POST(req: NextRequest) {
   try {
+    // Check for required environment variables
+    const requiredEnvVars = {
+      STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+      NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    }
+    
+    const missingVars = Object.entries(requiredEnvVars)
+      .filter(([key, value]) => !value)
+      .map(([key]) => key)
+    
+    if (missingVars.length > 0) {
+      console.error('Missing environment variables:', missingVars)
+      return NextResponse.json(
+        { error: `Missing environment variables: ${missingVars.join(', ')}` },
+        { status: 500 }
+      )
+    }
+
     const { planType } = await req.json()
 
     if (!planType) {
@@ -26,6 +45,13 @@ export async function POST(req: NextRequest) {
     // Get the actual Stripe price ID
     const priceId = getStripePriceId(planType)
     if (!priceId) {
+      console.error(`Price ID not found for plan: ${planType}`)
+      console.error('Available environment variables:', {
+        STRIPE_BASE_PRICE_ID: process.env.STRIPE_BASE_PRICE_ID,
+        STRIPE_PRO_PRICE_ID: process.env.STRIPE_PRO_PRICE_ID,
+        STRIPE_PRO_PLUS_PRICE_ID: process.env.STRIPE_PRO_PLUS_PRICE_ID,
+        STRIPE_UNLIMITED_PRICE_ID: process.env.STRIPE_UNLIMITED_PRICE_ID,
+      })
       return NextResponse.json(
         { error: 'Price ID not configured for this plan' },
         { status: 500 }
@@ -59,30 +85,49 @@ export async function POST(req: NextRequest) {
     // Get or create subscription record for user
     let customerId: string | null = null
     
-    // Check if user already has a subscription with customer ID
-    const { data: existingSubscription } = await supabase
-      .from('subscriptions')
-      .select('stripe_customer_id')
-      .eq('user_id', session.user.id)
-      .single()
+    try {
+      // Check if user already has a subscription with customer ID
+      const { data: existingSubscription, error: subscriptionError } = await supabase
+        .from('subscriptions')
+        .select('stripe_customer_id')
+        .eq('user_id', session.user.id)
+        .single()
 
-    customerId = existingSubscription?.stripe_customer_id
+      if (subscriptionError && subscriptionError.code !== 'PGRST116') {
+        console.error('Error fetching subscription:', subscriptionError)
+        throw subscriptionError
+      }
 
-    // Create Stripe customer if doesn't exist
-    if (!customerId) {
-      const customer = await stripe.customers.create({
-        email: session.user.email!,
-        metadata: {
-          supabase_user_id: session.user.id,
-        },
-      })
-      customerId = customer.id
+      customerId = existingSubscription?.stripe_customer_id
 
-      // Use our helper function to get or create subscription
-      await supabase.rpc('get_or_create_subscription_for_user', {
-        p_user_id: session.user.id,
-        p_stripe_customer_id: customerId
-      })
+      // Create Stripe customer if doesn't exist
+      if (!customerId) {
+        console.log('Creating new Stripe customer for user:', session.user.id)
+        const customer = await stripe.customers.create({
+          email: session.user.email!,
+          metadata: {
+            supabase_user_id: session.user.id,
+          },
+        })
+        customerId = customer.id
+
+        // Use our helper function to get or create subscription
+        const { error: rpcError } = await supabase.rpc('get_or_create_subscription_for_user', {
+          p_user_id: session.user.id,
+          p_stripe_customer_id: customerId
+        })
+        
+        if (rpcError) {
+          console.error('Error creating subscription record:', rpcError)
+          throw rpcError
+        }
+      }
+    } catch (dbError) {
+      console.error('Database error in checkout:', dbError)
+      return NextResponse.json(
+        { error: 'Database error during checkout setup' },
+        { status: 500 }
+      )
     }
 
     // Create checkout session
