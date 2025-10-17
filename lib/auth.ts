@@ -8,14 +8,19 @@ export interface AuthUser extends User {
 
 // Helper function to get the appropriate base URL
 const getBaseUrl = () => {
+  let baseUrl = ''
+  
   // Check for environment variables first
   if (typeof window !== 'undefined') {
     // Client-side: use environment variable or fallback to current origin
-    return process.env.NEXT_PUBLIC_APP_URL || window.location.origin
+    baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
   } else {
     // Server-side: use environment variable or fallback to localhost
-    return process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000'
+    baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || 'http://localhost:3000'
   }
+  
+  // Remove trailing slash if present
+  return baseUrl.replace(/\/$/, '')
 }
 
 export const authService = {
