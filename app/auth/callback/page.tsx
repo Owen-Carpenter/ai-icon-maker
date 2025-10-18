@@ -29,8 +29,12 @@ export default function AuthCallback() {
   useEffect(() => {
     let retryCount = 0;
     const maxRetries = 20; // Max 10 seconds of retries (20 * 500ms)
+    let isProcessing = false; // Prevent multiple simultaneous processing
     
     const handleAuthCallback = async () => {
+      if (isProcessing) return; // Prevent concurrent processing
+      isProcessing = true;
+      
       try {
         console.log('OAuth callback processing...', { retryCount, url: window.location.href });
         
@@ -41,6 +45,7 @@ export default function AuthCallback() {
           console.error('Auth callback error:', error);
           setError('Authentication failed. Please try again.');
           setLoading(false);
+          isProcessing = false;
           return;
         }
 
@@ -48,31 +53,36 @@ export default function AuthCallback() {
           console.log('OAuth login successful:', data.session.user.email);
           // Success! Let the AuthContext handle user data fetching
           setLoading(false);
+          isProcessing = false;
           return;
         }
 
-        // Check if we're in the middle of an OAuth flow
+        // Check if we're in the middle of an OAuth flow or email confirmation
         const urlParams = new URLSearchParams(window.location.search);
         const hasOAuthParams = urlParams.has('code') || urlParams.has('state');
+        const hasEmailConfirmation = urlParams.has('type') || urlParams.has('token') || urlParams.has('email');
         
-        console.log('OAuth status check:', { 
+        console.log('Auth callback status check:', { 
           hasSession: !!data.session, 
           hasOAuthParams, 
+          hasEmailConfirmation,
           urlParams: Object.fromEntries(urlParams.entries()) 
         });
         
-        if (hasOAuthParams) {
+        if (hasOAuthParams || hasEmailConfirmation) {
           retryCount++;
           if (retryCount < maxRetries) {
-            // Still processing OAuth, wait a bit more
-            console.log(`OAuth processing... retry ${retryCount}/${maxRetries}`);
+            // Still processing OAuth or email confirmation, wait a bit more
+            console.log(`Auth processing... retry ${retryCount}/${maxRetries}`);
+            isProcessing = false;
             setTimeout(handleAuthCallback, 500);
             return;
           } else {
-            // Max retries reached, but still have OAuth params - this might be a real issue
-            console.error('OAuth callback max retries reached');
+            // Max retries reached, but still have auth params - this might be a real issue
+            console.error('Auth callback max retries reached');
             setError('Authentication is taking longer than expected. Please try again.');
             setLoading(false);
+            isProcessing = false;
             return;
           }
         }
@@ -80,10 +90,12 @@ export default function AuthCallback() {
         // No session found and no OAuth params, redirect to login
         console.log('No session found in callback, redirecting to login');
         router.push('/login?error=authentication_failed');
+        isProcessing = false;
       } catch (err) {
         console.error('Unexpected error during auth callback:', err);
         setError('An unexpected error occurred. Please try again.');
         setLoading(false);
+        isProcessing = false;
       }
     };
 

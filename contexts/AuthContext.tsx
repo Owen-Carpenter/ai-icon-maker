@@ -123,15 +123,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         setLoading(false)
         
-        // Only redirect for regular sign-ins, not OAuth flows
+        // Only redirect for regular sign-ins, not OAuth flows or email confirmation
         // OAuth flows are handled by the callback page
+        // Email confirmation should not trigger redirects
         if (event === 'SIGNED_IN' && 
             !window.location.pathname.includes('/auth/callback') &&
             !window.location.pathname.includes('/generate') &&
             !window.location.pathname.includes('/library') &&
             !window.location.pathname.includes('/account') &&
             !window.location.search.includes('code=') && // Don't redirect during OAuth callback
-            !window.location.search.includes('state=')) { // Don't redirect during OAuth callback
+            !window.location.search.includes('state=') && // Don't redirect during OAuth callback
+            !window.location.search.includes('type=recovery') && // Don't redirect during email confirmation
+            !window.location.search.includes('token=') && // Don't redirect during email confirmation
+            !window.location.search.includes('email=') && // Don't redirect during email confirmation
+            !window.location.hash.includes('access_token=') && // Don't redirect during email confirmation
+            !window.location.hash.includes('refresh_token=')) { // Don't redirect during email confirmation
           // Small delay to ensure state is updated
           setTimeout(() => {
             window.location.href = '/generate'
