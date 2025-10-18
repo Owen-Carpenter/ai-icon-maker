@@ -10,6 +10,7 @@ import Link from 'next/link';
 export default function AuthCallback() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasRedirected, setHasRedirected] = useState(false);
   const { hasActiveSubscription, userData, loading: authLoading } = useAuth();
   const router = useRouter();
 
@@ -21,7 +22,7 @@ export default function AuthCallback() {
         setError('Authentication timed out. Please try again.');
         setLoading(false);
       }
-    }, 60000); // 60 second timeout (increased from 30)
+    }, 60000); // 60 second timeout
 
     return () => clearTimeout(timeoutId);
   }, [loading]);
@@ -36,7 +37,7 @@ export default function AuthCallback() {
       isProcessing = true;
       
       try {
-        console.log('OAuth callback processing...', { retryCount, url: window.location.href });
+        console.log('Auth callback processing...', { retryCount, url: window.location.href });
         
         // Handle the OAuth callback - get session from URL params
         const { data, error } = await supabase.auth.getSession();
@@ -50,7 +51,7 @@ export default function AuthCallback() {
         }
 
         if (data.session?.user) {
-          console.log('OAuth login successful:', data.session.user.email);
+          console.log('Auth callback successful:', data.session.user.email);
           // Success! Let the AuthContext handle user data fetching
           setLoading(false);
           isProcessing = false;
@@ -59,14 +60,16 @@ export default function AuthCallback() {
 
         // Check if we're in the middle of an OAuth flow or email confirmation
         const urlParams = new URLSearchParams(window.location.search);
+        const urlHash = window.location.hash;
         const hasOAuthParams = urlParams.has('code') || urlParams.has('state');
-        const hasEmailConfirmation = urlParams.has('type') || urlParams.has('token') || urlParams.has('email');
+        const hasEmailConfirmation = urlParams.has('type') || urlParams.has('token') || urlParams.has('email') || urlHash.includes('access_token');
         
         console.log('Auth callback status check:', { 
           hasSession: !!data.session, 
           hasOAuthParams, 
           hasEmailConfirmation,
-          urlParams: Object.fromEntries(urlParams.entries()) 
+          urlParams: Object.fromEntries(urlParams.entries()),
+          hash: urlHash 
         });
         
         if (hasOAuthParams || hasEmailConfirmation) {
@@ -105,19 +108,22 @@ export default function AuthCallback() {
 
   // Handle redirect after auth context loads user data
   useEffect(() => {
-    if (!loading && !authLoading && userData) {
-      // Add a small delay to ensure all state is properly set
-      const redirectTimeout = setTimeout(() => {
-        if (hasActiveSubscription) {
-          router.push('/generate');
-        } else {
-          router.push('/account');
-        }
-      }, 200);
+    if (!loading && !authLoading && userData && !hasRedirected) {
+      setHasRedirected(true); // Prevent multiple redirects
       
-      return () => clearTimeout(redirectTimeout);
+      console.log('Redirecting user after auth callback...', { 
+        hasActiveSubscription, 
+        userId: userData.id 
+      });
+      
+      // Determine redirect destination
+      const redirectPath = hasActiveSubscription ? '/generate' : '/account';
+      
+      // Use replace instead of push to avoid back button issues
+      // This prevents the user from going back to the callback page
+      router.replace(redirectPath);
     }
-  }, [loading, authLoading, userData, hasActiveSubscription, router]);
+  }, [loading, authLoading, userData, hasActiveSubscription, router, hasRedirected]);
 
   if (loading || authLoading) {
     return <Loading text="Completing sign in with Google..." size="lg" />;
