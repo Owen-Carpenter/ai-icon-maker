@@ -31,7 +31,7 @@ Generated dynamic XML sitemap including:
 - Login page (Priority: 0.6, Monthly updates)
 - Register page (Priority: 0.6, Monthly updates)
 
-**Access at**: `https://ai-icon-maker.vercel.app/sitemap.xml`
+**Access at**: `https://ai-icon-maker.com/sitemap.xml`
 
 ### 3. **Robots.txt** (`app/robots.ts`)
 
@@ -44,7 +44,7 @@ Configured crawling rules:
   - `/static/` - Static assets
 - ✅ Sitemap reference included
 
-**Access at**: `https://ai-icon-maker.vercel.app/robots.txt`
+**Access at**: `https://ai-icon-maker.com/robots.txt`
 
 ### 4. **Page-Specific Metadata**
 
@@ -175,7 +175,7 @@ Consider adding:
 
 - Sitemap: `/sitemap.xml`
 - Robots: `/robots.txt`
-- Production URL: `https://ai-icon-maker.vercel.app`
+- Production URL: `https://ai-icon-maker.com`
 
 ## ✨ Current SEO Score Estimate
 

@@ -48,8 +48,8 @@ export default function StructuredData() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'AI Icon Maker',
-    url: 'https://ai-icon-maker.vercel.app',
-    logo: 'https://ai-icon-maker.vercel.app/images/AIIconMakerLogo.png',
+    url: 'https://ai-icon-maker.com',
+    logo: 'https://ai-icon-maker.com/images/AIIconMakerLogo.png',
     description: 'Professional AI-powered icon generation platform for designers and developers',
     sameAs: [],
   }
@@ -58,11 +58,11 @@ export default function StructuredData() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'AI Icon Maker',
-    url: 'https://ai-icon-maker.vercel.app',
+    url: 'https://ai-icon-maker.com',
     description: 'Create professional-grade icons with AI',
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://ai-icon-maker.vercel.app/generate?prompt={search_term_string}',
+      target: 'https://ai-icon-maker.com/generate?prompt={search_term_string}',
       'query-input': 'required name=search_term_string',
     },
   }
