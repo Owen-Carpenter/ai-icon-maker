@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://ai-icon-maker.vercel.app'
+  const baseUrl = 'https://ai-icon-maker.com'
 
   return {
     rules: [

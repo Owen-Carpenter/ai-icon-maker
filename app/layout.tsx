@@ -8,7 +8,7 @@ import StructuredData from '../components/StructuredData'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ai-icon-maker.vercel.app'),
+  metadataBase: new URL('https://ai-icon-maker.com'),
   title: {
     default: 'AI Icon Maker - Create Professional Icons with AI',
     template: '%s | AI Icon Maker'
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://ai-icon-maker.vercel.app',
+    url: 'https://ai-icon-maker.com',
     title: 'AI Icon Maker - Create Professional Icons with AI',
     description: 'Create professional-grade PNG icons with AI-powered generation using GPT Image 1. Perfect for designers, developers, and content creators.',
     siteName: 'AI Icon Maker',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: 'https://ai-icon-maker.vercel.app',
+    canonical: 'https://ai-icon-maker.com',
   },
 }
 
