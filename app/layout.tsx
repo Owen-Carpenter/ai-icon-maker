@@ -14,7 +14,66 @@ export const metadata: Metadata = {
     template: '%s | AI Icon Maker'
   },
   description: 'Create professional-grade PNG icons with AI-powered generation using GPT Image 1. Perfect for designers, developers, and content creators. Multiple styles, instant downloads, and personal library storage.',
-  keywords: ['AI icon generator', 'icon maker', 'AI design tool', 'GPT Image 1', 'icon creation', 'PNG icons', 'professional icons', 'AI graphics', 'icon design', 'SaaS icon tool'],
+  keywords: [
+    // Primary Keywords
+    'AI icon generator',
+    'icon maker online',
+    'AI icon creator',
+    'icon generator',
+    'app icon maker',
+    'logo maker AI',
+    'AI design tool',
+    'icon creator online',
+    'AI graphics generator',
+    'icon design tool',
+    
+    // Technology-specific
+    'GPT icon generator',
+    'ChatGPT icon maker',
+    'AI powered icon design',
+    'machine learning icon creator',
+    'neural network icon generator',
+    
+    // Use Case Keywords
+    'app icon generator',
+    'website icon maker',
+    'favicon generator',
+    'logo icon creator',
+    'social media icon maker',
+    'app store icon generator',
+    'game icon creator',
+    'startup icon maker',
+    
+    // Feature-based Keywords
+    'PNG icon generator',
+    'SVG icon maker',
+    'transparent background icons',
+    'custom icon generator',
+    'professional icon maker',
+    'commercial use icons',
+    'royalty free icon generator',
+    
+    // Platform/User-specific
+    'icon maker for developers',
+    'icon generator for designers',
+    'icon creator for startups',
+    'icon maker for apps',
+    'icon generator for websites',
+    
+    // Action-oriented
+    'create icons online',
+    'generate icons with AI',
+    'make icons instantly',
+    'design icons with AI',
+    'build custom icons',
+    
+    // Quality descriptors
+    'high quality icon generator',
+    'professional icon creator',
+    'modern icon maker',
+    'unique icon generator',
+    'custom AI icons',
+  ],
   authors: [{ name: 'AI Icon Maker' }],
   creator: 'AI Icon Maker',
   publisher: 'AI Icon Maker',
