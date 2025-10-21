@@ -25,8 +25,11 @@ export default function LoginPage() {
         setError(error.message)
         setLoading(false)
       } else {
-        // Redirect to home page after successful login
-        router.push('/')
+        // Small delay to let auth context update, then redirect
+        // The SmartGenerateLink logic will handle routing based on subscription
+        setTimeout(() => {
+          router.push('/generate')
+        }, 500)
       }
     } catch (error) {
       setError('An unexpected error occurred')

@@ -27,8 +27,8 @@ export default function AuthCallback() {
 
         if (data.session?.user) {
           console.log('OAuth successful for:', data.session.user.email);
-          // Redirect to home page
-          window.location.href = '/';
+          // Redirect to generate page - middleware will handle subscription check
+          window.location.href = '/generate';
         } else {
           setError('Could not complete authentication. Please try again.');
           setLoading(false);

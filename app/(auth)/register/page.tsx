@@ -39,8 +39,11 @@ export default function RegisterPage() {
       if (error) {
         setError(error.message)
       } else {
-        // Email confirmation is disabled - redirect to home page
-        router.push('/')
+        // Email confirmation is disabled - redirect to generate page
+        // Middleware will redirect to pricing if no subscription
+        setTimeout(() => {
+          router.push('/generate')
+        }, 500)
       }
     } catch (error) {
       setError('An unexpected error occurred')
