@@ -67,7 +67,7 @@ export default function AuthCallback() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
+      <div className="min-h-screen w-full bg-dark-gradient flex items-center justify-center">
         <Loading text="Completing sign in..." size="lg" />
       </div>
     );
