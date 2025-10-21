@@ -11,6 +11,7 @@ export default function AuthCallback() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [hasRedirected, setHasRedirected] = useState(false);
+  const [isClosingTab, setIsClosingTab] = useState(false);
   const { hasActiveSubscription, userData, loading: authLoading } = useAuth();
   const router = useRouter();
 
@@ -27,6 +28,29 @@ export default function AuthCallback() {
     return () => clearTimeout(timeoutId);
   }, [loading]);
 
+  // Listen for auth completion from other tabs
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'auth_callback_complete' && e.newValue) {
+        console.log('Auth completed in another tab, closing this one');
+        setIsClosingTab(true);
+        setTimeout(() => {
+          window.close();
+          // If window.close() fails (main tab), redirect
+          if (!document.hidden) {
+            const destination = e.newValue || '/generate';
+            router.replace(destination);
+          }
+        }, 1000);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [router]);
+
   useEffect(() => {
     let retryCount = 0;
     const maxRetries = 20; // Max 10 seconds of retries (20 * 500ms)
@@ -39,9 +63,7 @@ export default function AuthCallback() {
       try {
         console.log('Auth callback processing...', { 
           retryCount, 
-          url: window.location.href,
-          isNewTab: window.opener !== null,
-          hasOpener: !!window.opener
+          url: window.location.href
         });
         
         // Handle the OAuth callback - get session from URL params
@@ -57,33 +79,8 @@ export default function AuthCallback() {
 
         if (data.session?.user) {
           console.log('Auth callback successful:', data.session.user.email);
-          
-          // Check if this was opened in a new tab (email confirmation link)
-          // If so, try to close this tab and redirect the opener
-          if (window.opener && !window.opener.closed) {
-            console.log('Detected popup/new tab - attempting to redirect opener and close');
-            try {
-              // Try to redirect the opener window
-              const redirectPath = hasActiveSubscription ? '/generate' : '/account';
-              window.opener.location.href = redirectPath;
-              
-              // Close this window after a short delay
-              setTimeout(() => {
-                window.close();
-              }, 1000);
-            } catch (e) {
-              console.log('Could not access opener window, using normal redirect');
-              // If we can't access opener (cross-origin), just redirect normally
-              setLoading(false);
-              isProcessing = false;
-              return;
-            }
-          } else {
-            // Normal flow - not a popup
-            setLoading(false);
-            isProcessing = false;
-            return;
-          }
+          setLoading(false);
+          isProcessing = false;
           return;
         }
 
@@ -133,7 +130,7 @@ export default function AuthCallback() {
 
     // Start processing immediately
     handleAuthCallback();
-  }, [router, hasActiveSubscription]);
+  }, [router]);
 
   // Handle redirect after auth context loads user data
   useEffect(() => {
@@ -142,43 +139,46 @@ export default function AuthCallback() {
       
       console.log('Redirecting user after auth callback...', { 
         hasActiveSubscription, 
-        userId: userData.id,
-        isPopup: window.opener !== null
+        userId: userData.id
       });
       
       // Determine redirect destination
       const redirectPath = hasActiveSubscription ? '/generate' : '/account';
       
-      // Check if this is a popup window (opened from email confirmation)
-      if (window.opener && !window.opener.closed) {
-        console.log('In popup - attempting to redirect parent and close');
+      // Signal to other tabs that auth is complete
+      if (typeof window !== 'undefined') {
         try {
-          // Redirect the parent window
-          window.opener.location.href = redirectPath;
-          // Close this popup after redirect
+          localStorage.setItem('auth_callback_complete', redirectPath);
+          // Clear the flag after a short delay
           setTimeout(() => {
-            window.close();
-          }, 500);
+            localStorage.removeItem('auth_callback_complete');
+          }, 2000);
         } catch (e) {
-          console.log('Could not access opener, redirecting current window');
-          // Fallback: redirect current window if we can't access opener
-          router.replace(redirectPath);
+          console.log('Could not access localStorage:', e);
         }
-      } else {
-        // Normal redirect (not a popup)
-        router.replace(redirectPath);
       }
+      
+      // Redirect this tab
+      router.replace(redirectPath);
     }
   }, [loading, authLoading, userData, hasActiveSubscription, router, hasRedirected]);
+
+  if (isClosingTab) {
+    return (
+      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
+        <div className="text-center">
+          <Loading text="Redirecting..." size="lg" />
+          <p className="text-white/60 text-sm mt-4">You can close this tab</p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading || authLoading) {
     return (
       <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
         <div className="text-center">
           <Loading text="Verifying your account..." size="lg" />
-          {typeof window !== 'undefined' && window.opener && !window.opener.closed && (
-            <p className="text-white/60 text-sm mt-4">This window will close automatically...</p>
-          )}
         </div>
       </div>
     );
