@@ -37,7 +37,12 @@ export default function AuthCallback() {
       isProcessing = true;
       
       try {
-        console.log('Auth callback processing...', { retryCount, url: window.location.href });
+        console.log('Auth callback processing...', { 
+          retryCount, 
+          url: window.location.href,
+          isNewTab: window.opener !== null,
+          hasOpener: !!window.opener
+        });
         
         // Handle the OAuth callback - get session from URL params
         const { data, error } = await supabase.auth.getSession();
@@ -52,9 +57,33 @@ export default function AuthCallback() {
 
         if (data.session?.user) {
           console.log('Auth callback successful:', data.session.user.email);
-          // Success! Let the AuthContext handle user data fetching
-          setLoading(false);
-          isProcessing = false;
+          
+          // Check if this was opened in a new tab (email confirmation link)
+          // If so, try to close this tab and redirect the opener
+          if (window.opener && !window.opener.closed) {
+            console.log('Detected popup/new tab - attempting to redirect opener and close');
+            try {
+              // Try to redirect the opener window
+              const redirectPath = hasActiveSubscription ? '/generate' : '/account';
+              window.opener.location.href = redirectPath;
+              
+              // Close this window after a short delay
+              setTimeout(() => {
+                window.close();
+              }, 1000);
+            } catch (e) {
+              console.log('Could not access opener window, using normal redirect');
+              // If we can't access opener (cross-origin), just redirect normally
+              setLoading(false);
+              isProcessing = false;
+              return;
+            }
+          } else {
+            // Normal flow - not a popup
+            setLoading(false);
+            isProcessing = false;
+            return;
+          }
           return;
         }
 
@@ -104,7 +133,7 @@ export default function AuthCallback() {
 
     // Start processing immediately
     handleAuthCallback();
-  }, [router]);
+  }, [router, hasActiveSubscription]);
 
   // Handle redirect after auth context loads user data
   useEffect(() => {
@@ -113,20 +142,46 @@ export default function AuthCallback() {
       
       console.log('Redirecting user after auth callback...', { 
         hasActiveSubscription, 
-        userId: userData.id 
+        userId: userData.id,
+        isPopup: window.opener !== null
       });
       
       // Determine redirect destination
       const redirectPath = hasActiveSubscription ? '/generate' : '/account';
       
-      // Use replace instead of push to avoid back button issues
-      // This prevents the user from going back to the callback page
-      router.replace(redirectPath);
+      // Check if this is a popup window (opened from email confirmation)
+      if (window.opener && !window.opener.closed) {
+        console.log('In popup - attempting to redirect parent and close');
+        try {
+          // Redirect the parent window
+          window.opener.location.href = redirectPath;
+          // Close this popup after redirect
+          setTimeout(() => {
+            window.close();
+          }, 500);
+        } catch (e) {
+          console.log('Could not access opener, redirecting current window');
+          // Fallback: redirect current window if we can't access opener
+          router.replace(redirectPath);
+        }
+      } else {
+        // Normal redirect (not a popup)
+        router.replace(redirectPath);
+      }
     }
   }, [loading, authLoading, userData, hasActiveSubscription, router, hasRedirected]);
 
   if (loading || authLoading) {
-    return <Loading text="Completing sign in with Google..." size="lg" />;
+    return (
+      <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
+        <div className="text-center">
+          <Loading text="Verifying your account..." size="lg" />
+          {window.opener && !window.opener.closed && (
+            <p className="text-white/60 text-sm mt-4">This window will close automatically...</p>
+          )}
+        </div>
+      </div>
+    );
   }
 
   if (error) {
