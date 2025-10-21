@@ -39,9 +39,8 @@ export default function RegisterPage() {
       if (error) {
         setError(error.message)
       } else {
-        setMessage('Please check your email for verification link')
-        // Optionally redirect after successful signup
-        // router.push('/verify')
+        // Email confirmation is disabled - redirect to account setup
+        router.push('/account')
       }
     } catch (error) {
       setError('An unexpected error occurred')

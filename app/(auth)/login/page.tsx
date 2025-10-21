@@ -23,13 +23,11 @@ export default function LoginPage() {
       const { error } = await signIn(email, password)
       if (error) {
         setError(error.message)
-      } else {
-        // Redirect without forced reload - let the auth context handle it
-        router.push('/generate')
+        setLoading(false)
       }
+      // Don't redirect here - let AuthContext handle it to avoid double redirect
     } catch (error) {
       setError('An unexpected error occurred')
-    } finally {
       setLoading(false)
     }
   }
