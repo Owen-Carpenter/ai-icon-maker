@@ -67,6 +67,7 @@ export async function middleware(req: NextRequest) {
   const accountRoutes = ['/account'] // Routes that require auth but not necessarily subscription
   const authRoutes = ['/login', '/register', '/forgot-password']
   const publicRoutes = ['/'] // Routes that don't require auth
+  const callbackRoutes = ['/auth/callback', '/verify'] // Auth callback routes that should not redirect
 
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -75,6 +76,12 @@ export async function middleware(req: NextRequest) {
   const isAccountRoute = accountRoutes.some(route => req.nextUrl.pathname.startsWith(route))
   const isAuthRoute = authRoutes.some(route => req.nextUrl.pathname.startsWith(route))
   const isPublicRoute = publicRoutes.some(route => req.nextUrl.pathname === route)
+  const isCallbackRoute = callbackRoutes.some(route => req.nextUrl.pathname.startsWith(route))
+
+  // Allow callback routes to pass through without any redirects
+  if (isCallbackRoute) {
+    return response
+  }
 
   // If not authenticated and trying to access protected routes
   if ((isAppRoute || isAccountRoute) && !user) {
