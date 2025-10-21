@@ -13,52 +13,28 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        console.log('Processing auth callback...');
-        
-        // Check if this is OAuth (has 'code' or 'state' param) or email confirmation (has hash)
-        const urlParams = new URLSearchParams(window.location.search);
-        const urlHash = window.location.hash;
-        const isOAuth = urlParams.has('code') || urlParams.has('state');
-        const isEmailConfirmation = urlHash.includes('access_token') || urlHash.includes('type=');
-        
-        console.log('Callback type:', { isOAuth, isEmailConfirmation, hash: urlHash });
+        console.log('Processing OAuth callback...');
         
         // Get the session from the URL
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.error('Auth callback error:', error);
+          console.error('OAuth callback error:', error);
           setError('Authentication failed. Please try again or contact support.');
           setLoading(false);
           return;
         }
 
         if (data.session?.user) {
-          console.log('Auth callback successful for:', data.session.user.email);
-          
-          // For OAuth, redirect immediately without showing success screen
-          if (isOAuth) {
-            console.log('OAuth detected - redirecting to home page');
-            window.location.href = '/';
-            return;
-          }
-          
-          // For email confirmation, show success screen
-          if (isEmailConfirmation) {
-            console.log('Email confirmation detected - showing success screen');
-            setSuccess(true);
-            setLoading(false);
-            return;
-          }
-          
-          // Default: just redirect to home
+          console.log('OAuth successful for:', data.session.user.email);
+          // Redirect to home page
           window.location.href = '/';
         } else {
-          setError('Could not complete authentication. The link may have expired.');
+          setError('Could not complete authentication. Please try again.');
           setLoading(false);
         }
       } catch (err) {
-        console.error('Unexpected error during auth callback:', err);
+        console.error('Unexpected error during OAuth callback:', err);
         setError('An unexpected error occurred. Please try again.');
         setLoading(false);
       }
@@ -71,57 +47,7 @@ export default function AuthCallback() {
   if (loading) {
     return (
       <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
-        <Loading text="Verifying your email..." size="lg" />
-      </div>
-    );
-  }
-
-  // Success state
-  if (success) {
-    return (
-      <div className="min-h-screen bg-dark-gradient flex items-center justify-center py-12 px-4">
-        <div className="max-w-md w-full">
-          {/* Success Card */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8 text-center">
-            {/* Success Icon */}
-            <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            
-            <h1 className="text-3xl font-bold text-white mb-4">Email Verified!</h1>
-            <p className="text-white/70 mb-6 leading-relaxed">
-              Your email has been successfully verified.
-            </p>
-
-            {/* Instructions Box */}
-            <div className="bg-gradient-to-r from-orange-500/10 to-pink-600/10 border border-orange-500/30 rounded-lg p-6 mb-6">
-              <p className="text-white font-semibold mb-2 text-lg">✓ You're all set!</p>
-              <p className="text-white/80 text-sm leading-relaxed">
-                You can now <strong>close this window</strong> and return to the AI Icon Maker tab to start creating icons.
-              </p>
-            </div>
-
-            {/* Optional: Direct link if they want to continue here */}
-            <div className="pt-4 border-t border-white/10">
-              <p className="text-white/50 text-sm mb-3">Or continue from this window:</p>
-              <Link
-                href="/generate"
-                className="block w-full bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
-                Start Creating Icons →
-              </Link>
-            </div>
-          </div>
-
-          {/* Help Text */}
-          <div className="mt-6 text-center">
-            <p className="text-white/60 text-sm">
-              Your account is automatically logged in across all tabs
-            </p>
-          </div>
-        </div>
+        <Loading text="Completing sign in..." size="lg" />
       </div>
     );
   }
