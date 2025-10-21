@@ -13,28 +13,52 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        console.log('Processing email verification callback...');
+        console.log('Processing auth callback...');
+        
+        // Check if this is OAuth (has 'code' or 'state' param) or email confirmation (has hash)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlHash = window.location.hash;
+        const isOAuth = urlParams.has('code') || urlParams.has('state');
+        const isEmailConfirmation = urlHash.includes('access_token') || urlHash.includes('type=');
+        
+        console.log('Callback type:', { isOAuth, isEmailConfirmation, hash: urlHash });
         
         // Get the session from the URL
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
           console.error('Auth callback error:', error);
-          setError('Email verification failed. Please try again or contact support.');
+          setError('Authentication failed. Please try again or contact support.');
           setLoading(false);
           return;
         }
 
         if (data.session?.user) {
-          console.log('Email verified successfully for:', data.session.user.email);
-          setSuccess(true);
-          setLoading(false);
+          console.log('Auth callback successful for:', data.session.user.email);
+          
+          // For OAuth, redirect immediately without showing success screen
+          if (isOAuth) {
+            console.log('OAuth detected - redirecting to home page');
+            window.location.href = '/';
+            return;
+          }
+          
+          // For email confirmation, show success screen
+          if (isEmailConfirmation) {
+            console.log('Email confirmation detected - showing success screen');
+            setSuccess(true);
+            setLoading(false);
+            return;
+          }
+          
+          // Default: just redirect to home
+          window.location.href = '/';
         } else {
-          setError('Could not verify your email. The link may have expired.');
+          setError('Could not complete authentication. The link may have expired.');
           setLoading(false);
         }
       } catch (err) {
-        console.error('Unexpected error during email verification:', err);
+        console.error('Unexpected error during auth callback:', err);
         setError('An unexpected error occurred. Please try again.');
         setLoading(false);
       }
