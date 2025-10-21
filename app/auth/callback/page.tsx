@@ -176,7 +176,7 @@ export default function AuthCallback() {
       <div className="min-h-screen bg-dark-gradient flex items-center justify-center">
         <div className="text-center">
           <Loading text="Verifying your account..." size="lg" />
-          {window.opener && !window.opener.closed && (
+          {typeof window !== 'undefined' && window.opener && !window.opener.closed && (
             <p className="text-white/60 text-sm mt-4">This window will close automatically...</p>
           )}
         </div>
