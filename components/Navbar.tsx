@@ -116,7 +116,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
   const getNavigationLinks = (): NavigationLink[] => {
     if (variant === 'marketing') {
       return [
-        { href: '#features', label: 'Features' },
+        { href: '#how-it-works', label: 'Process' },
         { href: '/generate', label: 'Generate', isSmartLink: true },
         { href: '#pricing', label: 'Pricing' }
       ];
