@@ -24,8 +24,10 @@ export default function LoginPage() {
       if (error) {
         setError(error.message)
         setLoading(false)
+      } else {
+        // Redirect to home page after successful login
+        router.push('/')
       }
-      // Don't redirect here - let AuthContext handle it to avoid double redirect
     } catch (error) {
       setError('An unexpected error occurred')
       setLoading(false)

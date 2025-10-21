@@ -39,8 +39,8 @@ export default function RegisterPage() {
       if (error) {
         setError(error.message)
       } else {
-        // Email confirmation is disabled - redirect to account setup
-        router.push('/account')
+        // Email confirmation is disabled - redirect to home page
+        router.push('/')
       }
     } catch (error) {
       setError('An unexpected error occurred')

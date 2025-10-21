@@ -123,15 +123,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         setLoading(false)
         
-        // Only redirect for regular sign-ins from login/register pages
-        if (event === 'SIGNED_IN' && 
-            (window.location.pathname.includes('/login') || 
-             window.location.pathname.includes('/register'))) {
-          // Redirect to account page (not generate) to avoid subscription check
-          setTimeout(() => {
-            window.location.href = '/account'
-          }, 100)
-        }
+        // Don't auto-redirect after sign-in - let the page handle it or user navigate manually
+        // This prevents unwanted redirects and gives users control
       }
     )
 
