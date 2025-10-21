@@ -88,44 +88,9 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/login', req.url))
   }
 
-  // If authenticated and trying to access auth pages, redirect based on subscription
-  if (isAuthRoute && user) {
-    try {
-      // Check cache first
-      const cacheKey = `${user.id}_auth`
-      const cached = subscriptionCache.get(cacheKey)
-      let subscriptionData
-
-      if (cached && (Date.now() - cached.timestamp < CACHE_DURATION)) {
-        subscriptionData = cached.data
-      } else {
-        // Check if user has active subscription using new subscriptions table
-        const { data } = await supabase
-          .from('subscriptions')
-          .select('plan_type, status, current_period_end')
-          .eq('user_id', user.id)
-          .eq('status', 'active')
-          .single()
-        
-        subscriptionData = data
-        subscriptionCache.set(cacheKey, { data: subscriptionData, timestamp: Date.now() })
-      }
-
-      const hasActiveSubscription = subscriptionData?.status === 'active' && 
-        subscriptionData?.plan_type !== 'free' &&
-        (!subscriptionData?.current_period_end || 
-         new Date(subscriptionData.current_period_end) > new Date())
-
-      if (hasActiveSubscription) {
-        return NextResponse.redirect(new URL('/generate', req.url))
-      } else {
-        return NextResponse.redirect(new URL('/account', req.url))
-      }
-    } catch (error) {
-      // If user doesn't exist in subscriptions table or other error, redirect to account
-      return NextResponse.redirect(new URL('/account', req.url))
-    }
-  }
+  // Allow authenticated users to access auth pages (login/register)
+  // They might want to create another account or just browse
+  // No need to redirect them away
 
   // Check subscription for app routes
   if (isAppRoute && user) {
