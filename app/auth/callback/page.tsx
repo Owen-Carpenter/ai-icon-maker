@@ -27,8 +27,29 @@ export default function AuthCallback() {
 
         if (data.session?.user) {
           console.log('OAuth successful for:', data.session.user.email);
-          // Redirect to generate page - middleware will handle subscription check
-          window.location.href = '/generate';
+          // Wait for auth context to update, then check subscription status
+          setTimeout(async () => {
+            try {
+              const response = await fetch('/api/user/profile');
+              if (response.ok) {
+                const profileData = await response.json();
+                if (profileData.hasActiveSubscription) {
+                  // User has subscription - go to generate page
+                  window.location.href = '/generate';
+                } else {
+                  // User has no subscription - go to home page
+                  window.location.href = '/';
+                }
+              } else {
+                // Fallback to home page if we can't check subscription
+                window.location.href = '/';
+              }
+            } catch (error) {
+              console.error('Error checking subscription status:', error);
+              // Fallback to home page on error
+              window.location.href = '/';
+            }
+          }, 1000); // Give time for auth context to update
         } else {
           setError('Could not complete authentication. Please try again.');
           setLoading(false);

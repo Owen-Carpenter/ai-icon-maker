@@ -25,11 +25,24 @@ export default function LoginPage() {
         setError(error.message)
         setLoading(false)
       } else {
-        // Small delay to let auth context update, then redirect
-        // The SmartGenerateLink logic will handle routing based on subscription
-        setTimeout(() => {
-          router.push('/generate')
-        }, 500)
+        // Wait for auth context to update with user data
+        setTimeout(async () => {
+          // Check subscription status and redirect accordingly
+          const response = await fetch('/api/user/profile')
+          if (response.ok) {
+            const data = await response.json()
+            if (data.hasActiveSubscription) {
+              // User has subscription - go to generate page
+              router.push('/generate')
+            } else {
+              // User has no subscription - go to home page
+              router.push('/')
+            }
+          } else {
+            // Fallback to home page if we can't check subscription
+            router.push('/')
+          }
+        }, 1000) // Give more time for auth context to update
       }
     } catch (error) {
       setError('An unexpected error occurred')
