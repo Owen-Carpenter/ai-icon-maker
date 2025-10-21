@@ -169,7 +169,7 @@
             <h2>Confirm Your Email Address</h2>
             <p>Hi there! 👋</p>
             <p>Thank you for signing up for AI Icon Maker! We're excited to have you join our community of designers, developers, and creators.</p>
-            <p>To get started and access all our amazing features, please confirm your email address by clicking the button below:</p>
+            <p>To get started, please verify your email address by clicking the button below. After verification, you can close that window and return to the AI Icon Maker tab to start creating!</p>
             
             <div style="text-align: center; margin: 30px 0;">
                 <a href="{{ .ConfirmationURL }}" class="cta-button">Confirm Email Address</a>
@@ -187,10 +187,18 @@
                 </ul>
             </div>
             
+            <p style="background: rgba(255, 138, 101, 0.15); border-left: 4px solid #FF8A65; padding: 16px; border-radius: 4px; margin: 20px 0;">
+                <strong>💡 What happens next:</strong><br/>
+                1. Click the button above to verify your email<br/>
+                2. You'll see a confirmation message<br/>
+                3. Close that window and return to AI Icon Maker<br/>
+                4. Start creating amazing icons!
+            </p>
+            
             <p><strong>Can't click the button?</strong> Copy and paste this link into your browser:</p>
             <p style="word-break: break-all; background: #1F2937; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 14px; color: #FF8A65;">{{ .ConfirmationURL }}</p>
             
-            <p>This link will expire in 24 hours for security reasons.</p>
+            <p>This verification link will expire in 24 hours for security reasons.</p>
             
             <p>If you didn't create an account with AI Icon Maker, you can safely ignore this email.</p>
         </div>

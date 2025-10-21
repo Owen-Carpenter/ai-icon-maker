@@ -66,29 +66,35 @@ export default function AuthCallback() {
               </svg>
             </div>
             
-            <h1 className="text-3xl font-bold text-white mb-4">Email Verified! 🎉</h1>
-            <p className="text-white/70 mb-8 leading-relaxed">
-              Your email has been successfully verified. You're all set to start creating amazing icons with AI!
+            <h1 className="text-3xl font-bold text-white mb-4">Email Verified!</h1>
+            <p className="text-white/70 mb-6 leading-relaxed">
+              Your email has been successfully verified.
             </p>
-            
-            {/* CTA Button */}
-            <Link
-              href="/generate"
-              className="block w-full bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl mb-4"
-            >
-              Start Creating Icons →
-            </Link>
-            
-            <p className="text-white/50 text-sm mt-6">
-              You can close this tab and return to the original window,<br />
-              or click the button above to get started.
-            </p>
+
+            {/* Instructions Box */}
+            <div className="bg-gradient-to-r from-orange-500/10 to-pink-600/10 border border-orange-500/30 rounded-lg p-6 mb-6">
+              <p className="text-white font-semibold mb-2 text-lg">✓ You're all set!</p>
+              <p className="text-white/80 text-sm leading-relaxed">
+                You can now <strong>close this window</strong> and return to the AI Icon Maker tab to start creating icons.
+              </p>
+            </div>
+
+            {/* Optional: Direct link if they want to continue here */}
+            <div className="pt-4 border-t border-white/10">
+              <p className="text-white/50 text-sm mb-3">Or continue from this window:</p>
+              <Link
+                href="/generate"
+                className="block w-full bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                Start Creating Icons →
+              </Link>
+            </div>
           </div>
 
-          {/* Additional Info */}
+          {/* Help Text */}
           <div className="mt-6 text-center">
             <p className="text-white/60 text-sm">
-              Your session is automatically synced across tabs
+              Your account is automatically logged in across all tabs
             </p>
           </div>
         </div>
