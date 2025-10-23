@@ -255,7 +255,7 @@ export default function HomePage() {
                     playsInline
                     poster="/videos/demo-poster.jpg"
                   >
-                    <source src="/videos/DemonstrationVideo.mp4" type="video/mp4" />
+                    <source src="/videos/Demo_Video.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 </div>
