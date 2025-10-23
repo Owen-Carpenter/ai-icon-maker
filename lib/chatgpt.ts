@@ -204,7 +204,7 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
             prompt: imagePrompt,
             n: 1,
             size: "1024x1024",
-            quality: "medium" //for development mode
+            quality: "high" //for development mode
           });
         }
 
