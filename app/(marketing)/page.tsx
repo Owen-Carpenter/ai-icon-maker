@@ -246,7 +246,7 @@ export default function HomePage() {
           <ScrollAnimation delay={200}>
             <div className="w-full max-w-[95vw] mx-auto px-2">
               <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-3 shadow-2xl border border-midnight-800 hover:shadow-3xl transition-all duration-500 hover:scale-105">
-                <div className="bg-coral-gradient rounded-lg aspect-video w-full min-h-[60vh] overflow-hidden">
+                <div className="bg-coral-gradient rounded-lg aspect-video w-full h-[70vh] sm:min-h-[60vh] overflow-hidden">
                   <video
                     className="w-full h-full object-cover rounded-lg"
                     autoPlay
@@ -356,7 +356,7 @@ export default function HomePage() {
                 <div className="order-1 lg:order-2">
                   <div className="relative">
                     <div className="bg-coral-gradient rounded-3xl p-4 shadow-2xl">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[300px] md:h-[400px]">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[400px] sm:h-[350px] md:h-[400px]">
                         <video
                           className="w-full h-full object-cover rounded-2xl"
                           autoPlay
@@ -383,7 +383,7 @@ export default function HomePage() {
                 <div className="order-1">
                   <div className="relative">
                     <div className="bg-sunset-gradient rounded-3xl p-4 shadow-2xl">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[300px] md:h-[400px]">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[400px] sm:h-[350px] md:h-[400px]">
                         <video
                           className="w-full h-full object-cover rounded-2xl"
                           autoPlay
@@ -458,7 +458,7 @@ export default function HomePage() {
                 <div className="order-1 lg:order-2">
                   <div className="relative">
                     <div className="bg-aurora-gradient rounded-3xl p-4 shadow-2xl">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[300px] md:h-[400px]">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[400px] sm:h-[350px] md:h-[400px]">
                         <video
                           className="w-full h-full object-cover rounded-2xl"
                           autoPlay
