@@ -13,6 +13,8 @@ import Logo from '../../components/ui/Logo';
 export default function HomePage() {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   
   // Typing animation effect
   useEffect(() => {
@@ -123,6 +125,41 @@ export default function HomePage() {
       window.location.href = '/register';
     } finally {
       setLoadingPlan(null);
+    }
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    
+    try {
+      const formData = new FormData(e.currentTarget);
+      const name = formData.get('name') as string;
+      const email = formData.get('email') as string;
+      const subject = formData.get('subject') as string;
+      const message = formData.get('message') as string;
+      
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, subject, message }),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        // Reset form
+        e.currentTarget.reset();
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Contact form error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (
@@ -980,7 +1017,7 @@ export default function HomePage() {
             <ScrollAnimation delay={200}>
               <div className="bg-gradient-to-br from-midnight-900/50 to-midnight-950/70 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl">
                 <h3 className="text-2xl font-bold text-white mb-6">Send us a message</h3>
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleContactSubmit}>
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-sunset-200 mb-2">
                       Name
@@ -1034,11 +1071,45 @@ export default function HomePage() {
                       placeholder="Tell us how we can help you..."
                     ></textarea>
                   </div>
+                  {/* Success/Error Messages */}
+                  {submitStatus === 'success' && (
+                    <div className="bg-green-500/20 border border-green-500/50 rounded-lg p-4 text-green-300">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        Message sent successfully! We'll get back to you soon.
+                      </div>
+                    </div>
+                  )}
+                  
+                  {submitStatus === 'error' && (
+                    <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 text-red-300">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Failed to send message. Please try again or contact us directly.
+                      </div>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
-                    Send Message
+                    {isSubmitting ? (
+                      <div className="flex items-center justify-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Sending...
+                      </div>
+                    ) : (
+                      'Send Message'
+                    )}
                   </button>
                 </form>
               </div>

@@ -81,6 +81,10 @@ ai-icon-maker/
    STRIPE_SECRET_KEY=sk_test_your-stripe-secret-key
    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your-stripe-publishable-key
    STRIPE_WEBHOOK_SECRET=whsec_your-stripe-webhook-secret
+
+   # Email Configuration (for contact form)
+   GMAIL_USER=your-gmail-address@gmail.com
+   GMAIL_APP_PASSWORD=your-gmail-app-password
    ```
 
 4. **Set up Supabase**
@@ -90,12 +94,26 @@ ai-icon-maker/
    npx supabase db push
    ```
 
-5. **Run the development server**
+5. **Set up Email (Contact Form)**
+   To enable the contact form functionality:
+   
+   a. **Enable 2-Factor Authentication** on your Gmail account
+   
+   b. **Generate an App Password**:
+      - Go to Google Account settings
+      - Security → 2-Step Verification → App passwords
+      - Generate a password for "Mail"
+   
+   c. **Add to Environment Variables**:
+      - `GMAIL_USER`: Your Gmail address
+      - `GMAIL_APP_PASSWORD`: The generated app password
+
+6. **Run the development server**
    ```bash
    npm run dev
    ```
 
-6. **Open your browser**
+7. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## Database Schema
