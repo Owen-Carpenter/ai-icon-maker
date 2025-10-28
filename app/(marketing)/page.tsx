@@ -959,6 +959,94 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Contact Section */}
+      <div id="contact" className="py-20 bg-midnight-900/30 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <ScrollAnimation>
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+                Get in Touch
+              </h2>
+            </ScrollAnimation>
+            <ScrollAnimation delay={100}>
+              <p className="text-xl text-sunset-200 mb-8 max-w-3xl mx-auto">
+                Have questions about AI Icon Maker? Need help with your subscription? We're here to help you create amazing icons.
+              </p>
+            </ScrollAnimation>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            {/* Contact Form */}
+            <ScrollAnimation delay={200}>
+              <div className="bg-gradient-to-br from-midnight-900/50 to-midnight-950/70 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl">
+                <h3 className="text-2xl font-bold text-white mb-6">Send us a message</h3>
+                <form className="space-y-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-sunset-200 mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-sunset-200 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="subject" className="block text-sm font-medium text-sunset-200 mb-2">
+                      Subject
+                    </label>
+                    <select
+                      id="subject"
+                      name="subject"
+                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300"
+                    >
+                      <option value="">Select a topic</option>
+                      <option value="general">General Question</option>
+                      <option value="billing">Billing & Subscriptions</option>
+                      <option value="technical">Technical Support</option>
+                      <option value="feature">Feature Request</option>
+                      <option value="partnership">Partnership</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-sunset-200 mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={5}
+                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white placeholder-sunset-300/50 focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300 resize-none"
+                      placeholder="Tell us how we can help you..."
+                    ></textarea>
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-lg font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </div>
+            </ScrollAnimation>
+          </div>
+        </div>
+      </div>
+
 
       {/* Footer */}
       <Footer />
