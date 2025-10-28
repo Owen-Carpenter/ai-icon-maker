@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ScrollAnimation from '../../components/ScrollAnimation';
 import Navbar from '../../components/Navbar';
 
@@ -15,6 +15,7 @@ export default function HomePage() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const contactFormRef = useRef<HTMLFormElement>(null);
   
   // Typing animation effect
   useEffect(() => {
@@ -151,7 +152,7 @@ export default function HomePage() {
       if (response.ok) {
         setSubmitStatus('success');
         // Reset form
-        e.currentTarget.reset();
+        contactFormRef.current?.reset();
       } else {
         setSubmitStatus('error');
       }
@@ -1017,7 +1018,7 @@ export default function HomePage() {
             <ScrollAnimation delay={200}>
               <div className="bg-gradient-to-br from-midnight-900/50 to-midnight-950/70 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl">
                 <h3 className="text-2xl font-bold text-white mb-6">Send us a message</h3>
-                <form className="space-y-6" onSubmit={handleContactSubmit}>
+                <form ref={contactFormRef} className="space-y-6" onSubmit={handleContactSubmit}>
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-sunset-200 mb-2">
                       Name

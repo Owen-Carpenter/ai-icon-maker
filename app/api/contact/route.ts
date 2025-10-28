@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,19 +26,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create transporter using Gmail SMTP
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER, // Your Gmail address
-        pass: process.env.GMAIL_APP_PASSWORD, // Gmail App Password
-      },
-    })
-
-    // Email content
-    const mailOptions = {
-      from: process.env.GMAIL_USER,
-      to: 'owen.carpenter.work@gmail.com',
+    // Send email using Resend
+    const { data, error } = await resend.emails.send({
+      from: 'AI Icon Maker <onboarding@resend.dev>',
+      to: ['owen.carpenter.work@gmail.com'],
       subject: subject || 'Contact from AI Icon Maker',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -76,13 +69,18 @@ export async function POST(request: NextRequest) {
         ---
         This message was sent from the AI Icon Maker contact form.
       `,
+    })
+
+    if (error) {
+      console.error('Resend error:', error)
+      return NextResponse.json(
+        { error: 'Failed to send email' },
+        { status: 500 }
+      )
     }
 
-    // Send email
-    await transporter.sendMail(mailOptions)
-
     return NextResponse.json(
-      { message: 'Email sent successfully' },
+      { message: 'Email sent successfully', id: data?.id },
       { status: 200 }
     )
 

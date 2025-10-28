@@ -83,8 +83,7 @@ ai-icon-maker/
    STRIPE_WEBHOOK_SECRET=whsec_your-stripe-webhook-secret
 
    # Email Configuration (for contact form)
-   GMAIL_USER=your-gmail-address@gmail.com
-   GMAIL_APP_PASSWORD=your-gmail-app-password
+   RESEND_API_KEY=re_your-resend-api-key
    ```
 
 4. **Set up Supabase**
@@ -95,18 +94,19 @@ ai-icon-maker/
    ```
 
 5. **Set up Email (Contact Form)**
-   To enable the contact form functionality:
+   To enable the contact form functionality using Resend:
    
-   a. **Enable 2-Factor Authentication** on your Gmail account
+   a. **Sign up for Resend**:
+      - Go to [resend.com](https://resend.com)
+      - Create a free account (3,000 emails/month free)
    
-   b. **Generate an App Password**:
-      - Go to Google Account settings
-      - Security → 2-Step Verification → App passwords
-      - Generate a password for "Mail"
+   b. **Get API Key**:
+      - Go to API Keys in your Resend dashboard
+      - Create a new API key
+      - Copy the key (starts with `re_`)
    
    c. **Add to Environment Variables**:
-      - `GMAIL_USER`: Your Gmail address
-      - `GMAIL_APP_PASSWORD`: The generated app password
+      - `RESEND_API_KEY`: Your Resend API key
 
 6. **Run the development server**
    ```bash
