@@ -739,7 +739,7 @@ export default function HomePage() {
                   disabled={loadingPlan !== null}
                   className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 px-6 rounded-full font-semibold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loadingPlan === 'base' ? 'Processing...' : 'Get Started'}
+                  {loadingPlan === 'base' ? 'Processing...' : 'Start with Base'}
                 </button>
               </div>
             </ScrollAnimation>
@@ -818,7 +818,7 @@ export default function HomePage() {
                   disabled={loadingPlan !== null}
                   className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loadingPlan === 'pro' ? 'Processing...' : 'Start Creating Icons'}
+                  {loadingPlan === 'pro' ? 'Processing...' : 'Start with Pro'}
                 </button>
               </div>
             </ScrollAnimation>
@@ -884,7 +884,7 @@ export default function HomePage() {
                   disabled={loadingPlan !== null}
                   className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loadingPlan === 'proPlus' ? 'Processing...' : 'Start Creating Icons'}
+                  {loadingPlan === 'proPlus' ? 'Processing...' : 'Start with Pro+'}
                 </button>
               </div>
             </ScrollAnimation>
