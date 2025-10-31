@@ -524,12 +524,11 @@ export default function HomePage() {
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <ScrollAnimation>
-            <h2 className="text-4xl font-bold text-white mb-4">Powerful Benefits</h2>
+            <h2 className="text-4xl font-bold text-white mb-4">Why Creators Choose AI Icon Maker</h2>
             </ScrollAnimation>
             <ScrollAnimation delay={100}>
               <p className="text-sunset-200 max-w-2xl mx-auto">
-              Designed to make AI prompt engineering intuitive, efficient, powerful, and fun for 
-              everyone.
+              Everything you need to create stunning, professional icons without the learning curve of traditional design tools.
             </p>
             </ScrollAnimation>
           </div>
@@ -537,7 +536,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* AI-Powered Icon Generation */}
             <ScrollAnimation delay={150}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-coral-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#ff7e5f] to-coral-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
@@ -545,15 +544,15 @@ export default function HomePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-coral-300 transition-colors duration-300">AI-Powered Generation</h3>
-                  <div className="w-10 h-0.5 bg-gradient-to-r from-coral-500 to-sunset-500 rounded-full mx-auto"></div>
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-coral-300 transition-colors duration-300">Lightning-Fast Creation</h3>
+                  <p className="text-sunset-200 text-sm leading-relaxed">Generate multiple professional variations in seconds. What takes hours in Photoshop now happens instantly with GPT Image 1.</p>
                 </div>
               </div>
             </ScrollAnimation>
 
-            {/* Quick Preview */}
+            {/* No Design Skills Needed */}
             <ScrollAnimation delay={200}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-sunset-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#ff7e5f] to-sunset-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
@@ -562,15 +561,15 @@ export default function HomePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-sunset-300 transition-colors duration-300">Quick Preview</h3>
-                  <div className="w-10 h-0.5 bg-gradient-to-r from-sunset-500 to-coral-500 rounded-full mx-auto"></div>
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-sunset-300 transition-colors duration-300">No Design Skills Needed</h3>
+                  <p className="text-sunset-200 text-sm leading-relaxed">If you can describe it, you can create it. Our AI understands natural language—no complex tools or design experience required.</p>
                 </div>
               </div>
             </ScrollAnimation>
 
             {/* Professional Quality */}
             <ScrollAnimation delay={250}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#ff7e5f] to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
@@ -578,56 +577,56 @@ export default function HomePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-purple-300 transition-colors duration-300">Professional Quality</h3>
-                  <div className="w-10 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto"></div>
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors duration-300">Studio-Quality Results</h3>
+                  <p className="text-sunset-200 text-sm leading-relaxed">Every icon is crafted with precision and polish. High-resolution PNG exports ready for apps, websites, or any professional project.</p>
                 </div>
               </div>
             </ScrollAnimation>
 
-            {/* PNG Export */}
+            {/* Endless Style Options */}
             <ScrollAnimation delay={300}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#ff7e5f] to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">PNG Export</h3>
-                  <div className="w-10 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full mx-auto"></div>
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors duration-300">Endless Style Options</h3>
+                  <p className="text-sunset-200 text-sm leading-relaxed">From modern flat to 3D, minimalist to vintage—choose from 8+ distinct styles that perfectly match your brand aesthetic.</p>
                 </div>
               </div>
             </ScrollAnimation>
 
             {/* Save & Organize */}
             <ScrollAnimation delay={350}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#ff7e5f] to-green-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-green-300 transition-colors duration-300">Save & Organize</h3>
-                  <div className="w-10 h-0.5 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mx-auto"></div>
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-green-300 transition-colors duration-300">Your Personal Icon Library</h3>
+                  <p className="text-sunset-200 text-sm leading-relaxed">Save and organize your creations in one place. Access all your icons anytime, anywhere—never lose track of custom designs.</p>
                 </div>
               </div>
             </ScrollAnimation>
 
-            {/* Smart Optimization */}
+            {/* Commercial Rights */}
             <ScrollAnimation delay={400}>
-              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-6 text-center border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
+              <div className="glass-swipe bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-lg p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 group relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <div className="relative z-10">
                   <div className="w-16 h-16 bg-gradient-to-br from-[#ff7e5f] to-yellow-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg hover:rotate-12 transition-transform duration-300 group-hover:scale-110">
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors duration-300">Smart Optimization</h3>
-                  <div className="w-10 h-0.5 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full mx-auto"></div>
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-yellow-300 transition-colors duration-300">Full Commercial Rights</h3>
+                  <p className="text-sunset-200 text-sm leading-relaxed">Own everything you create. Use your icons in client projects, products, apps, or websites—without restrictions or licensing fees.</p>
                 </div>
               </div>
             </ScrollAnimation>
