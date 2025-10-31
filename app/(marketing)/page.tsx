@@ -274,7 +274,7 @@ export default function HomePage() {
               className="bg-transparent text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-all duration-300 block"
               fallbackHref="/#pricing"
             >
-              Start Creating Icons
+              Create Your First Icon
             </SmartGenerateLink>
           </div>
         </div>
@@ -307,12 +307,12 @@ export default function HomePage() {
         <div className="container mx-auto text-center">
           {/* Title and subtitle positioned below the video */}
           <ScrollAnimation delay={300}>
-            <h2 className="text-4xl font-bold text-white mb-4">See AI Icon Maker in action!</h2>
+            <h2 className="text-4xl font-bold text-white mb-4">From Words to Wonders in Seconds</h2>
           </ScrollAnimation>
           <ScrollAnimation delay={400}>
             <p className="text-sunset-200 mb-12 max-w-2xl mx-auto">
-              Watch how quickly you can generate icons like magic.<br />
-              Analyze your ideas → find what makes icons perfect → get more of them
+              Experience the future of icon creation. Watch real users transform simple descriptions into professional-grade icons that would take hours to design manually.<br />
+              <span className="text-coral-300 font-medium">No design skills required. Just pure creative freedom.</span>
             </p>
           </ScrollAnimation>
           
@@ -375,10 +375,10 @@ export default function HomePage() {
                     <div className="h-px bg-gradient-to-r from-coral-500 to-transparent flex-1"></div>
                   </div>
                   <h3 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
-                    Enter Your Prompt
+                    Speak Your Vision
                   </h3>
                   <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
-                    Describe the icon you want to create in natural language. Be as detailed or simple as you like - our AI understands both approaches.
+                    Simply describe what you envision and watch our AI bring it to life. From "minimalist shopping cart" to "futuristic rocket with neon glow" - your words become stunning icons.
                   </p>
                   <div className="pt-4">
                     <div className="inline-flex items-center gap-2 text-coral-400 font-medium">
@@ -448,10 +448,10 @@ export default function HomePage() {
                     <div className="h-px bg-gradient-to-r from-sunset-500 to-transparent flex-1"></div>
                   </div>
                   <h3 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
-                    AI Magic Happens
+                    Watch Ideas Transform
                   </h3>
                   <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
-                    Our advanced AI analyzes your prompt and generates multiple high-quality icon variations, each optimized for clarity and professional use.
+                    GPT Image 1 works its magic, analyzing every word and crafting multiple professional-grade variations. Each icon is pixel-perfect and ready for any project.
                   </p>
                   <div className="pt-4">
                     <div className="inline-flex items-center gap-2 text-sunset-400 font-medium">
@@ -477,10 +477,10 @@ export default function HomePage() {
                     <div className="h-px bg-gradient-to-r from-purple-400 to-transparent flex-1"></div>
                   </div>
                   <h3 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
-                    Download & Use
+                    Perfect & Deploy
                   </h3>
                   <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
-                    Choose your favorite icon from the generated variations, give it a name, and either download it as a PNG or save it to your personal library for future use.
+                    Select your favorite from multiple stunning variations, download instantly as high-quality PNG, or save to your organized library. Your perfect icon is ready in seconds.
                   </p>
                   <div className="pt-4">
                     <div className="inline-flex items-center gap-2 text-purple-400 font-medium">
@@ -643,11 +643,11 @@ export default function HomePage() {
           <ScrollAnimation>
             <div className="bg-midnight-900/50 backdrop-blur-sm rounded-lg p-12 border border-midnight-800 hover:shadow-3xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105">
               <ScrollAnimation delay={100}>
-                <h2 className="text-4xl font-bold text-white mb-4">Ready to Create Amazing Icons?</h2>
+                <h2 className="text-4xl font-bold text-white mb-4">Stop Settling for Generic Icons</h2>
               </ScrollAnimation>
               <ScrollAnimation delay={200}>
                 <p className="text-sunset-200 mb-8 max-w-2xl mx-auto">
-                  Join thousands of creators who are already using AI Icon Maker to bring their ideas to life.
+                  Join 500+ designers and developers who've discovered the secret to creating custom icons that perfectly match their vision—in seconds, not hours.
                 </p>
               </ScrollAnimation>
                               <ScrollAnimation delay={300}>
@@ -657,7 +657,7 @@ export default function HomePage() {
                     className="bg-transparent text-white px-12 py-4 rounded-lg font-semibold hover:scale-110 transition-all duration-300 block"
                     fallbackHref="/#pricing"
                   >
-                    Start Creating Now
+                    Transform Your Ideas Now
                   </SmartGenerateLink>
                 </div>
               </ScrollAnimation>
