@@ -19,7 +19,7 @@ export default function Loading({ text = 'Loading...', size = 'md' }: LoadingPro
   };
 
   return (
-    <div className="min-h-screen bg-dark-gradient flex flex-col items-center justify-center">
+    <div className="min-h-screen w-full bg-dark-gradient flex flex-col items-center justify-center">
       <div className="flex flex-col items-center space-y-4">
         {/* Animated Site Icon */}
         <div className={`${sizeClasses[size]} flex items-center justify-center shadow-lg animate-pulse`}>
