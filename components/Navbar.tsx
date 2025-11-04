@@ -172,7 +172,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                   <SmartGenerateLink
                     key={link.href}
                     className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-2.5 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30"
-                    fallbackHref="/register"
+                    fallbackHref="/#pricing"
                   >
                     {link.label}
                   </SmartGenerateLink>
@@ -263,7 +263,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
                     <SmartGenerateLink
                       key={link.href}
                       className="text-white/80 hover:text-white transition-all duration-300 font-medium px-4 py-3 rounded-2xl hover:bg-white/20 hover:backdrop-blur-md border border-transparent hover:border-white/30"
-                      fallbackHref="/register"
+                      fallbackHref="/#pricing"
                     >
                       {link.label}
                     </SmartGenerateLink>
