@@ -130,15 +130,6 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
     const imagePrompts = [];
     const actualCount = isImprovement ? 1 : count; // Force 1 icon for improvements
     
-    console.log(`🎯 Generating ${actualCount} icon(s) - Improvement mode: ${isImprovement}`);
-    console.log(`🎯 Original prompt: "${prompt}"`);
-    console.log(`🎯 Full request params:`, { prompt, style, count, isImprovement, actualCount });
-    
-    if (isImprovement) {
-      console.log('🎯 IMPROVEMENT MODE: Restyling existing icon with requested changes');
-    } else {
-      console.log('🎯 NEW ICON MODE: Creating new icons from scratch');
-    }
     
     // Extract improvement parts if needed
     const { basePrompt, improvementInstruction } = isImprovement 
@@ -156,7 +147,6 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
           improvementInstruction,
           basePrompt
         });
-        console.log(`🎯 Improvement prompt: "${imagePrompt}"`);
       } else {
         imagePrompt = getInitialImagePrompt({ prompt, style, count }, i);
       }
@@ -172,8 +162,6 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
       const imagePrompt = imagePrompts[i];
       const variation = i === 0 ? "first" : i === 1 ? "second" : "third";
       
-      console.log(`\n🖼️ Processing ${variation} variation (${i + 1}/${imagePrompts.length})`);
-      console.log(`Image prompt: ${imagePrompt}`);
       // Processing image variation
       
       if (onThought) {
@@ -185,7 +173,6 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
         
         // Use image edit endpoint if we have a source image (improvement mode)
         if (isImprovement && sourceImageUrl) {
-          console.log('🎨 Using image edit endpoint with source image:', sourceImageUrl.substring(0, 50) + '...');
           
           // Convert the source image URL to a File object
           const imageFile = await urlToFile(sourceImageUrl, 'source-icon.png');
@@ -246,7 +233,6 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
           
           if (foundUrl) {
             imageUrls.push(foundUrl);
-            console.log(`✅ Successfully added ${variation} variation from alternative structure:`, foundUrl);
             // Alternative URL added successfully
             if (onThought) {
               onThought(`✅ ${variation} variation generated successfully (alternative format)!\n`);
@@ -292,9 +278,6 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
       // End of loop iteration
     }
 
-    console.log(`\n🔍 FINAL CHECK - After all iterations:`);
-    console.log(`imageUrls length:`, imageUrls.length);
-    console.log(`billingError:`, billingError);
 
     // Handle billing hard limit error specifically
     if (billingError) {
@@ -319,7 +302,6 @@ export async function generateIconsWithChatGPT(request: IconGenerationRequest): 
       };
     }
 
-    console.log(`Generated ${imageUrls.length} images using GPT Image 1`);
     
     if (onThought) {
       onThought(`\n🎉 Successfully generated ${imageUrls.length} clean, minimal icons!\n`);

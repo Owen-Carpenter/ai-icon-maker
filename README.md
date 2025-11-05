@@ -84,6 +84,12 @@ ai-icon-maker/
 
    # Email Configuration (for contact form)
    RESEND_API_KEY=re_your-resend-api-key
+   CONTACT_EMAIL=your-email@example.com
+
+   # Stripe Price IDs (for subscription plans)
+   STRIPE_BASE_PRICE_ID=price_your-base-price-id
+   STRIPE_PRO_PRICE_ID=price_your-pro-price-id
+   STRIPE_PRO_PLUS_PRICE_ID=price_your-pro-plus-price-id
    ```
 
 4. **Set up Supabase**

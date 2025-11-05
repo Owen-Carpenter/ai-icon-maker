@@ -4,6 +4,7 @@ import './globals.css'
 import { AuthProvider } from '../contexts/AuthContext'
 import { Analytics } from '@vercel/analytics/react'
 import StructuredData from '../components/StructuredData'
+import { ErrorBoundary } from '../components/ErrorBoundary'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -135,9 +136,11 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ErrorBoundary>
         <Analytics />
       </body>
     </html>

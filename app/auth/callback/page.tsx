@@ -13,7 +13,6 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        console.log('Processing OAuth callback...');
         
         // Get the session from the URL
         const { data, error } = await supabase.auth.getSession();
@@ -26,7 +25,6 @@ export default function AuthCallback() {
         }
 
         if (data.session?.user) {
-          console.log('OAuth successful for:', data.session.user.email);
           // Wait for auth context to update, then check subscription status
           setTimeout(async () => {
             try {

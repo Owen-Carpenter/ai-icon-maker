@@ -104,10 +104,8 @@ export async function POST(req: NextRequest) {
       if (customerId) {
         try {
           await stripe.customers.retrieve(customerId)
-          console.log('Existing customer ID is valid:', customerId)
         } catch (stripeError: any) {
           if (stripeError.code === 'resource_missing') {
-            console.log('Customer ID not found in Stripe, creating new one:', customerId)
             customerId = null // Reset to null so we create a new one
           } else {
             console.error('Error validating customer ID:', stripeError)
@@ -118,7 +116,6 @@ export async function POST(req: NextRequest) {
 
       // Create Stripe customer if doesn't exist or is invalid
       if (!customerId) {
-        console.log('Creating new Stripe customer for user:', session.user.id)
         const customer = await stripe.customers.create({
           email: session.user.email!,
           metadata: {

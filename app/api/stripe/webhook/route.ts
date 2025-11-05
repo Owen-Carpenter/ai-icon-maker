@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    console.log('Received Stripe webhook:', event.type)
 
     switch (event.type) {
       case 'checkout.session.completed':
@@ -52,7 +51,6 @@ export async function POST(req: NextRequest) {
         break
 
       default:
-        console.log(`Unhandled event type: ${event.type}`)
     }
 
     return NextResponse.json({ received: true })
@@ -66,7 +64,6 @@ export async function POST(req: NextRequest) {
 }
 
 async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
-  console.log('Processing checkout session completed:', session.id)
   
   const customerId = session.customer as string
   const subscriptionId = session.subscription as string
@@ -112,7 +109,6 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       throw error
     }
 
-    console.log(`Updated user ${userId} with subscription ${subscriptionId}`)
   } catch (error) {
     console.error('Error handling checkout session completed:', error)
     throw error
@@ -120,7 +116,6 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
 }
 
 async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
-  console.log('Processing subscription created:', subscription.id)
   
   const customerId = subscription.customer as string
   
@@ -162,7 +157,6 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
-  console.log('Processing subscription updated:', subscription.id)
   
   // Find subscription record directly
   const { data: existingSubscription } = await supabase
@@ -204,7 +198,6 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
-  console.log('Processing subscription deleted:', subscription.id)
   
   // Update subscription status to canceled
   await supabase
@@ -217,11 +210,9 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     })
     .eq('stripe_subscription_id', subscription.id)
 
-  console.log(`Marked subscription ${subscription.id} as canceled`)
 }
 
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
-  console.log('Processing invoice payment succeeded:', invoice.id)
   
   const customerId = invoice.customer as string
   const subscriptionId = (invoice as any).subscription as string
@@ -242,11 +233,9 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
 
   // Note: Token reset is now handled automatically by the usage tracking system
   // based on billing periods. No need to manually reset tokens here.
-  console.log(`Payment succeeded for user ${subscription.user_id}, plan: ${subscription.plan_type}`)
 }
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
-  console.log('Processing invoice payment failed:', invoice.id)
   
   const customerId = invoice.customer as string
   
@@ -264,7 +253,6 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
 
   // You might want to send an email notification here
   // For now, we'll just log it
-  console.log(`Payment failed for user ${user.id}`)
 }
 
 function getPlanTypeFromPriceId(priceId: string): string {

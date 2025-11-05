@@ -171,7 +171,6 @@ export default function Sidebar({ currentPage = 'generate', onStartWalkthrough, 
                     if (onStartWalkthrough) {
                       onStartWalkthrough();
                     } else {
-                      console.log('Walkthrough handler not provided');
                     }
                   }}
             className="lg:w-10 lg:h-10 w-full bg-white/10 rounded-2xl flex items-center lg:justify-center justify-start lg:px-0 px-3 py-2 lg:py-0 cursor-pointer hover:bg-white/20 hover:backdrop-blur-md transition-all duration-300 group relative border border-white/30 hover:border-white/40"

@@ -135,10 +135,6 @@ function GeneratePageContent() {
     // For improvement mode, build upon the existing prompt and conversation context
     let finalPrompt = prompt.trim();
     if (isImprovementMode) {
-      console.log('🎯 Improvement mode detected');
-      console.log('🎯 User input:', prompt.trim());
-      console.log('🎯 Conversation history:', conversationHistory);
-      
       // Get the original prompt from conversation history (first user message)
       const originalUserMessage = conversationHistory.find(msg => msg.type === 'user' && !msg.isImprovement);
       const originalPrompt = originalUserMessage?.content || '';
@@ -156,14 +152,9 @@ function GeneratePageContent() {
         
         // Create a contextual improvement prompt that includes all previous improvements
         finalPrompt = `${cleanOriginalPrompt}, ${allImprovements.join(', and ')}`;
-        
-        console.log('🎯 Original prompt:', cleanOriginalPrompt);
-        console.log('🎯 All improvements:', allImprovements);
-        console.log('🎯 Final cumulative prompt:', finalPrompt);
       } else {
         // Fallback if no original prompt found
         finalPrompt = prompt.trim();
-        console.log('🎯 No original prompt found, using current input:', finalPrompt);
       }
     }
 
@@ -230,7 +221,6 @@ function GeneratePageContent() {
       await refreshUserData(true);
 
       // Call the streaming API to generate icons using GPT Image 1 with real-time thoughts
-      console.log('🚀 Calling streaming API...');
       const response = await fetch('/api/generate-icons-stream', {
         method: 'POST',
         headers: {
@@ -243,13 +233,10 @@ function GeneratePageContent() {
           sourceImageUrl: isImprovementMode ? selectedIconUrl : undefined, // Pass the icon to edit
         }),
       });
-
-      console.log('📡 Streaming API response status:', response.status);
-      console.log('📡 Streaming API response ok:', response.ok);
       
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('❌ Streaming API error:', errorData);
+        console.error('Streaming API error:', errorData);
         throw new Error(errorData.error || 'Failed to generate icons');
       }
 
@@ -257,18 +244,14 @@ function GeneratePageContent() {
       const decoder = new TextDecoder();
       let data: any = null;
 
-      console.log('📖 Starting to read streaming response...');
-
       if (reader) {
         while (true) {
           const { done, value } = await reader.read();
           if (done) {
-            console.log('📖 Stream reading completed');
             break;
           }
 
           const chunk = decoder.decode(value);
-          console.log('📦 Received chunk:', chunk);
           const lines = chunk.split('\n');
 
           for (const line of lines) {
@@ -277,27 +260,21 @@ function GeneratePageContent() {
               
               // Check for stream end marker
               if (dataContent.trim() === '[DONE]') {
-                console.log('🏁 Stream completed');
                 break;
               }
               
               try {
                 const eventData = JSON.parse(dataContent);
-                console.log('📨 Parsed event data:', eventData);
                 
                 if (eventData.type === 'start') {
-                  console.log('🚀 Received start event:', eventData);
                   // Stream is working, continue
                 } else if (eventData.type === 'thought') {
                   // Update streamed thoughts state
                   setStreamedThoughts(prev => prev + eventData.content);
                 } else if (eventData.type === 'complete') {
-                  console.log('✅ Received complete event:', eventData);
-                  console.log('✅ Complete event success:', eventData.success);
-                  console.log('✅ Complete event icons length:', eventData.icons?.length);
                   data = eventData;
                 } else if (eventData.type === 'error') {
-                  console.error('❌ Received error event:', eventData);
+                  console.error('Received error event:', eventData);
                   
                   // Handle timeout errors specifically
                   if (eventData.error?.includes('timeout')) {
@@ -307,10 +284,9 @@ function GeneratePageContent() {
                   }
                 }
               } catch (e) {
-                console.log('⚠️ Failed to parse line:', line, 'Error:', e);
                 // If it's a JSON parsing error, try to handle it gracefully
                 if (e instanceof SyntaxError) {
-                  console.warn('⚠️ JSON syntax error - likely due to large payload');
+                  // Ignore parsing errors for incomplete chunks
                 }
                 // Ignore parsing errors for incomplete chunks
               }
@@ -318,20 +294,14 @@ function GeneratePageContent() {
           }
         }
       } else {
-        console.error('❌ No reader available for streaming response');
+        console.error('No reader available for streaming response');
       }
-
-      console.log('🔍 Final data received:', data);
-      console.log('🔍 Data type:', typeof data);
-      console.log('🔍 Data success:', data?.success);
-      console.log('🔍 Data icons:', data?.icons?.length);
       
       if (!data) {
-        console.error('❌ No data received from streaming API, trying fallback...');
+        console.error('No data received from streaming API, trying fallback...');
         
         // Fallback: Try the non-streaming API
         try {
-          console.log('🔄 Attempting fallback to non-streaming API...');
           const fallbackResponse = await fetch('/api/generate-icons', {
             method: 'POST',
             headers: {
@@ -347,18 +317,16 @@ function GeneratePageContent() {
           
           if (fallbackResponse.ok) {
             const fallbackData = await fallbackResponse.json();
-            console.log('✅ Fallback API succeeded:', fallbackData);
             data = fallbackData;
           } else {
             throw new Error('Fallback API also failed');
           }
         } catch (fallbackError) {
-          console.error('❌ Fallback API also failed:', fallbackError);
+          console.error('Fallback API also failed:', fallbackError);
           throw new Error('No response received from streaming API and fallback failed');
         }
       } else if (data.success && data.icons.length === 0) {
         // Streaming API succeeded but no icons were sent (new approach)
-        console.log('🔄 Streaming API succeeded, fetching icons from regular API...');
         try {
           const iconResponse = await fetch('/api/generate-icons', {
             method: 'POST',
@@ -374,7 +342,6 @@ function GeneratePageContent() {
           });
 
           const iconData = await iconResponse.json();
-          console.log('✅ Icon API succeeded:', iconData);
           
           if (iconData.success && iconData.icons && iconData.icons.length > 0) {
             // Merge the streaming thoughts with the icon data
@@ -470,7 +437,6 @@ function GeneratePageContent() {
 
   const handleSelectImage = (imageUrl: string) => {
     // Handle image selection - could save to library
-    console.log('Selected image:', imageUrl);
     setHasUserTakenAction(true);
     success('Icon Downloaded!', 'Icon saved to your downloads folder');
   };
@@ -480,7 +446,6 @@ function GeneratePageContent() {
     setIsImprovementMode(true);
     setHasUserTakenAction(true);
     setGeneratedImages([]); // Clear previous improvements when starting a new improvement
-    console.log('Improving icon:', imageUrl);
   };
 
   const handleAddToConversation = (message: {

@@ -70,7 +70,6 @@ export async function GET(req: NextRequest) {
 
     // If user doesn't exist, try to create them with error handling for duplicate key
     if (error?.code === 'PGRST116' || !userData) {
-      console.log('User not found in users table, creating...')
       
       // Try both table names to handle migration state
       let createUserError: any = null
@@ -89,7 +88,6 @@ export async function GET(req: NextRequest) {
       
       if (error1?.code === '23505') {
         // Duplicate key error - user already exists, try to fetch them
-        console.log('User already exists, fetching existing record...')
         const { data: existingUser, error: fetchError } = await supabase
           .from('users')
           .select('*')

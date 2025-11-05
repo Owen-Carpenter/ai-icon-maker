@@ -26,10 +26,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Get contact email from environment variable
+    const contactEmail = process.env.CONTACT_EMAIL || 'owen.carpenter.work@gmail.com'
+    
+    if (!contactEmail) {
+      return NextResponse.json(
+        { error: 'Contact email not configured' },
+        { status: 500 }
+      )
+    }
+
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'AI Icon Maker <onboarding@resend.dev>',
-      to: ['owen.carpenter.work@gmail.com'],
+      from: 'AI Icon Maker <noreply@contact.ai-icon-maker.com>',
+      to: [contactEmail],
       subject: subject || 'Contact from AI Icon Maker',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
