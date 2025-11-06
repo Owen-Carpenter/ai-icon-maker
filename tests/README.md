@@ -6,6 +6,14 @@ This project uses Vitest for unit and integration testing.
 
 Tests are located in the `tests/` directory and follow the same structure as the source code.
 
+**Important**: Before running tests, you need to create `tests/setup.ts` from `tests/setup.example.ts`:
+
+```bash
+cp tests/setup.example.ts tests/setup.ts
+```
+
+Then edit `tests/setup.ts` and add your test API keys. This file is gitignored to protect your API keys.
+
 ## Running Tests
 
 ```bash
