@@ -62,6 +62,9 @@ pids
 coverage/
 *.lcov
 
+# Vitest
+.vitest/
+
 # nyc test coverage
 .nyc_output
 

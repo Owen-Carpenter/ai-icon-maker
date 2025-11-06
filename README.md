@@ -174,6 +174,10 @@ create table projects (
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
+- `npm test` - Run tests in watch mode
+- `npm run test:run` - Run tests once
+- `npm run test:ui` - Run tests with UI
+- `npm run test:coverage` - Run tests with coverage report
 
 ### Adding New Features
 
@@ -197,6 +201,21 @@ create table projects (
 - All variables from `.env.local`
 - Update URLs to production domains
 - Use production API keys for Stripe, OpenAI, etc.
+
+## Testing
+
+This project uses Vitest for testing. See [tests/README.md](./tests/README.md) for detailed testing documentation.
+
+```bash
+# Install dependencies (includes test dependencies)
+npm install
+
+# Run tests
+npm test
+
+# Run tests with coverage
+npm run test:coverage
+```
 
 ## Contributing
 
