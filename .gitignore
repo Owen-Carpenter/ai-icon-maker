@@ -65,6 +65,9 @@ coverage/
 # Vitest
 .vitest/
 
+# Test setup with API keys
+tests/setup.ts
+
 # nyc test coverage
 .nyc_output
 
