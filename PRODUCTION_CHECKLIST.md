@@ -98,11 +98,47 @@ This document outlines what has been completed and what still needs attention be
 ## 🔒 Security Considerations
 
 - ✅ Security headers added
-- ⚠️ Review Supabase RLS (Row Level Security) policies
+- ✅ Supabase RLS (Row Level Security) policies optimized (migration 024)
 - ⚠️ Ensure all API routes validate user authentication
 - ⚠️ Review and test Stripe webhook security
 - ⚠️ Consider adding CSRF protection
 - ⚠️ Review environment variables for any sensitive data exposure
+
+## 🔧 Supabase Configuration Checklist
+
+These settings need to be configured in the Supabase Dashboard and cannot be set via migrations:
+
+### High Priority
+
+1. ⚠️ **Enable Leaked Password Protection**
+   - Go to: Authentication → Policies → Password Security
+   - Enable "Check passwords against HaveIBeenPwned.org"
+   - This prevents users from using compromised passwords
+   - [Documentation](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection)
+
+2. ⚠️ **Upgrade Postgres Version**
+   - Current version: `supabase-postgres-15.8.1.073`
+   - Go to: Project Settings → Database → Upgrade Database
+   - Upgrade to the latest version to receive security patches
+   - [Documentation](https://supabase.com/docs/guides/platform/upgrading)
+   - **Note:** Plan for a maintenance window as this may cause brief downtime
+
+### Recommended
+
+3. **Review Auth Settings**
+   - Configure email templates (signup, password reset, etc.)
+   - Set up custom SMTP (if not using Supabase's default)
+   - Review authentication providers (Google, GitHub, etc.)
+
+4. **Database Settings**
+   - Review connection pooling settings
+   - Configure backup retention policies
+   - Set up database backups if not already enabled
+
+5. **Storage Settings**
+   - Review storage bucket policies
+   - Configure CORS settings if using direct uploads
+   - Review file size limits
 
 ## 📊 Pre-Launch Testing
 
@@ -131,6 +167,8 @@ Before launching, test:
 - [ ] Configure custom domain (if applicable)
 - [ ] Set up SSL certificate (automatic with Vercel)
 - [ ] Review and update privacy policy/terms if needed
+- [ ] **Enable Supabase leaked password protection** (Dashboard)
+- [ ] **Upgrade Supabase Postgres version** (Dashboard)
 
 ## 📝 Notes
 
