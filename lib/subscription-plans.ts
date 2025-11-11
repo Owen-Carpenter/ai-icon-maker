@@ -54,3 +54,18 @@ export const SUBSCRIPTION_PLANS = {
 } as const
 
 export type SubscriptionPlan = keyof typeof SUBSCRIPTION_PLANS 
+
+const PLAN_PRIORITY: Record<string, number> = {
+  free: 0,
+  base: 1,
+  pro: 2,
+  proPlus: 3,
+}
+
+export function getPlanPriority(plan?: string | null): number {
+  if (!plan) {
+    return 0
+  }
+
+  return PLAN_PRIORITY[plan] ?? 0
+}

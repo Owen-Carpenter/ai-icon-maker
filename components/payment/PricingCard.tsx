@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Check } from 'lucide-react';
-import { SUBSCRIPTION_PLANS, SubscriptionPlan } from '../../lib/subscription-plans';
+import { SUBSCRIPTION_PLANS, SubscriptionPlan, getPlanPriority } from '../../lib/subscription-plans';
 import SubscriptionButton from './SubscriptionButton';
 
 interface PricingCardProps {
@@ -14,6 +14,9 @@ interface PricingCardProps {
 export default function PricingCard({ plan, currentPlan, isPopular }: PricingCardProps) {
   const planData = SUBSCRIPTION_PLANS[plan];
   const isCurrentPlan = currentPlan === plan;
+  const planPriority = getPlanPriority(plan);
+  const currentPlanPriority = getPlanPriority(currentPlan);
+  const isDowngrade = currentPlanPriority > planPriority;
 
   // Safety check - if planData is undefined, return error state
   if (!planData) {
@@ -100,8 +103,10 @@ export default function PricingCard({ plan, currentPlan, isPopular }: PricingCar
               }
             `}
             loadingClassName="opacity-50 cursor-not-allowed"
+            disabled={isDowngrade}
+            disabledClassName="opacity-50 cursor-not-allowed"
           >
-            {isCurrentPlan ? 'Current Plan' : `Upgrade to ${planData.name}`}
+            {isDowngrade ? 'Included in Your Plan' : `Upgrade to ${planData.name}`}
           </SubscriptionButton>
         )}
       </div>

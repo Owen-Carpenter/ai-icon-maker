@@ -8,6 +8,8 @@ interface SubscriptionButtonProps {
   planType: string;
   className?: string;
   loadingClassName?: string;
+  disabled?: boolean;
+  disabledClassName?: string;
   children: React.ReactNode;
 }
 
@@ -16,12 +18,18 @@ export default function SubscriptionButton({
   planType, 
   className = '', 
   loadingClassName = '',
+  disabled = false,
+  disabledClassName = 'opacity-50 cursor-not-allowed',
   children 
 }: SubscriptionButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleCheckout = async () => {
+    if (disabled) {
+      return;
+    }
+
     setLoading(true);
     setError('');
 
@@ -57,8 +65,8 @@ export default function SubscriptionButton({
     <div className="w-full">
       <button
         onClick={handleCheckout}
-        disabled={loading}
-        className={`${className} ${loading ? loadingClassName : ''}`}
+        disabled={loading || disabled}
+        className={`${className} ${loading ? loadingClassName : ''} ${(loading || disabled) ? disabledClassName : ''}`}
       >
         {loading ? (
           <div className="flex items-center justify-center gap-2">

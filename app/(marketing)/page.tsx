@@ -9,6 +9,8 @@ import TestimonialCarousel from '../../components/TestimonialCarousel';
 import Link from 'next/link';
 import SmartGenerateLink from '../../components/SmartGenerateLink';
 import Logo from '../../components/ui/Logo';
+import { useAuth } from '../../contexts/AuthContext';
+import { getPlanPriority } from '../../lib/subscription-plans';
 
 export default function HomePage() {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
@@ -16,6 +18,23 @@ export default function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const contactFormRef = useRef<HTMLFormElement>(null);
+  const { userData } = useAuth();
+  const currentPlan = userData?.subscription?.plan_type ?? 'free';
+  const currentPlanPriority = getPlanPriority(currentPlan);
+
+  const isPlanDisabled = (planType: string) => currentPlanPriority >= getPlanPriority(planType);
+
+  const getPlanButtonLabel = (planType: string, defaultLabel: string) => {
+    if (currentPlan === planType) {
+      return 'Current Plan';
+    }
+
+    if (currentPlanPriority > getPlanPriority(planType)) {
+      return 'Included in Your Plan';
+    }
+
+    return defaultLabel;
+  };
   
   // Typing animation effect
   useEffect(() => {
@@ -100,7 +119,7 @@ export default function HomePage() {
   };
 
   const handleCheckout = async (planType: string) => {
-    if (loadingPlan) return;
+    if (loadingPlan || isPlanDisabled(planType)) return;
     
     setLoadingPlan(planType);
     try {
@@ -736,10 +755,10 @@ export default function HomePage() {
                 
                 <button 
                   onClick={() => handleCheckout('base')}
-                  disabled={loadingPlan !== null}
+                  disabled={loadingPlan !== null || isPlanDisabled('base')}
                   className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 px-6 rounded-full font-semibold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loadingPlan === 'base' ? 'Processing...' : 'Start with Base'}
+                  {loadingPlan === 'base' ? 'Processing...' : getPlanButtonLabel('base', 'Start with Base')}
                 </button>
               </div>
             </ScrollAnimation>
@@ -815,10 +834,10 @@ export default function HomePage() {
                 
                 <button 
                   onClick={() => handleCheckout('pro')}
-                  disabled={loadingPlan !== null}
+                  disabled={loadingPlan !== null || isPlanDisabled('pro')}
                   className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loadingPlan === 'pro' ? 'Processing...' : 'Start with Pro'}
+                  {loadingPlan === 'pro' ? 'Processing...' : getPlanButtonLabel('pro', 'Start with Pro')}
                 </button>
               </div>
             </ScrollAnimation>
@@ -881,10 +900,10 @@ export default function HomePage() {
                 
                 <button 
                   onClick={() => handleCheckout('proPlus')}
-                  disabled={loadingPlan !== null}
+                  disabled={loadingPlan !== null || isPlanDisabled('proPlus')}
                   className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loadingPlan === 'proPlus' ? 'Processing...' : 'Start with Pro+'}
+                  {loadingPlan === 'proPlus' ? 'Processing...' : getPlanButtonLabel('proPlus', 'Start with Pro+')}
                 </button>
               </div>
             </ScrollAnimation>
