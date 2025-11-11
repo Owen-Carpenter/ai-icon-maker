@@ -33,15 +33,16 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "resend": "^6.3.0",
-    "stripe": "^18.3.0",
+    "stripe": "^18.5.0",
+    "stripe-cli": "^0.1.0",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@types/node": "^24.0.11",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@vitest/ui": "^2.1.8",
     "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/ui": "^2.1.8",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.30.1",
     "eslint-config-next": "^15.3.5",
