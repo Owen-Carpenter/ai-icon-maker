@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { stripe } from '../../../../lib/stripe'
+import { stripe, extractStripePeriod } from '../../../../lib/stripe'
 import { supabase } from '../../../../lib/supabase'
 import Stripe from 'stripe'
 
@@ -84,13 +84,8 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     // Get subscription details
     const subscription = await stripe.subscriptions.retrieve(subscriptionId)
     
-    // Safely convert timestamps
-    const periodStart = (subscription as any).current_period_start 
-      ? new Date((subscription as any).current_period_start * 1000).toISOString()
-      : null
-    const periodEnd = (subscription as any).current_period_end 
-      ? new Date((subscription as any).current_period_end * 1000).toISOString() 
-      : null
+    // Safely convert timestamps (supports both legacy and new Stripe API response shapes)
+    const { start: periodStart, end: periodEnd } = extractStripePeriod(subscription as any)
     
     // Use our new webhook subscription upsert function
     const { error } = await supabase.rpc('webhook_upsert_subscription', {
@@ -135,13 +130,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   const priceId = subscription.items.data[0]?.price.id
   const planType = getPlanTypeFromPriceId(priceId)
 
-  // Safely convert timestamps
-  const periodStart = (subscription as any).current_period_start 
-    ? new Date((subscription as any).current_period_start * 1000).toISOString()
-    : null
-  const periodEnd = (subscription as any).current_period_end 
-    ? new Date((subscription as any).current_period_end * 1000).toISOString() 
-    : null
+  const { start: periodStart, end: periodEnd } = extractStripePeriod(subscription as any)
 
   // Use our new webhook subscription upsert function
   await supabase.rpc('webhook_upsert_subscription', {
@@ -174,13 +163,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   const priceId = subscription.items.data[0]?.price.id
   const planType = getPlanTypeFromPriceId(priceId)
 
-  // Safely convert timestamps
-  const periodStart = (subscription as any).current_period_start 
-    ? new Date((subscription as any).current_period_start * 1000).toISOString()
-    : null
-  const periodEnd = (subscription as any).current_period_end 
-    ? new Date((subscription as any).current_period_end * 1000).toISOString() 
-    : null
+  const { start: periodStart, end: periodEnd } = extractStripePeriod(subscription as any)
 
   // Update subscription directly
   await supabase

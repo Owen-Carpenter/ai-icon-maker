@@ -40,3 +40,94 @@ export const getStripePriceId = (plan: string): string | null => {
       return null;
   }
 } 
+
+const TIMESTAMP_KEYS = [
+  'value',
+  'values',
+  'unix',
+  'epoch',
+  'epoch_time',
+  'epoch_seconds',
+  'seconds',
+  'time',
+  'timestamp',
+]
+
+export function normalizeStripeTimestamp(value: unknown): string | null {
+  if (value == null) {
+    return null
+  }
+
+  if (Array.isArray(value)) {
+    for (const candidate of value) {
+      const normalized = normalizeStripeTimestamp(candidate)
+      if (normalized) {
+        return normalized
+      }
+    }
+    return null
+  }
+
+  if (typeof value === 'number') {
+    // Stripe historically returned seconds. Future versions may return ms.
+    const isSeconds = value < 1e12
+    const date = new Date(isSeconds ? value * 1000 : value)
+    return isNaN(date.getTime()) ? null : date.toISOString()
+  }
+
+  if (typeof value === 'string') {
+    const numeric = Number(value)
+    if (!Number.isNaN(numeric) && value.trim() !== '') {
+      const isSeconds = numeric < 1e12
+      const date = new Date(isSeconds ? numeric * 1000 : numeric)
+      if (!isNaN(date.getTime())) {
+        return date.toISOString()
+      }
+    }
+
+    const parsed = new Date(value)
+    return isNaN(parsed.getTime()) ? null : parsed.toISOString()
+  }
+
+  if (typeof value === 'object') {
+    const record = value as Record<string, unknown>
+
+    for (const key of TIMESTAMP_KEYS) {
+      if (record[key] != null) {
+        const normalized = normalizeStripeTimestamp(record[key])
+        if (normalized) {
+          return normalized
+        }
+      }
+    }
+
+    return null
+  }
+
+  return null
+}
+
+export function extractStripePeriod(resource: Record<string, unknown> | null | undefined) {
+  const currentPeriod = (resource as any)?.current_period
+
+  const start = normalizeStripeTimestamp([
+    (resource as any)?.current_period_start,
+    currentPeriod?.start,
+    currentPeriod?.start_date,
+    currentPeriod?.start_at,
+    currentPeriod?.start_time,
+  ])
+
+  const end = normalizeStripeTimestamp([
+    (resource as any)?.current_period_end,
+    currentPeriod?.end,
+    currentPeriod?.end_date,
+    currentPeriod?.end_at,
+    currentPeriod?.end_time,
+  ])
+
+  return {
+    start,
+    end,
+  }
+}

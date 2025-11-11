@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '../../../../lib/stripe'
+import { stripe, extractStripePeriod } from '../../../../lib/stripe'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
@@ -70,9 +70,7 @@ export async function POST(req: NextRequest) {
         id: reactivatedSubscription.id,
         status: reactivatedSubscription.status,
         cancel_at_period_end: reactivatedSubscription.cancel_at_period_end,
-        current_period_end: (reactivatedSubscription as any).current_period_end 
-          ? new Date((reactivatedSubscription as any).current_period_end * 1000).toISOString() 
-          : null,
+        current_period_end: extractStripePeriod(reactivatedSubscription as any).end,
       }
     })
 

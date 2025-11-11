@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '../../../../lib/stripe'
+import { stripe, extractStripePeriod } from '../../../../lib/stripe'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
@@ -83,9 +83,7 @@ export async function POST(req: NextRequest) {
         : 'Subscription will be canceled at the end of the current billing period',
       canceledAt: immediate ? new Date().toISOString() : null,
       cancelAtPeriodEnd: !immediate,
-      currentPeriodEnd: (canceledSubscription as any).current_period_end 
-        ? new Date((canceledSubscription as any).current_period_end * 1000).toISOString() 
-        : null,
+      currentPeriodEnd: extractStripePeriod(canceledSubscription as any).end,
     })
 
   } catch (error: any) {
