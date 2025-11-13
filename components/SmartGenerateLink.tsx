@@ -24,8 +24,17 @@ export default function SmartGenerateLink({
     );
   }
 
-  // If user is not logged in or doesn't have subscription, go to pricing
-  if (!user || !hasActiveSubscription) {
+  // If user is not logged in, redirect to register
+  if (!user) {
+    return (
+      <Link href="/register" className={className}>
+        {children}
+      </Link>
+    );
+  }
+
+  // If user is logged in but doesn't have subscription, go to pricing
+  if (!hasActiveSubscription) {
     return (
       <Link href={fallbackHref} className={className}>
         {children}
