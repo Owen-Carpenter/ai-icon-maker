@@ -56,18 +56,102 @@ body {
   }
 }
 
-/* Floating animation for hero container */
-@keyframes float {
+/* Organic floating animations with dramatic depth and z-index simulation */
+@keyframes float-organic-1 {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.15;
+    filter: blur(0px);
   }
-  50% {
-    transform: translateY(-8px);
+  20% {
+    transform: translate(15px, -12px) rotate(3deg) scale(1.35);
+    opacity: 0.45;
+    filter: blur(0px);
+  }
+  40% {
+    transform: translate(8px, -25px) rotate(-2deg) scale(0.65);
+    opacity: 0;
+    filter: blur(2px);
+  }
+  60% {
+    transform: translate(-10px, -18px) rotate(4deg) scale(1.25);
+    opacity: 0.38;
+    filter: blur(0px);
+  }
+  80% {
+    transform: translate(-5px, -8px) rotate(-1deg) scale(0.75);
+    opacity: 0.03;
+    filter: blur(1.5px);
   }
 }
 
-.animate-float {
-  animation: float 4s ease-in-out infinite;
+@keyframes float-organic-2 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.16;
+    filter: blur(0px);
+  }
+  25% {
+    transform: translate(-12px, -15px) rotate(-4deg) scale(0.6);
+    opacity: 0;
+    filter: blur(2.5px);
+  }
+  50% {
+    transform: translate(5px, -28px) rotate(2deg) scale(1.4);
+    opacity: 0.5;
+    filter: blur(0px);
+  }
+  75% {
+    transform: translate(10px, -10px) rotate(3deg) scale(1.2);
+    opacity: 0.35;
+    filter: blur(0px);
+  }
+}
+
+@keyframes float-organic-3 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.14;
+    filter: blur(0px);
+  }
+  15% {
+    transform: translate(8px, -8px) rotate(2deg) scale(1.3);
+    opacity: 0.42;
+    filter: blur(0px);
+  }
+  35% {
+    transform: translate(-5px, -20px) rotate(-3deg) scale(0.62);
+    opacity: 0;
+    filter: blur(2.2px);
+  }
+  55% {
+    transform: translate(12px, -22px) rotate(4deg) scale(1.38);
+    opacity: 0.48;
+    filter: blur(0px);
+  }
+  75% {
+    transform: translate(-8px, -12px) rotate(-2deg) scale(0.7);
+    opacity: 0.02;
+    filter: blur(1.8px);
+  }
+  90% {
+    transform: translate(3px, -5px) rotate(1deg) scale(1.15);
+    opacity: 0.28;
+    filter: blur(0px);
+  }
+}
+
+/* Apply animations with custom bezier curves for natural easing */
+.animate-float-organic-1 {
+  animation: float-organic-1 10s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.animate-float-organic-2 {
+  animation: float-organic-2 12s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite;
+}
+
+.animate-float-organic-3 {
+  animation: float-organic-3 11s cubic-bezier(0.42, 0.0, 0.58, 1.0) infinite;
 }
 
 /* Testimonial carousel animations */
