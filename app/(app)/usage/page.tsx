@@ -82,7 +82,6 @@ function UsagePageContent() {
                 <span className="text-2xl sm:text-3xl lg:text-4xl">📊</span>
               </span>
               Usage & 
-              
               <span className="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent">Limits</span>
             </h1>
             <p className="text-base sm:text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl mx-auto px-4">
