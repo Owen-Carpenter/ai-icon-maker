@@ -78,10 +78,11 @@ function UsagePageContent() {
           {/* Header */}
           <div className="px-6 sm:px-8 lg:px-12 py-8 text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-              Usage & 
-              <span className="inline-flex items-center mx-1 sm:mx-2">
+            <span className="inline-flex items-center mx-1 sm:mx-2">
                 <span className="text-2xl sm:text-3xl lg:text-4xl">📊</span>
               </span>
+              Usage & 
+              
               <span className="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent">Limits</span>
             </h1>
             <p className="text-base sm:text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl mx-auto px-4">
