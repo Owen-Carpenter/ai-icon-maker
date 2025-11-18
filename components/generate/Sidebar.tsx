@@ -169,6 +169,7 @@ export default function Sidebar({ currentPage = 'generate', onStartWalkthrough, 
                           <div 
                   onClick={() => {
                     if (onStartWalkthrough) {
+                      setIsMobileMenuOpen(false); // Close mobile menu before starting walkthrough
                       onStartWalkthrough();
                     } else {
                     }
