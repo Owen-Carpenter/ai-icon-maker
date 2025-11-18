@@ -132,111 +132,160 @@ export default function Walkthrough({ steps, isActive, onComplete, onSkip }: Wal
 
   return (
     <>
-      {/* Overlay */}
-      <div className="fixed inset-0 bg-black/50 z-[9998] transition-opacity duration-300">
-        {/* Highlight cutout for target element */}
+      {/* Overlay with backdrop blur */}
+      <div className="fixed inset-0 bg-gradient-to-br from-black/60 via-black/50 to-black/60 backdrop-blur-sm z-[9998] transition-all duration-500 animate-in fade-in">
+        {/* Spotlight effect around target element */}
         {targetElement && (
-          <div
-            className="absolute border-4 border-sunset-400 rounded-lg shadow-lg shadow-sunset-400/50 animate-pulse"
-            style={{
-              left: targetElement.getBoundingClientRect().left - 8,
-              top: targetElement.getBoundingClientRect().top - 8,
-              width: targetElement.getBoundingClientRect().width + 16,
-              height: targetElement.getBoundingClientRect().height + 16,
-              background: 'transparent',
-              pointerEvents: 'none'
-            }}
-          />
+          <>
+            {/* Animated highlight ring */}
+            <div
+              className="absolute rounded-xl transition-all duration-300"
+              style={{
+                left: targetElement.getBoundingClientRect().left - 12,
+                top: targetElement.getBoundingClientRect().top - 12,
+                width: targetElement.getBoundingClientRect().width + 24,
+                height: targetElement.getBoundingClientRect().height + 24,
+                background: 'radial-gradient(circle, rgba(251, 146, 60, 0.15) 0%, transparent 70%)',
+                pointerEvents: 'none'
+              }}
+            />
+            {/* Glowing border */}
+            <div
+              className="absolute rounded-xl border-2 border-sunset-400/60 shadow-[0_0_30px_rgba(251,146,60,0.4)] transition-all duration-300"
+              style={{
+                left: targetElement.getBoundingClientRect().left - 8,
+                top: targetElement.getBoundingClientRect().top - 8,
+                width: targetElement.getBoundingClientRect().width + 16,
+                height: targetElement.getBoundingClientRect().height + 16,
+                pointerEvents: 'none',
+                animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+              }}
+            />
+            {/* Inner highlight */}
+            <div
+              className="absolute rounded-lg border border-white/20 transition-all duration-300"
+              style={{
+                left: targetElement.getBoundingClientRect().left - 4,
+                top: targetElement.getBoundingClientRect().top - 4,
+                width: targetElement.getBoundingClientRect().width + 8,
+                height: targetElement.getBoundingClientRect().height + 8,
+                pointerEvents: 'none'
+              }}
+            />
+          </>
         )}
       </div>
 
-      {/* Tooltip */}
+      {/* Enhanced Tooltip Card */}
       <div
         ref={tooltipRef}
-        className="fixed z-[9999] bg-white rounded-xl shadow-2xl border border-gray-200 p-6 max-w-sm animate-fade-in"
+        className="fixed z-[9999] bg-gradient-to-br from-white via-white to-orange-50/30 rounded-2xl shadow-2xl border border-orange-100/50 backdrop-blur-sm p-7 max-w-md animate-in fade-in slide-in-from-bottom-4 duration-300"
         style={{
           left: tooltipPosition.x,
           top: tooltipPosition.y,
-          transform: 'translateZ(0)' // Force hardware acceleration
+          transform: 'translateZ(0)',
+          boxShadow: '0 20px 60px -15px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(251, 146, 60, 0.1)'
         }}
       >
+
         {/* Step indicator */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-sunset-500 rounded-full"></div>
-            <span className="text-xs font-medium text-gray-500">
-              Step {currentStep + 1} of {steps.length}
-            </span>
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-sunset-500 to-coral-500 rounded-full shadow-sm">
+              <span className="text-white text-xs font-bold">
+                {currentStep + 1}
+              </span>
+            </div>
+            <div>
+              <span className="text-xs font-semibold text-sunset-600 uppercase tracking-wide">
+                Step {currentStep + 1} of {steps.length}
+              </span>
+              <div className="flex space-x-1 mt-1">
+                {steps.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-1 rounded-full transition-all duration-300 ${
+                      index === currentStep
+                        ? 'w-6 bg-sunset-500'
+                        : index < currentStep
+                        ? 'w-3 bg-sunset-300'
+                        : 'w-3 bg-gray-200'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
           <button
             onClick={skipWalkthrough}
-            className="text-gray-400 hover:text-gray-600 text-xs font-medium transition-colors"
+            className="text-gray-400 hover:text-gray-600 text-xs font-semibold transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100/50"
           >
-            Skip tour
+            ✕ Skip
           </button>
         </div>
 
-        {/* Content */}
+        {/* Content with icon */}
         <div className="mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            {step.title}
-          </h3>
-          <p className="text-gray-600 text-sm leading-relaxed">
+          <div className="flex items-start space-x-3 mb-3">
+            <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-sunset-100 to-coral-100 rounded-xl flex items-center justify-center">
+              <span className="text-xl">
+                {currentStep === 0 ? '👋' : currentStep === steps.length - 1 ? '🎉' : '💡'}
+              </span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-xl font-bold text-gray-900 mb-2 leading-tight">
+                {step.title}
+              </h3>
+            </div>
+          </div>
+          <p className="text-gray-600 text-sm leading-relaxed pl-13">
             {step.content}
           </p>
         </div>
 
-        {/* Action buttons */}
-        <div className="flex items-center justify-between">
+        {/* Action buttons with better styling */}
+        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
           <button
             onClick={prevStep}
             disabled={currentStep === 0}
-            className="text-gray-500 hover:text-gray-700 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-semibold transition-all px-4 py-2 rounded-lg hover:bg-gray-100/50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent group"
           >
-            Previous
+            <svg className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Back</span>
           </button>
           
-          <div className="flex items-center space-x-3">
-            {/* Progress dots */}
-            <div className="flex space-x-1">
-              {steps.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    index === currentStep
-                      ? 'bg-sunset-500'
-                      : index < currentStep
-                      ? 'bg-sunset-300'
-                      : 'bg-gray-200'
-                  }`}
-                />
-              ))}
-            </div>
-            
-            <button
-              onClick={nextStep}
-              className="bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-sm hover:shadow-md"
-            >
-              {isLastStep ? 'Finish' : step.nextButton || 'Next'}
-            </button>
-          </div>
+          <button
+            onClick={nextStep}
+            className="flex items-center space-x-2 bg-gradient-to-r from-sunset-500 to-coral-500 hover:from-sunset-600 hover:to-coral-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 group"
+          >
+            <span>{isLastStep ? '🎯 Finish Tour' : step.nextButton || 'Continue'}</span>
+            {!isLastStep && (
+              <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            )}
+          </button>
         </div>
 
-        {/* Pointer arrow */}
+        {/* Enhanced pointer arrow with gradient */}
         {step.position !== 'center' && (
-          <div
-            className={`absolute w-3 h-3 bg-white border-gray-200 transform rotate-45 ${
-              step.position === 'top'
-                ? 'bottom-[-6px] left-1/2 -translate-x-1/2 border-b border-r'
-                : step.position === 'bottom'
-                ? 'top-[-6px] left-1/2 -translate-x-1/2 border-t border-l'
-                : step.position === 'left'
-                ? 'right-[-6px] top-1/2 -translate-y-1/2 border-t border-r'
-                : step.position === 'right'
-                ? 'left-[-6px] top-1/2 -translate-y-1/2 border-b border-l'
-                : ''
-            }`}
-          />
+          <>
+            <div
+              className={`absolute w-4 h-4 bg-gradient-to-br from-white to-orange-50/30 border-orange-100/50 transform rotate-45 ${
+                step.position === 'top'
+                  ? 'bottom-[-8px] left-1/2 -translate-x-1/2 border-b border-r'
+                  : step.position === 'bottom'
+                  ? 'top-[-8px] left-1/2 -translate-x-1/2 border-t border-l'
+                  : step.position === 'left'
+                  ? 'right-[-8px] top-1/2 -translate-y-1/2 border-t border-r'
+                  : step.position === 'right'
+                  ? 'left-[-8px] top-1/2 -translate-y-1/2 border-b border-l'
+                  : ''
+              }`}
+            />
+          </>
         )}
       </div>
     </>
