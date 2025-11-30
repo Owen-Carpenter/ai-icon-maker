@@ -1,18 +1,20 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import ScrollAnimation from '../../components/ScrollAnimation';
-import Navbar from '../../components/Navbar';
+import ScrollAnimation from './ScrollAnimation';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import TestimonialCarousel from './TestimonialCarousel';
+import SmartGenerateLink from './SmartGenerateLink';
+import { useAuth } from '../contexts/AuthContext';
+import { getPlanPriority } from '../lib/subscription-plans';
 
-import Footer from '../../components/Footer';
-import TestimonialCarousel from '../../components/TestimonialCarousel';
-import Link from 'next/link';
-import SmartGenerateLink from '../../components/SmartGenerateLink';
-import Logo from '../../components/ui/Logo';
-import { useAuth } from '../../contexts/AuthContext';
-import { getPlanPriority } from '../../lib/subscription-plans';
+interface MarketingPageLayoutProps {
+  h1Title: string;
+  h2Subtitle: string;
+}
 
-export default function HomePage() {
+export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPageLayoutProps) {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -182,6 +184,7 @@ export default function HomePage() {
       setIsSubmitting(false);
     }
   };
+
   return (
     <div className="min-h-screen bg-dark-gradient">
       {/* Navigation */}
@@ -217,12 +220,11 @@ export default function HomePage() {
         </div>
         <div className="flex flex-col items-center justify-center text-center w-full relative z-10">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-            AI Icon Generator for
-            <span className="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent mx-2">App Icons, Logos & PNGs</span>
+            {h1Title}
           </h1>
           
           <h2 className="text-base sm:text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl px-4">
-            Create professional custom icons, SVG logos, and PNG assets in seconds with our advanced AI Icon Maker.
+            {h2Subtitle}
           </h2>
           
           {/* Main Input Field */}
@@ -1123,4 +1125,5 @@ export default function HomePage() {
       <Footer />
     </div>
   );
-} 
+}
+

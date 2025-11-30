@@ -20,28 +20,33 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* App Features */}
+          {/* Tools (SEO Pages) */}
           <div>
-            <h3 className="text-white font-semibold mb-4">App Features</h3>
+            <h3 className="text-white font-semibold mb-4">Tools</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/generate" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Generate Icons
+                <Link href="/ai-icon-generator" className="text-gray-300 hover:text-white transition-colors duration-300">
+                  AI Icon Generator
                 </Link>
               </li>
               <li>
-                <Link href="/library" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Icon Library
+                <Link href="/app-icon-maker" className="text-gray-300 hover:text-white transition-colors duration-300">
+                  App Icon Maker
                 </Link>
               </li>
               <li>
-                <Link href="/usage" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Usage & Limits
+                <Link href="/png-icon-generator" className="text-gray-300 hover:text-white transition-colors duration-300">
+                  PNG Icon Generator
                 </Link>
               </li>
               <li>
-                <Link href="/account" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Account Settings
+                <Link href="/favicon-generator-ai" className="text-gray-300 hover:text-white transition-colors duration-300">
+                  Favicon Generator
+                </Link>
+              </li>
+              <li>
+                <Link href="/icon-set-generator" className="text-gray-300 hover:text-white transition-colors duration-300">
+                  Icon Set Generator
                 </Link>
               </li>
             </ul>
@@ -126,4 +131,4 @@ export default function Footer() {
       </div>
     </footer>
   );
-} 
+}
