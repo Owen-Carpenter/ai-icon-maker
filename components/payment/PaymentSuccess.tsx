@@ -16,6 +16,16 @@ export default function PaymentSuccess() {
     if (sessionId) {
       // You could verify the session here if needed
       setLoading(false);
+      
+      // Track Google Ads conversion
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'conversion', {
+          'send_to': 'AW-17770613842',
+          'value': 1.0,
+          'currency': 'USD',
+          'transaction_id': sessionId
+        });
+      }
     } else {
       setError('Invalid payment session');
       setLoading(false);
