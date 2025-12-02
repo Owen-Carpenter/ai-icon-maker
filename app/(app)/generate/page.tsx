@@ -56,6 +56,14 @@ function GeneratePageContent() {
       invalidateCache();
       refreshUserData(true);
       
+      // Track Google Ads conversion event
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'conversion', {
+          'send_to': 'AW-17770613842/cu66CKmU5sobENKY2JlC',
+          'transaction_id': ''
+        });
+      }
+      
       // Auto-hide after 10 seconds
       setTimeout(() => {
         setShowSuccess(false);
