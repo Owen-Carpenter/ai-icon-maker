@@ -16,7 +16,7 @@ interface UserData {
   updated_at: string
   
   // Subscription info
-  subscription: {
+  subscription: { 
     id?: string
     plan_type: string
     status: string
