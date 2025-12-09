@@ -195,13 +195,13 @@ function UsagePageContent() {
                   <div className="grid grid-cols-2 gap-4 pt-4">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-white">{creditsUsed}</div>
-                      <div className="text-sunset-200 text-sm">Icons Created</div>
+                      <div className="text-sunset-200 text-sm">Credits Used</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-white">
                         {isUnlimited ? '∞' : creditsRemaining}
                       </div>
-                      <div className="text-sunset-200 text-sm">Remaining</div>
+                      <div className="text-sunset-200 text-sm">Credits Remaining</div>
                     </div>
                   </div>
 
@@ -285,7 +285,7 @@ function UsagePageContent() {
                           <span className="text-green-400 font-semibold">Active Subscription</span>
                         </div>
                         <p className="text-sunset-200 text-sm">
-                          Your subscription is active and you can generate {isUnlimited ? 'unlimited' : creditsRemaining} more icons.
+                          Your subscription is active and you have {isUnlimited ? 'unlimited' : creditsRemaining} credits remaining.
                         </p>
                       </div>
                     </>
