@@ -2,49 +2,23 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useAuth } from '../contexts/AuthContext';
 
 interface SmartGenerateLinkProps {
   children: React.ReactNode;
   className?: string;
-  fallbackHref?: string; // Where to redirect if no subscription (defaults to /#pricing)
+  fallbackHref?: string; // Deprecated - kept for backwards compatibility
 }
 
+/**
+ * SmartGenerateLink - Always links to /generate
+ * Auth and subscription checks now happen when user tries to generate icons
+ */
 export default function SmartGenerateLink({ 
   children, 
   className = '',
-  fallbackHref = '/#pricing'
+  fallbackHref // Kept for backwards compatibility but not used
 }: SmartGenerateLinkProps) {
-  const { user, hasActiveSubscription, loading } = useAuth();
-
-  // While loading, don't redirect anywhere
-  if (loading) {
-    return (
-      <span className={className}>
-        {children}
-      </span>
-    );
-  }
-
-  // If user is not logged in, redirect to register
-  if (!user) {
-    return (
-      <Link href="/register" className={className}>
-        {children}
-      </Link>
-    );
-  }
-
-  // If user is logged in but doesn't have subscription, go to pricing
-  if (!hasActiveSubscription) {
-    return (
-      <Link href={fallbackHref} className={className}>
-        {children}
-      </Link>
-    );
-  }
-
-  // User has active subscription, go to generate page
+  // Always go to generate page - auth check happens when user tries to generate
   return (
     <Link href="/generate" className={className}>
       {children}

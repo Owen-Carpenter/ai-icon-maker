@@ -117,7 +117,7 @@ export default function Navbar({ variant = 'marketing' }: NavbarProps) {
     if (variant === 'marketing') {
       return [
         { href: '#how-it-works', label: 'Process' },
-        { href: '/generate', label: 'Generate', isSmartLink: true },
+        { href: '/generate', label: 'Generate' }, // Regular link - auth check happens on action
         { href: '#pricing', label: 'Pricing' }
       ];
     } else {

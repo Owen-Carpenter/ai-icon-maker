@@ -115,8 +115,8 @@ function GeneratePageContent() {
     };
   }, [isGenerating]);
 
-  // Show loading state
-  if (loading) {
+  // Show loading state only if we have a user being loaded
+  if (loading && user) {
     return <Loading text="Loading your workspace..." />;
   }
 
@@ -125,20 +125,25 @@ function GeneratePageContent() {
     return <Loading text="Processing your payment... Please wait." />;
   }
 
-  // Subscription status checked
-  
-  // Show subscription gate if user doesn't have active subscription
-  if (!hasActiveSubscription) {
-    return (
-      <SubscriptionGate 
-        title="Premium Workspace Required"
-        description="Upgrade to start generating amazing AI icons with our advanced tools."
-      />
-    );
-  }
+  // Note: We no longer block access to the page here
+  // Auth and subscription checks happen when user tries to generate
 
   const handleGenerate = async (prompt: string, style: string, color: string) => {
     if (!prompt.trim()) return;
+
+    // Check authentication first
+    if (!user) {
+      // User is not authenticated, redirect to register
+      router.push('/register?redirect=/generate');
+      return;
+    }
+
+    // Check subscription status
+    if (!hasActiveSubscription) {
+      // User is authenticated but doesn't have active subscription
+      router.push('/#pricing');
+      return;
+    }
 
     // For improvement mode, build upon the existing prompt and conversation context
     let finalPrompt = prompt.trim();

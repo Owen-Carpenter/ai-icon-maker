@@ -63,10 +63,10 @@ export async function middleware(req: NextRequest) {
   await supabase.auth.getSession()
 
   // Define route types
-  const appRoutes = ['/generate', '/library'] // Routes that require both auth AND subscription
+  const appRoutes = ['/library'] // Routes that require both auth AND subscription
   const accountRoutes = ['/account'] // Routes that require auth but not necessarily subscription
   const authRoutes = ['/login', '/register', '/forgot-password']
-  const publicRoutes = ['/'] // Routes that don't require auth
+  const publicRoutes = ['/', '/generate'] // Routes that don't require auth (generate checks on action)
   const callbackRoutes = ['/auth/callback', '/verify'] // Auth callback routes that should not redirect
 
   const { data: { user } } = await supabase.auth.getUser()
