@@ -354,61 +354,74 @@ export default function HomePage() {
       </div>
 
       {/* How It Works Section */}
-      <div id="how-it-works" className="bg-midnight-900/30 py-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
+      <div id="how-it-works" className="bg-midnight-900/30 py-24 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-coral-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto max-w-7xl relative z-10">
+          <div className="text-center mb-20">
             <ScrollAnimation>
-            <h2 className="text-4xl font-bold text-white mb-4">How It Works</h2>
+              <div className="inline-block mb-4">
+                <span className="text-coral-400 font-semibold text-sm uppercase tracking-wider bg-coral-500/10 px-4 py-2 rounded-full">Simple Process</span>
+              </div>
+            </ScrollAnimation>
+            <ScrollAnimation delay={100}>
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">How It Works</h2>
+            </ScrollAnimation>
+            <ScrollAnimation delay={200}>
+              <p className="text-sunset-200 text-lg max-w-2xl mx-auto">
+                From idea to icon in three simple steps. No design experience required.
+              </p>
             </ScrollAnimation>
           </div>
           
-          <div className="space-y-32">
+          <div className="space-y-24 lg:space-y-32">
             {/* Step 1 - Left Side */}
             <ScrollAnimation delay={100}>
-              <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+              <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 {/* Content - Left */}
-                <div className="order-2 lg:order-1 space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-coral-gradient rounded-2xl flex items-center justify-center shadow-lg">
-                      <span className="text-2xl font-bold text-white">1</span>
+                <div className="order-2 lg:order-1 space-y-6 bg-gradient-to-br from-midnight-800/40 to-midnight-900/40 backdrop-blur-sm p-8 lg:p-10 rounded-3xl border border-white/5">
+                  <div className="flex items-center gap-4 mb-2">
+                    <div className="w-16 h-16 bg-coral-gradient rounded-2xl flex items-center justify-center shadow-xl shadow-coral-500/20 ring-4 ring-coral-500/10">
+                      <span className="text-3xl font-bold text-white">1</span>
                     </div>
-                    <div className="h-px bg-gradient-to-r from-coral-500 to-transparent flex-1"></div>
+                    <div className="h-px bg-gradient-to-r from-coral-500 via-coral-400 to-transparent flex-1"></div>
                   </div>
-                  <h3 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                  <h3 className="text-3xl lg:text-4xl font-bold text-white leading-tight">
                     Speak Your Vision
                   </h3>
-                  <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
+                  <p className="text-sunset-200 text-lg leading-relaxed">
                     Simply describe what you envision and watch our AI bring it to life. From "minimalist shopping cart" to "futuristic rocket with neon glow" - your words become stunning icons.
                   </p>
-                  <div className="pt-4">
-                    <div className="inline-flex items-center gap-2 text-coral-400 font-medium">
-                      <span>Start creating</span>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
+                  <div className="flex items-center gap-3 pt-2">
+                    <div className="w-2 h-2 bg-coral-400 rounded-full animate-pulse"></div>
+                    <span className="text-coral-400 font-medium text-sm">Natural language processing</span>
                   </div>
                 </div>
                 
                 {/* Visual - Right */}
                 <div className="order-1 lg:order-2">
-                  <div className="relative">
-                    <div className="bg-coral-gradient rounded-3xl p-4 shadow-2xl">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[400px] sm:h-[350px] md:h-[400px]">
-                        <video
-                          className="w-full h-full object-cover rounded-2xl"
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                        >
-                          <source src="/videos/Step1.mp4" type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-coral-gradient rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+                    <div className="relative bg-coral-gradient rounded-3xl p-1 shadow-2xl">
+                      <div className="bg-midnight-900 rounded-[1.3rem] p-3">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[350px] lg:h-[400px]">
+                          <video
+                            className="w-full h-full object-cover rounded-2xl"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                          >
+                            <source src="/videos/Step1.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
                       </div>
                     </div>
-                    <div className="absolute -top-4 -right-4 w-8 h-8 bg-coral-400 rounded-full"></div>
-                    <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-coral-300 rounded-full"></div>
+                    <div className="absolute -top-4 -right-4 w-10 h-10 bg-coral-400 rounded-full shadow-lg shadow-coral-500/50 animate-float-organic-1"></div>
+                    <div className="absolute -bottom-4 -left-4 w-7 h-7 bg-coral-300 rounded-full shadow-lg shadow-coral-400/50 animate-float-organic-2"></div>
                   </div>
                 </div>
               </div>
@@ -416,50 +429,49 @@ export default function HomePage() {
 
             {/* Step 2 - Right Side */}
             <ScrollAnimation delay={200}>
-              <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+              <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 {/* Visual - Left */}
                 <div className="order-1">
-                  <div className="relative">
-                    <div className="bg-sunset-gradient rounded-3xl p-4 shadow-2xl">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[400px] sm:h-[350px] md:h-[400px]">
-                        <video
-                          className="w-full h-full object-cover rounded-2xl"
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                        >
-                          <source src="/videos/Step2.mp4" type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-sunset-gradient rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+                    <div className="relative bg-sunset-gradient rounded-3xl p-1 shadow-2xl">
+                      <div className="bg-midnight-900 rounded-[1.3rem] p-3">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[350px] lg:h-[400px]">
+                          <video
+                            className="w-full h-full object-cover rounded-2xl"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                          >
+                            <source src="/videos/Step2.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
                       </div>
                     </div>
-                    <div className="absolute -top-4 -left-4 w-8 h-8 bg-sunset-400 rounded-full"></div>
-                    <div className="absolute -bottom-4 -right-4 w-6 h-6 bg-sunset-300 rounded-full"></div>
+                    <div className="absolute -top-4 -left-4 w-10 h-10 bg-sunset-400 rounded-full shadow-lg shadow-sunset-500/50 animate-float-organic-2"></div>
+                    <div className="absolute -bottom-4 -right-4 w-7 h-7 bg-sunset-300 rounded-full shadow-lg shadow-sunset-400/50 animate-float-organic-1"></div>
                   </div>
                 </div>
                 
                 {/* Content - Right */}
-                <div className="order-2 space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-sunset-gradient rounded-2xl flex items-center justify-center shadow-lg">
-                      <span className="text-2xl font-bold text-white">2</span>
+                <div className="order-2 space-y-6 bg-gradient-to-br from-midnight-800/40 to-midnight-900/40 backdrop-blur-sm p-8 lg:p-10 rounded-3xl border border-white/5">
+                  <div className="flex items-center gap-4 mb-2">
+                    <div className="w-16 h-16 bg-sunset-gradient rounded-2xl flex items-center justify-center shadow-xl shadow-sunset-500/20 ring-4 ring-sunset-500/10">
+                      <span className="text-3xl font-bold text-white">2</span>
                     </div>
-                    <div className="h-px bg-gradient-to-r from-sunset-500 to-transparent flex-1"></div>
+                    <div className="h-px bg-gradient-to-r from-sunset-500 via-sunset-400 to-transparent flex-1"></div>
                   </div>
-                  <h3 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                  <h3 className="text-3xl lg:text-4xl font-bold text-white leading-tight">
                     Watch Ideas Transform
                   </h3>
-                  <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
+                  <p className="text-sunset-200 text-lg leading-relaxed">
                     GPT Image 1 works its magic, analyzing every word and crafting multiple professional-grade variations. Each icon is pixel-perfect and ready for any project.
                   </p>
-                  <div className="pt-4">
-                    <div className="inline-flex items-center gap-2 text-sunset-400 font-medium">
-                      <span>Watch the magic</span>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
+                  <div className="flex items-center gap-3 pt-2">
+                    <div className="w-2 h-2 bg-sunset-400 rounded-full animate-pulse"></div>
+                    <span className="text-sunset-400 font-medium text-sm">AI-powered generation</span>
                   </div>
                 </div>
               </div>
@@ -467,50 +479,49 @@ export default function HomePage() {
 
             {/* Step 3 - Left Side */}
             <ScrollAnimation delay={300}>
-              <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+              <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 {/* Content - Left */}
-                <div className="order-2 lg:order-1 space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-aurora-gradient rounded-2xl flex items-center justify-center shadow-lg">
-                      <span className="text-2xl font-bold text-white">3</span>
+                <div className="order-2 lg:order-1 space-y-6 bg-gradient-to-br from-midnight-800/40 to-midnight-900/40 backdrop-blur-sm p-8 lg:p-10 rounded-3xl border border-white/5">
+                  <div className="flex items-center gap-4 mb-2">
+                    <div className="w-16 h-16 bg-aurora-gradient rounded-2xl flex items-center justify-center shadow-xl shadow-purple-500/20 ring-4 ring-purple-500/10">
+                      <span className="text-3xl font-bold text-white">3</span>
                     </div>
-                    <div className="h-px bg-gradient-to-r from-purple-400 to-transparent flex-1"></div>
+                    <div className="h-px bg-gradient-to-r from-purple-400 via-purple-300 to-transparent flex-1"></div>
                   </div>
-                  <h3 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
+                  <h3 className="text-3xl lg:text-4xl font-bold text-white leading-tight">
                     Perfect & Deploy
                   </h3>
-                  <p className="text-sunset-200 text-xl leading-relaxed max-w-lg">
+                  <p className="text-sunset-200 text-lg leading-relaxed">
                     Select your favorite from multiple stunning variations, download instantly as high-quality PNG, or save to your organized library. Your perfect icon is ready in seconds.
                   </p>
-                  <div className="pt-4">
-                    <div className="inline-flex items-center gap-2 text-purple-400 font-medium">
-                      <span>Get your icons</span>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
+                  <div className="flex items-center gap-3 pt-2">
+                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                    <span className="text-purple-400 font-medium text-sm">Instant PNG download</span>
                   </div>
                 </div>
                 
                 {/* Visual - Right */}
                 <div className="order-1 lg:order-2">
-                  <div className="relative">
-                    <div className="bg-aurora-gradient rounded-3xl p-4 shadow-2xl">
-                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[400px] sm:h-[350px] md:h-[400px]">
-                        <video
-                          className="w-full h-full object-cover rounded-2xl"
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                        >
-                          <source src="/videos/Step3.mp4" type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-aurora-gradient rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+                    <div className="relative bg-aurora-gradient rounded-3xl p-1 shadow-2xl">
+                      <div className="bg-midnight-900 rounded-[1.3rem] p-3">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden h-[350px] lg:h-[400px]">
+                          <video
+                            className="w-full h-full object-cover rounded-2xl"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                          >
+                            <source src="/videos/Step3.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
                       </div>
                     </div>
-                    <div className="absolute -top-4 -right-4 w-8 h-8 bg-purple-400 rounded-full"></div>
-                    <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-purple-300 rounded-full"></div>
+                    <div className="absolute -top-4 -right-4 w-10 h-10 bg-purple-400 rounded-full shadow-lg shadow-purple-500/50 animate-float-organic-1"></div>
+                    <div className="absolute -bottom-4 -left-4 w-7 h-7 bg-purple-300 rounded-full shadow-lg shadow-purple-400/50 animate-float-organic-3"></div>
                   </div>
                 </div>
               </div>
