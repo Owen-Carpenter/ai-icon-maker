@@ -9,8 +9,8 @@ export const metadata = {
 export default function IconSetGeneratorPage() {
   return (
     <MarketingPageLayout
-      h1Title="AI Icon Set Generator - Consistent Icon Packs"
-      h2Subtitle="Build consistent, cohesive icon packs for your entire project in minutes with AI-powered generation."
+      h1Title='Create Icon <span class="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent">Sets</span>'
+      h2Subtitle="Generate multiple matching PNG icons with consistent style for your entire design system or app in minutes."
     />
   );
 }

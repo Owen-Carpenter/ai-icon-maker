@@ -217,12 +217,12 @@ export default function HomePage() {
         </div>
         <div className="flex flex-col items-center justify-center text-center w-full relative z-10">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-            AI Icon Generator for
-            <span className="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent mx-2">App Icons, Logos & PNGs</span>
+            Create Icons with
+            <span className="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent"> AI</span>
           </h1>
           
           <h2 className="text-base sm:text-lg lg:text-xl text-sunset-200 mb-8 max-w-2xl px-4">
-            Create professional custom icons, SVG logos, and PNG assets in seconds with our advanced AI Icon Maker.
+            Generate professional PNG icons, app icons, and logos in seconds with our advanced AI-powered icon maker.
           </h2>
           
           {/* Main Input Field */}
@@ -303,11 +303,11 @@ export default function HomePage() {
       </div>
 
       {/* Demo Section - Now with title/subtitle below the video */}
-      <div className="pt-[32rem] pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16" style={{background: 'radial-gradient(ellipse at top, rgb(154, 52, 18), rgb(55, 65, 81), rgb(31, 41, 55))'}}>
+      <div className="pt-[38rem] pb-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16" style={{background: 'radial-gradient(ellipse at top, rgb(154, 52, 18), rgb(55, 65, 81), rgb(31, 41, 55))'}}>
         <div className="container mx-auto text-center">
           {/* Title and subtitle positioned below the video */}
           <ScrollAnimation delay={300}>
-            <h2 className="text-4xl font-bold text-white mb-4">From Words to Wonders in Seconds</h2>
+            <h2 className="text-4xl font-bold text-white mb-12">From Words to Wonders in Seconds</h2>
           </ScrollAnimation>
           <ScrollAnimation delay={400}>
             <p className="text-sunset-200 mb-12 max-w-2xl mx-auto">

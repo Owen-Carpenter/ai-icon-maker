@@ -9,8 +9,8 @@ export const metadata = {
 export default function AppIconMakerPage() {
   return (
     <MarketingPageLayout
-      h1Title="AI App Icon Maker for iOS & Android"
-      h2Subtitle="Design the perfect app icon for the App Store and Google Play in seconds with AI-powered generation."
+      h1Title='Make App <span class="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent">Icons</span>'
+      h2Subtitle="Create stunning PNG app icons for iOS and Android apps with AI - perfect for the App Store and Google Play."
     />
   );
 }

@@ -9,8 +9,8 @@ export const metadata = {
 export default function PngIconGeneratorPage() {
   return (
     <MarketingPageLayout
-      h1Title="PNG Style Icon Generator - Vector Icons with AI"
-      h2Subtitle="Generate crisp, scalable vector-style icons perfect for modern web design and professional projects."
+      h1Title='Create PNG <span class="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent">Icons</span>'
+      h2Subtitle="Generate high-quality PNG icons with AI for websites, apps, presentations, and professional projects."
     />
   );
 }

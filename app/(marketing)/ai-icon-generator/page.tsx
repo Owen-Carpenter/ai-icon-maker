@@ -9,8 +9,8 @@ export const metadata = {
 export default function AiIconGeneratorPage() {
   return (
     <MarketingPageLayout
-      h1Title="AI Icon Generator for App Icons, Logos & PNGs"
-      h2Subtitle="Create professional custom icons, SVG logos, and PNG assets in seconds with our advanced AI Icon Maker."
+      h1Title='Generate AI <span class="bg-gradient-to-r from-sunset-500 to-coral-500 bg-clip-text text-transparent">Icons</span>'
+      h2Subtitle="Create professional PNG icons, app icons, and logos in seconds with our advanced AI-powered generator."
     />
   );
 }
