@@ -986,13 +986,22 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
             <ScrollAnimation>
               <div className="flex justify-center items-center mb-6">
                 <div className="flex -space-x-2">
-                  <div className="w-10 h-10 bg-gradient-to-br from-sunset-500 to-coral-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">D</div>
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">S</div>
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">M</div>
-                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">A</div>
-                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">K</div>
-                  <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">L</div>
-                  <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-red-500 rounded-full flex items-center justify-center text-white font-bold border-2 border-white shadow-lg">T</div>
+                  <img src="https://i.pravatar.cc/150?img=12" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-lg object-cover" />
+                  <img src="https://i.pravatar.cc/150?img=45" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-lg object-cover" />
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border-2 border-white shadow-lg p-1.5">
+                    <img src="/logos/logoipsum-280.svg" alt="Company" className="w-full h-full object-contain" />
+                  </div>
+                  <img src="https://i.pravatar.cc/150?img=33" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-lg object-cover" />
+                  <img src="https://i.pravatar.cc/150?img=68" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-lg object-cover" />
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border-2 border-white shadow-lg p-1.5">
+                    <img src="/logos/logoipsum-339.svg" alt="Company" className="w-full h-full object-contain" />
+                  </div>
+                  <img src="https://i.pravatar.cc/150?img=15" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-lg object-cover" />
+                  <img src="https://i.pravatar.cc/150?img=47" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-lg object-cover" />
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border-2 border-white shadow-lg p-1.5">
+                    <img src="/logos/logoipsum-405.svg" alt="Company" className="w-full h-full object-contain" />
+                  </div>
+                  <img src="https://i.pravatar.cc/150?img=59" alt="User" className="w-10 h-10 rounded-full border-2 border-white shadow-lg object-cover" />
                 </div>
               </div>
               <p className="text-sunset-200 mb-4">500+ Designers & developers trust AI Icon Maker</p>
