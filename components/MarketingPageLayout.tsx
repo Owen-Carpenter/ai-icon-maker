@@ -138,13 +138,19 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
       if (response.ok && data.url) {
         window.location.href = data.url;
       } else {
-        // If not authenticated, redirect to register
-        window.location.href = '/register';
+        // Check if it's an auth error
+        if (response.status === 401) {
+          // Not authenticated, redirect to register
+          window.location.href = '/register';
+        } else {
+          // Other error, show alert
+          console.error('Checkout error:', data.error);
+          alert(data.error || 'Failed to start checkout. Please try again.');
+        }
       }
     } catch (error) {
       console.error('Checkout error:', error);
-      // Fallback to registration
-      window.location.href = '/register';
+      alert('An error occurred. Please try again.');
     } finally {
       setLoadingPlan(null);
     }
