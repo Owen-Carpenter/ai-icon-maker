@@ -371,19 +371,19 @@ function UsagePageContent() {
                   <ul className="space-y-3 text-sunset-200 text-sm">
                     <li className="flex items-start">
                       <span className="text-sunset-400 mr-2">•</span>
-                      Base plan: 25 credits/month ($5)
+                      Starter pack: 25 credits one-time ($5)
                     </li>
                     <li className="flex items-start">
                       <span className="text-sunset-400 mr-2">•</span>
-                      Pro plan: 100 credits/month ($10)
+                      Monthly: 50 credits/month ($10/month)
                     </li>
                     <li className="flex items-start">
                       <span className="text-sunset-400 mr-2">•</span>
-                      Pro+ plan: 200 credits/month ($15)
+                      Yearly: 700 credits/year ($96/year - save $24)
                     </li>
                     <li className="flex items-start">
                       <span className="text-sunset-400 mr-2">•</span>
-                      Credits reset monthly on your renewal date
+                      Subscriptions renew automatically
                     </li>
                   </ul>
                 </div>

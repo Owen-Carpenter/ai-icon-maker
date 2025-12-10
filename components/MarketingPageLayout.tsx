@@ -104,7 +104,7 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
     },
     {
       question: "What if I need more icons?",
-      answer: "Our Pro plan (100 credits/month) covers most professional needs. For agencies and high-volume users, our Profession Plus plan offers 200 credits/month plus advanced features."
+      answer: "Our Monthly subscription ($10/month) gives you 50 credits per month. For the best value, our Yearly plan ($96/year) offers 700 credits per year and saves you $24 annually. Start with our Starter Pack ($5) to try it out first."
     },
     {
       question: "Can I cancel anytime?",
@@ -696,15 +696,15 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
           {/* Pricing Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
             
-            {/* Base Plan */}
+            {/* Starter Pack */}
             <ScrollAnimation delay={200}>
               <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
                 <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-2">Base</h3>
+                  <h3 className="text-2xl font-bold text-white mb-2">Starter Pack</h3>
                   <div className="text-4xl font-bold text-white mb-4">
-                    $5<span className="text-lg font-normal text-sunset-200">/month</span>
+                    $5<span className="text-lg font-normal text-sunset-200"> one-time</span>
                   </div>
-                  <p className="text-sunset-200">Perfect for getting started</p>
+                  <p className="text-sunset-200">Perfect for trying it out</p>
                 </div>
 
                 <ul className="space-y-4 mb-8 flex-1">
@@ -712,13 +712,19 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    25 credits per month
+                    25 credits (one-time)
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    GPT Image 1 powered icon generation
+                    No recurring charges
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    GPT Image 1 powered generation
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -731,12 +737,6 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     Download as PNG
-                  </li>
-                  <li className="flex items-center text-sunset-200">
-                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Save icons to your library
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -747,16 +747,16 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
               </ul>
                 
                 <button 
-                  onClick={() => handleCheckout('base')}
-                  disabled={loadingPlan !== null || isPlanDisabled('base')}
+                  onClick={() => handleCheckout('starter')}
+                  disabled={loadingPlan !== null || isPlanDisabled('starter')}
                   className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 px-6 rounded-full font-semibold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loadingPlan === 'base' ? 'Processing...' : getPlanButtonLabel('base', 'Start with Base')}
+                  {loadingPlan === 'starter' ? 'Processing...' : getPlanButtonLabel('starter', 'Get Started')}
                 </button>
               </div>
             </ScrollAnimation>
 
-            {/* Pro Plan */}
+            {/* Monthly Plan */}
             <ScrollAnimation delay={250}>
               <div className="bg-gradient-to-br from-sunset-500/20 to-coral-500/20 backdrop-blur-md rounded-2xl p-8 border-2 border-sunset-500/50 shadow-2xl hover:shadow-3xl hover:shadow-sunset-500/30 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
                 {/* Popular Badge */}
@@ -767,11 +767,11 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
                 </div>
                 
                 <div className="text-center mb-8 mt-4">
-                  <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
+                  <h3 className="text-2xl font-bold text-white mb-2">Monthly</h3>
                   <div className="text-4xl font-bold text-white mb-4">
                     $10<span className="text-lg font-normal text-sunset-200">/month</span>
                   </div>
-                  <p className="text-sunset-200">Perfect for professionals</p>
+                  <p className="text-sunset-200">Perfect for regular use</p>
                 </div>
 
                 <ul className="space-y-4 mb-8 flex-1">
@@ -779,31 +779,31 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    100 credits per month
+                    50 credits per month
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    GPT Image 1 powered icon generation
+                    Cancel anytime
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Multiple style options
+                    GPT Image 1 powered generation
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Download as PNG
+                    All style options
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Save icons to your library
+                    Icon library & storage
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -826,24 +826,34 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
               </ul>
                 
                 <button 
-                  onClick={() => handleCheckout('pro')}
-                  disabled={loadingPlan !== null || isPlanDisabled('pro')}
+                  onClick={() => handleCheckout('monthly')}
+                  disabled={loadingPlan !== null || isPlanDisabled('monthly')}
                   className="w-full bg-gradient-to-r from-sunset-500 to-coral-500 text-white py-3 px-6 rounded-full font-semibold hover:from-sunset-600 hover:to-coral-600 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loadingPlan === 'pro' ? 'Processing...' : getPlanButtonLabel('pro', 'Start with Pro')}
+                  {loadingPlan === 'monthly' ? 'Processing...' : getPlanButtonLabel('monthly', 'Subscribe Monthly')}
                 </button>
               </div>
             </ScrollAnimation>
 
-            {/* Pro+ Plan */}
+            {/* Yearly Plan */}
             <ScrollAnimation delay={300}>
-              <div className="bg-gradient-to-br from-midnight-900/30 to-midnight-950/50 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-sunset-500/20 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-2">Pro+</h3>
-                  <div className="text-4xl font-bold text-white mb-4">
-                    $15<span className="text-lg font-normal text-sunset-200">/month</span>
+              <div className="bg-gradient-to-br from-purple-500/20 to-indigo-500/20 backdrop-blur-md rounded-2xl p-8 border border-purple-500/30 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
+                {/* Best Value Badge */}
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+                    Best Value
                   </div>
-                  <p className="text-sunset-200">For power users and teams</p>
+                </div>
+                
+                <div className="text-center mb-8 mt-4">
+                  <h3 className="text-2xl font-bold text-white mb-2">Yearly</h3>
+                  <div className="text-4xl font-bold text-white mb-2">
+                    $96<span className="text-lg font-normal text-sunset-200">/year</span>
+                  </div>
+                  <div className="text-sm text-purple-300 font-semibold mb-2">
+                    $8/month • Save $24/year
+                  </div>
+                  <p className="text-sunset-200">Best for committed creators</p>
                 </div>
 
                 <ul className="space-y-4 mb-8 flex-1">
@@ -851,19 +861,19 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    200 credits per month
+                    <span><strong className="text-purple-300">700 credits per year</strong></span>
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Everything in Pro plan
+                    <span><strong className="text-purple-300">Save $24</strong> vs monthly</span>
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    Extended icon library storage
+                    Everything in Monthly plan
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -875,13 +885,7 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    PNG export options
-                  </li>
-                  <li className="flex items-center text-sunset-200">
-                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Commercial usage rights
+                    Extended library storage
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -889,14 +893,20 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
                     </svg>
                     Premium support
                   </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Commercial usage rights
+                  </li>
               </ul>
                 
                 <button 
-                  onClick={() => handleCheckout('proPlus')}
-                  disabled={loadingPlan !== null || isPlanDisabled('proPlus')}
+                  onClick={() => handleCheckout('yearly')}
+                  disabled={loadingPlan !== null || isPlanDisabled('yearly')}
                   className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 px-6 rounded-full font-semibold hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 text-center block shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loadingPlan === 'proPlus' ? 'Processing...' : getPlanButtonLabel('proPlus', 'Start with Pro+')}
+                  {loadingPlan === 'yearly' ? 'Processing...' : getPlanButtonLabel('yearly', 'Subscribe Yearly')}
                 </button>
               </div>
             </ScrollAnimation>
