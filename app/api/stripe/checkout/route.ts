@@ -153,6 +153,10 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    // Determine if this is a one-time purchase or subscription
+    const isOneTime = planType === 'starter'
+    const checkoutMode = isOneTime ? 'payment' : 'subscription'
+    
     // Create checkout session
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -164,13 +168,14 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      mode: 'subscription',
+      mode: checkoutMode,
       allow_promotion_codes: true,
       success_url: `${req.nextUrl?.origin || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/generate?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.nextUrl?.origin || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/account?canceled=true`,
       metadata: {
         user_id: session.user.id,
         plan_type: planType,
+        is_one_time: isOneTime ? 'true' : 'false',
       },
     })
 

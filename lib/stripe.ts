@@ -28,14 +28,24 @@ export const STRIPE_CONFIG = {
 // Server-side function to get actual Stripe price IDs
 export const getStripePriceId = (plan: string): string | null => {
   switch (plan) {
+    // New plan types
+    case 'starter':
+      return process.env.STRIPE_STARTER_PRICE_ID || null;
+    case 'monthly':
+      return process.env.STRIPE_MONTHLY_PRICE_ID || null;
+    case 'yearly':
+      return process.env.STRIPE_YEARLY_PRICE_ID || null;
+    
+    // Legacy plan types (for backward compatibility)
     case 'base':
-      return process.env.STRIPE_BASE_PRICE_ID || null;
+      return process.env.STRIPE_BASE_PRICE_ID || process.env.STRIPE_STARTER_PRICE_ID || null;
     case 'pro':
-      return process.env.STRIPE_PRO_PRICE_ID || null;
+      return process.env.STRIPE_PRO_PRICE_ID || process.env.STRIPE_MONTHLY_PRICE_ID || null;
     case 'proPlus':
-      return process.env.STRIPE_PRO_PLUS_PRICE_ID || null;
+      return process.env.STRIPE_PRO_PLUS_PRICE_ID || process.env.STRIPE_YEARLY_PRICE_ID || null;
     case 'enterprise':
-      return process.env.STRIPE_UNLIMITED_PRICE_ID || null; // Legacy support
+      return process.env.STRIPE_UNLIMITED_PRICE_ID || process.env.STRIPE_YEARLY_PRICE_ID || null;
+    
     default:
       return null;
   }
