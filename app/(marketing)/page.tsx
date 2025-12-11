@@ -1106,7 +1106,7 @@ export default function HomePage() {
                     <select
                       id="subject"
                       name="subject"
-                      className="w-full bg-midnight-800/50 border border-midnight-700 rounded-lg p-3 text-white focus:outline-none focus:border-sunset-400 focus:ring-2 focus:ring-sunset-400/20 transition-all duration-300"
+                      className="w-full bg-midnight-700/50 hover:bg-midnight-600/50 border border-white/20 rounded-lg p-3 text-sunset-300 focus:outline-none focus:border-sunset-500 transition-colors [&>option]:bg-midnight-800 [&>option]:text-white [&>option]:border-none"
                     >
                       <option value="">Select a topic</option>
                       <option value="general">General Question</option>
