@@ -8,12 +8,14 @@ interface PricingSectionProps {
   currentPlan?: string;
   title?: string;
   subtitle?: string;
+  showStarterPack?: boolean;
 }
 
 export default function PricingSection({ 
   currentPlan = '', 
   title = "Choose Your Plan",
-  subtitle = "Select the perfect plan for your icon creation needs"
+  subtitle = "Select the perfect plan for your icon creation needs",
+  showStarterPack = true
 }: PricingSectionProps) {
   return (
     <section className="py-16">
@@ -24,25 +26,28 @@ export default function PricingSection({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {showStarterPack && (
+            <PricingCard 
+              plan="starter" 
+              currentPlan={currentPlan}
+            />
+          )}
           <PricingCard 
-            plan="base" 
-            currentPlan={currentPlan}
-          />
-          <PricingCard 
-            plan="pro" 
+            plan="monthly" 
             currentPlan={currentPlan}
             isPopular={true}
           />
           <PricingCard 
-            plan="proPlus" 
+            plan="yearly" 
             currentPlan={currentPlan}
+            isBestValue={true}
           />
         </div>
 
         <div className="text-center mt-12">
           <p className="text-gray-400 text-sm max-w-2xl mx-auto">
             All plans include secure payment processing, instant account upgrades, and access to our customer support. 
-            You can change or cancel your subscription at any time through your account settings.
+            Subscriptions can be canceled at any time through your account settings.
           </p>
         </div>
       </div>

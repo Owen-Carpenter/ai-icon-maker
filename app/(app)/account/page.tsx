@@ -51,6 +51,18 @@ function AccountPageContent() {
   }
 
   const isPaidPlan = hasActiveSubscription;
+  const currentPlan = userData?.subscription?.plan_type || 'free';
+  
+  // Determine if user should see upgrade options
+  // Show upgrades for: starter pack users, legacy plan users, or users without subscriptions
+  const showUpgradeOptions = !isPaidPlan || 
+                              currentPlan === 'starter' || 
+                              currentPlan === 'base' || 
+                              currentPlan === 'pro' || 
+                              currentPlan === 'proPlus';
+  
+  // For starter pack users, only show subscription options (not another starter pack)
+  const showStarterPack = currentPlan !== 'starter' && !isPaidPlan;
 
   return (
     <div className="min-h-screen bg-dark-gradient flex flex-col">
@@ -127,15 +139,26 @@ function AccountPageContent() {
                       : 'bg-red-500/20 text-red-400 border border-red-500/30'
                   }`}>
                     {(() => {
-                      const plan = userData?.subscription?.plan_type || 'free';
-                      if (!isPaidPlan) return 'Subscription Required';
-                      if (plan === 'enterprise') return 'Enterprise';
-                      return plan.charAt(0).toUpperCase() + plan.slice(1);
+                      if (!isPaidPlan) {
+                        // Check if they have credits from starter pack
+                        const hasCredits = (userData?.usage?.tokens_remaining || 0) > 0;
+                        if (hasCredits) return 'Starter Pack';
+                        return 'No Active Plan';
+                      }
+                      if (currentPlan === 'enterprise') return 'Enterprise';
+                      if (currentPlan === 'starter') return 'Starter Pack';
+                      if (currentPlan === 'monthly') return 'Monthly';
+                      if (currentPlan === 'yearly') return 'Yearly';
+                      if (currentPlan === 'base') return 'Base (Legacy)';
+                      if (currentPlan === 'pro') return 'Pro (Legacy)';
+                      if (currentPlan === 'proPlus') return 'Pro+ (Legacy)';
+                      return currentPlan.charAt(0).toUpperCase() + currentPlan.slice(1);
                     })()}
                   </span>
                 </div>
                 
-                {isPaidPlan ? (
+                {/* Always show credits if user has any */}
+                {(isPaidPlan || (userData?.usage?.tokens_remaining || 0) > 0) ? (
                   <>
                     <div className="flex items-center justify-between">
                       <span className="text-gray-300">Credits Remaining:</span>
@@ -158,15 +181,28 @@ function AccountPageContent() {
                         </span>
                       </div>
                     )}
+                    
+                    {/* Show upgrade suggestion for starter pack or legacy plan users */}
+                    {showUpgradeOptions && isPaidPlan && (
+                      <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4 mt-4">
+                        <div className="flex items-center mb-2">
+                          <Crown className="h-5 w-5 text-purple-400 mr-2" />
+                          <span className="text-purple-400 font-semibold">Upgrade Available</span>
+                        </div>
+                        <p className="text-gray-300 text-sm">
+                          Get more credits and better value with our Monthly or Yearly subscription plans. Check out the options below!
+                        </p>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4">
                     <div className="flex items-center mb-2">
                       <Crown className="h-5 w-5 text-orange-400 mr-2" />
-                      <span className="text-orange-400 font-semibold">Access Required</span>
+                      <span className="text-orange-400 font-semibold">Get Started</span>
                     </div>
                     <p className="text-gray-300 text-sm">
-                      Subscribe to start generating custom icons with AI. Choose from our flexible plans below to unlock unlimited creativity.
+                      Choose a plan to start generating custom icons with AI. Try our Starter Pack or subscribe for ongoing access!
                     </p>
                   </div>
                 )}
@@ -227,12 +263,25 @@ function AccountPageContent() {
             </div>
           </div>
 
-          {/* Pricing Section - Show for users without subscriptions or fully expired subscriptions */}
-          {!isPaidPlan && (
+          {/* Pricing Section - Show for users who can upgrade or don't have active subscriptions */}
+          {showUpgradeOptions && (
             <PricingSection 
-              currentPlan={userData?.subscription?.plan_type || 'free'}
-              title={userData?.subscription?.status === 'canceled' ? 'Resubscribe to Continue' : 'Upgrade Your Plan'}
-              subtitle={userData?.subscription?.status === 'canceled' ? 'Get back to creating amazing icons with our premium features' : 'Get more credits and unlock premium features'}
+              currentPlan={currentPlan}
+              title={
+                !isPaidPlan 
+                  ? 'Choose Your Plan' 
+                  : currentPlan === 'starter' 
+                  ? 'Upgrade to a Subscription' 
+                  : 'Upgrade Your Plan'
+              }
+              subtitle={
+                !isPaidPlan
+                  ? 'Get more credits and start creating amazing icons'
+                  : currentPlan === 'starter'
+                  ? 'Get recurring credits with better value than one-time purchases'
+                  : 'Upgrade to get more credits and better value'
+              }
+              showStarterPack={showStarterPack}
             />
           )}
         </div>
