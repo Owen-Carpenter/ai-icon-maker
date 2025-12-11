@@ -25,23 +25,25 @@ export default function PricingSection({
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">{subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {showStarterPack && (
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
+            {showStarterPack && (
+              <PricingCard 
+                plan="starter" 
+                currentPlan={currentPlan}
+              />
+            )}
             <PricingCard 
-              plan="starter" 
+              plan="monthly" 
               currentPlan={currentPlan}
+              isPopular={true}
             />
-          )}
-          <PricingCard 
-            plan="monthly" 
-            currentPlan={currentPlan}
-            isPopular={true}
-          />
-          <PricingCard 
-            plan="yearly" 
-            currentPlan={currentPlan}
-            isBestValue={true}
-          />
+            <PricingCard 
+              plan="yearly" 
+              currentPlan={currentPlan}
+              isBestValue={true}
+            />
+          </div>
         </div>
 
         <div className="text-center mt-12">

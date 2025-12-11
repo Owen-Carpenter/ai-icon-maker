@@ -54,15 +54,18 @@ function AccountPageContent() {
   const currentPlan = userData?.subscription?.plan_type || 'free';
   
   // Determine if user should see upgrade options
-  // Show upgrades for: starter pack users, legacy plan users, or users without subscriptions
+  // Show upgrades for: users without subscriptions, legacy plan users, or users who want more options
   const showUpgradeOptions = !isPaidPlan || 
-                              currentPlan === 'starter' || 
                               currentPlan === 'base' || 
                               currentPlan === 'pro' || 
                               currentPlan === 'proPlus';
   
-  // For starter pack users, only show subscription options (not another starter pack)
-  const showStarterPack = currentPlan !== 'starter' && !isPaidPlan;
+  // Starter pack is ALWAYS available - it's a credit refill that anyone can purchase
+  const showStarterPack = true;
+  
+  // Show pricing section for users without subscription or with legacy plans
+  // Also show it if user is on monthly/yearly but we want to offer starter pack as refill
+  const showPricingSection = showUpgradeOptions || (isPaidPlan && ['monthly', 'yearly'].includes(currentPlan));
 
   return (
     <div className="min-h-screen bg-dark-gradient flex flex-col">
@@ -182,7 +185,19 @@ function AccountPageContent() {
                       </div>
                     )}
                     
-                    {/* Show upgrade suggestion for starter pack or legacy plan users */}
+                    {/* Show upgrade/refill suggestions */}
+                    {isPaidPlan && (currentPlan === 'monthly' || currentPlan === 'yearly') && (
+                      <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mt-4">
+                        <div className="flex items-center mb-2">
+                          <Crown className="h-5 w-5 text-green-400 mr-2" />
+                          <span className="text-green-400 font-semibold">Need More Credits?</span>
+                        </div>
+                        <p className="text-gray-300 text-sm">
+                          Running low on credits? Purchase a Starter Pack for instant 25 credit refill at any time!
+                        </p>
+                      </div>
+                    )}
+                    {/* Show upgrade suggestion for legacy plan users */}
                     {showUpgradeOptions && isPaidPlan && (
                       <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4 mt-4">
                         <div className="flex items-center mb-2">
@@ -190,7 +205,7 @@ function AccountPageContent() {
                           <span className="text-purple-400 font-semibold">Upgrade Available</span>
                         </div>
                         <p className="text-gray-300 text-sm">
-                          Get more credits and better value with our Monthly or Yearly subscription plans. Check out the options below!
+                          Get more credits and better value with our new Monthly or Yearly subscription plans. Check out the options below!
                         </p>
                       </div>
                     )}
@@ -263,26 +278,30 @@ function AccountPageContent() {
             </div>
           </div>
 
-          {/* Pricing Section - Show for users who can upgrade or don't have active subscriptions */}
-          {showUpgradeOptions && (
-            <PricingSection 
-              currentPlan={currentPlan}
-              title={
-                !isPaidPlan 
-                  ? 'Choose Your Plan' 
-                  : currentPlan === 'starter' 
-                  ? 'Upgrade to a Subscription' 
-                  : 'Upgrade Your Plan'
-              }
-              subtitle={
-                !isPaidPlan
-                  ? 'Get more credits and start creating amazing icons'
-                  : currentPlan === 'starter'
-                  ? 'Get recurring credits with better value than one-time purchases'
-                  : 'Upgrade to get more credits and better value'
-              }
-              showStarterPack={showStarterPack}
-            />
+          {/* Pricing Section - Show for upgrades or credit refills */}
+          {showPricingSection && (
+            <div className="flex justify-center">
+              <div className="w-full max-w-7xl">
+                <PricingSection 
+                  currentPlan={currentPlan}
+                  title={
+                    !isPaidPlan 
+                      ? 'Choose Your Plan' 
+                      : (currentPlan === 'monthly' || currentPlan === 'yearly')
+                      ? 'Need More Credits?'
+                      : 'Upgrade Your Plan'
+                  }
+                  subtitle={
+                    !isPaidPlan
+                      ? 'Get credits and start creating amazing icons'
+                      : (currentPlan === 'monthly' || currentPlan === 'yearly')
+                      ? 'Purchase a Starter Pack for instant credit refills, or upgrade to a higher tier'
+                      : 'Upgrade to get more credits and better value with our new plans'
+                  }
+                  showStarterPack={showStarterPack}
+                />
+              </div>
+            </div>
           )}
         </div>
         </div>

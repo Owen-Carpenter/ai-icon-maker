@@ -17,7 +17,8 @@ export default function PricingCard({ plan, currentPlan, isPopular, isBestValue 
   const isCurrentPlan = currentPlan === plan;
   const planPriority = getPlanPriority(plan);
   const currentPlanPriority = getPlanPriority(currentPlan);
-  const isDowngrade = currentPlanPriority > planPriority;
+  const isDowngrade = currentPlanPriority > planPriority && plan !== 'starter'; // Starter pack is never a downgrade - it's a refill
+  const isStarterRefill = plan === 'starter' && currentPlan !== 'starter' && currentPlan !== 'free'; // User can buy starter as refill
   const isOneTime = planData?.isOneTime;
 
   // Safety check - if planData is undefined, return error state
@@ -60,7 +61,15 @@ export default function PricingCard({ plan, currentPlan, isPopular, isBestValue 
         </div>
       )}
 
-      {isCurrentPlan && (
+      {isStarterRefill && (
+        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+          <span className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+            💰 Credit Refill
+          </span>
+        </div>
+      )}
+
+      {isCurrentPlan && !isOneTime && (
         <div className="absolute -top-4 right-4">
           <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
             Current Plan
@@ -105,9 +114,9 @@ export default function PricingCard({ plan, currentPlan, isPopular, isBestValue 
       </ul>
 
       <div className="mt-auto">
-        {isCurrentPlan ? (
+        {isCurrentPlan && !isOneTime ? (
           <div className="w-full py-3 px-6 rounded-xl bg-green-600 text-white text-center font-semibold cursor-default">
-            ✓ {isOneTime ? 'Purchased' : 'Subscribed'}
+            ✓ Current Plan
           </div>
         ) : (
           <SubscriptionButton
@@ -128,7 +137,15 @@ export default function PricingCard({ plan, currentPlan, isPopular, isBestValue 
             disabled={isDowngrade}
             disabledClassName="opacity-50 cursor-not-allowed"
           >
-            {isDowngrade ? 'Included in Your Plan' : isOneTime ? 'Get Started' : `Upgrade to ${planData.name}`}
+            {isDowngrade 
+              ? 'Included in Your Plan' 
+              : isStarterRefill 
+              ? 'Buy Credit Refill' 
+              : isOneTime 
+              ? 'Buy Starter Pack' 
+              : isCurrentPlan 
+              ? 'Current Plan' 
+              : `Upgrade to ${planData.name}`}
           </SubscriptionButton>
         )}
       </div>
