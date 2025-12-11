@@ -104,7 +104,7 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
     },
     {
       question: "What if I need more icons?",
-      answer: "Our Monthly subscription ($10/month) gives you 50 credits per month. For the best value, our Yearly plan ($96/year) offers 700 credits per year and saves you $24 annually. Start with our Starter Pack ($5) to try it out first."
+      answer: "Our Monthly subscription ($10/month) gives you 50 credits per month. For the best value, our Yearly plan ($96/year) offers 700 credits per year and saves you $24 annually. Need more credits immediately? Purchase a Starter Pack ($5 for 25 credits) anytime as an instant refill - even if you already have a subscription!"
     },
     {
       question: "Can I cancel anytime?",
@@ -705,12 +705,19 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
             {/* Starter Pack */}
             <ScrollAnimation delay={200}>
               <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-500 hover:scale-105 relative h-full flex flex-col">
-                <div className="text-center mb-8">
+                {/* Credit Refill Badge */}
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                    💰 Credit Refill
+                  </div>
+                </div>
+                
+                <div className="text-center mb-8 mt-4">
                   <h3 className="text-2xl font-bold text-white mb-2">Starter Pack</h3>
                   <div className="text-4xl font-bold text-white mb-4">
                     $5<span className="text-lg font-normal text-sunset-200"> one-time</span>
                   </div>
-                  <p className="text-sunset-200">Perfect for trying it out</p>
+                  <p className="text-sunset-200">Get started or refill anytime</p>
                 </div>
 
                 <ul className="space-y-4 mb-8 flex-1">
@@ -725,6 +732,12 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     No recurring charges
+                  </li>
+                  <li className="flex items-center text-sunset-200">
+                    <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <strong>Can be purchased multiple times</strong>
                   </li>
                   <li className="flex items-center text-sunset-200">
                     <svg className="w-5 h-5 text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -917,8 +930,6 @@ export default function MarketingPageLayout({ h1Title, h2Subtitle }: MarketingPa
               </div>
             </ScrollAnimation>
           </div>
-
-
 
           {/* FAQ Section */}
           <div className="mb-16">
