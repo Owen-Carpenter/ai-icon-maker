@@ -22,9 +22,19 @@ export default function HomePage() {
   const currentPlan = userData?.subscription?.plan_type ?? 'free';
   const currentPlanPriority = getPlanPriority(currentPlan);
 
-  const isPlanDisabled = (planType: string) => currentPlanPriority >= getPlanPriority(planType);
+  const isPlanDisabled = (planType: string) => {
+    // Starter pack is never disabled - it's a refill that anyone can purchase
+    if (planType === 'starter') return false;
+    
+    return currentPlanPriority >= getPlanPriority(planType);
+  };
 
   const getPlanButtonLabel = (planType: string, defaultLabel: string) => {
+    // Starter pack is always available as a refill
+    if (planType === 'starter') {
+      return defaultLabel;
+    }
+    
     if (currentPlan === planType) {
       return 'Current Plan';
     }
