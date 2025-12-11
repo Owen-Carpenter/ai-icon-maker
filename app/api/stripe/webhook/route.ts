@@ -105,6 +105,13 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     // Handle recurring subscriptions
     console.log(`Processing subscription for user ${userId}, plan: ${planType}`)
     
+    // Transform legacy plan types to new plan types
+    const transformedPlanType = transformLegacyPlanType(planType || 'free')
+    
+    if (transformedPlanType !== planType) {
+      console.log(`Transforming legacy plan ${planType} to ${transformedPlanType}`)
+    }
+    
     // Get subscription details
     const subscription = await stripe.subscriptions.retrieve(subscriptionId)
     
@@ -116,7 +123,7 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
       p_user_id: userId,
       p_stripe_customer_id: customerId,
       p_stripe_subscription_id: subscriptionId,
-      p_plan_type: planType || 'free',
+      p_plan_type: transformedPlanType,
       p_status: subscription.status,
       p_current_period_start: periodStart,
       p_current_period_end: periodEnd,
@@ -153,6 +160,13 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   // Get plan type from price ID
   const priceId = subscription.items.data[0]?.price.id
   const planType = getPlanTypeFromPriceId(priceId)
+  
+  // Transform legacy plan types to new plan types
+  const transformedPlanType = transformLegacyPlanType(planType)
+  
+  if (transformedPlanType !== planType) {
+    console.log(`Transforming legacy plan ${planType} to ${transformedPlanType} for subscription ${subscription.id}`)
+  }
 
   const { start: periodStart, end: periodEnd } = extractStripePeriod(subscription as any)
 
@@ -161,7 +175,7 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
     p_user_id: existingSubscription.user_id,
     p_stripe_customer_id: customerId,
     p_stripe_subscription_id: subscription.id,
-    p_plan_type: planType,
+    p_plan_type: transformedPlanType,
     p_status: subscription.status,
     p_current_period_start: periodStart,
     p_current_period_end: periodEnd,
@@ -186,6 +200,13 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   // Get plan type from price ID
   const priceId = subscription.items.data[0]?.price.id
   const planType = getPlanTypeFromPriceId(priceId)
+  
+  // Transform legacy plan types to new plan types
+  const transformedPlanType = transformLegacyPlanType(planType)
+  
+  if (transformedPlanType !== planType) {
+    console.log(`Transforming legacy plan ${planType} to ${transformedPlanType} for subscription ${subscription.id}`)
+  }
 
   const { start: periodStart, end: periodEnd } = extractStripePeriod(subscription as any)
 
@@ -193,12 +214,12 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   await supabase
     .from('subscriptions')
     .update({
-      plan_type: planType,
+      plan_type: transformedPlanType,
       status: subscription.status,
       current_period_start: periodStart,
       current_period_end: periodEnd,
       cancel_at_period_end: subscription.cancel_at_period_end || false,
-      monthly_token_limit: getCreditsForPlan(planType),
+      monthly_token_limit: getCreditsForPlan(transformedPlanType),
       updated_at: new Date().toISOString()
     })
     .eq('stripe_subscription_id', subscription.id)
@@ -311,5 +332,41 @@ function getCreditsForPlan(planType: string): number {
     
     default:
       return 0
+  }
+}
+
+// Transform legacy plan types to new plan types
+// This automatically migrates users from old plans to new plans
+function transformLegacyPlanType(planType: string): string {
+  switch (planType) {
+    case 'base':
+      // Legacy base ($5/month, 25 credits) → Starter pack (one-time purchase is more appropriate)
+      // OR could map to monthly if they prefer subscriptions
+      return 'monthly' // Upgrade them to monthly for better value
+    
+    case 'pro':
+      // Legacy pro ($10/month, 100 credits) → Monthly ($10/month, 50 credits)
+      // Note: They're getting fewer credits but that's the new structure
+      return 'monthly'
+    
+    case 'proPlus':
+      // Legacy pro+ ($15/month, 200 credits) → Yearly ($96/year, 700 credits)
+      // This is a significant upgrade in value
+      return 'yearly'
+    
+    case 'enterprise':
+      // Legacy enterprise → Yearly (best plan)
+      return 'yearly'
+    
+    // New plan types pass through unchanged
+    case 'starter':
+    case 'monthly':
+    case 'yearly':
+    case 'free':
+      return planType
+    
+    default:
+      console.warn(`Unknown plan type: ${planType}, defaulting to free`)
+      return 'free'
   }
 } 
